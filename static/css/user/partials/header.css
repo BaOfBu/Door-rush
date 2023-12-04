@@ -3,7 +3,7 @@
 }
 
 .header-line {
-    border: 1px solid var(--orange-color);
+    box-shadow: 0 1px 3px 0 var(--orange-color);
     width: 100%;
 }
 
