@@ -1,0 +1,22 @@
+.footer-custom {
+    padding: 30px 20px 15px 20px;
+    border: 1px solid #000;
+    gap: 32px;
+    margin-bottom: 16px;
+}
+.footer-address > p {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+.footer-contact > p {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+.footer-icon {
+    display: flex;
+    justify-content: center;
+    align-items: start;
+    gap: 12px;
+}

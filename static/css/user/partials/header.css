@@ -1,0 +1,69 @@
+.nav-bar {
+    padding: 20px 20px 15px 20px;
+}
+
+.header-line {
+    border: 1px solid var(--orange-color);
+    width: 100%;
+}
+
+.icon-btn {
+    color: var(--orange-color);
+    text-decoration: none;
+}
+
+.bag:hover{
+    filter: drop-shadow(0px 4px 4px rgba(255, 174, 0, 0.26));
+}
+
+.bi-search:hover {
+    filter: drop-shadow(0px 4px 4px rgba(255, 174, 0, 0.26));
+}
+
+.sign-in-btn {
+    border: 2px solid var(--orange-color);
+    padding: 8px 12px;
+    border-radius: 5px;
+    color: var(--white-color);
+    background-color: var(--orange-color);
+}
+
+.sign-in-btn:hover {
+    box-shadow: 0px 0px 5px rgba(249, 168, 38, 0.4), 0px 0px 15px rgba(249, 168, 38, 0.4);
+}
+
+.sign-up-btn {
+    border: 2px solid var(--orange-color);
+    padding: 8px 12px;
+    border-radius: 5px;
+    color: var(--orange-color);
+}
+
+.sign-up-btn:hover {
+    color: var(--white-color);
+    background-color: var(--orange-color);
+    box-shadow: 0px 5px 20px 0px rgba(249, 168, 38, 0.4);
+}
+
+.header-text-orange {
+    color: var(--orange-color);
+}
+
+.header-text-white:hover {
+    color: var(--orange-color);
+}
+
+.active {
+    font-weight: bold;
+    color: var(--orange-color);
+}
+
+.bi-person-circle {
+    color: var(--orange-color);
+    font-size: 30px;
+}
+
+.user-btn {
+    color: var(--orange-color);
+    height: 43px;
+}
