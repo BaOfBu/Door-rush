@@ -24,3 +24,64 @@
     bottom: -17px;
     left: 180px; 
 }
+
+.section-four{
+    height: 437px;
+    background: linear-gradient(180deg, rgba(255, 206, 103, 0.22) -42.47%, rgba(253, 237, 202, 0.00) 100%);
+}
+
+.section-four .content{
+    text-align: center;
+    color: var(--orange-color);
+}
+
+.section-four .wrap{
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    gap: 48px;
+    width: 1117px;
+}
+
+.section-four .choose-location{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 42px;
+}
+
+.section-four .inner-image{
+    color: var(--black-color);
+    display: flex;
+    align-items: center;
+    text-align: center;
+    justify-content: center;
+    flex-direction: column;
+    width: 250px;
+}
+
+.section-four .inner-infor{
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 32px;
+}
+
+.section-four .inner-infor .explain{
+    color: var(--grey-color);
+}
+
+.section-four .choose-food{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 42px;
+}
+
+.section-four .enjoy-food{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 42px;
+}
