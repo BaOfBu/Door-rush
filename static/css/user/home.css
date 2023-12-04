@@ -1,0 +1,26 @@
+.section-one .inner-image{
+    position: relative;
+}
+
+.inner-content-order {
+    color: var(--orange-color);
+    display: inline-flex;
+    align-items: center;
+    flex-direction: column;
+    position: absolute;
+    top: 36px;
+    right: 430px;
+    font-size: 40px;
+}
+
+.inner-order{
+    position: absolute;
+    top: 110px;
+    right: 550px;
+}
+
+.inner-image-two{
+    position: absolute;
+    bottom: -17px;
+    left: 180px; 
+}
