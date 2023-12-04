@@ -1,0 +1,12 @@
+:root{
+    --font: 'Roboto', sans-serif;
+    --orange-color: #F59359;
+    --yellow-color: #FBDE93;
+    --white-color: #FFFFFF;
+    --black-color: #000000;
+    --grey-color:#9E9E9E;
+}
+
+*{
+    font-family: var(--font);
+}
