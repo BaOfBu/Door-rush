@@ -1,0 +1,46 @@
+<div class="sidebar">
+    <div class="image">
+        <img src="/static/images/logo-white.png" alt="" />
+    </div>
+    <div>
+        <div class="sidebar-list-item">
+            <a href="/admin" class="sidebar-item {{#if (equal type 'home')}}active{{/if}}">
+                <div class="sidebar-item-icon">
+                    <i class="bi bi-house icon-white"></i>
+                </div>
+                <span class="sidebar-item-text">Trang chủ</span>
+            </a>
+            <a href="/admin/manage-shop" class="sidebar-item {{#if (equal type 'manage-shop')}}active{{/if}}">
+                <div class="sidebar-item-icon">
+                    <i class="bi bi-cart icon-white"></i>
+                </div>
+                <span class="sidebar-item-text">Quản lý cửa hàng</span>
+            </a>
+            <a href="/admin/manage-user" class="sidebar-item {{#if (equal type 'manage-user')}}active{{/if}}">
+                <div class="sidebar-item-icon">
+                    <i class="bi bi-person-fill-gear icon-white"></i>
+                </div>
+                <span class="sidebar-item-text">Quản lý khách hàng</span>
+            </a>
+            <a href="/admin/validate-shop" class="sidebar-item {{#if (equal type 'validate-shop')}}active{{/if}}" >
+                <div class="sidebar-item-icon">
+                    <i class="bi bi-check2-circle icon-white"></i>
+                </div>
+                <span class="sidebar-item-text">Kiểm duyệt</span>
+            </a>
+            <a href="/admin/voucher" class="sidebar-item {{#if (equal type 'voucher')}}active{{/if}}">
+                <div class="sidebar-item-icon">
+                    <i class="bi bi-gift icon-white"></i>
+                </div>
+                <span class="sidebar-item-text">Danh sách ưu đãi</span>
+            </a>
+        </div>
+
+    </div>
+    <div class="sign-up">
+        <a href="#" class="sidebar-item">
+            <i class="bi bi-box-arrow-left icon-white"></i>
+            <span class="sidebar-item-text">Đăng xuất</span>
+        </a>
+    </div>
+</div>
