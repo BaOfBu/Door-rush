@@ -20,3 +20,6 @@
     align-items: start;
     gap: 12px;
 }
+.footer-icon a {
+    color: var(--black-color);
+}
