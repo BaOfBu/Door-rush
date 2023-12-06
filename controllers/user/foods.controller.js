@@ -20,7 +20,9 @@ const foodDetail = async function (req, res) {
     if (!foodId) {
         return res.redirect("/shop");
     }
+    let countRating = [1, 2, 3, 4, 5, 6];
     res.render("user/food-detail.hbs", {
+        countRating: countRating,
         user: false,
         type: "food",
         userName: "Họ và tên"
