@@ -1,5 +1,6 @@
 import Category from "./categoryModel.js";
 import Feedback from "./feedbackModel.js";
+import FoodType from "./foodTypeModel.js";
 const foodSchema = new mongoose.Schema({
     menuID: {
         type: mongoose.Schema.Types.ObjectID,
@@ -13,26 +14,15 @@ const foodSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    price: {
-        type: Number,
+    foodType: {
+        type: [FoodType],
         required: true
-    },
-    quantity: {
-        type: Number,
-        required: true
-    },
-    maxQuantity: {
-        type: Number,
-        required: true
-    },
-    category: Category,
-    status: {
-        type: String,
-        enum: ["Còn hàng", "Hết hàng"]
     },
     rating: Number,
-    description: String,
-    ingredients: String,
+    description: {
+        type: String,
+        required: true
+    },
     feedbacks: [Feedback]
 });
 
