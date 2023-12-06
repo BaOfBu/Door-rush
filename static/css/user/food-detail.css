@@ -1,0 +1,232 @@
+:root {
+    --swiper-pagination-color: var(--orange-color);
+    --swiper-navigation-size: 25px;
+    --swiper-navigation-color: var(--black-color);
+}
+.food-detail {
+    display: flex;
+    flex-direction: row;
+    gap: 80px;
+    align-items: center;
+    justify-content: space-between;
+}
+.food-detail-info {
+    display: flex;
+    gap: 16px;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+}
+.food-detail-info-title {
+    color: var(--orange-color);
+    font-size: 40px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 120%;
+}
+.food-detail-info-description {
+    display: flex;
+    gap: 24px;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+}
+.food-detail-price-rating {
+    display: flex;
+    gap: 16px;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+}
+.food-detail-price {
+    color: var(--black-subtitle-color);
+    font-size: 24px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 140%;
+}
+.food-detail-ratting {
+    display: flex;
+    gap: 5px;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+}
+.food-detail-rating-text {
+    color: var(--black-subtitle-color);
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 150%;
+}
+.food-detail-tab-menu {
+    display: flex;
+    gap: 24px;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+}
+.food-detail-tab-item {
+    display: flex;
+    gap: 24px;
+    flex-direction: row;
+    align-items: flex-start;
+    justify-content: flex-start;
+    font-size: 16px;
+    font-weight: 700;
+    line-height: 150%;
+}
+.food-detail-tab-item span:hover {
+    color: var(--orange-color);
+    cursor: pointer;
+    text-decoration: underline;
+}
+
+.food-detail-img {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    justify-content: flex-start;
+    align-items: flex-start;
+}
+.food-detail-img > img {
+    max-width: 470px;
+    object-fit: cover;
+}
+.food-detail-img-item {
+    max-width: 400px;
+    display: grid;
+    gap: 16px;
+    grid-template-columns: repeat(auto-fill, minmax(85px, 1fr));
+}
+.food-detail-img-item img {
+    object-fit: cover;
+}
+.food-detail-note {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    gap: 10px;
+}
+.form-group-type-quantity {
+    display: flex;
+    gap: 16px;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+}
+.form-group-type input {
+    width: 248px;
+}
+.form-group-quantity input {
+    width: 68px;
+}
+.form-group-type,
+.form-group-quantity {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    justify-content: flex-start;
+    align-items: flex-start;
+}
+.food-detail-btn {
+    width: 100%;
+    padding-top: 12px;
+    padding-bottom: 12px;
+    border-radius: 5px;
+}
+.add-food-btn {
+    background-color: var(--orange-color);
+    color: var(--white-color);
+}
+.add-food-btn:hover {
+    box-shadow: 0px 0px 5px rgba(249, 168, 38, 0.4), 0px 0px 15px rgba(249, 168, 38, 0.4);
+}
+.buy-food-btn {
+    background-color: var(--white-color);
+    color: var(--orange-color);
+    border: 1px solid var(--orange-color);
+}
+.buy-food-btn:hover {
+    box-shadow: 0px 0px 5px rgba(249, 168, 38, 0.4), 0px 0px 15px rgba(249, 168, 38, 0.4);
+}
+.food-detail-card-review-content {
+    margin: 0;
+    padding: 0;
+}
+.bi-star-fill {
+    color: var(--orange-color);
+}
+.food-detail-section {
+    margin: 70px 0px 20px 0;
+}
+.customer-review-title {
+    color: var(--orange-color);
+    text-align: center;
+    font-size: 48px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 120%;
+}
+.food-detail-card-review-item {
+    padding: 32px;
+    border: 1px solid var(--black-color);
+    border-radius: 10%;
+}
+.food-detail-card-flex {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    align-items: flex-start;
+    justify-content: flex-start;
+}
+
+.food-detail-card-review-user img {
+    width: 56px;
+    height: 56px;
+}
+.food-detail-card-review-user {
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+    justify-content: flex-start;
+    align-items: center;
+}
+.food-card-review-user-info {
+    display: flex;
+    flex-direction: column;
+}
+.rate-food-btn {
+    margin: 20px auto;
+    background-color: var(--orange-color);
+    color: var(--white-color);
+    padding: 12px;
+    border-radius: 5px;
+}
+.give-rating {
+    text-align: center;
+    margin-bottom: 0;
+}
+.rate-food-btn:hover {
+    box-shadow: 0px 0px 5px rgba(249, 168, 38, 0.4), 0px 0px 15px rgba(249, 168, 38, 0.4);
+}
+.custom-btn {
+    position: absolute;
+    padding: 20px;
+    border: 1px solid var(--black-color);
+    border-radius: 50%;
+    background-color: white;
+}
+.prev {
+    left: 0px;
+}
+.next {
+    right: 0px;
+}
+.container-custom {
+    padding: 30px 18px;
+    position: relative;
+}
+.swiper {
+    height: 350px;
+}

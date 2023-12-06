@@ -1,0 +1,114 @@
+<section class="food-detail-section">
+    <div class="container">
+        <div class="food-detail">
+            <div class="food-detail-info">
+                <div class="food-detail-info-description">
+                    <span class="food-detail-info-breadcrumbs">Đồ ăn &gt; Cửa hàng &gt; <b>Tên sản phẩm</b></span>
+                    <h3 class="food-detail-info-title">Tên sản phẩm</h3>
+                    <div class="food-detail-price-rating">
+                        <div class="food-detail-price">
+                            <span>55.000 VNĐ</span>
+                        </div>
+                        <img src="/static/images/user/food-detail/line.png" alt="" />
+                        <div class="food-detail-ratting">
+                            <div class="food-detail-rating-star">
+                                <i class="bi bi-star-fill"></i>
+                                <i class="bi bi-star-fill"></i>
+                                <i class="bi bi-star-fill"></i>
+                                <i class="bi bi-star"></i>
+                                <i class="bi bi-star"></i>
+                            </div>
+                            <span class="food-detail-rating-text">(3.5 stars) • 10 reviews</span>
+                        </div>
+                    </div>
+                    <div class="food-detail-tab-menu">
+                        <div class="food-detail-tab-item">
+                            <span>Thông tin</span>
+                            <span>Nguyên liệu</span>
+                            <span>Mã giảm giá</span>
+                        </div>
+                        <div class="food-detail-tab-content">
+                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse varius enim in eros elementum tristique.
+                                Duis cursus, mi quis viverra ornare, eros dolor interdum nulla, ut commodo diam libero vitae erat.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="food-detail-img">
+                <img src="/static/images/user/food-detail/main-image.png" alt="" />
+                {{! <div class="food-detail-img-item">
+                    <img src="/static/images/user/food-detail/other-image.png" alt="" />
+                    <img src="/static/images/user/food-detail/other-image.png" alt="" />
+                    <img src="/static/images/user/food-detail/other-image.png" alt="" />
+                    <img src="/static/images/user/food-detail/other-image.png" alt="" />
+                </div> }}
+            </div>
+            <form action="" class="food-detail-note">
+                <div class="form-group-type-quantity">
+                    <div class="form-group-type">
+                        <label for="food-type"><b>Sản phẩm</b></label>
+                        <input type="text" class="form-control" id="food-type" placeholder="Sản phẩm" readonly />
+                    </div>
+                    <div class="form-group-quantity">
+                        <label for="food-quantity"><b>Số lượng</b></label>
+                        <input type="number" class="form-control" id="food-quantity" value="1" min="1" />
+                    </div>
+                </div>
+                <div class="form-group-note">
+                    <label for="food-note"><b>Thêm chú thích</b></label>
+                    <textarea class="form-control" id="food-note" rows="5"></textarea>
+                </div>
+                <a href="#"><button type="button" class="food-detail-btn add-food-btn">Thêm vào giỏ</button></a>
+                <a href="#"><button type="button" class="food-detail-btn buy-food-btn">Mua ngay</button></a>
+            </form>
+        </div>
+    </div>
+</section>
+<section class="food-detail-section">
+    <div class="container">
+        <h2 class="customer-review-title">Đánh giá của khách hàng</h2>
+        <div class="swiper container-custom">
+            <div class="food-detail-card-review-content">
+                <div class="swiper-wrapper">
+                    {{#each countRating}}
+                        <div class="food-detail-card-review-item swiper-slide">
+                            <div class="food-detail-card-flex">
+                                <div class="food-detail-card-review-rating">
+                                    <div class="food-detail-rating-star">
+                                        <i class="bi bi-star-fill"></i>
+                                        <i class="bi bi-star-fill"></i>
+                                        <i class="bi bi-star-fill"></i>
+                                        <i class="bi bi-star"></i>
+                                        <i class="bi bi-star"></i>
+                                    </div>
+                                </div>
+                                <p class="food-detail-card-review-content">
+                                    "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse varius enim in eros elementum
+                                    tristique. Duis cursus, mi quis viverra ornare."
+                                </p>
+                                <div class="food-detail-card-review-user">
+                                    <img
+                                        class="rounded-circle shadow-4-strong"
+                                        alt=""
+                                        src="/static/images/user/food-detail/main-image.png"
+                                    />
+                                    <div class="food-card-review-user-info">
+                                        <span class="food-card-review-name"><b>Khách hàng {{this}}</b></span>
+                                        <span class="food-card-review-date">31/10/2023</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    {{/each}}
+                </div>
+            </div>
+            <div class="swiper-button-next custom-btn next"></div>
+            <div class="swiper-button-prev custom-btn prev"></div>
+            <div class="swiper-pagination"></div>
+        </div>
+        <div class="give-rating">
+            <a href="#"><button type="button" class="rate-food-btn">Thêm đánh giá</button></a>
+        </div>
+
+    </div>
+</section>
