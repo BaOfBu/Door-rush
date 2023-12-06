@@ -1,0 +1,63 @@
+<section class="food-detail-section">
+    <div class="container">
+        <div class="food-detail">
+            <div class="food-detail-info">
+                <div class="food-detail-info-description">
+                    <span class="food-detail-info-breadcrumbs">Đồ ăn &gt; Cửa hàng &gt; <b>Tên sản phẩm</b></span>
+                    <h3 class="food-detail-info-title">Tên sản phẩm</h3>
+                    <div class="food-detail-price-rating">
+                        <div class="food-detail-price">
+                            <span>55.000 VNĐ</span>
+                        </div>
+                        <img src="/static/images/user/food-detail/line.png" alt="" />
+                        <div class="food-detail-ratting">
+                            <div class="food-detail-rating-star">
+                                5*
+                            </div>
+                            <span class="food-detail-rating-text">(3.5 stars) • 10 reviews</span>
+                        </div>
+                    </div>
+                    <div class="food-detail-tab-menu">
+                        <div class="food-detail-tab-item">
+                            <span>Thông tin</span>
+                            <span>Nguyên liệu</span>
+                            <span>Mã giảm giá</span>
+                        </div>
+                        <div class="food-detail-tab-content">
+                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse varius enim in eros elementum tristique.
+                                Duis cursus, mi quis viverra ornare, eros dolor interdum nulla, ut commodo diam libero vitae erat.</p>
+                        </div>
+                    </div>
+                </div>
+                <a class="food-detail-info-button" href="#">Xem thêm</a>
+            </div>
+            <div class="food-detail-img">
+                <img src="/static/images/user/food-detail/main-image.png" alt="" />
+                {{! <div class="food-detail-img-item">
+                    <img src="/static/images/user/food-detail/other-image.png" alt="" />
+                    <img src="/static/images/user/food-detail/other-image.png" alt="" />
+                    <img src="/static/images/user/food-detail/other-image.png" alt="" />
+                    <img src="/static/images/user/food-detail/other-image.png" alt="" />
+                </div> }}
+            </div>
+            <form action="" class="food-detail-note">
+                <div class="form-group-type-quantity">
+                    <div class="form-group-type">
+                        <label for="food-type"><b>Sản phẩm</b></label>
+                        <input type="text" class="form-control" id="food-type" placeholder="Sản phẩm" readonly />
+                    </div>
+                    <div class="form-group-quantity">
+                        <label for="food-quantity"><b>Số lượng</b></label>
+                        <input type="number" class="form-control" id="food-quantity" value="1" min="1" />
+                    </div>
+                </div>
+                <div class="form-group-note">
+                    <label for="food-note"><b>Thêm chú thích</b></label>
+                    <textarea class="form-control" id="food-note" rows="5"></textarea>
+                </div>
+                <a href="#"><button type="button" class="food-detail-btn add-food-btn">Thêm vào giỏ</button></a>
+                <a href="#"><button type="button" class="food-detail-btn buy-food-btn">Mua ngay</button></a>
+            </form>
+        </div>
+    </div>
+</section>
