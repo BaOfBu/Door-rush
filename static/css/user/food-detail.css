@@ -1,0 +1,120 @@
+.food-detail {
+    display: flex;
+    flex-direction: row;
+    gap: 80px;
+    align-items: center;
+    justify-content: space-between;
+}
+.food-detail-info {
+    display: flex;
+    gap: 32px;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+}
+.food-detail-info-description {
+    display: flex;
+    gap: 24px;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+}
+.food-detail-price-rating {
+    display: flex;
+    gap: 16px;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+}
+.food-detail-ratting {
+    display: flex;
+    gap: 5px;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+}
+.food-detail-tab-menu {
+    display: flex;
+    gap: 24px;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+}
+.food-detail-tab-item {
+    display: flex;
+    gap: 24px;
+    flex-direction: row;
+    align-items: flex-start;
+    justify-content: flex-start;
+}
+.food-detail-info-button {
+    padding: 12px 24px;
+    background-color: var(--orange-color);
+    color: var(--white-color);
+    text-decoration: none;
+    border-radius: 5px;
+}
+.food-detail-img {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    justify-content: flex-start;
+    align-items: flex-start;
+}
+.food-detail-img > img {
+    object-fit: cover;
+}
+.food-detail-img-item {
+    max-width: 400px;
+    display: grid;
+    gap: 16px;
+    grid-template-columns: repeat(auto-fill, minmax(85px, 1fr));
+}
+.food-detail-img-item img {
+    object-fit: cover;
+}
+.food-detail-note {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    gap: 10px;
+}
+.form-group-type-quantity {
+    display: flex;
+    gap: 16px;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+}
+.form-group-type input {
+    width: 248px;
+}
+.form-group-quantity input {
+    width: 68px;
+}
+.form-group-type,
+.form-group-quantity {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    justify-content: flex-start;
+    align-items: flex-start;
+}
+.food-detail-btn {
+    width: 100%;
+    padding-top: 12px;
+    padding-bottom: 12px;
+    border-radius: 5px;
+}
+.add-food-btn {
+    background-color: var(--orange-color);
+    color: var(--white-color);
+}
+.buy-food-btn {
+    background-color: var(--white-color);
+    color: var(--orange-color);
+    border: 1px solid var(--orange-color);
+}
+.food-detail-section {
+    margin: 40px 0px;
+}
