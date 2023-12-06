@@ -70,7 +70,54 @@
         <div class="swiper container-custom">
             <div class="food-detail-card-review-content">
                 <div class="swiper-wrapper">
-                    {{#each countRating}}
+                    <div class="food-detail-card-review-item swiper-slide">
+                        <div class="food-detail-card-flex">
+                            <div class="food-detail-card-review-rating">
+                                <div class="food-detail-rating-star">
+                                    <i class="bi bi-star-fill"></i>
+                                    <i class="bi bi-star-fill"></i>
+                                    <i class="bi bi-star-fill"></i>
+                                    <i class="bi bi-star"></i>
+                                    <i class="bi bi-star"></i>
+                                </div>
+                            </div>
+                            <p class="food-detail-card-review-content">
+                                "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse varius enim in eros elementum
+                                tristique. Duis cursus, mi quis viverra ornare."
+                            </p>
+                            <div class="food-detail-card-review-user">
+                                <img class="rounded-circle shadow-4-strong" alt="" src="/static/images/user/food-detail/main-image.png" />
+                                <div class="food-card-review-user-info">
+                                    <span class="food-card-review-name"><b>Khách hàng {{this}}</b></span>
+                                    <span class="food-card-review-date">31/10/2023</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="food-detail-card-review-item swiper-slide">
+                        <div class="food-detail-card-flex">
+                            <div class="food-detail-card-review-rating">
+                                <div class="food-detail-rating-star">
+                                    <i class="bi bi-star-fill"></i>
+                                    <i class="bi bi-star-fill"></i>
+                                    <i class="bi bi-star-fill"></i>
+                                    <i class="bi bi-star"></i>
+                                    <i class="bi bi-star"></i>
+                                </div>
+                            </div>
+                            <p class="food-detail-card-review-content">
+                                "Lorem ipsum ."
+                            </p>
+                            <div class="food-detail-card-review-user">
+                                <img class="rounded-circle shadow-4-strong" alt="" src="/static/images/user/food-detail/main-image.png" />
+                                <div class="food-card-review-user-info">
+                                    <span class="food-card-review-name"><b>Khách hàng {{this}}</b></span>
+                                    <span class="food-card-review-date">31/10/2023</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {{!-- {{#each countRating}}
                         <div class="food-detail-card-review-item swiper-slide">
                             <div class="food-detail-card-flex">
                                 <div class="food-detail-card-review-rating">
@@ -99,7 +146,7 @@
                                 </div>
                             </div>
                         </div>
-                    {{/each}}
+                    {{/each}} --}}
                 </div>
             </div>
             <div class="swiper-button-next custom-btn next"></div>
