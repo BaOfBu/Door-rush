@@ -155,7 +155,7 @@
     color: var(--orange-color);
 }
 .food-detail-section {
-    margin: 70px 0px 20px 0;
+    margin: 50px 0px 0px 0;
 }
 .customer-review-title {
     color: var(--orange-color);
@@ -199,7 +199,7 @@
     flex-direction: column;
 }
 .rate-food-btn {
-    margin: 20px auto;
+    margin: 20px auto 0px auto;
     background-color: var(--orange-color);
     color: var(--white-color);
     padding: 12px;
@@ -228,4 +228,102 @@
 .container-custom {
     padding: 30px 18px;
     position: relative;
+}
+.food-detail-rating-pop-up {
+    width: 100%;
+    background-color: white;
+    margin: 0 auto;
+    padding: 40px 64px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    gap: 100px;
+    align-items: flex-start;
+}
+
+.rating-pop-up-title {
+    width: 90%;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 24px;
+}
+.pop-up-main-title {
+    color: var(--orange-color);
+    font-size: 48px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 120%;
+}
+.pop-up-subtitle {
+    color: var(--black-color);
+    font-size: 18px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 150%;
+}
+.rating-pop-up-form {
+    display: flex;
+    padding: 25px;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 10px;
+    border: 1px solid var(--black-color);
+    border-radius: 5px;
+    width: 75%;
+}
+.rating-pop-up-form > div {
+    width: 100%;
+}
+.form-control {
+    width: 100%;
+}
+.form-label {
+    color: var(--black-color);
+    font-style: normal;
+    font-weight: 400;
+    line-height: 150%;
+}
+.rating-pop-up-last-name,
+.rating-pop-up-first-name {
+    width: 100%;
+}
+.rating-pop-up-input-name {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 10px;
+    width: 100%;
+    justify-content: space-between;
+}
+.rating-pop-up-input-star {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+.form-check-group {
+    display: flex;
+    flex-direction: row;
+    gap: 200px;
+    align-items: flex-start;
+    justify-content: flex-start;
+}
+.form-check-left,
+.form-check-right {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+input[type="radio"] {
+    border-color: var(--black-color);
+}
+input[type="radio"]:checked {
+    border: none;
+    background-color: var(--orange-color);
+}
+.rating-pop-up-rate-description {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
 }

@@ -123,7 +123,89 @@
 
     </div>
     <div class="give-rating">
-        <a href="#"><button type="button" class="rate-food-btn">Thêm đánh giá</button></a>
+        <a href="#food-detail-rating-banner"><button type="button" class="rate-food-btn">Thêm đánh giá</button></a>
     </div>
-    {{! </div> }}
+</section>
+<div id="food-detail-rating-banner"></div>
+<section class="food-detail-section">
+    <div class="container">
+        <div class="food-detail-rating-pop-up">
+            <div class="rating-pop-up-title">
+                <h2 class="pop-up-main-title">Đánh giá</h2>
+                <span class="pop-up-subtitle">Hãy cho chúng tôi biết đánh giá của bạn về sản phẩm</span>
+                <img src="/static/images/user/food-detail/rating.jpg" alt="" />
+            </div>
+            <form action="" class="rating-pop-up-form">
+                <div class="rating-pop-up-input-name">
+                    <div class="rating-pop-up-last-name">
+                        <label for="popUpLastNameInput" class="form-label">Họ</label>
+                        <input type="text" class="form-control" id="popUpLastNameInput" />
+                    </div>
+                    <div class="rating-pop-up-first-name">
+                        <label for="popUpFirstNameInput" class="form-label">Tên</label>
+                        <input type="text" class="form-control" id="popUpFirstNameInput" />
+                    </div>
+
+                </div>
+                <div class="rating-pop-up-input-food-type">
+                    <label for="popUpFoodType" class="form-label">Sản phẩm</label>
+                    <select class="form-select" aria-label="Default select example" id="popUpFoodType">
+                        <option selected>Lựa chọn của bạn</option>
+                        <option value="1">Loại 1</option>
+                        <option value="2">Loại 2</option>
+                        <option value="3">Loại 3</option>
+                    </select>
+                </div>
+                <div class="rating-pop-up-input-star">
+                    <label>Cảm nhận của bạn về sản phẩm</label>
+                    <div class="form-check-group">
+                        <div class="form-check-left">
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1" />
+                                <label class="form-check-label" for="flexRadioDefault1">
+                                    Rất tốt
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2" />
+                                <label class="form-check-label" for="flexRadioDefault2">
+                                    Tốt
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault3" />
+                                <label class="form-check-label" for="flexRadioDefault3">
+                                    Khá hài lòng
+                                </label>
+                            </div>
+                        </div>
+                        <div class="form-check-right">
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault4" />
+                                <label class="form-check-label" for="flexRadioDefault4">
+                                    Không hài lòng
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault5" />
+                                <label class="form-check-label" for="flexRadioDefault5">
+                                    Rất tệ
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="rating-pop-up-rate-description">
+                    <label for="floatingTextarea2">Ghi chú của bạn về sản phẩm</label>
+                    <textarea
+                        class="form-control"
+                        placeholder="Thêm ghi chú của bạn"
+                        id="floatingTextarea2"
+                        style="height: 100px"
+                    ></textarea>
+                </div>
+                <a href="#"><button type="button" class="rate-food-btn">Gửi đánh giá</button></a>
+            </form>
+        </div>
+    </div>
 </section>
