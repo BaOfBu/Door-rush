@@ -1,21 +1,21 @@
 {
-  "type": "module",
-  "name": "door-rush",
-  "version": "1.0.0",
-  "description": "introduction to software engineer - 21CLC04 - Group09 - HCMUS",
-  "main": "app.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon --inspect app.js"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "dependencies": {
-    "bootstrap": "^5.3.2",
-    "bootstrap-icons": "^1.11.2",
-    "express": "^4.18.2",
-    "express-handlebars": "^7.1.2",
-    "moongose": "^1.0.0"
-  }
+    "type": "module",
+    "name": "door-rush",
+    "version": "1.0.0",
+    "description": "introduction to software engineer - 21CLC04 - Group09 - HCMUS",
+    "main": "app.js",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1",
+        "start": "nodemon --inspect app.js"
+    },
+    "keywords": [],
+    "author": "",
+    "license": "ISC",
+    "dependencies": {
+        "bootstrap": "^5.3.2",
+        "bootstrap-icons": "^1.11.2",
+        "express": "^4.18.2",
+        "express-handlebars": "^7.1.2",
+        "moongose": "^1.0.0"
+    }
 }

@@ -3,29 +3,37 @@
         <div class="food-detail">
             <div class="food-detail-info">
                 <div class="food-detail-info-description">
-                    <span class="food-detail-info-breadcrumbs">Đồ ăn &gt; Cửa hàng &gt; <b>Tên sản phẩm</b></span>
-                    <h3 class="food-detail-info-title">Tên sản phẩm</h3>
+                    <span class="food-detail-info-breadcrumbs">Đồ ăn &gt; {{this.shopName}} &gt; <b>{{this.foodName}}</b></span>
+                    <h3 class="food-detail-info-title">{{this.foodName}}</h3>
                     <div class="food-detail-price-rating">
-                        <div class="food-detail-price">
-                            <span>55.000 VNĐ</span>
-                        </div>
-                        <img src="/static/images/user/food-detail/line.png" alt="" />
-                        <div class="food-detail-ratting">
-                            <div class="food-detail-rating-star">
-                                <i class="bi bi-star-fill"></i>
-                                <i class="bi bi-star-fill"></i>
-                                <i class="bi bi-star-fill"></i>
-                                <i class="bi bi-star"></i>
-                                <i class="bi bi-star"></i>
+                        {{#if this.userRatingAvg}}
+                            <div class="food-detail-price">
+                                <span>{{this.foodPrice}}</span>
                             </div>
-                            <span class="food-detail-rating-text">(3.5 stars) • 10 reviews</span>
-                        </div>
+                            <img src="/static/images/user/food-detail/line.png" alt="" />
+                            <div class="food-detail-ratting">
+                                <div class="food-detail-rating-star">
+                                    <i class="bi bi-star-fill"></i>
+                                    <i class="bi bi-star-fill"></i>
+                                    <i class="bi bi-star-fill"></i>
+                                    <i class="bi bi-star"></i>
+                                    <i class="bi bi-star"></i>
+                                </div>
+                                <span class="food-detail-rating-text">(3.5 stars) • 10 reviews</span>
+                            </div>
+                        {{else}}
+                            <div class="food-detail-price" style="width:60%">
+                                <span>{{this.foodPrice}}</span>
+                            </div>
+                            <img src="/static/images/user/food-detail/line.png" alt="" />
+                            <div class="food-detail-ratting">
+                                <span>Chưa có đánh giá cho sản phẩm này</span>
+                            </div>
+                        {{/if}}
                     </div>
                     <div class="food-detail-tab-menu">
                         <div class="food-detail-tab-item">
                             <span>Thông tin</span>
-                            <span>Nguyên liệu</span>
-                            <span>Mã giảm giá</span>
                         </div>
                         <div class="food-detail-tab-content">
                             <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse varius enim in eros elementum tristique.
@@ -47,7 +55,12 @@
                 <div class="form-group-type-quantity">
                     <div class="form-group-type">
                         <label for="food-type"><b>Sản phẩm</b></label>
-                        <input type="text" class="form-control" id="food-type" placeholder="Sản phẩm" readonly />
+                        <select class="form-select" aria-label="Default select example" id="food-type" name="food-type">
+                            <option selected>Sản phẩm</option>
+                            {{#each typeOfFood}}
+                                <option value={{this}}>{{this}}</option>
+                            {{/each}}
+                        </select>
                     </div>
                     <div class="form-group-quantity">
                         <label for="food-quantity"><b>Số lượng</b></label>
@@ -70,8 +83,8 @@
         <div class="swiper container-custom">
             <div class="food-detail-card-review-content">
                 <div class="swiper-wrapper">
-                    {{#each countRating}}
-                        <div class="food-detail-card-review-item swiper-slide">
+                    {{#each userRatingAll}}
+                        <div class="swiper-slide food-detail-card-review-item">
                             <div class="food-detail-card-flex">
                                 <div class="food-detail-card-review-rating">
                                     <div class="food-detail-rating-star">
@@ -82,7 +95,8 @@
                                         <i class="bi bi-star"></i>
                                     </div>
                                 </div>
-                                <p class="food-detail-card-review-content">
+                                {{! class="food-detail-card-review-content" }}
+                                <p class="food-detail-card-review-feedback">
                                     "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse varius enim in eros elementum
                                     tristique. Duis cursus, mi quis viverra ornare."
                                 </p>
@@ -106,9 +120,10 @@
             <div class="swiper-button-prev custom-btn prev"></div>
             <div class="swiper-pagination"></div>
         </div>
-        <div class="give-rating">
-            <a href="#"><button type="button" class="rate-food-btn">Thêm đánh giá</button></a>
-        </div>
 
     </div>
+    <div class="give-rating">
+        <a href="#"><button type="button" class="rate-food-btn">Thêm đánh giá</button></a>
+    </div>
+    {{! </div> }}
 </section>
