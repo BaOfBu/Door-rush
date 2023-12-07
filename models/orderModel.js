@@ -5,6 +5,10 @@ const orderItemSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: "Food"
     },
+    typeFoodId:{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "TypeFood"
+    },
     quantity: Number,
     notes: String
 });
