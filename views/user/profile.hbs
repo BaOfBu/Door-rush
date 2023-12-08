@@ -1,0 +1,84 @@
+<div class="profile-section-two">
+    <div class="container mt-5">
+    <div class="row justify-content-center">
+      <div class="col-md-6 floating-form">
+        <h2 class="mb-4">Tài khoản của tôi</h2>
+        <form>
+            <!-- Add your form fields here -->
+            <div class="form-group mb-4">
+                <label for="inputUserName">Tên đăng nhập</label>
+                <input type="text" class="form-control" id="inputUserName" readonly>
+            </div>
+            <div class="form-group mb-4">
+                <label for="inputFullName">Họ và Tên</label>
+                <input type="text" class="form-control" id="inputFullName" placeholder="Nhập họ và tên của bạn">
+            </div>
+            <div class="form-group mb-4">
+                <label for="inputEmail">Email</label>
+                <input type="email" class="form-control" id="inputEmail" placeholder="Nhập email của bạn">
+            </div>
+            <div class="form-group mb-4">
+                <label for="inputPhoneNumber">Số điện thoại</label>
+                <input type="text" class="form-control" id="inputPhoneNumber" placeholder="Nhập số điện thoại của bản">
+            </div>
+            <div class="form-group-radio mb-4">
+                <span class="label">Giới tính</span>
+                <div class="form-check form-check-inline input">
+                    <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1">
+                    <label class="form-check-label" for="inlineRadio1">Nam</label>
+                </div>
+                <div class="form-check form-check-inline input">
+                    <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2">
+                    <label class="form-check-label" for="inlineRadio2">Nữ</label>
+                </div>
+                <div class="form-check form-check-inline input">
+                    <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio3">
+                    <label class="form-check-label" for="inlineRadio2">Khác</label>
+                </div>
+            </div>
+
+            <div class="form-group-dob mb-4">
+                <span class="label">Ngày sinh</span>
+                <div class="row">
+                    <div class="select">
+                        <select name="day" id="day">
+                            <script>
+                                for(let i = 1;i <= 31;i++){
+                                    document.writeln(`<option value = "${i}">${i}</option/>`);
+                                }
+                            </script>
+                        </select>
+                    </div>
+                    <div class="select">
+                        <select name="month" id="month">
+                            <script>
+                                for(let i = 1;i <= 12;i++){
+                                    document.writeln(`<option value = "${i}">${i}</option/>`);
+                                }
+                            </script>
+                        </select>
+                    </div>
+                    <div class="select">
+                        <select name="year" id="year">
+                            <script>
+                                for(let i = 1950;i <= 2019;i++){
+                                    document.writeln(`<option value = "${i}">${i}</option/>`);
+                                }
+                            </script>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="d-flex justify-content-center mb-4">
+                <button type="submit" class="btn custom-button">
+                    <i class="bi bi-floppy-fill"></i>
+                    <span>Cập nhật thông tin</span>
+                    </button>
+            </div>
+
+            
+        </form>
+        
+    </div>
+  </div>
+</div>
