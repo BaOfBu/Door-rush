@@ -1,0 +1,63 @@
+.form-group {
+    display: flex;
+    align-items: center;
+}
+.form-group label {
+    width: 30%;
+    margin-right: 10px;
+}
+
+.form-group input {
+    width: 70%;
+}
+
+.form-group input::placeholder{
+    color: var(--grey-color);
+    font-style: italic;
+}
+
+.form-group-radio {
+    display: flex;
+    align-items: center;
+}
+
+.form-group-radio .label{
+    width: 30%;
+    margin-right: 10px;
+}
+
+.form-group-radio .input{
+    width: 10%;
+}
+
+.form-group-dob {
+    display: flex;
+    align-items: center;
+}
+
+.form-group-dob .label{
+    width: 30%;
+    margin-right: 10px;
+}
+
+.form-group-dob .select{
+    width: 30%;
+}
+
+.form-group-dob .row{
+    gap: 10px;
+}
+
+.profile-section-two .custom-button{
+    background-color: var(--orange-color);
+    padding: 8px 12px;
+    color: var(--white-color);
+    margin-right: 24px;
+}
+
+.profile-section-two .custom-button:hover{
+    background-color: #FF8E00;
+    padding: 8px 12px;
+    color: var(--white-color);
+    margin-right: 24px;
+}

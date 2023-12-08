@@ -4,7 +4,7 @@ import Category from "./categoryModel.js";
 import Menu from "./menuModel.js";
 
 const merchantSchema = new mongoose.Schema({
-    fullname: {
+    name: {
         type: String,
         required: true
     },
@@ -29,7 +29,10 @@ const merchantSchema = new mongoose.Schema({
     category: [Category],
     menu: Menu,
     revenue: Number,
-    image: String
+    image: String,
+    priceRange: String,
+    rating: Float32Array,
+    hasDiscount: Boolean
 });
 
 const Merchant = Account.discriminator("Merchant", merchantSchema);
