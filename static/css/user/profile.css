@@ -57,7 +57,27 @@
 
 .profile-section-two .custom-button:hover{
     background-color: #FF8E00;
-    padding: 8px 12px;
     color: var(--white-color);
-    margin-right: 24px;
+}
+
+.order-history span{
+    color: var(--grey-color);
+}
+
+#view-more{
+    color: var(--grey-color);
+}
+
+#view-more:hover{
+    color: var(--orange-color);
+}
+
+.order-history .custom-button{
+    background-color: var(--orange-color);
+    color: var(--white-color);
+}
+
+.order-history .custom-button:hover{
+    background-color: #FF8E00;
+    color: var(--white-color);
 }
