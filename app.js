@@ -1,6 +1,7 @@
 import express from "express";
 import { engine } from "express-handlebars";
 import path from "path";
+import hbs_sections from "express-handlebars-sections";
 import { dirname } from "path";
 import { fileURLToPath } from "url";
 const __dirname = dirname(fileURLToPath(import.meta.url));
@@ -27,6 +28,7 @@ const hbs = engine({
         path.join(__dirname, "views/admin/partials")
     ],
     helpers: {
+        section: hbs_sections(),
         format_number(val) {
             return numeral(val).format("0,0");
         },
