@@ -1,3 +1,14 @@
+{{#section "js"}}
+    {{! Swiper }}
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+    {{! Food Detail Page }}
+    <script src="/static/js/user/food-detail/index.js"></script>
+{{/section}}
+{{#section "css"}}
+    {{! Swiper }}
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+    <link rel="stylesheet" href="/static/css/user/food-detail.css" />
+{{/section}}
 <section class="food-detail-section">
     <div class="container">
         <div class="food-detail">
@@ -129,13 +140,13 @@
 <div id="food-detail-rating-banner"></div>
 <section class="food-detail-section">
     <div class="container">
-        <div class="food-detail-rating-pop-up">
+        <div class="food-detail-rating-pop-up" id="my-form">
             <div class="rating-pop-up-title">
                 <h2 class="pop-up-main-title">Đánh giá</h2>
                 <span class="pop-up-subtitle">Hãy cho chúng tôi biết đánh giá của bạn về sản phẩm</span>
                 <img src="/static/images/user/food-detail/rating.jpg" alt="" />
             </div>
-            <form action="" class="rating-pop-up-form">
+            <form action="" class="rating-pop-up-form" id="myForm">
                 <div class="rating-pop-up-input-name">
                     <div class="rating-pop-up-last-name">
                         <label for="popUpLastNameInput" class="form-label">Họ</label>
@@ -145,7 +156,6 @@
                         <label for="popUpFirstNameInput" class="form-label">Tên</label>
                         <input type="text" class="form-control" id="popUpFirstNameInput" />
                     </div>
-
                 </div>
                 <div class="rating-pop-up-input-food-type">
                     <label for="popUpFoodType" class="form-label">Sản phẩm</label>
@@ -204,8 +214,14 @@
                         style="height: 100px"
                     ></textarea>
                 </div>
-                <a href="#"><button type="button" class="rate-food-btn">Gửi đánh giá</button></a>
+                <button type="button" class="rate-food-btn" id="submitFormButton">Gửi đánh giá</button>
             </form>
+            <div id="thank-you-form" class="shadow thank-out-pop-out" style="display: none;">
+                <img src="/static/images/user/food-detail/tick-icon.png" alt="" />
+                <h4>Cảm ơn sự đóng góp của bạn</h4>
+                <button type="button" class="return-food-btn" id="returnButton">Trở lại trang đánh giá</button>
+            </div>
         </div>
+
     </div>
 </section>

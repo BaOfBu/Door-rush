@@ -238,11 +238,11 @@
     flex-direction: row;
     justify-content: space-between;
     gap: 100px;
-    align-items: flex-start;
+    align-items: center;
 }
 
 .rating-pop-up-title {
-    width: 90%;
+    width: 50%;
     display: flex;
     flex-direction: column;
     align-items: flex-start;
@@ -271,7 +271,7 @@
     gap: 10px;
     border: 1px solid var(--black-color);
     border-radius: 5px;
-    width: 75%;
+    width: 50%;
 }
 .rating-pop-up-form > div {
     width: 100%;
@@ -326,4 +326,28 @@ input[type="radio"]:checked {
     display: flex;
     flex-direction: column;
     gap: 10px;
+}
+.thank-out-pop-out {
+    background-color: white;
+    height: 500px;
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+    align-items: center;
+    justify-items: center;
+    padding: 25px 50px;
+    border-radius: 10px;
+}
+.thank-you-title {
+    color: var(--orange-color);
+}
+.return-food-btn {
+    padding: 12px;
+    border-radius: 5px;
+    background-color: var(--orange-color);
+    color: var(--white-color);
+}
+.return-food-btn:hover {
+    box-shadow: 0px 0px 5px rgba(249, 168, 38, 0.4), 0px 0px 15px rgba(249, 168, 38, 0.4);
 }

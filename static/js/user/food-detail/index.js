@@ -16,3 +16,11 @@ const swiper = new Swiper(".food-detail-card-review-content", {
         prevEl: ".swiper-button-prev"
     }
 });
+document.getElementById("submitFormButton").addEventListener("click", function () {
+    document.getElementById("myForm").style.display = "none";
+    document.getElementById("thank-you-form").style.display = "flex";
+});
+document.getElementById("returnButton").addEventListener("click", function () {
+    document.getElementById("myForm").style.display = "flex";
+    document.getElementById("thank-you-form").style.display = "none";
+});
