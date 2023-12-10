@@ -40,8 +40,8 @@ const merchantSchema = new mongoose.Schema({
     priceRange: String,
     rating: Float32Array,
     hasDiscount: Boolean
-});
+}, {collection: "Merchant"});
 
-const Merchant = Account.discriminator("Merchant", merchantSchema);
+const Merchant = Account.discriminator("Merchant", merchantSchema, "Merchant");
 
 export default Merchant;

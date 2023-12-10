@@ -18,7 +18,7 @@ const accountSchema = new mongoose.Schema({
         enum: ["active", "ban", "pending"],
         required: true
     }
-});
+}, {collection: "Account"});
 
 // The function before saving data for password hashing.
 accountSchema.pre("save", async function (next) {
@@ -43,6 +43,6 @@ accountSchema.methods.comparePassword = async function (candidatePassword) {
     }
 };
 
-const Account = mongoose.model("Account", accountSchema);
+const Account = mongoose.model("Account", accountSchema, "Account");
 
 export default Account;
