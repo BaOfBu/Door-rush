@@ -241,6 +241,7 @@
     text-align: right;
     font-size: 18px;
     font-weight: 500;
+    font-weight: bold;
     line-height: 150%;
     margin-top: 5px;
 }
@@ -253,7 +254,7 @@
 .timeline {
     padding: 0 50px;
     display: flex;
-    justify-content: space-between;
+    justify-content: space-evenly;
     position: relative;
 }
 
@@ -264,7 +265,7 @@
     left: 5%;
     width: 90%;
     height: 3px;
-    background-color: #ccc;
+    background-color: var(--grey-light-color);
     z-index: 1;
 }
 
@@ -284,13 +285,43 @@
     z-index: 3;
 }
 
-.timeline-step.active {
+.timeline-step.active,
+.timeline-step.completed {
+    font-weight: bold;
     color: var(--orange-color);
 }
-.timeline-step.active .timeline-icon {
+.timeline-step.active .timeline-icon,
+.timeline-step.completed .timeline-icon {
+    font-weight: bold;
     background-color: var(--orange-color);
 }
 .timeline-time,
 .timeline-text {
     margin-top: 5px;
+}
+/*  */
+/* This will create the orange segments for the completed steps */
+.timeline-step.completed::after {
+    content: "";
+    position: absolute;
+    bottom: 65px;
+    width: 260px;
+    height: 3px;
+    background-color: var(--orange-color);
+    z-index: 1;
+}
+
+.timeline-step.completed:first-child::after {
+    left: -100%;
+    width: 480px;
+}
+.timeline-step.active:first-child::after {
+    content: "";
+    position: absolute;
+    bottom: 65px;
+    left: -100%;
+    width: 200px;
+    height: 3px;
+    background-color: var(--orange-color);
+    z-index: 1;
 }
