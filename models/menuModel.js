@@ -1,9 +1,12 @@
-import Food from "./foodModel";
+import mongoose from "mongoose"
 
 const menuSchema = new mongoose.Schema({
-    menu: [Food],
+    menu: [{ 
+        type: mongoose.Schema.Types.ObjectId, 
+        ref: "Food" 
+    }],
 });
 
-const Menu = moongose.model("Menu", menuSchema);
+const Menu = mongoose.model("Menu", menuSchema);
 
 export default Menu;
