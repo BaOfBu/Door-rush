@@ -1,4 +1,6 @@
 import mongoose from "mongoose";
+import Voucher from "./voucherModel.js"
+import Merchant from "./merchantModel.js"
 
 const orderItemSchema = new mongoose.Schema({
     foodId: {

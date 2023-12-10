@@ -24,6 +24,6 @@ const foodTypeSchema = new mongoose.Schema({
     },
 });
 
-const FoodType = moongose.model("FoodType", foodTypeSchema);
+const FoodType = mongoose.model("FoodType", foodTypeSchema);
 
 export default FoodType;
