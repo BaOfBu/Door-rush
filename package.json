@@ -6,8 +6,7 @@
     "main": "app.js",
     "scripts": {
         "test": "echo \"Error: no test specified\" && exit 1",
-        "start": "nodemon --inspect app.js",
-        "preinstall": "npm install bcrypt bcryptjs bootstrap bootstrap-icons express express-handlebars express-handlebars-sections moongose"
+        "start": "nodemon --inspect app.js"
     },
     "keywords": [],
     "author": "",
@@ -20,6 +19,8 @@
         "express": "^4.18.2",
         "express-handlebars": "^7.1.2",
         "express-handlebars-sections": "^1.0.1",
-        "moongose": "^1.0.0"
+        "express-session": "^1.17.3",
+        "mongoose": "^8.0.3",
+        "nodemon": "^3.0.2"
     }
 }
