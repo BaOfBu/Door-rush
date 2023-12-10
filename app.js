@@ -23,9 +23,13 @@ app.use(
 dotenv.config();
 mongoose.set("strictQuery", false);
 mongoose.set("strictPopulate", false);
-mongoose.connect(process.env.MONGODB_URL, { useNewUrlParser: true, useUnifiedTopology: true }, () => {
-    console.log("Connected to MongoDB");
-});
+mongoose.connect(process.env.MONGODB_URL, 
+    {useNewUrlParser: true, useUnifiedTopology: true}).then(function() {
+        console.log("Successfully connected to the database");    
+    }).catch(function(err) {
+        console.log('Could not connect to the database. Exiting now...', err);
+        process.exit();
+    });
 
 // Create an instance of the express-handlebars
 const hbs = engine({
