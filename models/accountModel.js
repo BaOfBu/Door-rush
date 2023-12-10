@@ -1,24 +1,27 @@
 import mongoose from "mongoose";
 
-const accountSchema = new mongoose.Schema({
-    username: {
-        type: String,
-        required: true
+const accountSchema = new mongoose.Schema(
+    {
+        username: {
+            type: String,
+            required: true
+        },
+        password: {
+            type: String,
+            required: true
+        },
+        role: {
+            type: String,
+            enum: ["User", "Merchant", "Admin"]
+        },
+        status: {
+            type: String,
+            enum: ["active", "ban", "pending"],
+            required: true
+        }
     },
-    password: {
-        type: String,
-        required: true
-    },
-    role: {
-        type: String,
-        enum: ["User", "Merchant", "Admin"]
-    },
-    status: {
-        type: String,
-        enum: ["active", "ban", "pending"],
-        required: true
-    }
-}, {collection: "Account"});
+    { collection: "Account" }
+);
 
 // The function before saving data for password hashing.
 accountSchema.pre("save", async function (next) {
@@ -43,6 +46,6 @@ accountSchema.methods.comparePassword = async function (candidatePassword) {
     }
 };
 
-const Account = mongoose.model("Account", accountSchema, "Account");
+const Account = mongoose.model("Account", accountSchema);
 
 export default Account;
