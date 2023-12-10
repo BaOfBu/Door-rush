@@ -1,11 +1,6 @@
-import Category from "./categoryModel.js";
-import Feedback from "./feedbackModel.js";
-import FoodType from "./foodTypeModel.js";
+import mongoose from "mongoose"
+
 const foodSchema = new mongoose.Schema({
-    menuID: {
-        type: mongoose.Schema.Types.ObjectID,
-        ref: "Menu"
-    },
     image: {
         type: String,
         required: true
@@ -14,18 +9,21 @@ const foodSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    foodType: {
-        type: [FoodType],
-        required: true
-    },
+    foodType: [{ 
+        type: mongoose.Schema.Types.ObjectId, 
+        ref: "FoodType" 
+    }],
     rating: Number,
     description: {
         type: String,
         required: true
     },
-    feedbacks: [Feedback]
+    feedbacks: [{ 
+        type: mongoose.Schema.Types.ObjectId, 
+        ref: "Feedback" 
+    }]
 });
 
-const Food = moongose.model("Food", foodSchema);
+const Food = mongoose.model("Food", foodSchema);
 
 export default Food;

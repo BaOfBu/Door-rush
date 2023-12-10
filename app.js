@@ -3,6 +3,8 @@ import { engine } from "express-handlebars";
 import session from "express-session";
 import path from "path";
 import hbs_sections from "express-handlebars-sections";
+import mongoose from "mongoose";
+import dotenv from "dotenv";
 import { dirname } from "path";
 import { fileURLToPath } from "url";
 const __dirname = dirname(fileURLToPath(import.meta.url));
@@ -21,6 +23,13 @@ app.use(
         extended: true
     })
 );
+
+dotenv.config();
+mongoose.set("strictQuery", false);
+mongoose.set("strictPopulate", false);
+mongoose.connect(process.env.MONGODB_URL, { useNewUrlParser: true, useUnifiedTopology: true }, () => {
+    console.log("Connected to MongoDB");
+});
 
 // Create an instance of the express-handlebars
 const hbs = engine({

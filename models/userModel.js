@@ -1,5 +1,5 @@
+import mongoose from "mongoose";
 import Account from "./accountModel.js";
-import Address from "./models/addressModel.js";
 
 const userSchema = new mongoose.Schema({
     fullname: String,
@@ -13,8 +13,14 @@ const userSchema = new mongoose.Schema({
         enum: ["Nam", "Nữ", "Khác"]
     },
     birthdate: Date,
-    address: [Address],
-    orders: [orderSchema],
+    address: [{ 
+        type: mongoose.Schema.Types.ObjectId, 
+        ref: "Address" 
+    }],
+    orders: [{ 
+        type: mongoose.Schema.Types.ObjectId, 
+        ref: "Order" 
+    }],
     image: String
 });
 
