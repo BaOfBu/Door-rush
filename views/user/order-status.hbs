@@ -5,8 +5,151 @@
     <link rel="stylesheet" href="/static/css/user/order-status.css" />
 {{/section}}
 <div class="order-status">
-    <section class="section-one"></section>
-    <section class="section-two"></section>
-    <section class="section-three"></section>
-    <section class="section-four"></section>
+    <section class="section-one">
+        <div class="container">
+            <div class="section-one-content">
+                <div class="order-status-breadcrumbs">
+                    <span>Trang chủ</span>
+                    <span>&gt;</span>
+                    <span>Giỏ hàng của tôi</span>
+                    <span>&gt;</span>
+                    <span>Đơn hàng</span>
+                    <span>&gt;</span>
+                    <span>Mã đơn hàng: </span>
+                    <span>{{this.orderId}}</span>
+                </div>
+                <div class="order-status-id-order">
+                    <h3 class="order-status-id-header">ID đơn hàng: {{this.orderId}}</h3>
+                    <button class="order-status-detail-btn">
+                        <i class="bi bi-file-earmark-text"></i>
+                        <span>Hóa đơn</span>
+                    </button>
+                </div>
+
+                <div class="order-status-sub-info">
+                    <div class="order-stauts-time-begin">
+                        <span>Thời gian đặt đơn: </span>
+                        <b>{{this.orderTime}}</b>
+                    </div>
+                    <img src="/static/images/user/order-status/line.png" class="order-status-line" alt="" />
+                    <div class="order-status-time-arrive">
+                        <i class="fa-solid fa-truck-fast"></i>
+                        <span>Giao hàng dự kiến: </span>
+                        <span>{{this.orderPredictTime}}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <div class="container">
+        <hr />
+    </div>
+    <section class="section-two">
+        <div class="container">
+        </div>
+    </section>
+    {{!-- <section class="section-three">
+        <div class="container">
+            <img src="/static/images/user/order-status/confirm-status.png" class="order-status-img" alt="" />
+            <span class="order-status-detail">Đơn hàng đã được xác nhận</span>
+            {{! <img src="/static/images/user/order-status/prepare-food-status.png" alt="" />
+            <img src="/static/images/user/order-status/delivering-status.png" alt="" />
+            <img src="/static/images/user/order-status/finish-status.png" alt="" /> }}
+        </div>
+    </section>
+    <div class="container">
+        <hr />
+    </div>
+    <section class="section-four">
+        <div class="container">
+            <div class="order-detail-shop">
+                <span>{{this.shopName}}</span>
+                <span>&gt;</span>
+            </div>
+            <div class="production-order-list">
+                <div class="production-order-list-title">
+                    <span>Sản phẩm</span>
+                    <span>Giá</span>
+                    <span>Số lượng</span>
+                    <span>Thành tiền</span>
+                </div>
+                <div class="production-order-item">
+                    <div class="product-info">
+                        <div class="product-img">
+                            <img src="/static/images/user/order-status/image.png" alt="" />
+                        </div>
+                        <div class="product-title">
+                            <span>Tên sản phẩm</span>
+                            <p>Yêu cầu đặc biệt </p>
+                        </div>
+                    </div>
+                    <div class="product-price">
+                        <span>100.000đ</span>
+                    </div>
+                    <div class="product-quantity">
+                        <span>1</span>
+                    </div>
+                    <div class="product-total">
+                        <span>100.000đ</span>
+                    </div>
+                </div>
+                <div class="production-order-item">
+                    <div class="product-info">
+                        <div class="product-img">
+                            <img src="/static/images/user/order-status/image.png" alt="" />
+                        </div>
+                        <div class="product-title">
+                            <span>Tên sản phẩm</span>
+                            <p>Yêu cầu đặc biệt </p>
+                        </div>
+                    </div>
+                    <div class="product-price">
+                        <span>100.000đ</span>
+                    </div>
+                    <div class="product-quantity">
+                        <span>1</span>
+                    </div>
+                    <div class="product-total">
+                        <span>100.000đ</span>
+                    </div>
+                </div>
+            </div>
+            <div class="production-order-info">
+                <div class="order-location">
+                    <span class="order-location-title">GIAO HÀNG ĐẾN</span>
+                    <div class="order-location-info">
+                        <span>Địa chỉ</span>
+                        <span>227 Nguyễn Văn Cừ,</span>
+                        <span>phường 4, quận 5,</span>
+                        <span>Thành phố Hồ Chí minh</span>
+                    </div>
+                    <div class="order-user-phone">
+                        <span>SĐT</span>
+                        <span>03676842622</span>
+                    </div>
+                </div>
+                <div class="order-review">
+                    <span class="order-review-title">TÓM TẮT ĐƠN HÀNG</span>
+                    <div class="order-review-detail">
+                        <div class="order-review-total-quatity">
+                            <span>Tổng cộng (2 món)</span>
+                            <span>165.000đ</span>
+                        </div>
+                        <div class="order-review-detail-item">
+                            <span>Phí giao hàng (1.7 km)</span>
+                            <span>15.000đ</span>
+                        </div>
+                        <div class="order-review-detail-item">
+                            <span>Giảm giá</span>
+                            <span>-15.000đ</span>
+                        </div>
+                        <div class="order-review-total-price">
+                            <span>Phải trả</span>
+                            <span class="order-review-total-price-main">165.000đ</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section> --}}
 </div>
