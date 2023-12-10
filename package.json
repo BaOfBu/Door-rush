@@ -6,13 +6,15 @@
     "main": "app.js",
     "scripts": {
         "test": "echo \"Error: no test specified\" && exit 1",
-        "start": "nodemon --inspect app.js"
+        "start": "nodemon --inspect app.js",
+        "preinstall": "npm install bcrypt bcryptjs bootstrap bootstrap-icons express express-handlebars express-handlebars-sections moongose"
     },
     "keywords": [],
     "author": "",
     "license": "ISC",
     "dependencies": {
         "bcrypt": "^5.1.1",
+        "bcryptjs": "^2.4.3",
         "bootstrap": "^5.3.2",
         "bootstrap-icons": "^1.11.2",
         "express": "^4.18.2",
