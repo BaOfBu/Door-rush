@@ -1,7 +1,14 @@
 import mongoose from "mongoose";
+
 const messageSchema = new mongoose.Schema({
-    conversationId: { type: mongoose.Schema.Types.ObjectId, ref: "Conversation" },
-    sender: { type: mongoose.Schema.Types.ObjectId, ref: "Account" },
+    conversationId: { 
+        type: mongoose.Schema.Types.ObjectId, 
+        ref: "Conversation" 
+    },
+    sender: { 
+        type: mongoose.Schema.Types.ObjectId, 
+        ref: "Account" 
+    },
     content: String,
     timestamp: { type: Date, default: Date.now },
     attachment: {

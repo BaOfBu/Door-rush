@@ -1,9 +1,15 @@
 import mongoose from "mongoose";
+import Voucher from "./voucherModel.js";
+import Merchant from "./merchantModel.js";
 
 const orderItemSchema = new mongoose.Schema({
     foodId: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "Food"
+    },
+    typeFoodId: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "TypeFood"
     },
     quantity: Number,
     notes: String
@@ -14,7 +20,6 @@ const orderSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: "Merchant"
     },
-    id: Number,
     items: [orderItemSchema],
     status: {
         type: String,

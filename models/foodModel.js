@@ -1,10 +1,6 @@
-import Category from "./categoryModel.js";
-import Feedback from "./feedbackModel.js";
+import mongoose from "mongoose";
+
 const foodSchema = new mongoose.Schema({
-    menuID: {
-        type: mongoose.Schema.Types.ObjectID,
-        ref: "Menu"
-    },
     image: {
         type: String,
         required: true
@@ -13,29 +9,31 @@ const foodSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    price: {
-        type: Number,
-        required: true
-    },
-    quantity: {
-        type: Number,
-        required: true
-    },
-    maxQuantity: {
-        type: Number,
-        required: true
-    },
-    category: Category,
-    status: {
-        type: String,
-        enum: ["Còn hàng", "Hết hàng"]
-    },
+    foodType: [
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "FoodType"
+        }
+    ],
     rating: Number,
-    description: String,
-    ingredients: String,
-    feedbacks: [Feedback]
+    description: {
+        type: String,
+        required: true
+    },
+    feedbacks: [
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "Feedback"
+        }
+    ],
+    category: [
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "Category"
+        }
+    ]
 });
 
-const Food = moongose.model("Food", foodSchema);
+const Food = mongoose.model("Food", foodSchema);
 
 export default Food;

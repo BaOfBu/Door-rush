@@ -1,10 +1,8 @@
-import Account from "./models/accountModel.js";
-import Address from "./addressModel.js";
-import Category from "./categoryModel.js";
-import Menu from "./menuModel.js";
+import mongoose from "mongoose"
+import Account from "./accountModel.js";
 
 const merchantSchema = new mongoose.Schema({
-    fullname: {
+    name: {
         type: String,
         required: true
     },
@@ -24,12 +22,23 @@ const merchantSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    address: Address,
-    phone: String,
-    category: [Category],
-    menu: Menu,
+    address: { 
+        type: mongoose.Schema.Types.ObjectId, 
+        ref: "Address" 
+    },
+    category: [{ 
+        type: mongoose.Schema.Types.ObjectId, 
+        ref: "Category" 
+    }],
+    menu: { 
+        type: mongoose.Schema.Types.ObjectId, 
+        ref: "Menu" 
+    },
     revenue: Number,
-    image: String
+    image: String,
+    priceRange: String,
+    rating: Float32Array,
+    hasDiscount: Boolean
 });
 
 const Merchant = Account.discriminator("Merchant", merchantSchema);

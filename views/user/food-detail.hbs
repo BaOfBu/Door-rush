@@ -1,0 +1,227 @@
+{{#section "js"}}
+    {{! Swiper }}
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+    {{! Food Detail Page }}
+    <script src="/static/js/user/food-detail/index.js"></script>
+{{/section}}
+{{#section "css"}}
+    {{! Swiper }}
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+    <link rel="stylesheet" href="/static/css/user/food-detail.css" />
+{{/section}}
+<section class="food-detail-section">
+    <div class="container">
+        <div class="food-detail">
+            <div class="food-detail-info">
+                <div class="food-detail-info-description">
+                    <span class="food-detail-info-breadcrumbs">Đồ ăn &gt; {{this.shopName}} &gt; <b>{{this.foodName}}</b></span>
+                    <h3 class="food-detail-info-title">{{this.foodName}}</h3>
+                    <div class="food-detail-price-rating">
+                        {{#if this.userRatingAvg}}
+                            <div class="food-detail-price">
+                                <span>{{this.foodPrice}}</span>
+                            </div>
+                            <img src="/static/images/user/food-detail/line.png" alt="" />
+                            <div class="food-detail-ratting">
+                                <div class="food-detail-rating-star">
+                                    <i class="bi bi-star-fill"></i>
+                                    <i class="bi bi-star-fill"></i>
+                                    <i class="bi bi-star-fill"></i>
+                                    <i class="bi bi-star"></i>
+                                    <i class="bi bi-star"></i>
+                                </div>
+                                <span class="food-detail-rating-text">(3.5 stars) • 10 reviews</span>
+                            </div>
+                        {{else}}
+                            <div class="food-detail-price" style="width:60%">
+                                <span>{{this.foodPrice}}</span>
+                            </div>
+                            <img src="/static/images/user/food-detail/line.png" alt="" />
+                            <div class="food-detail-ratting">
+                                <span>Chưa có đánh giá cho sản phẩm này</span>
+                            </div>
+                        {{/if}}
+                    </div>
+                    <div class="food-detail-tab-menu">
+                        <div class="food-detail-tab-item">
+                            <span>Thông tin</span>
+                        </div>
+                        <div class="food-detail-tab-content">
+                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse varius enim in eros elementum tristique.
+                                Duis cursus, mi quis viverra ornare, eros dolor interdum nulla, ut commodo diam libero vitae erat.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="food-detail-img">
+                <img src="/static/images/user/food-detail/main-image.png" alt="" />
+                {{! <div class="food-detail-img-item">
+                    <img src="/static/images/user/food-detail/other-image.png" alt="" />
+                    <img src="/static/images/user/food-detail/other-image.png" alt="" />
+                    <img src="/static/images/user/food-detail/other-image.png" alt="" />
+                    <img src="/static/images/user/food-detail/other-image.png" alt="" />
+                </div> }}
+            </div>
+            <form action="" class="food-detail-note">
+                <div class="form-group-type-quantity">
+                    <div class="form-group-type">
+                        <label for="food-type"><b>Sản phẩm</b></label>
+                        <select class="form-select" aria-label="Default select example" id="food-type" name="food-type">
+                            <option selected>Sản phẩm</option>
+                            {{#each typeOfFood}}
+                                <option value={{this}}>{{this}}</option>
+                            {{/each}}
+                        </select>
+                    </div>
+                    <div class="form-group-quantity">
+                        <label for="food-quantity"><b>Số lượng</b></label>
+                        <input type="number" class="form-control" id="food-quantity" value="1" min="1" />
+                    </div>
+                </div>
+                <div class="form-group-note">
+                    <label for="food-note"><b>Thêm chú thích</b></label>
+                    <textarea class="form-control" id="food-note" rows="5"></textarea>
+                </div>
+                <a href="#"><button type="button" class="food-detail-btn add-food-btn">Thêm vào giỏ</button></a>
+                <a href="#"><button type="button" class="food-detail-btn buy-food-btn">Mua ngay</button></a>
+            </form>
+        </div>
+    </div>
+</section>
+<section class="food-detail-section">
+    <div class="container">
+        <h2 class="customer-review-title">Đánh giá của khách hàng</h2>
+        <div class="swiper container-custom">
+            <div class="food-detail-card-review-content">
+                <div class="swiper-wrapper">
+                    {{#each userRatingAll}}
+                        <div class="swiper-slide food-detail-card-review-item">
+                            <div class="food-detail-card-flex">
+                                <div class="food-detail-card-review-rating">
+                                    <div class="food-detail-rating-star">
+                                        <i class="bi bi-star-fill"></i>
+                                        <i class="bi bi-star-fill"></i>
+                                        <i class="bi bi-star-fill"></i>
+                                        <i class="bi bi-star"></i>
+                                        <i class="bi bi-star"></i>
+                                    </div>
+                                </div>
+                                {{! class="food-detail-card-review-content" }}
+                                <p class="food-detail-card-review-feedback">
+                                    "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse varius enim in eros elementum
+                                    tristique. Duis cursus, mi quis viverra ornare."
+                                </p>
+                                <div class="food-detail-card-review-user">
+                                    <img
+                                        class="rounded-circle shadow-4-strong"
+                                        alt=""
+                                        src="/static/images/user/food-detail/main-image.png"
+                                    />
+                                    <div class="food-card-review-user-info">
+                                        <span class="food-card-review-name"><b>Khách hàng {{this}}</b></span>
+                                        <span class="food-card-review-date">31/10/2023</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    {{/each}}
+                </div>
+            </div>
+            <div class="swiper-button-next custom-btn next"></div>
+            <div class="swiper-button-prev custom-btn prev"></div>
+            <div class="swiper-pagination"></div>
+        </div>
+
+    </div>
+    <div class="give-rating">
+        <a href="#food-detail-rating-banner"><button type="button" class="rate-food-btn">Thêm đánh giá</button></a>
+    </div>
+</section>
+<div id="food-detail-rating-banner"></div>
+<section class="food-detail-section">
+    <div class="container">
+        <div class="food-detail-rating-pop-up" id="my-form">
+            <div class="rating-pop-up-title">
+                <h2 class="pop-up-main-title">Đánh giá</h2>
+                <span class="pop-up-subtitle">Hãy cho chúng tôi biết đánh giá của bạn về sản phẩm</span>
+                <img src="/static/images/user/food-detail/rating.jpg" alt="" />
+            </div>
+            <form action="" class="rating-pop-up-form" id="myForm">
+                <div class="rating-pop-up-input-name">
+                    <div class="rating-pop-up-last-name">
+                        <label for="popUpLastNameInput" class="form-label">Họ</label>
+                        <input type="text" class="form-control" id="popUpLastNameInput" />
+                    </div>
+                    <div class="rating-pop-up-first-name">
+                        <label for="popUpFirstNameInput" class="form-label">Tên</label>
+                        <input type="text" class="form-control" id="popUpFirstNameInput" />
+                    </div>
+                </div>
+                <div class="rating-pop-up-input-food-type">
+                    <label for="popUpFoodType" class="form-label">Sản phẩm</label>
+                    <select class="form-select" aria-label="Default select example" id="popUpFoodType">
+                        <option selected>Lựa chọn của bạn</option>
+                        <option value="1">Loại 1</option>
+                        <option value="2">Loại 2</option>
+                        <option value="3">Loại 3</option>
+                    </select>
+                </div>
+                <div class="rating-pop-up-input-star">
+                    <label>Cảm nhận của bạn về sản phẩm</label>
+                    <div class="form-check-group">
+                        <div class="form-check-left">
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1" />
+                                <label class="form-check-label" for="flexRadioDefault1">
+                                    Rất tốt
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2" />
+                                <label class="form-check-label" for="flexRadioDefault2">
+                                    Tốt
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault3" />
+                                <label class="form-check-label" for="flexRadioDefault3">
+                                    Khá hài lòng
+                                </label>
+                            </div>
+                        </div>
+                        <div class="form-check-right">
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault4" />
+                                <label class="form-check-label" for="flexRadioDefault4">
+                                    Không hài lòng
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault5" />
+                                <label class="form-check-label" for="flexRadioDefault5">
+                                    Rất tệ
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="rating-pop-up-rate-description">
+                    <label for="floatingTextarea2">Ghi chú của bạn về sản phẩm</label>
+                    <textarea
+                        class="form-control"
+                        placeholder="Thêm ghi chú của bạn"
+                        id="floatingTextarea2"
+                        style="height: 100px"
+                    ></textarea>
+                </div>
+                <button type="button" class="rate-food-btn" id="submitFormButton">Gửi đánh giá</button>
+            </form>
+            <div id="thank-you-form" class="shadow thank-out-pop-out" style="display: none;">
+                <img src="/static/images/user/food-detail/tick-icon.png" alt="" />
+                <h4>Cảm ơn sự đóng góp của bạn</h4>
+                <button type="button" class="return-food-btn" id="returnButton">Trở lại trang đánh giá</button>
+            </div>
+        </div>
+
+    </div>
+</section>

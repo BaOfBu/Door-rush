@@ -3,8 +3,7 @@ import foodsController from "../../controllers/user/foods.controller.js";
 const router = express.Router();
 
 router.get("/", foodsController.index);
-router.get("/:shop-name", foodsController.shop);
-router.get("/:shop-name/:id", foodsController.foodDetail);
-
+router.get("/:shop", foodsController.shop);
+router.get("/:shop/:id", foodsController.foodDetail);
 export default router;
 

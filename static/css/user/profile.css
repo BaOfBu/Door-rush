@@ -1,0 +1,121 @@
+.profile-page{
+    margin-top: 100px;
+}
+.form-group {
+    display: flex;
+    align-items: center;
+}
+.form-group label {
+    width: 30%;
+    margin-right: 10px;
+}
+
+.form-group input {
+    width: 70%;
+}
+
+.form-group input::placeholder{
+    color: var(--grey-color);
+    font-style: italic;
+}
+
+.form-group-radio {
+    display: flex;
+    align-items: center;
+}
+
+.form-group-radio .label{
+    width: 30%;
+    margin-right: 10px;
+}
+
+.form-group-radio .input{
+    width: 10%;
+}
+
+.form-group-dob {
+    display: flex;
+    align-items: center;
+}
+
+.form-group-dob .label{
+    width: 30%;
+    margin-right: 10px;
+}
+
+.form-group-dob .select{
+    width: 30%;
+}
+
+.form-group-dob .row{
+    gap: 10px;
+}
+
+.profile-section-two .custom-button{
+    background-color: var(--orange-color);
+    padding: 8px 12px;
+    color: var(--white-color);
+    margin-right: 24px;
+}
+
+.profile-section-two .custom-button:hover{
+    background-color: #FF8E00;
+    color: var(--white-color);
+}
+
+.side{
+    width: 340px;
+    border-right: 1px solid var(--black-color);
+    gap: 32px;
+    margin-right: 30px;
+}
+
+.user{
+    display: flex;
+    flex-direction: row;
+    gap: 8px;
+}
+
+.size-image{
+    height: 60px;
+    width: 80px;
+}
+.link {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 32px;
+}
+
+.link a{
+    text-decoration: none;
+    color: var(--black-color);
+    font-weight: bolder;
+}
+
+.link a:hover{
+    color: var(--orange-color);
+}
+
+.order-history span{
+    color: var(--grey-color);
+}
+
+#view-more{
+    color: var(--grey-color);
+}
+
+#view-more:hover{
+    color: var(--orange-color);
+}
+
+.order-history .custom-button{
+    background-color: var(--orange-color);
+    color: var(--white-color);
+}
+
+.order-history .custom-button:hover{
+    background-color: #FF8E00;
+    color: var(--white-color);
+}

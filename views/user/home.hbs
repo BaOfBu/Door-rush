@@ -1,4 +1,385 @@
-<main class="main-content">
-    <div class="container">
+{{#section "js"}}
+    <script src="/static/js/user/order-status/index.js"></script>
+{{/section}}
+{{#section "css"}}
+    <link rel="stylesheet" href="/static/css/user/home.css">
+{{/section}}
+<div>
+    <section class="section-one">
+        <div class="inner-image">
+            <img src="static/images/user/home/bg-user-home.png">
+            <div class="container">
+                <div class="inner-content-order">
+                    Hàng trăm món ngon đang đợi bạn thưởng thức              
+                </div>
+                <button type="button" class="sign-up-btn inner-order">Đặt hàng ngay</button>
+                <div class="inner-image-two">
+                    <img src="static/images/user/home/dishes.png">
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="section-two">
+        <div class="container">
+            <div class="">
+                <img src="static/images/user/home/illustrations.png">
+            </div>
+            <div class="content">
+                <h4 class="question">Bạn muốn ăn gì hôm nay?</h4>
+                
+                <div class="list-menu">
+                    <div class="categories">
+                        <a href="#" class="wrap">
+                            <img src="static/images/user/home/rice.png">
+                            <span>Cơm</span>
+                        </a>
+                    </div>
+
+
+                    <div class="categories">
+                        <a href="#" class="wrap">
+                            <img src="static/images/user/home/ramen.png">
+                            <span>Đồ nước</span>
+                        </a>
+                    </div>
+
+
+                    <div class="categories">
+                        <a href="#" class="wrap">
+                            <img src="static/images/user/home/juice.png">
+                            <span>Đồ uống</span>
+                        </a>
+                    </div>
+                    
+                    <div class="categories">
+                        <a href="#" class="wrap">
+                            <img src="static/images/user/home/buble-tea.png">
+                            <span>Trà sữa</span>
+                        </a>
+                    </div>
+                    
+                    <div class="categories">
+                        <a href="#" class="wrap">
+                            <img src="static/images/user/home/fast-food.png">
+                            <span>Đồ ăn nhanh</span>
+                        </a>
+                    </div>
+                </div>
+                
+                <div class="list-menu">
+                    <div class="categories">
+                        <a href="#" class="wrap">
+                            <img src="static/images/user/home/hamburger.png">
+                            <span>Hamburger</span>
+                        </a>
+                    </div>
+
+                    <div class="categories">
+                        <a href="#" class="wrap">
+                            <img src="static/images/user/home/pizza.png">
+                            <span>Pizza</span>
+                        </a>
+                    </div>
+
+                   <div class="categories">
+                        <a href="#" class="wrap">
+                            <img src="static/images/user/home/bread.png">
+                            <span>Bánh mì</span>
+                        </a>
+                    </div>
+
+                </div>
+
+                <form class="d-flex">
+                    <input class="form-control custom-search custom-placeholder me-2" type="search" placeholder="Tìm kiếm thức ăn quanh đây" aria-label="Search">
+                    <button class="btn custom-button" type="button" id="searchButton">Tìm kiếm</button>
+                </form>
+            </div>
+        </div>
+    </section>
+    <div class="section-three">
+        <div class="container">
+            <div class="hot-food mb-4">
+                <h4 class="title">Ưu đãi</h4>
+                <i class="bi bi-fire mb-2"></i>
+            </div>
+            <div class="row mb-4">
+                <div class="col-sm-3 mb-3">
+                    <div class="card">
+                        <img class="card-img-top" src="static/images/user/search/default-image-shop.png" alt="Card image cap">
+                        <div class="card-body">
+                            <h5 class="card-title">Tên cửa hàng</h5>
+                            <p class="card-text">30.000Đ - 60.000Đ</p>
+                            <div class="bonus">
+                                <div class="event">
+                                    <i class="bi bi-star-fill"></i>
+                                    <span>4.5</span>
+                                </div>
+                                <div class="event">
+                                    <i class="bi bi-geo-alt-fill"></i>
+                                    <span>0.7 km</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-sm-3 mb-3">
+                    <div class="card">
+                        <img class="card-img-top" src="static/images/user/search/default-image-shop.png" alt="Card image cap">
+                        <div class="card-body">
+                            <h5 class="card-title">Tên cửa hàng</h5>
+                            <p class="card-text">30.000Đ - 60.000Đ</p>
+                            <div class="bonus">
+                                <div class="event">
+                                    <i class="bi bi-star-fill"></i>
+                                    <span>4.5</span>
+                                </div>
+                                <div class="event">
+                                    <i class="bi bi-geo-alt-fill"></i>
+                                    <span>0.7 km</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-sm-3 mb-3">
+                    <div class="card">
+                        <img class="card-img-top" src="static/images/user/search/default-image-shop.png" alt="Card image cap">
+                        <div class="card-body">
+                            <h5 class="card-title">Tên cửa hàng</h5>
+                            <p class="card-text">30.000Đ - 60.000Đ</p>
+                            <div class="bonus">
+                                <div class="event">
+                                    <i class="bi bi-star-fill"></i>
+                                    <span>4.5</span>
+                                </div>
+                                <div class="event">
+                                    <i class="bi bi-geo-alt-fill"></i>
+                                    <span>0.7 km</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-sm-3 mb-3">
+                    <div class="card">
+                        <img class="card-img-top" src="static/images/user/search/default-image-shop.png" alt="Card image cap">
+                        <div class="card-body">
+                            <h5 class="card-title">Tên cửa hàng</h5>
+                            <p class="card-text">30.000Đ - 60.000Đ</p>
+                            <div class="bonus">
+                                <div class="event">
+                                    <i class="bi bi-star-fill"></i>
+                                    <span>4.5</span>
+                                </div>
+                                <div class="event">
+                                    <i class="bi bi-geo-alt-fill"></i>
+                                    <span>0.7 km</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-sm-3 mb-3">
+                    <div class="card">
+                        <img class="card-img-top" src="static/images/user/search/default-image-shop.png" alt="Card image cap">
+                        <div class="card-body">
+                            <h5 class="card-title">Tên cửa hàng</h5>
+                            <p class="card-text">30.000Đ - 60.000Đ</p>
+                            <div class="bonus">
+                                <div class="event">
+                                    <i class="bi bi-star-fill"></i>
+                                    <span>4.5</span>
+                                </div>
+                                <div class="event">
+                                    <i class="bi bi-geo-alt-fill"></i>
+                                    <span>0.7 km</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-sm-3 mb-3">
+                    <div class="card">
+                        <img class="card-img-top" src="static/images/user/search/default-image-shop.png" alt="Card image cap">
+                        <div class="card-body">
+                            <h5 class="card-title">Tên cửa hàng</h5>
+                            <p class="card-text">30.000Đ - 60.000Đ</p>
+                            <div class="bonus">
+                                <div class="event">
+                                    <i class="bi bi-star-fill"></i>
+                                    <span>4.5</span>
+                                </div>
+                                <div class="event">
+                                    <i class="bi bi-geo-alt-fill"></i>
+                                    <span>0.7 km</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-sm-3 mb-3">
+                    <div class="card">
+                        <img class="card-img-top" src="static/images/user/search/default-image-shop.png" alt="Card image cap">
+                        <div class="card-body">
+                            <h5 class="card-title">Tên cửa hàng</h5>
+                            <p class="card-text">30.000Đ - 60.000Đ</p>
+                            <div class="bonus">
+                                <div class="event">
+                                    <i class="bi bi-star-fill"></i>
+                                    <span>4.5</span>
+                                </div>
+                                <div class="event">
+                                    <i class="bi bi-geo-alt-fill"></i>
+                                    <span>0.7 km</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-sm-3 mb-3">
+                    <div class="card">
+                        <img class="card-img-top" src="static/images/user/search/default-image-shop.png" alt="Card image cap">
+                        <div class="card-body">
+                            <h5 class="card-title">Tên cửa hàng</h5>
+                            <p class="card-text">30.000Đ - 60.000Đ</p>
+                            <div class="bonus">
+                                <div class="event">
+                                    <i class="bi bi-star-fill"></i>
+                                    <span>4.5</span>
+                                </div>
+                                <div class="event">
+                                    <i class="bi bi-geo-alt-fill"></i>
+                                    <span>0.7 km</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-sm-3 mb-3">
+                    <div class="card">
+                        <img class="card-img-top" src="static/images/user/search/default-image-shop.png" alt="Card image cap">
+                        <div class="card-body">
+                            <h5 class="card-title">Tên cửa hàng</h5>
+                            <p class="card-text">30.000Đ - 60.000Đ</p>
+                            <div class="bonus">
+                                <div class="event">
+                                    <i class="bi bi-star-fill"></i>
+                                    <span>4.5</span>
+                                </div>
+                                <div class="event">
+                                    <i class="bi bi-geo-alt-fill"></i>
+                                    <span>0.7 km</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-sm-3 mb-3">
+                    <div class="card">
+                        <img class="card-img-top" src="static/images/user/search/default-image-shop.png" alt="Card image cap">
+                        <div class="card-body">
+                            <h5 class="card-title">Tên cửa hàng</h5>
+                            <p class="card-text">30.000Đ - 60.000Đ</p>
+                            <div class="bonus">
+                                <div class="event">
+                                    <i class="bi bi-star-fill"></i>
+                                    <span>4.5</span>
+                                </div>
+                                <div class="event">
+                                    <i class="bi bi-geo-alt-fill"></i>
+                                    <span>0.7 km</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-sm-3 mb-3">
+                    <div class="card">
+                        <img class="card-img-top" src="static/images/user/search/default-image-shop.png" alt="Card image cap">
+                        <div class="card-body">
+                            <h5 class="card-title">Tên cửa hàng</h5>
+                            <p class="card-text">30.000Đ - 60.000Đ</p>
+                            <div class="bonus">
+                                <div class="event">
+                                    <i class="bi bi-star-fill"></i>
+                                    <span>4.5</span>
+                                </div>
+                                <div class="event">
+                                    <i class="bi bi-geo-alt-fill"></i>
+                                    <span>0.7 km</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-sm-3 mb-3">
+                    <div class="card">
+                        <img class="card-img-top" src="static/images/user/search/default-image-shop.png" alt="Card image cap">
+                        <div class="card-body">
+                            <h5 class="card-title">Tên cửa hàng</h5>
+                            <p class="card-text">30.000Đ - 60.000Đ</p>
+                            <div class="bonus">
+                                <div class="event">
+                                    <i class="bi bi-star-fill"></i>
+                                    <span>4.5</span>
+                                </div>
+                                <div class="event">
+                                    <i class="bi bi-geo-alt-fill"></i>
+                                    <span>0.7 km</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <a href="#" class="d-flex align-items-center justify-content-center mb-5">
+                <button class="btn btn-more-view">Xem thêm</button>
+            </a>
+
     </div>
-</main>
+    <section class="section-four">
+        <div class="container">
+            <div>
+                <h4 class="title p-4">Nó hoạt động như thế nào?</h4>
+                <div class="wrap mt-3">
+                    <div class="inner-image">
+                        <img src="static/images/user/home/location.png">
+                        <div class="inner-infor">
+                            <h5 class="">Chọn vị trí</h5> 
+                            <span class="explain">Chọn địa điểm nơi thức ăn của bạn sẽ được giao</span>
+                        </div>
+                    </div>
+
+                    <div class="inner-image">
+                        <img src="static/images/user/home/menu.png">
+                        <div class="inner-infor">
+                            <h5 class="">Chọn đơn hàng</h5> 
+                            <span class="explain">Kiểm tra hàng trăm thực đơn để chọn món ăn yêu thích của bạn</span>
+                        </div>
+                    </div>
+
+                    <div class="inner-image">
+                        <img src="static/images/user/home/donut.png">
+                        <div class="inner-infor">
+                            <h5 class="">Thưởng thức bữa ăn</h5> 
+                            <span class="explain">Đồ ăn  được thực hiện và giao trực tiếp đến tận nơi đặt.</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+
