@@ -26,7 +26,6 @@ const merchantSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId, 
         ref: "Address" 
     },
-    phone: String,
     category: [{ 
         type: mongoose.Schema.Types.ObjectId, 
         ref: "Category" 
