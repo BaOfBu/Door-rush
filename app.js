@@ -2,6 +2,8 @@ import express from "express";
 import { engine } from "express-handlebars";
 import path from "path";
 import hbs_sections from "express-handlebars-sections";
+import mongoose from "mongoose";
+import dotenv from "dotenv";
 import { dirname } from "path";
 import { fileURLToPath } from "url";
 const __dirname = dirname(fileURLToPath(import.meta.url));
@@ -17,6 +19,19 @@ app.use(
         extended: true
     })
 );
+
+dotenv.config();
+mongoose.set("strictQuery", false);
+mongoose.set("strictPopulate", false);
+mongoose
+    .connect(process.env.MONGODB_URL)
+    .then(function () {
+        console.log("Successfully connected to the database");
+    })
+    .catch(function (err) {
+        console.log("Could not connect to the database. Exiting now...", err);
+        process.exit();
+    });
 
 // Create an instance of the express-handlebars
 const hbs = engine({
@@ -50,3 +65,12 @@ app.use("/admin", adminRoutes);
 app.listen(port, function serverStartedHandler() {
     console.log(`Door-rush server is running at http://localhost:${port}`);
 });
+
+// const newAccount = mongoose.model("Account", {
+//     username: String,
+//     password: String,
+//     role: String,
+//     status: String
+// });
+// const account = await newAccount.find();
+// console.log(account[0].username);
