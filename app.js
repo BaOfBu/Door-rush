@@ -27,11 +27,13 @@ app.use(
 dotenv.config();
 mongoose.set("strictQuery", false);
 mongoose.set("strictPopulate", false);
-mongoose.connect(process.env.MONGODB_URL, 
-    {useNewUrlParser: true, useUnifiedTopology: true}).then(function() {
-        console.log("Successfully connected to the database");    
-    }).catch(function(err) {
-        console.log('Could not connect to the database. Exiting now...', err);
+mongoose
+    .connect(process.env.MONGODB_URL)
+    .then(function () {
+        console.log("Successfully connected to the database");
+    })
+    .catch(function (err) {
+        console.log("Could not connect to the database. Exiting now...", err);
         process.exit();
     });
 
@@ -85,3 +87,12 @@ app.use(function (req, res, next) {
 app.listen(port, function serverStartedHandler() {
     console.log(`Door-rush server is running at http://localhost:${port}`);
 });
+
+// const newAccount = mongoose.model("Account", {
+//     username: String,
+//     password: String,
+//     role: String,
+//     status: String
+// });
+// const account = await newAccount.find();
+// console.log(account[0].username);
