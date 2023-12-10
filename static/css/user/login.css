@@ -1,3 +1,7 @@
-.inner-image{
+.section-login{
     position: relative;
+}
+
+img{
+    width: 100%;
 }
