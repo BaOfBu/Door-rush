@@ -301,7 +301,7 @@
 }
 /*  */
 /* This will create the orange segments for the completed steps */
-.timeline-step.completed::after {
+/* .timeline-step.completed::after {
     content: "";
     position: absolute;
     bottom: 65px;
@@ -315,7 +315,7 @@
     left: -100%;
     width: 480px;
 }
-.timeline-step.active:first-child::after {
+.timeline:first-child.active:after {
     content: "";
     position: absolute;
     bottom: 65px;
@@ -325,3 +325,7 @@
     background-color: var(--orange-color);
     z-index: 1;
 }
+.timeline:last-child.active::after {
+    left: -100%;
+    width: 430px;
+} */
