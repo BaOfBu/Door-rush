@@ -3,7 +3,7 @@ import mongoose from "mongoose";
 const feedbackModel = new mongoose.Schema({
     itemId: { 
         type: mongoose.Schema.Types.ObjectId, 
-        ref: "Food"
+        ref: "FoodType"
     },
     userId: { 
         type: mongoose.Schema.Types.ObjectId,
@@ -16,8 +16,10 @@ const feedbackModel = new mongoose.Schema({
     },
     comment: String,
     feedbackDate: Date,
-});
+},
+    {collection: "Feedback"}
+);
 
-const Feedback = mongoose.model("Feedback", feedbackModel);
+const Feedback = mongoose.model("Feedback", feedbackModel, "Feedback");
 
 export default Feedback;
