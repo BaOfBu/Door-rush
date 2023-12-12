@@ -1,3 +1,7 @@
+import Food from "../../models/foodModel.js";
+import Merchant from "../../models/merchantModel.js";
+import FoodType from "../../models/foodTypeModel.js";
+import Feedback from "../../models/feedbackModel.js";
 // [GET]/foods
 const index = function (req, res) {
     res.render("user/foods", {
@@ -7,7 +11,7 @@ const index = function (req, res) {
     });
 };
 
-// [GET]/foods/{{shop_name}}
+// [GET]/foods/{{shop_id}}
 const shop = function (req, res) {
     res.render("user/shop", {
         user: false,
@@ -27,13 +31,29 @@ const foodDetail = async function (req, res) {
     if (!foodId) {
         return res.redirect("/shop");
     }
+    // Get the data of food
+    const food = await Food.findById(foodId);
+    const shop = await Merchant.findById(shopId);
+    const feedback = await Feedback.find();
+    console.log(feedback);
     // Get the value for website
-    let foodName = foodId;
-    let shopName = shopId;
-    let foodPrice = "55.000 VNĐ";
-    let userRatingAvg = 0;
+    let foodName = food.name;
+
+    let shopName = shop.name;
+
+    var formatter = new Intl.NumberFormat("vn-IN", { minimumFractionDigits: 0 });
+    let foodPrice = formatter.format(food.price) + " VNĐ";
+
+    let userRatingAvg = food.rating;
+
+    let foodTypeId = food.foodType;
+    let typeOfFood = [];
+    for (let typeId in foodTypeId) {
+        typeOfFood.push((await FoodType.findById(foodTypeId[typeId].toString())).product);
+    }
+
     let userRatingAll = [1, 2, 3, 4, 5, 6];
-    let typeOfFood = ["Loại 1", "Loại 2", "Loại 3"];
+
     res.render("user/food-detail.hbs", {
         // Data of page
         shopName: shopName,
