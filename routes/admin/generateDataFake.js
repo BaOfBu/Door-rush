@@ -74,7 +74,7 @@ router.get("/generate-merchant", async function () {
       var foodData = new Array();
 
       const numGenFood = 2;
-      const numGenMerchant = 13;
+      const numGenMerchant = 2;
 
       for(var i = 0; i < numGenFood; i++){
         const food = await generateFoodData();
