@@ -32,12 +32,11 @@ const foodSchema = new mongoose.Schema(
                 type: mongoose.Schema.Types.ObjectId,
                 ref: "Category"
             }
-        ],
-        price: Number
+        ]
     },
     { collection: "Food" }
 );
 
-const Food = mongoose.model("Food", foodSchema);
+const Food = mongoose.model("Food", foodSchema, "Food");
 
 export default Food;
