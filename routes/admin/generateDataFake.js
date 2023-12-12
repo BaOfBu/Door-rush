@@ -74,7 +74,7 @@ router.get("/generate-merchant", async function () {
       var foodData = new Array();
 
       const numGenFood = 2;
-      const numGenMerchant = 2;
+      const numGenMerchant = 13;
 
       for(var i = 0; i < numGenFood; i++){
         const food = await generateFoodData();
@@ -97,7 +97,7 @@ router.get("/generate-merchant", async function () {
           menu: foodData,
           revenue: 0,
           image: faker.image.url(),
-          priceRange: "",
+          priceRange: "50.000Đ - 100.000Đ",
           rating: 0,
           hasDiscount: false
         });
@@ -111,7 +111,10 @@ router.get("/generate-merchant", async function () {
   } 
 });
 
-
+router.get("/find-food", async function(){
+  const foods = await Food.findById({_id: "65788f9c248963c4cf34a0bb"});
+  console.log(foods);
+})
 router.get("/find-category", async function(){
   // find({}) để tìm kiếm toàn bộ
   // select("field1 field2 ...") để chỉ lấy những field trong đối tượng mình muốn. __id và __t mặc định sẽ luôn lấy, không cần thêm vào select
