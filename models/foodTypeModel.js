@@ -22,8 +22,10 @@ const foodTypeSchema = new mongoose.Schema({
         enum: ["Còn hàng", "Hết hàng"],
         required: true
     },
-});
+},
+    {collection: "FoodType"}
+);
 
-const FoodType = mongoose.model("FoodType", foodTypeSchema);
+const FoodType = mongoose.model("FoodType", foodTypeSchema, "FoodType");
 
 export default FoodType;

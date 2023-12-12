@@ -10,8 +10,10 @@ const voucherSchema = new mongoose.Schema({
         enum: ["ship", "food"]
     },
     valueOfDiscount: Number // Tiền
-});
+},
+    {collection: "Voucher"}
+);
 
-const Voucher = mongoose.model("Voucher", voucherSchema);
+const Voucher = mongoose.model("Voucher", voucherSchema, "Voucher");
 
 export default Voucher;
