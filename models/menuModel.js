@@ -5,8 +5,10 @@ const menuSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId, 
         ref: "Food" 
     }],
-});
+},
+    {collection: "Menu"}
+);
 
-const Menu = mongoose.model("Menu", menuSchema);
+const Menu = mongoose.model("Menu", menuSchema, "Menu");
 
 export default Menu;

@@ -32,8 +32,10 @@ const orderSchema = new mongoose.Schema({
     voucher: Voucher,
     total: Number,
     timeOrder: Date
-});
+},
+    {collection: "Order"}
+);
 
-const Order = mongoose.model("Order", orderSchema);
+const Order = mongoose.model("Order", orderSchema, "Order");
 
 export default Order;

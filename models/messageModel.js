@@ -18,8 +18,10 @@ const messageSchema = new mongoose.Schema({
         },
         default: null
     }
-});
+},
+    {collection: "Message"}
+);
 
-const Message = mongoose.model("Message", messageSchema);
+const Message = mongoose.model("Message", messageSchema, "Message");
 
 export default Message;
