@@ -49,6 +49,9 @@ const hbs = engine({
         },
         equal(value1, value2) {
             return value1 == value2;
+        },
+        json: function (context) {
+            return JSON.stringify(context);
         }
     }
 });

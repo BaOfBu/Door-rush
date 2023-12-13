@@ -32,7 +32,8 @@ const foodSchema = new mongoose.Schema(
                 type: mongoose.Schema.Types.ObjectId,
                 ref: "Category"
             }
-        ]
+        ],
+        price: Number
     },
     { collection: "Food" }
 );

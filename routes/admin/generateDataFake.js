@@ -1,7 +1,6 @@
 import express from "express";
 import { faker } from "@faker-js/faker";
 import mongoose from "mongoose";
-import Category from "../../models/categoryModel.js";
 import Merchant from "../../models/merchantModel.js";
 import Address from "../../models/addressModel.js";
 import FoodType from "../../models/foodTypeModel.js";

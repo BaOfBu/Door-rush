@@ -1,7 +1,4 @@
 import Food from "../../models/foodModel.js";
-import Merchant from "../../models/merchantModel.js";
-import FoodType from "../../models/foodTypeModel.js";
-import Feedback from "../../models/feedbackModel.js";
 // [GET]/foods
 const index = function (req, res) {
     res.render("user/foods", {
@@ -19,38 +16,45 @@ const shop = function (req, res) {
         userName: "Họ và tên"
     });
 };
-// [GET]/foods/{{shop_id}}/{{foodID}}
+// [GET]/foods/{{shop_name}}/{{foodID}}
 const foodDetail = async function (req, res) {
     // Get the params from the route
-    const shopId = req.params.shop || 0;
+    const shopName = req.params.shop || 0;
     const foodId = req.params.id || 0;
+
     // Handle the problem
-    if (!shopId) {
+    if (!shopName) {
         return res.redirect("/");
     }
     if (!foodId) {
         return res.redirect("/shop");
     }
+
     // Get the data of food
-    const food = await Food.findById(foodId);
-    const shop = await Merchant.findById(shopId);
-    const feedback = await Feedback.find();
-    console.log(feedback);
-    // Get the value for website
+    let food = await Food.findById(foodId).populate("foodType").populate("feedbacks");
+
+    // Get data for the website
     let foodName = food.name;
 
-    let shopName = shop.name;
+    let foodPrice = food.foodType.map(type => {
+        return new Intl.NumberFormat("vi-VN").format(type.price) + " VNĐ";
+    });
 
-    var formatter = new Intl.NumberFormat("vn-IN", { minimumFractionDigits: 0 });
-    let foodPrice = formatter.format(food.price) + " VNĐ";
+    let typeOfFood = food.foodType.map(type => type.product);
 
-    let userRatingAvg = food.rating;
-
-    let foodTypeId = food.foodType;
-    let typeOfFood = [];
-    for (let typeId in foodTypeId) {
-        typeOfFood.push((await FoodType.findById(foodTypeId[typeId].toString())).product);
+    let userRating = [];
+    for (let i = 1; i <= Math.round(food.rating); i++) {
+        userRating.push({
+            isRate: true
+        });
     }
+    for (let i = 1; i <= 5 - Math.round(food.rating); i++) {
+        userRating.push({
+            isRate: false
+        });
+    }
+
+    let feedbacks = food.feedbacks;
 
     let userRatingAll = [1, 2, 3, 4, 5, 6];
 
@@ -59,8 +63,11 @@ const foodDetail = async function (req, res) {
         shopName: shopName,
         foodName: foodName,
         foodPrice: foodPrice,
-        userRatingAvg: userRatingAvg > 0,
+        description: food.description,
+        rating: food.rating,
+        userRating: userRating,
         userRatingAll: userRatingAll,
+        numberOfFeedback: feedbacks.length,
         // data of header
         user: false,
         typeOfFood: typeOfFood,
