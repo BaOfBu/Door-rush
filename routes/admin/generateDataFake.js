@@ -2,11 +2,15 @@ import express from "express";
 import { faker } from "@faker-js/faker";
 import mongoose from "mongoose";
 import Category from "../../models/categoryModel.js";
+import User from "../../models/userModel.js";
 import Merchant from "../../models/merchantModel.js";
 import Address from "../../models/addressModel.js";
 import FoodType from "../../models/foodTypeModel.js";
 import Food from "../../models/foodModel.js";
 import Feedback from "../../models/feedbackModel.js";
+import OrderItem from "../../models/orderItemModel.js";
+import Order from "../../models/orderModel.js";
+import Voucher from "../../models/voucherModel.js";
 
 const router = express.Router();
 
@@ -18,6 +22,7 @@ function generateAddressData() {
     district: "Quận 5",
     city: "TP.HCM",
   })
+
   return addressData;
 }
 
@@ -36,13 +41,14 @@ function generateFoodTypeData(){
 }
 
 async function generateFoodData(){
-  var foodType = new Array();
-  var feedBack = new Array();
+  let foodType = [];
+  let feedBack = [];
   const numGenFoodType = 2;
 
-  for(var i = 0; i < numGenFoodType; i++){
+  for(let i = 0; i < numGenFoodType; i++){
     const foodTypeData = await generateFoodTypeData().save();
     foodType.push(foodTypeData._id);
+
     const feedbackData = new Feedback ({
       itemId: foodTypeData._id,
       userId: ["6575de3d12871376fb2d1a20"],
@@ -50,6 +56,7 @@ async function generateFoodData(){
       comment: faker.lorem.sentence(),
       feedbackDate: faker.date.past(),
     });
+
     await feedbackData.save();
     feedBack.push(feedbackData._id);
   }
@@ -70,18 +77,19 @@ async function generateFoodData(){
 
 router.get("/generate-merchant", async function () {
   try {
-      const address = await generateAddressData().save();
-      var foodData = new Array();
-
-      const numGenFood = 2;
       const numGenMerchant = 2;
 
-      for(var i = 0; i < numGenFood; i++){
-        const food = await generateFoodData();
-        foodData.push(food);
-      }
+      for(let i = 0; i < numGenMerchant; i++){
+        const address = await generateAddressData().save();
+  
+        const numGenFood = 2;
+        let foodData = [];
 
-      for(var i = 0; i < numGenMerchant; i++){
+        for(let i = 0; i < numGenFood; i++){
+          const food = await generateFoodData();
+          foodData.push(food);
+        }
+  
         const fakeMerchantData = new Merchant ({
           username: faker.internet.userName(),
           password: faker.internet.password(),
@@ -110,6 +118,120 @@ router.get("/generate-merchant", async function () {
       console.error("Error generating fake Merchant data:", error);
   } 
 });
+
+function generateOrderItemData(){
+  const orderItemData = new OrderItem ({
+    foodId: "65788f9c248963c4cf34a0bb",
+    typeFoodId: "65788f9c248963c4cf34a0b7",
+    quantity: faker.number.int({min: 1, max: 5}),
+    notes: faker.lorem.sentence(),
+  });
+
+  return orderItemData;
+}
+
+async function generateVoucherData(type){
+  let startTime = faker.date.past();
+  let endTime = faker.date.between({from: startTime, to: faker.date.recent()});
+
+  const voucherData = new Voucher({
+    voucherId: "NOELVUIVE",
+    startDate: startTime,
+    endDate: endTime,
+    typeVoucher: type,
+    valueOfDiscount: faker.number.int({min: 1, max: 10})*10000,
+  });
+
+  await voucherData.save();
+  return voucherData;
+}
+
+async function generateOrderData(userID){
+  const numGenOrderItem = 2;
+  let orderItems = [];
+
+  for(let i = 0; i < numGenOrderItem; i++){
+    let orderItem = await generateOrderItemData().save();
+    orderItems.push(orderItem._id);
+  }
+
+  let vouchers = [];
+
+  const voucher_food = await generateVoucherData("food");
+  vouchers.push(voucher_food);
+  
+  const temp = await Voucher.findOne({_id: voucher_food});
+
+  const voucher_ship = await generateVoucherData("ship");
+  vouchers.push(voucher_ship);
+
+  await Voucher.findByIdAndUpdate(voucher_ship, { $set: { startDate: temp.startDate, endDate: temp.endDate } }, { new: true });
+
+  const orderData = new Order({
+    merchantId: "65788f9d248963c4cf34a0c7",
+    items: orderItems,
+    status: "delivered",
+    userId: userID,
+    vouchers: vouchers,
+    total: faker.number.int({min: 1, max: 20})*100000,
+    timeOrder: faker.date.between({from: temp.startDate, to: temp.endDate})
+  });
+
+  await orderData.save();
+
+  return orderData._id;
+}
+
+router.get("/generate-user", async function(){
+  try {
+
+    let numGenUser = 2;
+
+    for(let i = 0; i < numGenUser; i++){
+      
+      let numGenAddress = 2;
+      let addresses = [];
+
+      for(let i = 0; i < numGenAddress; i++){
+        let address = await generateAddressData().save();
+        addresses.push(address._id);
+      }
+
+      let fakeUserData = new User ({
+        username: faker.internet.userName(),
+        password: faker.internet.password(),
+        role: "User",
+        status: "active",
+        fullname: "Tên người dùng",
+        email: faker.helpers.fromRegExp("[a-z0-9]{10}@gmail\.com"),
+        phone: faker.helpers.fromRegExp("0346 [0-9]{3} [0-9]{3}"),
+        gender: faker.helpers.arrayElement(["Nam", "Nữ", "Khác"]),
+        birthday: faker.date.birthdate(),
+        addresses: addresses,
+        orders: [],
+        image: faker.image.avatar()
+      });
+
+
+      let numGenOrder = 2;
+      let orders = [];
+
+      for(let i = 0; i < numGenOrder; i++){
+        let order = await generateOrderData(fakeUserData._id);
+        console.log(order);
+        orders.push(order);
+      }
+
+      fakeUserData.orders = orders;
+
+      await fakeUserData.save();
+      console.log("Fake User data generated and saved:", fakeUserData);
+    }
+      
+  } catch (error) {
+      console.error("Error generating fake Merchant data:", error);
+  } 
+})
 
 router.get("/find-food", async function(){
   const foods = await Food.findById({_id: "65788f9c248963c4cf34a0bb"});
