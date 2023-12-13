@@ -8,11 +8,12 @@
 }
 
 .icon-btn {
+    position: relative;
     color: var(--orange-color);
     text-decoration: none;
 }
 
-.bag:hover{
+.bag:hover {
     filter: drop-shadow(0px 4px 4px rgba(255, 174, 0, 0.26));
 }
 
@@ -66,4 +67,17 @@
 .user-btn {
     color: var(--orange-color);
     height: 43px;
+}
+.number-of-item-order {
+    top: 5px;
+    left: 22px;
+    position: absolute;
+    font-size: 12px;
+    height: 20px;
+    width: 20px;
+    text-align: center;
+    line-height: 20px;
+    border-radius: 50%;
+    background-color: var(--orange-color);
+    color: var(--white-color);
 }
