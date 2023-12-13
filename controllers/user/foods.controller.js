@@ -60,6 +60,7 @@ const foodDetail = async function (req, res) {
 
     res.render("user/food-detail.hbs", {
         // Data of page
+        foodId: foodId,
         shopName: shopName,
         foodName: foodName,
         foodPrice: foodPrice,
@@ -75,4 +76,12 @@ const foodDetail = async function (req, res) {
         userName: "Họ và tên"
     });
 };
-export default { index, foodDetail, shop };
+
+// [Get]/foods/{{shop_name}}/{{foodId}}/add-to-cart
+const addToCart = async function (req, res) {
+    // Get the params from the route
+    req.session.numberItem = req.session.numberItem + 1;
+    res.redirect(req.headers.referer);
+};
+
+export default { index, foodDetail, shop, addToCart };
