@@ -1,26 +1,18 @@
 import mongoose from "mongoose";
 import Voucher from "./voucherModel.js";
-import Merchant from "./merchantModel.js";
-
-const orderItemSchema = new mongoose.Schema({
-    foodId: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "Food"
-    },
-    typeFoodId: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "TypeFood"
-    },
-    quantity: Number,
-    notes: String
-});
+import OrderItem from "./orderItemModel.js";
 
 const orderSchema = new mongoose.Schema({
     merchantId: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "Merchant"
     },
-    items: [orderItemSchema],
+    items: [
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "OrderItem"
+        }
+    ],
     status: {
         type: String,
         enum: ["pending", "preparing", "delivering", "delivered", "cancelled"]
@@ -29,7 +21,12 @@ const orderSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: "User"
     },
-    voucher: Voucher,
+    vouchers:[
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "Voucher"
+        }
+    ],
     total: Number,
     timeOrder: Date
 },
