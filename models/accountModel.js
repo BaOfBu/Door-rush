@@ -12,7 +12,8 @@ const accountSchema = new mongoose.Schema(
         },
         role: {
             type: String,
-            enum: ["User", "Merchant", "Admin"]
+            enum: ["User", "Merchant", "Admin"],
+            required: true
         },
         status: {
             type: String,

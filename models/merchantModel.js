@@ -30,14 +30,14 @@ const merchantSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId, 
         ref: "Category" 
     }],
-    menu: { 
+    menu: [{ 
         type: mongoose.Schema.Types.ObjectId, 
-        ref: "Menu" 
-    },
+        ref: "Food" 
+    }],
     revenue: Number,
     image: String,
     priceRange: String,
-    rating: Float32Array,
+    rating: Number,
     hasDiscount: Boolean
 }, {collection: "Merchant"});
 

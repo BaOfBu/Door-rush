@@ -65,12 +65,3 @@ app.use("/admin", adminRoutes);
 app.listen(port, function serverStartedHandler() {
     console.log(`Door-rush server is running at http://localhost:${port}`);
 });
-
-// const newAccount = mongoose.model("Account", {
-//     username: String,
-//     password: String,
-//     role: String,
-//     status: String
-// });
-// const account = await newAccount.find();
-// console.log(account[0].username);

@@ -21,8 +21,10 @@ const addressSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
-});
+},
+    { collection: "Address" }
+);
 
-const Address = mongoose.model('Address', addressSchema);
+const Address = mongoose.model('Address', addressSchema, "Address");
 
 export default Address;
