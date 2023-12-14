@@ -150,6 +150,7 @@
 .food-detail-card-review-feedback {
     margin: 0;
     padding: 0;
+    flex-grow: 1;
 }
 .bi-star-fill {
     color: var(--orange-color);
@@ -168,19 +169,19 @@
 .food-detail-card-review-item {
     padding: 32px;
     border: 1px solid var(--black-color);
-    border-radius: 10%;
+    border-radius: 5px;
 }
 
 .food-detail-card-flex {
     display: flex;
     flex-direction: column;
+    align-items: flex-start;
+    justify-content: space-between;
     gap: 24px;
-    align-items: stretch;
-    justify-content: stretch;
     height: 100%;
 }
-.swiper {
-    height: 350px;
+.swiper-slide {
+    height: auto;
 }
 .food-detail-card-review-user img {
     width: 56px;

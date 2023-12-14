@@ -1,5 +1,7 @@
 {{#section "js"}}
     <script>
+        var numberOfRating =
+        {{{json feedbacks.length}}}
         var typeOfFood =
         {{{json typeOfFood}}}
         var priceOfFood =
@@ -99,21 +101,22 @@
         <div class="swiper container-custom">
             <div class="food-detail-card-review-content">
                 <div class="swiper-wrapper">
-                    {{#each userRatingAll}}
+                    {{#each feedbacks}}
                         <div class="swiper-slide food-detail-card-review-item">
                             <div class="food-detail-card-flex">
                                 <div class="food-detail-card-review-rating">
                                     <div class="food-detail-rating-star">
-                                        <i class="bi bi-star-fill"></i>
-                                        <i class="bi bi-star-fill"></i>
-                                        <i class="bi bi-star-fill"></i>
-                                        <i class="bi bi-star"></i>
-                                        <i class="bi bi-star"></i>
+                                        {{#each this.stars}}
+                                            {{#if this}}
+                                                <i class="bi bi-star-fill"></i>
+                                            {{else}}
+                                                <i class="bi bi-star"></i>
+                                            {{/if}}
+                                        {{/each}}
                                     </div>
                                 </div>
                                 <p class="food-detail-card-review-feedback">
-                                    "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse varius enim in eros elementum
-                                    tristique. Duis cursus, mi quis viverra ornare."
+                                    {{this.comment}}
                                 </p>
                                 <div class="food-detail-card-review-user">
                                     <img
@@ -122,8 +125,8 @@
                                         src="/static/images/user/food-detail/main-image.png"
                                     />
                                     <div class="food-card-review-user-info">
-                                        <span class="food-card-review-name"><b>Khách hàng {{this}}</b></span>
-                                        <span class="food-card-review-date">31/10/2023</span>
+                                        <span class="food-card-review-name"><b>{{this.userId.username}}</b></span>
+                                        <span class="food-card-review-date">{{this.feedbackDate}}</span>
                                     </div>
                                 </div>
                             </div>

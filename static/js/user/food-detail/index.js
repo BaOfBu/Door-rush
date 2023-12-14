@@ -6,11 +6,14 @@ document.getElementById("food-type").addEventListener("change", function () {
 });
 
 // Xử lý thanh dịch chuyển đánh giá
+if (numberOfRating >= 3) numberOfRating = 3;
+// else numberOfRating = 1;
 const swiper = new Swiper(".food-detail-card-review-content", {
     loop: true,
-    slidesPerView: 3,
+    slidesPerView: numberOfRating,
     spaceBetween: 20,
-    sliderPerGroup: 3,
+    autoHeight: false,
+    sliderPerGroup: numberOfRating,
     centerSlide: "true",
     fade: "true",
     pagination: {
