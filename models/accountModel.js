@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import bcrypt from "bcrypt";
 
 const accountSchema = new mongoose.Schema(
     {
@@ -12,7 +13,8 @@ const accountSchema = new mongoose.Schema(
         },
         role: {
             type: String,
-            enum: ["User", "Merchant", "Admin"]
+            enum: ["User", "Merchant", "Admin"],
+            required: true
         },
         status: {
             type: String,
@@ -46,6 +48,6 @@ accountSchema.methods.comparePassword = async function (candidatePassword) {
     }
 };
 
-const Account = mongoose.model("Account", accountSchema);
+const Account = mongoose.model("Account", accountSchema, "Account");
 
 export default Account;

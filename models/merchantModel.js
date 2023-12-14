@@ -1,4 +1,4 @@
-import mongoose from "mongoose"
+import mongoose from "mongoose";
 import Account from "./accountModel.js";
 
 const merchantSchema = new mongoose.Schema({
@@ -30,17 +30,18 @@ const merchantSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId, 
         ref: "Category" 
     }],
-    menu: { 
+    menu: [{ 
         type: mongoose.Schema.Types.ObjectId, 
-        ref: "Menu" 
-    },
+        ref: "Food" 
+    }],
     revenue: Number,
     image: String,
     priceRange: String,
-    rating: Float32Array,
+    rating: Number,
     hasDiscount: Boolean
 });
 
-const Merchant = Account.discriminator("Merchant", merchantSchema);
+// const Merchant = Account.discriminator("Merchant", merchantSchema);
+const Merchant = mongoose.model("Merchant", merchantSchema);
 
 export default Merchant;

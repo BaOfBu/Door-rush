@@ -1,4 +1,6 @@
-{{#section "js"}}{{/section}}
+{{#section "js"}}
+    <script src="/static/js/user/profile/datepicker.js"></script>
+{{/section}}
 {{#section "css"}}
     <link rel="stylesheet" href="/static/css/user/profile.css" />
 {{/section}}
@@ -149,6 +151,18 @@
                     <div class="row justify-content-center">
                         <div class="col-md-12 col-xl-12">
                             <h2 class="mb-3">Lịch sử đơn hàng</h2>
+                            <div class="dropdown">
+                                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                                    Tất cả trạng thái
+                                </button>
+                                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                                    <li><a class="dropdown-item" href="#">Action</a></li>
+                                    <li><a class="dropdown-item" href="#">Another action</a></li>
+                                    <li><a class="dropdown-item" href="#">Something else here</a></li>
+                                </ul>
+                            </div>
+                            <label for="dateRangePicker">Chọn khoảng thời gian:</label>
+                            <input type="text" id="dateRangePicker" readonly>
                             <div class="card border mb-3">
                                 <div class="card-body">
                                     <div class="row">
