@@ -2,7 +2,6 @@ import mongoose from "mongoose";
 
 const voucherSchema = new mongoose.Schema({
     voucherId: String,
-    voucherName: String,
     startDate: Date,
     endDate: Date,
     typeVoucher: {

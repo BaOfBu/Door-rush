@@ -7,6 +7,7 @@ import dotenv from "dotenv";
 import { dirname } from "path";
 import { fileURLToPath } from "url";
 const __dirname = dirname(fileURLToPath(import.meta.url));
+import session from "express-session";
 
 import userRoutes from "./routes/user/index.route.js";
 import adminRoutes from "./routes/admin/index.route.js";
@@ -49,6 +50,9 @@ const hbs = engine({
         },
         equal(value1, value2) {
             return value1 == value2;
+        },
+        json: function (context) {
+            return JSON.stringify(context);
         }
     }
 });
@@ -56,6 +60,24 @@ const hbs = engine({
 app.engine("hbs", hbs);
 app.set("view engine", "hbs");
 app.set("views", "./views");
+
+app.set("trust proxy", 1);
+app.use(
+    session({
+        secret: "New Session",
+        resave: false,
+        saveUninitialized: true,
+        cookie: {}
+    })
+);
+
+app.use(function (req, res, next) {
+    if (typeof req.session.numberItem === "undefined") {
+        req.session.numberItem = 0;
+    }
+    res.locals.numberItem = req.session.numberItem;
+    next();
+});
 
 app.use("/static", express.static("static"));
 
