@@ -43,7 +43,7 @@ const merchantSchema = new mongoose.Schema({
     priceRange: String,
     rating: Number,
     hasDiscount: Boolean
-});
+}, {collection: "Merchant"});
 
 const Merchant = Account.discriminator("Merchant", merchantSchema);
 
