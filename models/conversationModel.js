@@ -5,8 +5,10 @@ const conversationSchema = new mongoose.Schema({
         "Account" 
     }]
     // Thêm các trường khác nếu cần thiết
-});
+},
+    {collection: "Conversation"}
+);
 
-const Conversation = mongoose.model("Conversation", conversationSchema);
+const Conversation = mongoose.model("Conversation", conversationSchema, "Conversation");
 
 export default Conversation;

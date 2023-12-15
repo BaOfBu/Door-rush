@@ -2,7 +2,6 @@ import mongoose from "mongoose";
 
 const voucherSchema = new mongoose.Schema({
     voucherId: String,
-    voucherName: String,
     startDate: Date,
     endDate: Date,
     typeVoucher: {
@@ -10,8 +9,10 @@ const voucherSchema = new mongoose.Schema({
         enum: ["ship", "food"]
     },
     valueOfDiscount: Number // Tiền
-});
+},
+    {collection: "Voucher"}
+);
 
-const Voucher = mongoose.model("Voucher", voucherSchema);
+const Voucher = mongoose.model("Voucher", voucherSchema, "Voucher");
 
 export default Voucher;
