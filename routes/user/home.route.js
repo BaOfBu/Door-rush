@@ -6,9 +6,8 @@ const router = express.Router();
 
 router.get("/", homeController.index);
 
-router.get("/test", async function (req, res, next) {
-    const account = await Account.find();
-    console.log(account);
+router.get("/forgotpassword", function(req, res, next){
+    res.render("user/forgot-password.hbs");
 });
 
 export default router;
