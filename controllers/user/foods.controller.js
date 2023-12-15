@@ -61,6 +61,7 @@ const foodDetail = async function (req, res) {
     });
     res.render("user/food-detail.hbs", {
         // Data of page
+        foodImg: food.image,
         foodId: foodId,
         shopName: shopName,
         foodName: foodName,
