@@ -1,10 +1,12 @@
 {{#section "js"}}
+    {{!-- Swiper --}}
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
     {{!-- Shop js file --}}
     <script src="/static/js/user/shop/index.js"></script>
 {{/section}}
 {{#section "css"}}
     {{!-- Shop css file --}}
-    <link rel="stylesheet" href="\static\css\user\shop.css" />
+    <link rel="stylesheet" href="/static/css/user/shop.css" />
 {{/section}}
 
 <div class="shop-page">
@@ -48,23 +50,41 @@
                 {{!-- Populated Categories Header --}}
                 <p class="popular-categories-title">Các danh mục phổ biến</p>
                 {{!-- Populated Categories --}}
-                <div class="popular-categories-row">
-                    <div class="popular-categories">
-                        <img class="popular-categories-image" src="/static/images/user/shop/alter-image.png" alt="category-image">
-                        <p class="popular-categories-name">Danh mục 1</p>
-                        <p class="popular-categories-quantity">(100 món)</p>
+                <div class="swiper container-custom">
+                    <div class="popular-categories-row">
+                        <div class="swiper-wrapper">
+                            <div class="swiper-slide popular-categories-card">
+                                <div class="popular-categories">
+                                    <img class="popular-categories-image" src="/static/images/user/shop/alter-image.png" alt="category-image">
+                                    <p class="popular-categories-name">Danh mục 1</p>
+                                    <p class="popular-categories-quantity">(100 món)</p>
+                                </div>   
+                            </div>
+                            <div class="swiper-slide popular-categories-card">
+                                <div class="popular-categories">
+                                    <img class="popular-categories-image" src="/static/images/user/shop/alter-image.png" alt="category-image">
+                                    <p class="popular-categories-name">Danh mục 1</p>
+                                    <p class="popular-categories-quantity">(100 món)</p>
+                                </div>   
+                            </div>
+                            <div class="swiper-slide popular-categories-card">
+                                <div class="popular-categories">
+                                    <img class="popular-categories-image" src="/static/images/user/shop/alter-image.png" alt="category-image">
+                                    <p class="popular-categories-name">Danh mục 1</p>
+                                    <p class="popular-categories-quantity">(100 món)</p>
+                                </div>   
+                            </div>
+                            <div class="swiper-slide popular-categories-card">
+                                <div class="popular-categories">
+                                    <img class="popular-categories-image" src="/static/images/user/shop/alter-image.png" alt="category-image">
+                                    <p class="popular-categories-name">Danh mục 1</p>
+                                    <p class="popular-categories-quantity">(100 món)</p>
+                                </div>   
+                            </div>
+                        </div>
                     </div>
-                    <div class="popular-categories">
-                        <img class="popular-categories-image" src="/static/images/user/shop/alter-image.png" alt="category-image">
-                        <p class="popular-categories-name">Danh mục 1</p>
-                        <p class="popular-categories-quantity">(100 món)</p>
-                    </div>
-                    <div class="popular-categories">
-                        <img class="popular-categories-image" src="/static/images/user/shop/alter-image.png" alt="category-image">
-                        <p class="popular-categories-name">Danh mục 1</p>
-                        <p class="popular-categories-quantity">(100 món)</p>
-                    </div>
-                </div>
+                    <div class="swiper-pagination"></div>
+                </div>  
             </div>
         </div>
     </section>

@@ -165,7 +165,7 @@
     font-weight: 700;
     line-height: 120%;
 }
-.food-detail-card-review-item {
+. {
     padding: 32px;
     border: 1px solid var(--black-color);
     border-radius: 10%;
