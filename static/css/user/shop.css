@@ -1,0 +1,64 @@
+.shop-breadcrumbs{
+    display: flex;
+    flex-direction: row;
+    gap: 12px;
+    color: var(--grey-color);
+    font-weight: 400;
+    line-height: 150%;
+    margin: 65px 65px 0px 65px;
+}
+.section-two-content{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding-left: 30px;
+    padding-right: 30px;
+    gap: 50px;
+    margin: 30px 30px 30px 30px;
+}
+.shop-info{
+    display: flex;
+    flex-direction: column;
+    padding-top: 30px;
+    padding-bottom: 30px;
+    gap: 24px;
+    width: 650px;
+}
+.shop-title{
+    font-size: 30px;
+    font-weight: 600;
+}
+.shop-name{
+    font-size: 60px;
+    font-weight: 700;
+    line-height: 120%;
+    text-align: left;
+    color: var(--orange-color);
+}
+.shop-description{
+    font-size: 20px;
+    line-height: 150%;
+    text-align: left;
+}
+.contact-link{
+    display: flex;
+    flex-direction: row;
+    padding: 12px 24px 12px 24px;
+    text-align: center;
+    color: var(--black-color);
+    font-size: 20px;
+    line-height: 150%;
+    border-color: var(--black-color);
+    border: 1px;
+    border-style: solid;
+    width: fit-content;
+}
+.shop-image{
+    width: 553px;
+    height: 379px;
+}
+
+img {
+    max-width: 100%;
+    max-height: 100%;
+}

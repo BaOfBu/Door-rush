@@ -10,7 +10,7 @@ const index = function (req, res) {
 
 // [GET]/foods/{{shop_id}}
 const shop = function (req, res) {
-    res.render("user/shop", {
+    res.render("user/shop.hbs", {
         user: false,
         type: "food",
         userName: "Họ và tên"
