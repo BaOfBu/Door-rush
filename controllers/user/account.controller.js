@@ -48,10 +48,8 @@ const postLogin =  async function (req, res) {
   req.session.auth = true;
   req.session.authUser = user;
 
-  if(user.role === "User"){
-    const url = req.session.retUrl || '/';
-    res.redirect(url);
-  }
+  const url = req.session.retUrl || '/';
+  res.redirect(url);
 };
 
 const logout =  function (req, res) {

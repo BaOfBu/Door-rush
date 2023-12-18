@@ -34,6 +34,10 @@ const merchantSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId, 
         ref: "Food" 
     }],
+    foodRecommend: [{ 
+        type: mongoose.Schema.Types.ObjectId, 
+        ref: "Food" 
+    }],
     revenue: Number,
     image: String,
     priceRange: String,
