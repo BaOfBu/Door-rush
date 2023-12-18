@@ -52,12 +52,17 @@ const foodDetail = async function (req, res) {
             isRate: false
         });
     }
+
     // Get feedback for foods
     let feedbacks = food.feedbacks.map(fb => {
+        let formattedDate = new Date(fb.feedbackDate).toLocaleString("en-GB", {
+            hour12: false
+        });
         let stars = Array(5).fill(0);
         stars.fill(1, 0, Math.round(fb.rating));
         return {
             ...fb,
+            feedbackDate: formattedDate,
             stars
         };
     });

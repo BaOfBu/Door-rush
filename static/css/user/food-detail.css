@@ -156,7 +156,7 @@
     color: var(--orange-color);
 }
 .food-detail-section {
-    margin: 50px 0px 0px 0;
+    margin: 40px 0px 0px 0;
 }
 .customer-review-title {
     color: var(--orange-color);
@@ -234,11 +234,11 @@
     width: 100%;
     background-color: white;
     margin: 0 auto;
-    padding: 40px 64px;
+    padding: 30px 64px;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-    gap: 100px;
+    gap: 80px;
     align-items: center;
 }
 
