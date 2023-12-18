@@ -63,7 +63,7 @@ async function generateFoodData(){
       userId: ["657ed32ab3c555f469af362d"],
       rating: faker.number.float({ min: 1, max: 5, precision: 0.1 }),
       comment: faker.lorem.sentence(),
-      feedbackDate: formatter.format(faker.date.past()),
+      feedbackDate: faker.date.past(),
     });
 
     await feedbackData.save();
@@ -140,8 +140,8 @@ function generateOrderItemData(){
 }
 
 async function generateVoucherData(type){
-  let startTime = formatter.format(faker.date.past());
-  let endTime = formatter.format(faker.date.between({from: startTime, to: faker.date.recent()}));
+  let startTime = faker.date.past();
+  let endTime = faker.date.between({from: startTime, to: faker.date.recent()});
 
   const voucherData = new Voucher({
     voucherId: "NOELVUIVE",
@@ -183,7 +183,7 @@ async function generateOrderData(userID){
     userId: userID,
     vouchers: vouchers,
     total: faker.number.int({min: 1, max: 20})*100000,
-    timeOrder: formatter.format(faker.date.between({from: temp.startDate, to: temp.endDate}))
+    timeOrder: faker.date.between({from: temp.startDate, to: temp.endDate})
   });
 
   await orderData.save();
@@ -222,7 +222,7 @@ router.get("/generate-user", async function(){
       });
 
 
-      let numGenOrder = 20;
+      let numGenOrder = 2;
       let orders = [];
 
       for(let i = 0; i < numGenOrder; i++){
