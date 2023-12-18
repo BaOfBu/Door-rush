@@ -1,5 +1,7 @@
 {{#section "js"}}
     <script>
+        var numberOfRating =
+        {{{json feedbacks.length}}}
         var typeOfFood =
         {{{json typeOfFood}}}
         var priceOfFood =
@@ -62,9 +64,9 @@
                 </div>
             </div>
             <div class="food-detail-img">
-                <img src="/static/images/user/food-detail/main-image.png" alt="" />
+                <img src={{this.foodImg}} alt="" />
             </div>
-            <form action="" class="food-detail-note" method="post">
+            <form action="" class="food-detail-note" method="get">
                 <div class="form-group-type-quantity">
                     <div class="form-group-type">
                         <label for="food-type"><b>Sản phẩm</b></label>
@@ -99,21 +101,22 @@
         <div class="swiper container-custom">
             <div class="food-detail-card-review-content">
                 <div class="swiper-wrapper">
-                    {{#each userRatingAll}}
+                    {{#each feedbacks}}
                         <div class="swiper-slide food-detail-card-review-item">
                             <div class="food-detail-card-flex">
                                 <div class="food-detail-card-review-rating">
                                     <div class="food-detail-rating-star">
-                                        <i class="bi bi-star-fill"></i>
-                                        <i class="bi bi-star-fill"></i>
-                                        <i class="bi bi-star-fill"></i>
-                                        <i class="bi bi-star"></i>
-                                        <i class="bi bi-star"></i>
+                                        {{#each this.stars}}
+                                            {{#if this}}
+                                                <i class="bi bi-star-fill"></i>
+                                            {{else}}
+                                                <i class="bi bi-star"></i>
+                                            {{/if}}
+                                        {{/each}}
                                     </div>
                                 </div>
                                 <p class="food-detail-card-review-feedback">
-                                    "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse varius enim in eros elementum
-                                    tristique. Duis cursus, mi quis viverra ornare."
+                                    {{this.comment}}
                                 </p>
                                 <div class="food-detail-card-review-user">
                                     <img
@@ -122,8 +125,8 @@
                                         src="/static/images/user/food-detail/main-image.png"
                                     />
                                     <div class="food-card-review-user-info">
-                                        <span class="food-card-review-name"><b>Khách hàng {{this}}</b></span>
-                                        <span class="food-card-review-date">31/10/2023</span>
+                                        <span class="food-card-review-name"><b>{{this.userId.username}}</b></span>
+                                        <span class="food-card-review-date">{{this.feedbackDate}}</span>
                                     </div>
                                 </div>
                             </div>
@@ -150,20 +153,18 @@
                 <span class="pop-up-subtitle">Hãy cho chúng tôi biết đánh giá của bạn về sản phẩm</span>
                 <img src="/static/images/user/food-detail/rating.jpg" alt="" />
             </div>
-            <form action="" class="rating-pop-up-form" id="myForm">
-                <div class="rating-pop-up-input-name">
-                    <div class="rating-pop-up-last-name">
-                        <label for="popUpLastNameInput" class="form-label">Họ</label>
-                        <input type="text" class="form-control" id="popUpLastNameInput" />
-                    </div>
-                    <div class="rating-pop-up-first-name">
-                        <label for="popUpFirstNameInput" class="form-label">Tên</label>
-                        <input type="text" class="form-control" id="popUpFirstNameInput" />
-                    </div>
+            <form action="" class="rating-pop-up-form" id="myForm" method="post">
+                <div class="rating-pop-up-last-name">
+                    <label for="popUpLastNameInput" class="form-label">Họ</label>
+                    <input type="text" class="form-control" id="popUpLastNameInput" name="lastName" />
+                </div>
+                <div class="rating-pop-up-first-name">
+                    <label for="popUpFirstNameInput" class="form-label">Tên</label>
+                    <input type="text" class="form-control" id="popUpFirstNameInput" name="firstName" />
                 </div>
                 <div class="rating-pop-up-input-food-type">
                     <label for="popUpFoodType" class="form-label">Sản phẩm</label>
-                    <select class="form-select" aria-label="Default select example" id="popUpFoodType">
+                    <select class="form-select" aria-label="Default select example" id="popUpFoodType" name="typeFood">
                         {{#each typeOfFood}}
                             <option value={{@index}}>{{this}}</option>
                         {{/each}}
@@ -174,19 +175,19 @@
                     <div class="form-check-group">
                         <div class="form-check-left">
                             <div class="form-check">
-                                <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1" />
+                                <input class="form-check-input" type="radio" name="star" id="flexRadioDefault1" value="5" />
                                 <label class="form-check-label" for="flexRadioDefault1">
                                     Rất tốt
                                 </label>
                             </div>
                             <div class="form-check">
-                                <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2" />
+                                <input class="form-check-input" type="radio" name="star" id="flexRadioDefault2" value="4" />
                                 <label class="form-check-label" for="flexRadioDefault2">
                                     Tốt
                                 </label>
                             </div>
                             <div class="form-check">
-                                <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault3" />
+                                <input class="form-check-input" type="radio" name="star" id="flexRadioDefault3" value="3" />
                                 <label class="form-check-label" for="flexRadioDefault3">
                                     Khá hài lòng
                                 </label>
@@ -194,13 +195,13 @@
                         </div>
                         <div class="form-check-right">
                             <div class="form-check">
-                                <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault4" />
+                                <input class="form-check-input" type="radio" name="star" id="flexRadioDefault4" value="2" />
                                 <label class="form-check-label" for="flexRadioDefault4">
                                     Không hài lòng
                                 </label>
                             </div>
                             <div class="form-check">
-                                <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault5" />
+                                <input class="form-check-input" type="radio" name="star" id="flexRadioDefault5" value="1" />
                                 <label class="form-check-label" for="flexRadioDefault5">
                                     Rất tệ
                                 </label>
@@ -208,6 +209,7 @@
                         </div>
                     </div>
                 </div>
+
                 <div class="rating-pop-up-rate-description">
                     <label for="floatingTextarea2">Ghi chú của bạn về sản phẩm</label>
                     <textarea
@@ -215,9 +217,10 @@
                         placeholder="Thêm ghi chú của bạn"
                         id="floatingTextarea2"
                         style="height: 100px"
+                        name="feedback"
                     ></textarea>
                 </div>
-                <button type="button" class="rate-food-btn" id="submitFormButton">Gửi đánh giá</button>
+                <button type="submit" class="rate-food-btn" id="submitFormButton">Gửi đánh giá</button>
             </form>
             <div id="thank-you-form" class="shadow thank-out-pop-out" style="display: none;">
                 <img src="/static/images/user/food-detail/tick-icon.png" alt="" />

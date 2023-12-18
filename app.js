@@ -20,6 +20,7 @@ app.use(
         extended: true
     })
 );
+app.use(express.json());
 
 dotenv.config();
 mongoose.set("strictQuery", false);
