@@ -1,4 +1,4 @@
-import mongoose from "mongoose"
+import mongoose from "mongoose";
 import Account from "./accountModel.js";
 
 const merchantSchema = new mongoose.Schema({
@@ -33,6 +33,12 @@ const merchantSchema = new mongoose.Schema({
         }
     ],
     menu: [
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "Food"
+        }
+    ],
+    foodRecommend: [
         {
             type: mongoose.Schema.Types.ObjectId,
             ref: "Food"
