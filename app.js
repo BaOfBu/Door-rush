@@ -12,9 +12,6 @@ const __dirname = dirname(fileURLToPath(import.meta.url));
 import userRoutes from "./routes/user/index.route.js";
 import adminRoutes from "./routes/admin/index.route.js";
 
-import auth from "./middleware/auth.mdw.js";
-
-
 const port = 8888;
 const app = express();
 
@@ -79,6 +76,17 @@ app.use(function (req, res, next) {
         req.session.numberItem = 0;
     }
     res.locals.numberItem = req.session.numberItem;
+    next();
+});
+
+app.use(function (req, res, next) {
+    // console.log(req.session.auth);
+    if (typeof (req.session.auth) === 'undefined') {
+      req.session.auth = false;
+    }
+  
+    res.locals.auth = req.session.auth;
+    res.locals.authUser = req.session.authUser;
     next();
 });
 

@@ -1,3 +1,8 @@
+import express from 'express';
+import bcrypt from 'bcrypt';
+import userService from '../../services/user/user.service.js';
+import auth from '../../middleware/auth.mdw.js';
+
 const getRegister = function (req, res) {
   res.render('user/register');
 };
@@ -6,9 +11,6 @@ const postRegister = async function (req, res) {
   const raw_password = req.body.raw_password;
   const salt = bcrypt.genSaltSync(10);
   const hash_password = bcrypt.hashSync(raw_password, salt);
-
-  const raw_dob = req.body.raw_dob;
-  const dob = moment(raw_dob, 'DD/MM/YYYY').format('YYYY-MM-DD');
 
   const user = {
     username: req.body.username,

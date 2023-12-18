@@ -14,4 +14,14 @@ router.post('/login', accountController.postLogin);
 
 router.post('/logout', auth, accountController.logout);
 
+// eg: /account/is-available?username=abc
+router.get('/is-available', async function (req, res) {
+    const username = req.query.username;
+    const user = await userService.findByUsername(username);
+    if (!user) {
+        return res.json(true);
+    }
+    res.json(false);
+});
+
 export default router;
