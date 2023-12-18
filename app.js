@@ -97,12 +97,13 @@ app.use("/admin", adminRoutes);
 
 app.set('trust proxy', 1) // trust first proxy
 app.use(session({
-  secret: 'keyboard cat',
+  secret: 'New Session',
   resave: false,
   saveUninitialized: true,
   cookie: {}
 }));
 
+// auth for login
 app.use(function (req, res, next) {
     if (typeof (req.session.auth) === 'undefined') {
       req.session.auth = false;

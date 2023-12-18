@@ -30,6 +30,7 @@ const getLogin = function (req, res) {
 
 const postLogin =  async function (req, res) {
   const user = await userService.findByUsername(req.body.username);
+  console.log(user);
   if (!user) {
     return res.render('user/login', {
       err_message: 'Invalid username or password.'
@@ -47,8 +48,10 @@ const postLogin =  async function (req, res) {
   req.session.auth = true;
   req.session.authUser = user;
 
-  const url = req.session.retUrl || '/';
-  res.redirect(url);
+  if(user.role === "User"){
+    const url = req.session.retUrl || '/';
+    res.redirect(url);
+  }
 };
 
 const logout =  function (req, res) {
