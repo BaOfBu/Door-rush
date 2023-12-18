@@ -1,17 +1,25 @@
 .profile-page{
     margin-top: 100px;
 }
+
+.link .page:active,.link .page.active {
+    color: var(--orange-color);
+    font-weight: bold;
+    border-bottom: 2px solid;
+}
+
+  
 .form-group {
     display: flex;
     align-items: center;
 }
 .form-group label {
-    width: 30%;
+    width: 20%;
     margin-right: 10px;
 }
 
 .form-group input {
-    width: 70%;
+    width: 500px;
 }
 
 .form-group input::placeholder{
@@ -25,7 +33,7 @@
 }
 
 .form-group-radio .label{
-    width: 30%;
+    width: 20%;
     margin-right: 10px;
 }
 
@@ -39,7 +47,7 @@
 }
 
 .form-group-dob .label{
-    width: 30%;
+    width: 20%;
     margin-right: 10px;
 }
 
@@ -51,20 +59,23 @@
     gap: 10px;
 }
 
-.profile-section-two .custom-button{
+form{
+    width: 885px;
+}
+form .custom-button{
     background-color: var(--orange-color);
     padding: 8px 12px;
     color: var(--white-color);
     margin-right: 24px;
 }
 
-.profile-section-two .custom-button:hover{
+form .custom-button:hover{
     background-color: #FF8E00;
     color: var(--white-color);
 }
 
 .side{
-    width: 340px;
+    width: 40%;
     border-right: 1px solid var(--black-color);
     gap: 32px;
     margin-right: 30px;
@@ -110,6 +121,9 @@
     color: var(--orange-color);
 }
 
+.order-history .filter{
+    padding-right: 10px;
+}
 .order-history .custom-button{
     background-color: var(--orange-color);
     color: var(--white-color);
@@ -118,4 +132,42 @@
 .order-history .custom-button:hover{
     background-color: #FF8E00;
     color: var(--white-color);
+}
+
+.input-container {
+    position: relative;
+    width: 240px;
+    padding-left: 10px;
+}
+
+.input-container input::placeholder{
+    color: var(--black-color);
+    font-size: 14px;
+    padding-left: 8px;
+}
+  
+#dateRangePicker {
+    width: 240px;
+    background-color: var(--light-color);
+    border: 3px solid var(--light-color);
+}
+
+.order-history .custom-filter {
+    background-color: var(--light-color);
+}
+
+#toggleIcon {
+    position: absolute;
+    top: 50%;
+    right: 0px;
+    transform: translateY(-135%);
+    cursor: pointer;
+}
+
+#toggle {
+    position: absolute;
+    top: 50%;
+    right: 20px;
+    transform: translateY(-50%);
+    cursor: pointer;
 }
