@@ -1,4 +1,126 @@
 <main class="main-content">
-    <div class="container">
+  <div class="container">
+    <div
+      class="d-flex align-items-center justify-content-between nav-bar col-sm-2"
+    >
+      <a href="/" style="text-decoration: none; color: #667085">Trang chủ</a>
+      <i class="bi bi-chevron-right"></i>
+      <a href="#" style="text-decoration: none; color: #667085">Tìm kiếm</a>
     </div>
+  </div>
+
+  <div class="container col-sm-8 justify-content-start" style="padding: 0px;">
+    <div
+      class="d-flex align-items-center justify-content-start nav-bar"
+      style="padding-left: 0px;"
+    >
+      <div style="border: 1px solid #667085;">
+        <input
+          type="text"
+          style="width: 640px; height: 48px; border-style: none; margin-left: 10px;"
+          placeholder="Tìm kiếm"
+        />
+        <button style="width: 48px; height: 48px;">
+          <i class="bi bi-search" style="color: #667085;"></i>
+        </button>
+      </div>
+
+      <div class="d-flex nav-bar" style="padding: 15px;">
+        <button
+          style="height: 50px; width: 140px; background-color: #F59359; margin-left: 45px;"
+        >
+          <div class="row">
+            <div
+              class="col-sm-8 justify-content-center"
+              style="padding-right: 0px;"
+            >
+              <p
+                style="margin: auto; padding: 0px; font-size: 20px; color: #FFFFFF; font-weight: bold;"
+              >Lớn nhất</p>
+            </div>
+            <div
+              class="col-sm-4 justify-content-center"
+              style="padding: 0px; margin: auto 0; weight: fit-content;"
+            >
+              <i class="bi bi-chevron-down" style="color: #FFFFFF;"></i>
+            </div>
+          </div>
+        </button>
+
+        <div style="margin-left: 15px;">
+          <div
+            style="height: 50px; width: 140px; background-color: #F59359; display: flex; align-items: center; justify-content: center;"
+          >
+            <p
+              style="margin: auto; font-size: 20px; color: #FFFFFF; font-weight: bold;"
+            >Kết quả</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="container" style="margin-bottom: 30px;">
+    <div class="row">
+
+      <div class="col-sm-9 justify-content-start">
+        <div class="container">
+          <div class="row" style="padding: 0px">
+            {{#each merchants}}
+            <div class="col-sm-3 mb-3">
+              <div class="card">
+                <img
+                  class="card-img-top"
+                  src="static/images/user/search/default-image-shop.png"
+                  alt="Card image cap"
+                />
+                <div class="card-body">
+                  <h5 class="card-title">{{this.name}}</h5>
+                  <p class="card-text">{{this.priceRange}}</p>
+                  <div class="bonus">
+                    <div class="event">
+                      <i class="bi bi-star-fill"></i>
+                      <span>{{this.rating}}</span>
+                    </div>
+                    <div class="event">
+                      <i class="bi bi-geo-alt-fill"></i>
+                      <span>0.7 km</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            {{/each}}
+
+          </div>
+        </div>
+      </div>
+
+      <div class="col-sm-3" style="border: #000 solid; border-width: 0px 0px 0px 1px; padding: 0px 0px 0px 24px">
+        <div style="margin: 0px; padding: 0px; border: #F59359 solid; border-width: 0px 0px 1px 0px;">
+          <h4>Món ăn</h4>
+          <input type="checkbox"> Cơm<br>
+          <input type="checkbox"> Phở<br>
+          <input type="checkbox"> Pizza<br>
+          <input type="checkbox"> Hủ tiếu<br>
+        </div>
+
+        <div style="margin: 0px; padding: 0px; border: #F59359 solid; border-width: 0px 0px 1px 0px;">
+          <h4>Thức ăn</h4>
+          <input type="checkbox"> Cà phê<br>
+          <input type="checkbox"> Trà sữa<br>
+          <input type="checkbox"> Sinh tố<br>
+        </div>
+
+        <div style="margin: 0px; padding: 0px; border: #F59359 solid; border-width: 0px 0px 1px 0px;">
+          <h4>Lọc theo</h4>
+          <input type="checkbox"> Rating<br>
+          <input type="checkbox"> Giá<br>
+          <input type="checkbox"> Khoảng cách<br>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
 </main>
