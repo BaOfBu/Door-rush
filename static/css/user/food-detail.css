@@ -200,7 +200,7 @@
     flex-direction: column;
 }
 .rate-food-btn {
-    margin: 20px auto 0px auto;
+    margin: 10px auto 0px auto;
     background-color: var(--orange-color);
     color: var(--white-color);
     padding: 12px;
@@ -289,14 +289,6 @@
 .rating-pop-up-last-name,
 .rating-pop-up-first-name {
     width: 100%;
-}
-.rating-pop-up-input-name {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    gap: 10px;
-    width: 100%;
-    justify-content: space-between;
 }
 .rating-pop-up-input-star {
     display: flex;

@@ -1,4 +1,7 @@
 import FoodService from "../../services/user/food.service.js";
+import Feedback from "../../models/feedbackModel.js";
+import User from "../../models/userModel.js";
+import Food from "../../models/foodModel.js";
 // [GET]/foods
 const index = function (req, res) {
     res.render("user/foods", {
@@ -72,18 +75,52 @@ const foodDetail = async function (req, res) {
         feedbacks: feedbacks,
         numberOfFeedback: feedbacks.length,
         // data of header
-        user: false,
+        user: true,
         typeOfFood: typeOfFood,
         type: "food",
         userName: "Họ và tên"
     });
 };
-
 // [Get]/foods/{{shop_name}}/{{foodId}}/add-to-cart
 const addToCart = async function (req, res) {
     // Get the params from the route
     req.session.numberItem = req.session.numberItem + 1;
     res.redirect(req.headers.referer);
 };
+// [POST]/foods/{{shop_name}}/{{foodId}}
+const giveFeedback = async function (req, res) {
+    try {
+        let user = await User.findById("657ed32ab3c555f469af362d");
+        let food = await FoodService.findById(req.params.id);
+        if (!user || !food) {
+            // Handle the case where either user or food is not found
+            res.status(404).send("User or Food not found");
+            return;
+        }
+        const newFeedback = new Feedback({
+            itemId: food._id,
+            userId: user._id,
+            rating: Number(req.body.star),
+            comment: req.body.feedback,
+            feedbackDate: new Date()
+        });
+        // Save it to the database
+        const savedFeedback = await newFeedback.save();
 
-export default { index, foodDetail, shop, addToCart };
+        // Now, push the new feedback's _id to the FoodItem's feedbacks array
+        const foodItemId = food._id; // The _id of the FoodItem
+        await Food.findByIdAndUpdate(
+            foodItemId,
+            {
+                $push: { feedbacks: savedFeedback._id }
+            },
+            { new: true, useFindAndModify: false }
+        );
+        res.json(true);
+    } catch (err) {
+        console.error(err);
+        res.json(false);
+    }
+};
+
+export default { index, foodDetail, shop, addToCart, giveFeedback };

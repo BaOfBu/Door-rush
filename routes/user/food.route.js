@@ -4,5 +4,6 @@ const router = express.Router();
 router.get("/", foodsController.index);
 router.get("/:shop", foodsController.shop);
 router.get("/:shop/:id", foodsController.foodDetail);
+router.post("/:shop/:id", foodsController.giveFeedback);
 router.get("/:shop/:id/add-to-cart", foodsController.addToCart);
 export default router;
