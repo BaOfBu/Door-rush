@@ -110,7 +110,7 @@ router.get("/generate-merchant", async function () {
           email: faker.helpers.fromRegExp("[a-z0-9]{10}@gmail\.com"),
           phone: faker.helpers.fromRegExp("0346 [0-9]{3} [0-9]{3}"),
           address: address._id,
-          category: ["6575e8733728f10ba2eeaf49"],
+          category: ["658070c464153bdfd0555006"],
           menu: foodData,
           revenue: 0,
           image: faker.image.url(),
@@ -242,10 +242,47 @@ router.get("/generate-user", async function(){
   } 
 })
 
+router.get("/generate-category", async function(){
+  let name = [
+    "Cơm",
+    "Đồ nước",
+    "Đồ uống",
+    "Đồ ăn nhanh",
+    "Phở",
+    "Hủ tiếu",
+    "Bánh canh",
+    "Bánh mì",
+    "Bún riêu",
+    "Cơm tấm",
+    "Cơm niêu",
+    "Cơm gà",
+    "Bánh xèo",
+    "Bún chả",
+    "Bánh cuốn",
+    "Bún thịt nướng",
+    "Nem nướng",
+    "Nem chua rán",
+    "Bún đậu mắm tôm",
+    "Gỏi cuốn",
+    "Chả giò",
+    "Bánh bột lọc",
+    "Trà sữa",
+    "Trà trái cây",
+    "Nước ngọt"
+  ]
+  for(let i = 0; i < name.length; i++){
+    const category = new Category({
+      name: name[i],
+    });
+    await category.save();
+  }
+
+});
+
 router.get("/find-food", async function(){
   const foods = await Food.findById({_id: "65788f9c248963c4cf34a0bb"});
   console.log(foods);
-})
+});
 router.get("/find-category", async function(){
   // find({}) để tìm kiếm toàn bộ
   // select("field1 field2 ...") để chỉ lấy những field trong đối tượng mình muốn. __id và __t mặc định sẽ luôn lấy, không cần thêm vào select
