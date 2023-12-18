@@ -2,7 +2,9 @@ import FoodService from "../../services/user/food.service.js";
 import Feedback from "../../models/feedbackModel.js";
 import User from "../../models/userModel.js";
 import Food from "../../models/foodModel.js";
+import FoodType from "../../models/foodTypeModel.js";
 // [GET]/foods
+
 const index = async function (req, res, next) {
 
     let foods = await Food.find().lean();
