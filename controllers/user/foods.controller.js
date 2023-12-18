@@ -1,4 +1,7 @@
+import { Model } from "mongoose";
 import Food from "../../models/foodModel.js";
+import Merchant from "../../models/merchantModel.js"
+
 // [GET]/foods
 const index = function (req, res) {
     res.render("user/foods", {
@@ -9,7 +12,22 @@ const index = function (req, res) {
 };
 
 // [GET]/foods/{{shop_id}}
-const shop = function (req, res) {
+const shop = async function (req, res) {
+    // Get the params from the route
+    const shopName = req.params.shop || 0
+
+    // Handle the problem
+    if(!shopName){
+        return redirect("/")
+    }
+
+    // Get the data of shop
+    let shop = await Merchant.find({name: shopName}).populate("category").populate("menu")
+
+    // Get the data of recommend food
+    let recommend = await Food.find({})
+
+
     res.render("user/shop.hbs", {
         user: false,
         type: "food",

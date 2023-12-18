@@ -1,6 +1,8 @@
 {{#section "js"}}
     {{!-- Swiper --}}
     <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+    {{!-- JQuery --}}
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     {{!-- Shop js file --}}
     <script src="/static/js/user/shop/index.js"></script>
 {{/section}}
@@ -108,13 +110,11 @@
                                 <div class="food">
                                     <img class="food-image" src="/static/images/user/shop/alter-image.png" alt="food-img">
                                     <div class="food-detail-1">
-                                        <p class="food-detail-1-content">10 phút</p>
                                         <p class="food-detail-1-content">5 sao</p>
                                         <p class="food-detail-1-content">60000VNĐ</p>
                                     </div>
                                     <div class="food-detail-2">
                                         <p class="food-name">Tên sản phẩm</p>
-                                        <p class="food-category">Danh mục 1</p>
                                         <a href="#" class="food-next">Xem thêm</a>
                                     </div>
                                 </div>
@@ -123,13 +123,11 @@
                                 <div class="food">
                                     <img class="food-image" src="/static/images/user/shop/alter-image.png" alt="food-img">
                                     <div class="food-detail-1">
-                                        <p class="food-detail-1-content">10 phút</p>
                                         <p class="food-detail-1-content">5 sao</p>
                                         <p class="food-detail-1-content">60000VNĐ</p>
                                     </div>
                                     <div class="food-detail-2">
                                         <p class="food-name">Tên sản phẩm</p>
-                                        <p class="food-category">Danh mục 1</p>
                                         <a href="#" class="food-next">Xem thêm</a>
                                     </div>
                                 </div>
@@ -138,13 +136,11 @@
                                 <div class="food">
                                     <img class="food-image" src="/static/images/user/shop/alter-image.png" alt="food-img">
                                     <div class="food-detail-1">
-                                        <p class="food-detail-1-content">10 phút</p>
                                         <p class="food-detail-1-content">5 sao</p>
                                         <p class="food-detail-1-content">60000VNĐ</p>
                                     </div>
                                     <div class="food-detail-2">
                                         <p class="food-name">Tên sản phẩm</p>
-                                        <p class="food-category">Danh mục 1</p>
                                         <a href="#" class="food-next">Xem thêm</a>
                                     </div>
                                 </div>
@@ -153,13 +149,11 @@
                                 <div class="food">
                                     <img class="food-image" src="/static/images/user/shop/alter-image.png" alt="food-img">
                                     <div class="food-detail-1">
-                                        <p class="food-detail-1-content">10 phút</p>
                                         <p class="food-detail-1-content">5 sao</p>
                                         <p class="food-detail-1-content">60000VNĐ</p>
                                     </div>
                                     <div class="food-detail-2">
                                         <p class="food-name">Tên sản phẩm</p>
-                                        <p class="food-category">Danh mục 1</p>
                                         <a href="#" class="food-next">Xem thêm</a>
                                     </div>
                                 </div>
@@ -183,10 +177,10 @@
                 <div class="menu-category-bar">
                     <span class="">&lt;</span>
                     <div class="menu-category menu-active">
-                        <a href="#danh-muc-1" data-toggle="tab" class="menu-category-font">Danh mục 1</span>
+                        <span class="menu-category-font">Danh mục 1</span>
                     </div>
                     <div class="menu-category">
-                        <a href="#danh-muc-2" data-toggle="tab" class="menu-category-font">Danh mục 2</span>
+                        <span class="menu-category-font">Danh mục 2</span>
                     </div>
                     <div class="menu-category">
                         <span class="menu-category-font">Danh mục 3</span>
@@ -205,101 +199,83 @@
                     </div>
                     <span class="">&gt;</span>
                 </div>
-                <div class="tab-content">
-                    <div id="danh-muc-1" class="tab-pane">
-                        <p class="category-name">Danh mục 1</p>
-                        <div class="menu-food">
-                            <div class="food-row">
-                                <div class="food">
-                                    <img class="food-image" src="/static/images/user/shop/alter-image.png" alt="food-img">
+                    <p class="category-name">Danh mục 1</p>
+                    <div class="menu-food">
+                        <div class="food-row">
+                            <div class="food">
+                                <img class="food-image" src="/static/images/user/shop/alter-image.png" alt="food-img">
+                                <div class="food-detail-2">
+                                    <p class="food-name">Tên sản phẩm</p>
                                     <div class="food-detail-1">
-                                        <p class="food-detail-1-content">10 phút</p>
-                                        <p class="food-detail-1-content">5 sao</p>
                                         <p class="food-detail-1-content">60000VNĐ</p>
+                                        <p class="food-detail-1-content">5 sao</p>
                                     </div>
-                                    <div class="food-detail-2">
-                                        <p class="food-name">Tên sản phẩm</p>
-                                        <p class="food-category">Danh mục 1</p>
-                                        <a href="#" class="food-next">Xem thêm</a>
-                                    </div>
+                                    <a href="#" class="food-next">Xem thêm</a>
                                 </div>
-                                <div class="food">
-                                    <img class="food-image" src="/static/images/user/shop/alter-image.png" alt="food-img">
-                                    <div class="food-detail-1">
-                                        <p class="food-detail-1-content">10 phút</p>
-                                        <p class="food-detail-1-content">5 sao</p>
-                                        <p class="food-detail-1-content">60000VNĐ</p>
-                                    </div>
-                                    <div class="food-detail-2">
-                                        <p class="food-name">Tên sản phẩm</p>
-                                        <p class="food-category">Danh mục 1</p>
-                                        <a href="#" class="food-next">Xem thêm</a>
-                                    </div>
+                            </div>
+                            <div class="food">
+                                <img class="food-image" src="/static/images/user/shop/alter-image.png" alt="food-img">
+                                <div class="food-detail-1">
+                                    <p class="food-detail-1-content">5 sao</p>
+                                    <p class="food-detail-1-content">60000VNĐ</p>
                                 </div>
-                                <div class="food">
-                                    <img class="food-image" src="/static/images/user/shop/alter-image.png" alt="food-img">
-                                    <div class="food-detail-1">
-                                        <p class="food-detail-1-content">10 phút</p>
-                                        <p class="food-detail-1-content">5 sao</p>
-                                        <p class="food-detail-1-content">60000VNĐ</p>
-                                    </div>
-                                    <div class="food-detail-2">
-                                        <p class="food-name">Tên sản phẩm</p>
-                                        <p class="food-category">Danh mục 1</p>
-                                        <a href="#" class="food-next">Xem thêm</a>
-                                    </div>
+                                <div class="food-detail-2">
+                                    <p class="food-name">Tên sản phẩm</p>
+                                    <a href="#" class="food-next">Xem thêm</a>
+                                </div>
+                            </div>
+                            <div class="food">
+                                <img class="food-image" src="/static/images/user/shop/alter-image.png" alt="food-img">
+                                <div class="food-detail-1">
+                                    <p class="food-detail-1-content">5 sao</p>
+                                    <p class="food-detail-1-content">60000VNĐ</p>
+                                </div>
+                                <div class="food-detail-2">
+                                    <p class="food-name">Tên sản phẩm</p>
+                                    <a href="#" class="food-next">Xem thêm</a>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div id="danh-muc-2" class="tab-pane active">
-                        <p class="category-name">Danh mục 2</p>
-                        <div class="menu-food">
-                            <div class="food-row">
-                                <div class="food">
-                                    <img class="food-image" src="/static/images/user/shop/alter-image.png" alt="food-img">
-                                    <div class="food-detail-1">
-                                        <p class="food-detail-1-content">10 phút</p>
-                                        <p class="food-detail-1-content">5 sao</p>
-                                        <p class="food-detail-1-content">60000VNĐ</p>
-                                    </div>
-                                    <div class="food-detail-2">
-                                        <p class="food-name">Tên sản phẩm</p>
-                                        <p class="food-category">Danh mục 1</p>
-                                        <a href="#" class="food-next">Xem thêm</a>
-                                    </div>
+                    <p class="category-name">Danh mục 2</p>
+                    <div class="menu-food">
+                        <div class="food-row">
+                            <div class="food">
+                                <img class="food-image" src="/static/images/user/shop/alter-image.png" alt="food-img">
+                                <div class="food-detail-1">
+                                    <p class="food-detail-1-content">5 sao</p>
+                                    <p class="food-detail-1-content">60000VNĐ</p>
                                 </div>
-                                <div class="food">
-                                    <img class="food-image" src="/static/images/user/shop/alter-image.png" alt="food-img">
-                                    <div class="food-detail-1">
-                                        <p class="food-detail-1-content">10 phút</p>
-                                        <p class="food-detail-1-content">5 sao</p>
-                                        <p class="food-detail-1-content">60000VNĐ</p>
-                                    </div>
-                                    <div class="food-detail-2">
-                                        <p class="food-name">Tên sản phẩm</p>
-                                        <p class="food-category">Danh mục 1</p>
-                                        <a href="#" class="food-next">Xem thêm</a>
-                                    </div>
+                                <div class="food-detail-2">
+                                    <p class="food-name">Tên sản phẩm</p>
+                                    <a href="#" class="food-next">Xem thêm</a>
                                 </div>
-                                <div class="food">
-                                    <img class="food-image" src="/static/images/user/shop/alter-image.png" alt="food-img">
-                                    <div class="food-detail-1">
-                                        <p class="food-detail-1-content">10 phút</p>
-                                        <p class="food-detail-1-content">5 sao</p>
-                                        <p class="food-detail-1-content">60000VNĐ</p>
-                                    </div>
-                                    <div class="food-detail-2">
-                                        <p class="food-name">Tên sản phẩm</p>
-                                        <p class="food-category">Danh mục 1</p>
-                                        <a href="#" class="food-next">Xem thêm</a>
-                                    </div>
+                            </div>
+                            <div class="food">
+                                <img class="food-image" src="/static/images/user/shop/alter-image.png" alt="food-img">
+                                <div class="food-detail-1">
+                                    <p class="food-detail-1-content">5 sao</p>
+                                    <p class="food-detail-1-content">60000VNĐ</p>
+                                </div>
+                                <div class="food-detail-2">
+                                    <p class="food-name">Tên sản phẩm</p>
+                                    <a href="#" class="food-next">Xem thêm</a>
+                                </div>
+                            </div>
+                            <div class="food">
+                                <img class="food-image" src="/static/images/user/shop/alter-image.png" alt="food-img">
+                                <div class="food-detail-1">
+                                    <p class="food-detail-1-content">5 sao</p>
+                                    <p class="food-detail-1-content">60000VNĐ</p>
+                                </div>
+                                <div class="food-detail-2">
+                                    <p class="food-name">Tên sản phẩm</p>
+                                    <a href="#" class="food-next">Xem thêm</a>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-                
             </div>
         </div>
     </section>
