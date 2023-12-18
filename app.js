@@ -8,7 +8,6 @@ import dotenv from "dotenv";
 import { dirname } from "path";
 import { fileURLToPath } from "url";
 const __dirname = dirname(fileURLToPath(import.meta.url));
-import session from "express-session";
 
 import userRoutes from "./routes/user/index.route.js";
 import adminRoutes from "./routes/admin/index.route.js";
