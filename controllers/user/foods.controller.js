@@ -1,9 +1,17 @@
 import Food from "../../models/foodModel.js";
+import FoodType from "../../models/foodTypeModel.js"
 // [GET]/foods
-const index = function (req, res) {
+const index = async function (req, res, next) {
+
+    let foods = await Food.find().lean();
+    let foodType = await FoodType.find().lean();
+
+
     res.render("user/foods", {
         user: false,
         type: "food",
+        foods: foods,
+        FoodType: foodType,
         userName: "Họ và tên"
     });
 };
@@ -12,10 +20,11 @@ const index = function (req, res) {
 const shop = function (req, res) {
     res.render("user/shop", {
         user: false,
-        type: "food",
+        type: "shop",
         userName: "Họ và tên"
     });
 };
+
 // [GET]/foods/{{shop_name}}/{{foodID}}
 const foodDetail = async function (req, res) {
     // Get the params from the route
