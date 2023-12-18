@@ -10,7 +10,6 @@ const index = function (req, res) {
         userName: "Họ và tên"
     });
 };
-
 // [GET]/foods/{{shop_id}}
 const shop = function (req, res) {
     res.render("user/shop", {
@@ -90,25 +89,17 @@ const addToCart = async function (req, res) {
 // [POST]/foods/{{shop_name}}/{{foodId}}
 const giveFeedback = async function (req, res) {
     try {
-        let user = await User.findById("657ed32ab3c555f469af362d");
-        let food = await FoodService.findById(req.params.id);
-        if (!user || !food) {
-            // Handle the case where either user or food is not found
-            res.status(404).send("User or Food not found");
-            return;
-        }
+        let user = await User.findById(req.body.userId);
+        let food = await FoodService.findById(req.body.itemId);
         const newFeedback = new Feedback({
             itemId: food._id,
             userId: user._id,
-            rating: Number(req.body.star),
-            comment: req.body.feedback,
-            feedbackDate: new Date()
+            rating: Number(req.body.rating),
+            comment: req.body.comment,
+            feedbackDate: req.body.feedbackDate
         });
-        // Save it to the database
         const savedFeedback = await newFeedback.save();
-
-        // Now, push the new feedback's _id to the FoodItem's feedbacks array
-        const foodItemId = food._id; // The _id of the FoodItem
+        const foodItemId = food._id;
         await Food.findByIdAndUpdate(
             foodItemId,
             {
@@ -116,10 +107,8 @@ const giveFeedback = async function (req, res) {
             },
             { new: true, useFindAndModify: false }
         );
-        res.json(true);
-    } catch (err) {
-        console.error(err);
-        res.json(false);
+    } catch {
+        console.log("None");
     }
 };
 
