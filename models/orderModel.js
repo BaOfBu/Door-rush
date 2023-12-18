@@ -15,7 +15,7 @@ const orderSchema = new mongoose.Schema({
     ],
     status: {
         type: String,
-        enum: ["pending", "preparing", "delivering", "delivered", "cancelled"]
+        enum: ["Đang chờ", "Đang chuẩn bị", "Đang giao", "Hoàn thành", "Đã hủy"]
     },
     userId: {
         type: mongoose.Schema.Types.ObjectId,

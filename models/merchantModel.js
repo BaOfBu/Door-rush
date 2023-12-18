@@ -1,4 +1,4 @@
-import mongoose from "mongoose";
+import mongoose from "mongoose"
 import Account from "./accountModel.js";
 
 const merchantSchema = new mongoose.Schema({
@@ -43,7 +43,7 @@ const merchantSchema = new mongoose.Schema({
     priceRange: String,
     rating: Number,
     hasDiscount: Boolean
-}, {collection: "Merchant"});
+});
 
 const Merchant = Account.discriminator("Merchant", merchantSchema);
 

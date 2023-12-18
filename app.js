@@ -85,6 +85,7 @@ app.use("/static", express.static("static"));
 app.use("/", userRoutes);
 app.use("/admin", adminRoutes);
 
+
 app.listen(port, function serverStartedHandler() {
     console.log(`Door-rush server is running at http://localhost:${port}`);
 });

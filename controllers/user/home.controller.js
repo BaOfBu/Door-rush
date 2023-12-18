@@ -13,7 +13,7 @@ const index = async function (req, res) {
         let priceRange = merchant.priceRange;
         let rating = merchant.rating;
         infoMerchants.push({link, image, name, priceRange, rating});
-    })
+    });
 
     res.render("user/home", {
         user: false,

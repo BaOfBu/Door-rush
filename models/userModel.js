@@ -12,19 +12,15 @@ const userSchema = new mongoose.Schema({
         type: String,
         enum: ["Nam", "Nữ", "Khác"]
     },
-    birthdate: Date,
-    addresses: [
-        {
-            type: mongoose.Schema.Types.ObjectId,
-            ref: "Address"
-        }
-    ],
-    orders: [
-        {
-            type: mongoose.Schema.Types.ObjectId,
-            ref: "Order"
-        }
-    ],
+    birthdate: String,
+    addresses: [{ 
+        type: mongoose.Schema.Types.ObjectId, 
+        ref: "Address" 
+    }],
+    orders: [{ 
+        type: mongoose.Schema.Types.ObjectId, 
+        ref: "Order" 
+    }],
     image: String
 });
 
