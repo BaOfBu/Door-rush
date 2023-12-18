@@ -48,7 +48,6 @@ document.getElementById("submitFormButton").addEventListener("click", function (
             rating = Number(star.value);
         }
     }
-    let username = document.getElementById("")
     let comment = document.getElementById("floatingTextarea2").value;
     let feedbackDate = new Date();
 
