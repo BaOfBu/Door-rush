@@ -150,12 +150,13 @@
 .food-detail-card-review-feedback {
     margin: 0;
     padding: 0;
+    flex-grow: 1;
 }
 .bi-star-fill {
     color: var(--orange-color);
 }
 .food-detail-section {
-    margin: 50px 0px 0px 0;
+    margin: 40px 0px 0px 0;
 }
 .customer-review-title {
     color: var(--orange-color);
@@ -168,19 +169,19 @@
 .food-detail-card-review-item {
     padding: 32px;
     border: 1px solid var(--black-color);
-    border-radius: 10%;
+    border-radius: 5px;
 }
 
 .food-detail-card-flex {
     display: flex;
     flex-direction: column;
+    align-items: flex-start;
+    justify-content: space-between;
     gap: 24px;
-    align-items: stretch;
-    justify-content: stretch;
     height: 100%;
 }
-.swiper {
-    height: 350px;
+.swiper-slide {
+    height: auto;
 }
 .food-detail-card-review-user img {
     width: 56px;
@@ -199,7 +200,7 @@
     flex-direction: column;
 }
 .rate-food-btn {
-    margin: 20px auto 0px auto;
+    margin: 10px auto 0px auto;
     background-color: var(--orange-color);
     color: var(--white-color);
     padding: 12px;
@@ -233,11 +234,11 @@
     width: 100%;
     background-color: white;
     margin: 0 auto;
-    padding: 40px 64px;
+    padding: 30px 64px;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-    gap: 100px;
+    gap: 80px;
     align-items: center;
 }
 
@@ -288,14 +289,6 @@
 .rating-pop-up-last-name,
 .rating-pop-up-first-name {
     width: 100%;
-}
-.rating-pop-up-input-name {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    gap: 10px;
-    width: 100%;
-    justify-content: space-between;
 }
 .rating-pop-up-input-star {
     display: flex;
