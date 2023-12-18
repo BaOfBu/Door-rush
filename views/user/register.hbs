@@ -1,1 +1,103 @@
-<h5>Register</h5>
+{{#section 'js'}}
+<script>
+  $('#frmRegister').on('submit', function (e) {
+    e.preventDefault();
+
+    const username = $('#txtUsername').val();
+    if (username.length === 0) {
+      alert('Please input username.');
+      return;
+    }
+
+    $.getJSON(`/account/is-available?username=${username}`, function (data) {
+      if (data === false) {
+        alert('Username is already taken.');
+      } else {
+        $('#frmRegister').off('submit').submit();
+      }
+    });
+  })
+</script>
+{{/section}}
+
+{{#section 'css'}}
+<link rel="stylesheet" href="../../static/css/user/register.css">
+{{/section}}
+
+<main>
+  <div
+    style="background-image: url('../../static/images/user/account/SignInBackround.png'); background-position: center; background-repeat: no-repeat; background-size: cover;"
+  >
+    <div class="container">
+      <div class="row align-items-center justify-content-end">
+        <div
+          class="col-sm-5"
+          style="background-color: #fff; margin: 30px 0px 100px 0px; border-radius: 8px;"
+        >
+          <div style="margin: 15px 40px 30px 7%;">
+            <h3 style="color: #F59359; ">Đăng ký tài khoản</h3>
+            <form action="" method="post" id="frmRegister">
+                <div class="form-group">
+                    <label for="txtUsername" style="color: #F59359; margin-bottom: 1px;">Username</label>
+                    <input 
+                    type="text" 
+                    name="username" 
+                    id="txtUsername" 
+                    class="form-control form-control-lg"
+                    style="border-radius:8px;font-size: 16px; height:50px;margin: 8px 0 15px;"
+                    autofocus>
+                </div>
+                <div class="form-group">
+                    <label for="txtPassword" style="color: #F59359; margin-bottom: 1px;">Password</label>
+                    <input 
+                    type="password" 
+                    name="raw_password" 
+                    id="txtPassword" 
+                    class="form-control form-control-lg"
+                    style="border-radius:8px;font-size: 16px; height:50px;margin: 8px 0 15px;">
+                </div>
+                <div class="form-group">
+                    <label for="txtConfirm" style="color: #F59359; margin-bottom: 1px;">Confirm Password</label>
+                    <input 
+                    type="password"
+                    name="confirm_password" 
+                    id="txtConfirm" 
+                    class="form-control form-control-lg"
+                    style="border-radius:8px; font-size: 16px; height:50px;margin: 8px 0 15px;">
+                </div>
+                <div class="form-group">
+                    <label for="txtEmail" style="color: #F59359; margin-bottom: 1px";>Email</label>
+                    <input 
+                    type="text"
+                    name="email" 
+                    class="form-control form-control-lg"
+                    style="border-radius:8px; font-size: 16px; height:50px;margin: 8px 0 15px;"
+                    id="txtEmail">
+                </div>
+                <div class="form-group">
+                    <label for="txtPhone" style="color: #F59359; margin-bottom: 1px";>Phone Number</label>
+                    <input 
+                    type="text"
+                    name="phone_number" 
+                    class="form-control form-control-lg"
+                    style="border-radius:8px;font-size: 16px; height:50px;margin: 8px 0 15px;"
+                    id="txtPhone">
+                </div>
+                <div class="form-group">
+                    <div class="ml-2">
+                        <button type="submit" class="btn w-100 btn-lg btn-info" 
+                        style="background-color: #F59359; color:#fff; margin: 8px 0 8px 0;">
+                            Đăng kí ngay
+                        </button>
+                    </div>
+                </div>
+            </form>
+
+            <p style="color: #9EA0A5;">Đã có tài khoản?
+              <a href="/account/login" style="color: #F59359; text-decoration: none;">Đăng nhập</a></p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
