@@ -1,124 +1,10 @@
 {{#section "js"}}
     <script src="/static/js/user/profile/datepicker.js"></script>
+    <script src="/static/js/user/profile/index.js"></script>
 {{/section}}
 {{#section "css"}}
     <link rel="stylesheet" href="/static/css/user/profile.css" />
 {{/section}}
-{{! <div class="profile-section-two">
-    <div class="container mt-5">
-    <div class="row justify-content-center">
-      <div class="col-md-6 floating-form">
-        <h2 class="mb-4">Tài khoản của tôi</h2>
-        <form>
-            <!-- Add your form fields here -->
-            <div class="form-group mb-4">
-                <label for="inputUserName">Tên đăng nhập</label>
-                <input type="text" class="form-control" id="inputUserName" readonly>
-            </div>
-            <div class="form-group mb-4">
-                <label for="inputFullName">Họ và Tên</label>
-                <input type="text" class="form-control" id="inputFullName" placeholder="Nhập họ và tên của bạn">
-            </div>
-            <div class="form-group mb-4">
-                <label for="inputEmail">Email</label>
-                <input type="email" class="form-control" id="inputEmail" placeholder="Nhập email của bạn">
-            </div>
-            <div class="form-group mb-4">
-                <label for="inputPhoneNumber">Số điện thoại</label>
-                <input type="text" class="form-control" id="inputPhoneNumber" placeholder="Nhập số điện thoại của bản">
-            </div>
-            <div class="form-group-radio mb-4">
-                <span class="label">Giới tính</span>
-                <div class="form-check form-check-inline input">
-                    <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1">
-                    <label class="form-check-label" for="inlineRadio1">Nam</label>
-                </div>
-                <div class="form-check form-check-inline input">
-                    <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2">
-                    <label class="form-check-label" for="inlineRadio2">Nữ</label>
-                </div>
-                <div class="form-check form-check-inline input">
-                    <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio3">
-                    <label class="form-check-label" for="inlineRadio2">Khác</label>
-                </div>
-            </div>
-
-            <div class="form-group-dob mb-4">
-                <span class="label">Ngày sinh</span>
-                <div class="row">
-                    <div class="select">
-                        <select name="day" id="day">
-                            <script>
-                                for(let i = 1;i <= 31;i++){
-                                    document.writeln(`<option value = "${i}">${i}</option/>`);
-                                }
-                            </script>
-                        </select>
-                    </div>
-                    <div class="select">
-                        <select name="month" id="month">
-                            <script>
-                                for(let i = 1;i <= 12;i++){
-                                    document.writeln(`<option value = "${i}">${i}</option/>`);
-                                }
-                            </script>
-                        </select>
-                    </div>
-                    <div class="select">
-                        <select name="year" id="year">
-                            <script>
-                                for(let i = 1950;i <= 2019;i++){
-                                    document.writeln(`<option value = "${i}">${i}</option/>`);
-                                }
-                            </script>
-                        </select>
-                    </div>
-                </div>
-            </div>
-            <div class="d-flex justify-content-center mb-4">
-                <button type="submit" class="btn custom-button">
-                    <i class="bi bi-floppy-fill"></i>
-                    <span>Cập nhật thông tin</span>
-                    </button>
-            </div>
-
-            
-        </form>
-        
-    </div>
-  </div>
-</div> }}
-
-{{! <div class="profile-section-two">
-    <div class="container mt-5">
-    <div class="row justify-content-center">
-      <div class="col-md-6 floating-form">
-        <h2 class="mb-4">Địa chỉ thường dùng</h2>
-        <form>
-            <!-- Add your form fields here -->
-            <div class="form-group mb-4">
-                <label for="inputAddress1">Địa chỉ 1</label>
-                <input type="text" class="form-control" id="inputAddress1" placeholder="Nhập địa chỉ của bạn">
-            </div>
-            <div class="form-group mb-4">
-                <label for="inputAddress2">Địa chỉ 2</label>
-                <input type="text" class="form-control" id="inputAddress2" placeholder="Nhập địa chỉ của bạn">
-            </div>
-            
-            <div class="d-flex justify-content-center mb-4">
-                <button type="button" class="btn custom-button">
-                    <i class="bi bi-pin-map-fill"></i>
-                    <span>Thêm địa chỉ mới</span>
-                </button>
-                <button type="submit" class="btn custom-button">
-                    <i class="bi bi-floppy-fill"></i>
-                    <span>Cập nhật thông tin</span>
-                </button>
-            </div>
-        </form>
-    </div>
-  </div>
-</div> }}
 
 <section class="profile-page mb-5">
     <div class="container">
@@ -126,202 +12,294 @@
             <div class="side">
                 <div class="user mb-5">
                     <img src="/static/images/user/search/default-image-shop.png" class="size-image" />
-                    <h5 class="my-auto text-center">Họ và tên</h5>
+                    <h5 class="my-auto text-center">{{fullName}}</h5>
                 </div>
-                <div class="link">
-                    <a href="#" class="page">
+                <nav class="link">
+                    <a href="/profile/{{userID}}/?optional=default" class="page">
                         Tài khoản của tôi
                     </a>
-                    <a href="#" class="page">
+                    <a href="/profile/{{userID}}/?optional=address" class="page">
                         Địa chỉ thường dùng
                     </a>
-                    <a href="#" class="page">
+                    <a href="/profile/{{userID}}/?optional=history" class="page">
                         Lịch sử đơn hàng
                     </a>
-                    <a href="#" class="page">
+                    <a href="/profile/{{userID}}/?optional=password" class="page">
                         Đổi mật khẩu
                     </a>
-                    <a href="#" class="page">
+                    <a href="/profile/{{userID}}/?optional=register" class="page">
                         Đăng ký tạo cửa hàng
                     </a>
-                </div>
+                </nav>
             </div>
-            <div class="order-history">
+
+            <div>
                 <div class="container py-2">
                     <div class="row justify-content-center">
-                        <div class="col-md-12 col-xl-12">
-                            <h2 class="mb-3">Lịch sử đơn hàng</h2>
-                            <div class="dropdown">
-                                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
-                                    Tất cả trạng thái
-                                </button>
-                                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                                    <li><a class="dropdown-item" href="#">Action</a></li>
-                                    <li><a class="dropdown-item" href="#">Another action</a></li>
-                                    <li><a class="dropdown-item" href="#">Something else here</a></li>
+                        <div class="col-md-12 content" id="default">
+                            <h2 class="mb-4">Tài khoản của tôi</h2>
+                            <form id="infoForm" action="" method="post">
+                            <!-- Add your form fields here -->
+                                <div class="form-group mb-4">
+                                    <label for="inputUserName">Tên đăng nhập</label>
+                                    <input type="text" class="form-control" id="inputUserName" readonly value="{{userName}}">
+                                </div>
+                                <div class="form-group mb-4">
+                                    <label for="inputFullName">Họ và Tên</label>
+                                    <input type="text" name="fullname" class="form-control" id="inputFullName" placeholder="Nhập họ và tên của bạn" value="{{fullName}}">
+                                </div>
+                                <div class="form-group mb-4">
+                                    <label for="inputEmail">Email</label>
+                                    <input type="email" name="email" class="form-control" id="inputEmail" placeholder="Nhập email của bạn" value="{{email}}">
+                                </div>
+                                <div class="form-group mb-4">
+                                    <label for="inputPhoneNumber">Số điện thoại</label>
+                                    <input type="text" name="phone" class="form-control" id="inputPhoneNumber" placeholder="Nhập số điện thoại của bản thân" value="{{phone}}">
+                                </div>
+                                <div class="form-group-radio mb-4">
+                                    <span class="label">Giới tính</span>
+                                    <div class="form-check form-check-inline input">
+                                        <input class="form-check-input" type="radio" name="gender" id="inlineRadio1" value="Nam" {{#if (equal "Nam" gender)}}checked{{/if}}>
+                                        <label class="form-check-label" for="inlineRadio1">Nam</label>
+                                    </div>
+                                    <div class="form-check form-check-inline input">
+                                        <input class="form-check-input" type="radio" name="gender" id="inlineRadio2" value="Nữ" {{#if (equal "Nữ" gender)}}checked{{/if}}>
+                                        <label class="form-check-label" for="inlineRadio2">Nữ</label>
+                                    </div>
+                                    <div class="form-check form-check-inline input">
+                                        <input class="form-check-input" type="radio" name="gender" id="inlineRadio3" value="Khác" {{#if (equal "Khác" gender)}}checked{{/if}}>
+                                        <label class="form-check-label" for="inlineRadio2">Khác</label>
+                                    </div>
+                                </div>
+
+                                <div class="form-group-dob mb-4">
+                                    <span class="label">Ngày sinh</span>
+                                    <div class="row">
+                                        <div class="input-container">
+                                            <input type="text" name="birthdate" id="datePicker" placeholder="Chọn ngày sinh của bạn" value="{{birthdate}}">
+                                            <div id="toggle" class="fas fa-calendar"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="d-flex justify-content-center mb-4">
+                                    <button type="submit" class="btn custom-button" id="updateButton">
+                                        <i class="bi bi-floppy-fill"></i>
+                                        <span>Cập nhật thông tin</span>
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+
+                        <div class="col-md-12 content" id="address">
+                            <h2 class="mb-4">Địa chỉ thường dùng</h2>
+                            <form id="addressForm" action="" method="post">
+                                {{#each addresses}}
+                                    <div class="form-group mb-4">
+                                        <label for="inputAddress{{this.index}}">Địa chỉ {{this.index}}</label>
+                                        <input type="text" class="form-control" name="address" id="inputAddress{{this.index}}" placeholder="Nhập địa chỉ của bạn" value="{{this.info}}">
+                                    </div>
+                                {{/each}}
+                                
+                                <div class="d-flex justify-content-center mb-4">
+                                    <button type="button" class="btn custom-button" onclick="addNewAddress()">
+                                        <i class="bi bi-pin-map-fill"></i>
+                                        <span>Thêm địa chỉ mới</span>
+                                    </button>
+                                    <button type="submit" class="btn custom-button">
+                                        <i class="bi bi-floppy-fill"></i>
+                                        <span>Cập nhật thông tin</span>
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+
+                        <div class="order-history content" id="history">
+                            <div class="d-flex justify-content-between">
+                                <h2 class="mb-3">Lịch sử đơn hàng</h2>
+                                <div class="d-flex filter">
+                                    <div class="dropdown">
+                                        <button class="btn dropdown-toggle btn-sm custom-filter" type="button" id="dropdownMenu" data-toggle="dropdown" aria-expanded="false">
+                                        {{statusFilter}}
+                                        </button>
+                                        <ul class="dropdown-menu" aria-labelledby="dropdownMenu">
+                                        <li><a class="dropdown-item {{#if (equal "all" statusFilter)}}active{{/if}}" href="?optional=history&status=all">Tất cả trạng thái</a></li>
+                                        <li><a class="dropdown-item" href="?optional=history&status=preparing" data-status="preparing">Đang chuẩn bị</a></li>
+                                        <li><a class="dropdown-item" href="?optional=history&status=delivering" data-status="delivering">Đang giao</a></li>
+                                        <li><a class="dropdown-item" href="?optional=history&status=delivered" data-status="delivered">Hoàn thành</a></li>
+                                        <li><a class="dropdown-item" href="?optional=history&status=cancelled" data-status="cancelled">Đã hủy</a></li>
+                                        </ul>
+                                    </div>
+
+                                    <div class="input-container">
+                                        <input type="text" id="dateRangePicker" placeholder="Chọn khoảng thời gian đặt hàng">
+                                        <div id="toggleIcon" class="fas fa-calendar"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            {{#each orders}}
+                                    <div class="card border mb-3">
+                                        <div class="card-body">
+                                            <div class="row">
+                                                <div class="d-flex justify-content-between">
+                                                    <div class="d-flex flex-row">
+                                                        <h5>Đơn hàng</h5>
+                                                        <span>#{{this.id}}</span>
+                                                    </div>
+                                                    <span>{{this.timeOrder}}</span>
+                                                </div>
+
+                                                <div class="col-md-5 col-lg-3 col-xl-3 mb-4 mb-lg-0">
+                                                    <div class="bg-image hover-zoom ripple rounded ripple-surface">
+                                                        <img src="{{this.image_merchant}}" class="w-100" />
+                                                        <a href="#!">
+                                                            <div class="hover-overlay">
+                                                                <div class="mask" style="background-color: rgba(253, 253, 253, 0.15);"></div>
+                                                            </div>
+                                                        </a>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-md-6 col-lg-6 col-xl-6">
+                                                    <h5>{{this.name_merchant}}</h5>
+                                                    <div class="mt-0 mb-1 text-muted small">
+                                                        <span>{{this.address_merchant}}</span>
+                                                    </div>
+                                                    <p class="text-truncate mb-4 mb-md-0">
+                                                        Số lượng
+                                                    </p>
+                                                </div>
+
+                                                <div class="col-lg-3 col-xl-3 d-flex flex-column justify-content-between">
+                                                    <div class="mb-1 d-flex justify-content-end mt-4" style="color: var(--orange-color);">
+                                                        {{this.total}}đ
+                                                    </div>
+                                                    <div class="d-flex justify-content-end">
+                                                        <a href="#" id="view-more" class="small">Xem chi tiết</a>
+                                                    </div>
+                                                </div>
+
+                                                <div class="border-top mt-3">
+                                                    <div class="d-flex justify-content-between align-item-center mt-3">
+                                                        <div class="text-muted small my-auto text-center status">
+                                                            <span>{{this.status}}</span>
+                                                        </div>
+                                                        <a href="/foods/{{this.id_merchant}}">
+                                                            <button type="button" class="btn custom-button btn-sm">Đặt hàng lại</button>
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                {{/each}}
+                            <nav aria-label="Page navigation example" class="justify-content-center">
+                                <ul class="pagination">
+                                    {{#if this.isFirstPage}}
+                                        <li class="page-item disabled">
+                                            <a class="page-link" href="#">Trang trước</a>
+                                        </li>
+                                    {{else}}
+                                        <li class="page-item">
+                                            <a class="page-link" href="#" id="previousPage" onclick="renderPreviousPage()">Trang trước</a>
+                                        </li>
+                                    {{/if}}
+
+                                    {{#each this.pageNumbers}}
+                                    {{#if isActive}}
+                                    <li class="page-item active" aria-current="page">
+                                        <a class="page-link" href="#">{{value}}</a>
+                                    </li>
+                                    {{else}}
+                                    <li class="page-item">
+                                        <a class="page-link" href="?optional=history&status={{this.statusFilter}}&page={{value}}">{{value}}</a>
+                                    </li>
+                                    {{/if}}
+                                    {{/each}}
+
+                                    {{#if this.isLastPage}}
+                                        <li class="page-item disabled">
+                                            <a class="page-link" href="#">Trang sau</a>
+                                        </li>
+                                    {{else}}
+                                        <li class="page-item">
+                                            <a class="page-link" href="#" id="nextPage" onclick="renderNextPage()">Trang sau</a>
+                                        </li>
+                                    {{/if}}
                                 </ul>
-                            </div>
-                            <label for="dateRangePicker">Chọn khoảng thời gian:</label>
-                            <input type="text" id="dateRangePicker" readonly>
-                            <div class="card border mb-3">
-                                <div class="card-body">
-                                    <div class="row">
-                                        <div class="d-flex justify-content-between">
-                                            <div class="d-flex flex-row">
-                                                <h5>Đơn hàng</h5>
-                                                <span>#ID đơn hàng</span>
-                                            </div>
-                                            <span>Ngày đặt hàng</span>
-                                        </div>
+                            </nav>
+                        </div>
 
-                                        <div class="col-md-12 col-lg-3 col-xl-3 mb-4 mb-lg-0">
-                                            <div class="bg-image hover-zoom ripple rounded ripple-surface">
-                                                <img src="/static/images/user/search/default-image-shop.png" class="w-100" />
-                                                <a href="#!">
-                                                    <div class="hover-overlay">
-                                                        <div class="mask" style="background-color: rgba(253, 253, 253, 0.15);"></div>
-                                                    </div>
-                                                </a>
-                                            </div>
-                                        </div>
-
-                                        <div class="col-md-6 col-lg-6 col-xl-6">
-                                            <h5>Tên shop</h5>
-                                            <div class="mt-0 mb-1 text-muted small">
-                                                <span>Địa chỉ shop</span>
-                                            </div>
-                                            <p class="text-truncate mb-4 mb-md-0">
-                                                Số lượng
-                                            </p>
-                                        </div>
-
-                                        <div class="col-lg-3 col-xl-3 d-flex flex-column justify-content-between">
-                                            <div class="mb-1 d-flex justify-content-end mt-4" style="color: var(--orange-color);">#.###.###
-                                                đ</div>
-                                            <div class="d-flex justify-content-end">
-                                                <a href="#" id="view-more" class="small">Xem chi tiết</a>
-                                            </div>
-                                        </div>
-
-                                        <div class="border-top mt-3">
-                                            <div class="d-flex justify-content-between align-item-center mt-3">
-                                                <div class="text-muted small my-auto text-center">
-                                                    <span>Trạng thái</span>
-                                                </div>
-                                                <a href="#">
-                                                    <button type="button" class="btn custom-button btn-sm">Đặt hàng lại</button>
-                                                </a>
-                                            </div>
-                                        </div>
-                                    </div>
+                        <div class="col-md-12 floating-form content" id="password">
+                            <h2 class="mb-4">Đổi mật khẩu</h2>
+                            <form id="passwordForm">
+                                <!-- Add your form fields here -->
+                                <div class="form-group mb-4">
+                                    <label for="inputCurrentPassword">Mật khẩu hiện tại</label>
+                                    <input type="text" class="form-control" id="inputCurrentPassword" placeholder="Nhập mật khẩu hiện tại của bạn">
                                 </div>
-                            </div>
-                            <div class="card border mb-3">
-                                <div class="card-body">
-                                    <div class="row">
-                                        <div class="d-flex justify-content-between">
-                                            <div class="d-flex flex-row">
-                                                <h5>Đơn hàng</h5>
-                                                <span>#ID đơn hàng</span>
-                                            </div>
-                                            <span>Ngày đặt hàng</span>
-                                        </div>
-
-                                        <div class="col-md-12 col-lg-3 col-xl-3 mb-4 mb-lg-0">
-                                            <div class="bg-image hover-zoom ripple rounded ripple-surface">
-                                                <img src="/static/images/user/search/default-image-shop.png " class="w-100" />
-                                                <a href="#!">
-                                                    <div class="hover-overlay">
-                                                        <div class="mask" style="background-color: rgba(253, 253, 253, 0.15);"></div>
-                                                    </div>
-                                                </a>
-                                            </div>
-                                        </div>
-
-                                        <div class="col-md-6 col-lg-6 col-xl-6">
-                                            <h5>Tên shop</h5>
-                                            <div class="mt-0 mb-1 text-muted small">
-                                                <span>Địa chỉ shop</span>
-                                            </div>
-                                            <p class="text-truncate mb-4 mb-md-0">
-                                                Số lượng
-                                            </p>
-                                        </div>
-
-                                        <div class="col-lg-3 col-xl-3 d-flex flex-column justify-content-between">
-                                            <div class="mb-1 d-flex justify-content-end mt-4" style="color: var(--orange-color);">#.###.###
-                                                đ</div>
-                                            <div class="d-flex justify-content-end">
-                                                <a href="#" id="view-more" class="small">Xem chi tiết</a>
-                                            </div>
-                                        </div>
-
-                                        <div class="border-top mt-3">
-                                            <div class="d-flex justify-content-between align-item-center mt-3">
-                                                <div class="text-muted small my-auto text-center">
-                                                    <span>Trạng thái</span>
-                                                </div>
-                                                <a href="#">
-                                                    <button type="button" class="btn custom-button btn-sm">Đặt hàng lại</button>
-                                                </a>
-                                            </div>
-                                        </div>
-                                    </div>
+                                <div class="form-group mb-4">
+                                    <label for="inputNewPassword">Mật khẩu mới</label>
+                                    <input type="text" class="form-control" id="inputNewPassword" placeholder="Nhập mật khẩu mới muốn thay đổi">
                                 </div>
-                            </div>
-                            <div class="card border">
-                                <div class="card-body">
-                                    <div class="row">
-                                        <div class="d-flex justify-content-between">
-                                            <div class="d-flex flex-row">
-                                                <h5>Đơn hàng</h5>
-                                                <span>#ID đơn hàng</span>
-                                            </div>
-                                            <span>Ngày đặt hàng</span>
-                                        </div>
-
-                                        <div class="col-md-12 col-lg-3 col-xl-3 mb-4 mb-lg-0">
-                                            <div class="bg-image hover-zoom ripple rounded ripple-surface">
-                                                <img src="/static/images/user/search/default-image-shop.png " class="w-100" />
-                                                <a href="#!">
-                                                    <div class="hover-overlay">
-                                                        <div class="mask" style="background-color: rgba(253, 253, 253, 0.15);"></div>
-                                                    </div>
-                                                </a>
-                                            </div>
-                                        </div>
-
-                                        <div class="col-md-6 col-lg-6 col-xl-6">
-                                            <h5>Tên shop</h5>
-                                            <div class="mt-0 mb-1 text-muted small">
-                                                <span>Địa chỉ shop</span>
-                                            </div>
-                                            <p class="text-truncate mb-4 mb-md-0">
-                                                Số lượng
-                                            </p>
-                                        </div>
-
-                                        <div class="col-lg-3 col-xl-3 d-flex flex-column justify-content-between">
-                                            <div class="mb-1 d-flex justify-content-end mt-4" style="color: var(--orange-color);">#.###.###
-                                                đ</div>
-                                            <div class="d-flex justify-content-end">
-                                                <a href="#" id="view-more" class="small">Xem chi tiết</a>
-                                            </div>
-                                        </div>
-
-                                        <div class="border-top mt-3">
-                                            <div class="d-flex justify-content-between align-item-center mt-3">
-                                                <div class="text-muted small my-auto text-center">
-                                                    <span>Trạng thái</span>
-                                                </div>
-                                                <a href="#">
-                                                    <button type="button" class="btn custom-button btn-sm">Đặt hàng lại</button>
-                                                </a>
-                                            </div>
-                                        </div>
-                                    </div>
+                                <div class="form-group mb-4">
+                                    <label for="re-enterNewPassword">Nhập lại mật khẩu mới</label>
+                                    <input type="text" class="form-control" id="re-enterNewPassword" placeholder="Nhập lại mật khẩu mới">
                                 </div>
-                            </div>
+                                <div class="d-flex justify-content-center mb-4">
+                                    <button type="submit" class="btn custom-button">
+                                        <i class="bi bi-floppy-fill"></i>
+                                        <span>Đổi mật khẩu</span>
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+
+                        <div class="col-md-12 floating-form content" id="register">
+                            <h2 class="mb-4">Thông tin đăng ký</h2>
+                            <form>
+                                <!-- Add your form fields here -->
+                                <div class="form-group mb-4">
+                                    <label for="inputShopName">Tên nhà hàng/ quán ăn</label>
+                                    <input type="text" class="form-control" id="inputShopName" placeholder="Nhập tên nhà hàng/ quán ăn muốn đăng ký">
+                                </div>
+                                <div class="form-group mb-4">
+                                    <label for="inputFullName">Tên người đại diện</label>
+                                    <input type="text" class="form-control" id="inputFullName" placeholder="Nhập tên người đại diện của quán">
+                                </div>
+                                <div class="form-group mb-4">
+                                    <label for="inputCitizenIdentityCard">CCCD người đại diện</label>
+                                    <input type="text" class="form-control" id="inputCitizenIdentityCard" placeholder="Nhập CCCD của người đại diện quán">
+                                </div>
+                                <div class="form-group mb-4">
+                                    <label for="inputShopEmail">Email của quán</label>
+                                    <input type="email" class="form-control" id="inputShopEmail" placeholder="Nhập email của quán">
+                                </div>
+                                <div class="form-group mb-4">
+                                    <label for="inputShopPhoneNumber">Số điện thoại của quán</label>
+                                    <input type="text" class="form-control" id="inputShopPhoneNumber" placeholder="Nhập số điện thoại của quán">
+                                </div>
+                                <div class="form-group mb-4">
+                                    <label for="inputShopAddress">Địa chỉ kinh doanh</label>
+                                    <input type="text" class="form-control" id="inputShopAddress" placeholder="Nhập địa chỉ kinh doanh">
+                                </div>
+                                <div class="form-group mb-4">
+                                    <label for="selectType">Loại kinh doanh</label>
+                                    <select name="type" id="selectType">
+                                        <script>
+                                            for(let i = 1;i <= 31;i++){
+                                                document.writeln(`<option value = "${i}">${i}</option/>`);
+                                            }
+                                        </script>
+                                    </select>
+                                </div>
+                                
+                                <div class="d-flex justify-content-center mb-4">
+                                    <button type="submit" class="btn custom-button">
+                                        <i class="bi bi-ui-checks"></i>
+                                        <span>Gửi đơn đăng ký</span>
+                                    </button>
+                                </div>
+                            </form>
                         </div>
                     </div>
                 </div>
@@ -329,86 +307,3 @@
         </div>
     </div>
 </section>
-
-{{! <div class="profile-section-two">
-    <div class="container mt-5">
-    <div class="row justify-content-center">
-      <div class="col-md-6 floating-form">
-        <h2 class="mb-4">Đổi mật khẩu</h2>
-        <form>
-            <!-- Add your form fields here -->
-            <div class="form-group mb-4">
-                <label for="inputCurrentPassword">Mật khẩu hiện tại</label>
-                <input type="text" class="form-control" id="inputCurrentPassword" placeholder="Nhập mật khẩu hiện tại của bạn">
-            </div>
-            <div class="form-group mb-4">
-                <label for="inputNewPassword">Mật khẩu mới</label>
-                <input type="text" class="form-control" id="inputNewPassword" placeholder="Nhập mật khẩu mới muốn thay đổi">
-            </div>
-            <div class="form-group mb-4">
-                <label for="re-enterNewPassword">Nhập lại mật khẩu mới</label>
-                <input type="text" class="form-control" id="re-enterNewPassword" placeholder="Nhập lại mật khẩu mới">
-            </div>
-            <div class="d-flex justify-content-center mb-4">
-                <button type="submit" class="btn custom-button">
-                    <i class="bi bi-floppy-fill"></i>
-                    <span>Đổi mật khẩu</span>
-                </button>
-            </div>
-        </form>
-    </div>
-  </div>
-</div> }}
-
-{{! <div class="profile-section-two">
-    <div class="container mt-5">
-    <div class="row justify-content-center">
-      <div class="col-md-6 floating-form">
-        <h2 class="mb-4">Thông tin đăng ký</h2>
-        <form>
-            <!-- Add your form fields here -->
-            <div class="form-group mb-4">
-                <label for="inputShopName">Tên nhà hàng/ quán ăn</label>
-                <input type="text" class="form-control" id="inputShopName" placeholder="Nhập tên nhà hàng/ quán ăn muốn đăng ký">
-            </div>
-            <div class="form-group mb-4">
-                <label for="inputFullName">Tên người đại diện</label>
-                <input type="text" class="form-control" id="inputFullName" placeholder="Nhập tên người đại diện của quán">
-            </div>
-            <div class="form-group mb-4">
-                <label for="inputCitizenIdentityCard">CCCD người đại diện</label>
-                <input type="text" class="form-control" id="inputCitizenIdentityCard" placeholder="Nhập CCCD của người đại diện quán">
-            </div>
-            <div class="form-group mb-4">
-                <label for="inputShopEmail">Email của quán</label>
-                <input type="email" class="form-control" id="inputShopEmail" placeholder="Nhập email của quán">
-            </div>
-            <div class="form-group mb-4">
-                <label for="inputShopPhoneNumber">Số điện thoại của quán</label>
-                <input type="text" class="form-control" id="inputShopPhoneNumber" placeholder="Nhập số điện thoại của quán">
-            </div>
-            <div class="form-group mb-4">
-                <label for="inputShopAddress">Địa chỉ kinh doanh</label>
-                <input type="text" class="form-control" id="inputShopAddress" placeholder="Nhập địa chỉ kinh doanh">
-            </div>
-            <div class="form-group mb-4">
-                <label for="selectType">Loại kinh doanh</label>
-                <select name="type" id="selectType">
-                    <script>
-                        for(let i = 1;i <= 31;i++){
-                            document.writeln(`<option value = "${i}">${i}</option/>`);
-                        }
-                    </script>
-                </select>
-            </div>
-            
-            <div class="d-flex justify-content-center mb-4">
-                <button type="submit" class="btn custom-button">
-                    <i class="bi bi-ui-checks"></i>
-                    <span>Gửi đơn đăng ký</span>
-                </button>
-            </div>
-        </form>
-    </div>
-  </div>
-</div> }}

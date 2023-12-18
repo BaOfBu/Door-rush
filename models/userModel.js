@@ -12,7 +12,7 @@ const userSchema = new mongoose.Schema({
         type: String,
         enum: ["Nam", "Nữ", "Khác"]
     },
-    birthdate: Date,
+    birthdate: String,
     addresses: [{ 
         type: mongoose.Schema.Types.ObjectId, 
         ref: "Address" 
