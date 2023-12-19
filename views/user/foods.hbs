@@ -66,18 +66,18 @@
       <div class="col-sm-9 justify-content-start">
         <div class="container">
           <div class="row" style="padding: 0px">
-            {{#each foods}}
+            {{#each merchants}}
               <div class="col-sm-3 mb-3">
                 <a href="#" style="text-decoration: none;">
                   <div class="card">
                     <img
                       class="card-img-top"
-                      src="static/images/user/search/default-image-shop.png"
+                      src="{{this.image}}"
                       alt="Card image cap"
                     />
                     <div class="card-body">
                       <h5 class="card-title">{{this.name}}</h5>
-                      <p class="card-text">{{FoodType.price}}</p>
+                      <p class="card-text">{{this.priceRange}}</p>
                       <div class="bonus">
                         <div class="event">
                           <i class="bi bi-star-fill"></i>
