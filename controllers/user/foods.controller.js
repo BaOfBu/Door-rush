@@ -23,10 +23,19 @@ const shop = async function (req, res) {
     }
 
     // Get the data of shop
-    let shop = await Merchant.find({name: shopName}).populate("category").populate("menu")
+    let shop = await Merchant
+    .findOne({name: shopName})
+    .populate("category")
+    .populate("menu")
+    .populate("recommend")
+    .lean()
 
-    // Get the data of recommend food
-    let recommend = await Food.find({})
+    let recommend = shop.recommend
+    console.log(recommend)
+    let category = shop.category
+    console.log(category)
+    let food = shop.menu
+    console.log(food)
 
 
     res.render("user/shop.hbs", {

@@ -23,7 +23,7 @@ const swiper = new Swiper(".popular-categories-swiper", {
 const recommendSwiper = new Swiper(".recommend-swiper", {
     loop: true,
     slidesPerView: 3,
-    spaceBetween: 10,
+    spaceBetween: 57,
     sliderPerGroup: 3,
     centerSlide: "true",
     fade: "true",
