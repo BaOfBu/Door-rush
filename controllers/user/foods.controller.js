@@ -17,7 +17,6 @@ const index = function (req, res) {
 const shop = async function (req, res) {
     // Get the params from the route
     const shopName = req.params.shop || 0
-    console.log(shopName)
 
     // Handle the problem
     if(!shopName){
