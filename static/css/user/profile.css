@@ -150,10 +150,17 @@ form .custom-button:hover{
     width: 240px;
     background-color: var(--light-color);
     border: 3px solid var(--light-color);
+    padding-left: 8px;
 }
 
 .order-history .custom-filter {
     background-color: var(--light-color);
+}
+
+#register .dropup button {
+    /* width: 500px; */
+    color: var(--grey-color);
+    font-style: italic;
 }
 
 #toggleIcon {
@@ -170,4 +177,8 @@ form .custom-button:hover{
     right: 20px;
     transform: translateY(-50%);
     cursor: pointer;
+}
+
+#selectType .dropup button{
+    width: 500px;
 }
