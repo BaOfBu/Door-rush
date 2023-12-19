@@ -54,17 +54,19 @@
                 {{!-- Populated Categories Header --}}
                 <p class="popular-categories-title">Các danh mục phổ biến</p>
                 {{!-- Populated Categories --}}
-                <div class="swiper container-custom">
+                <div class="swiper popular-categories-custom">
                     <div class="popular-categories-swiper">
                         <div class="swiper-wrapper popular-categories-row">
                             {{#each shopCategory}}
                                 <div class="swiper-slide popular-categories-slide">
-                                <div class="popular-categories">
-                                    <img class="popular-categories-image" src="/static/images/user/shop/alter-image.png" alt="category-image">
-                                    <p class="popular-categories-name">{{this.name}}</p>
-                                    <p class="popular-categories-quantity">{{this.quantity}} món ăn</p>
+                                    <a href="#{{this.name}}" class="category-link">
+                                        <div class="popular-categories">
+                                            <img class="popular-categories-image" src="/static/images/user/shop/alter-image.png" alt="category-image">
+                                            <p class="popular-categories-name">{{this.name}}</p>
+                                            <p class="popular-categories-quantity">{{this.quantity}} món ăn</p>
+                                        </div>
+                                    </a>
                                 </div>   
-                            </div>
                             {{/each}}
                         </div>
                     </div>
@@ -84,21 +86,23 @@
                     <p class="recommend-today">Đề xuất cho bạn ngày hôm nay</p>
                 </div>
                 {{!-- Recommend Food --}}
-                <div class="swiper container-custom">
+                <div class="swiper recommend-custom">
                     <div class="recommend-swiper">
                         <div class="swiper-wrapper recommed-row">
                             {{#each recommendFood}}
                                 <div class="swiper-slide food-slide">
+                                    <a href="/foods/{{{shopName}}}/{{this.id}}" class="food-link">
                                     <div class="food">
                                         <img class="food-image" src="{{this.image}}" alt="food-img">
                                         <div class="food-detail-2">
-                                            <a href="/foods/{{../shopName}}/{{this.id}}" class="food-name">{{this.name}}</p>
+                                            <p class="food-name">{{this.name}}</p>
                                             <div class="food-detail-1">
                                                 <p class="food-detail-1-content">{{this.price}} VNĐ</p>
                                                 <p class="food-detail-1-content">{{this.rating}} <i class="bi bi-star-fill"></i></p>
                                             </div>
                                         </div>
                                     </div>
+                                </a>
                                 </div>
                             {{/each}}
                         </div>
@@ -113,25 +117,49 @@
     <section class="section-five">
         <div class="container">
             <div class="section-five-content">
+                {{!-- Menu Header --}}
                 <div class="menu-header">
                     <p class="menu-tilte">Thực đơn</p>
                     <p class="menu-today">Thực đơn dành cho ngày hôm nay</p>
                 </div>
+                {{!-- Menu Categories Bar --}}
+                <div class="menu-category-bar">
+                    <div class="swiper">
+                        <div class="category-swiper">
+                            <div class="swiper-wrapper category-custom">
+                                {{#each shopCategory}}
+                                    <div class="swiper-slide" >
+                                        <a href="#{{this.name}}" class="category-link">
+                                            <div class="menu-category menu-category-active">
+                                                <span class="menu-category-font">{{this.name}}</span>
+                                            </div>
+                                        </a>
+                                    </div>   
+                                {{/each}}
+                            </div>
+                        </div>
+                    <div class="swiper-button-prev"></div>
+                    <div class="swiper-button-next"></div>
+                </div>  
+                {{!-- Food --}}
+                </div>
                 {{#each shopCategory}}
-                    <div>
+                    <div id="{{this.name}}" style="scroll-margin-top: 25rem;">
                         <p class="category-name">{{this.name}}</p>
                         <div class="menu-food">
                             {{#each this.foods}}
-                                <div class="food">
-                                    <img class="food-image" src="{{this.image}}" alt="food-img">
-                                    <div class="food-detail-2">
-                                        <a href="/foods/{{{shopName}}}/{{this.id}}" class="food-name">{{this.name}}</p>
-                                        <div class="food-detail-1">
-                                            <p class="food-detail-1-content">{{this.price}} VNĐ</p>
-                                            <p class="food-detail-1-content">{{this.rating}} <i class="bi bi-star-fill"></i></p>
+                                <a href="/foods/{{{shopName}}}/{{this.id}}" class="food-link">
+                                    <div class="food">
+                                        <img class="food-image" src="{{this.image}}" alt="food-img">
+                                        <div class="food-detail-2">
+                                            <p class="food-name">{{this.name}}</p>
+                                            <div class="food-detail-1">
+                                                <p class="food-detail-1-content">{{this.price}} VNĐ</p>
+                                                <p class="food-detail-1-content">{{this.rating}} <i class="bi bi-star-fill"></i></p>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
+                                </a>
                             {{/each}}
                         </div>
                     </div>
