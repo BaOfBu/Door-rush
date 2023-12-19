@@ -3,6 +3,7 @@ import Feedback from "../../models/feedbackModel.js";
 import User from "../../models/userModel.js";
 import Food from "../../models/foodModel.js";
 import Merchant from "../../models/merchantModel.js"
+import e from "express";
 
 // [GET]/foods
 const index = function (req, res) {
@@ -12,33 +13,94 @@ const index = function (req, res) {
         userName: "Họ và tên"
     });
 };
-// [GET]/foods/{{shop_id}}
+// [GET]/foods/{{shop}}
 const shop = async function (req, res) {
     // Get the params from the route
     const shopName = req.params.shop || 0
+    console.log(shopName)
 
     // Handle the problem
     if(!shopName){
-        return redirect("/")
+        return redirect("/foods")
     }
 
     // Get the data of shop
-    let shop = await Merchant
-    .findOne({name: shopName})
-    .populate("category")
-    .populate("menu")
-    .populate("recommend")
-    .lean()
+    let shop = await Merchant.findOne({name: shopName})
+    .populate("address category foodRecommend menu")
+    .exec()
 
-    let recommend = shop.recommend
-    console.log(recommend)
-    let category = shop.category
-    console.log(category)
-    let food = shop.menu
-    console.log(food)
+    const shopEmail = shop.email
+    const shopPhone = shop.phone
+    const shopImage = shop.image
+    const shopRating = Math.round(shop.rating)
+    let shopAddress = shop.address.houseNumber 
+                + " Đường " + shop.address.street
+                + ", " + shop.address.ward
+                + ", " + shop.address.district
+                + ", " + shop.address.city
 
+    let shopFood = []
+    for(let each of shop.menu){
+        let food = await Food.findById({_id: each._id}).populate("foodType category")
+        let price = food.foodType.map(type => type.price)
+        let category = food.category.map(type => type.name)
+        let rating = Math.round(each.rating)
+        shopFood.push({
+            id: each._id,
+            image: each.image,
+            name: each.name,
+            rating: rating,
+            price: price[0],
+            category: category
+        })
+    }
 
+    let shopCategory = []
+    for(let each of shop.category){
+        let foods = []
+        for(let each2 of shopFood){
+            if(each2.category.includes(each.name)){
+                foods.push(each2)
+            }
+        }
+        let quantity = foods.length
+        shopCategory.push({
+            name: each.name,
+            foods: foods,
+            quantity: quantity
+        })
+    }
+    shopCategory.sort((a,b) => b.quantity - a.quantity)
+    let popularCategory = shopCategory
+    popularCategory.slice(0, 9)
+
+    let recommendFood = []
+    for(let each of shop.foodRecommend){
+        let food = await Food.findById({_id: each._id}).populate("foodType")
+        let price = food.foodType.map(type => type.price)
+        let rating = Math.round(each.rating)
+        recommendFood.push({
+            id: each._id,
+            image: each.image,
+            name: each.name,
+            rating: rating,
+            price: price[0]
+        })
+    }
+    
     res.render("user/shop.hbs", {
+        //shop data
+        shopEmail: shopEmail,
+        shopName: shopName,
+        shopImage: shopImage,
+        shopAddress: shopAddress,
+        shopPhone: shopPhone,
+        shopRating: shopRating,
+        popularCategory: popularCategory,
+        shopCategory: shopCategory,
+        recommendFood: recommendFood,
+        // shopFood: shopFood,
+        //header date
         user: false,
         type: "food",
         userName: "Họ và tên"

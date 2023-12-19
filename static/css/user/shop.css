@@ -133,7 +133,7 @@ img {
 .section-four-content{
     display: flex;
     flex-direction: column;
-    gap: 70px;
+    gap: 40px;
     padding: 20px 20px 20px 20px;
     margin: 30px 30px 30px 30px;
     border-bottom: 1px solid var(--grey-color);
@@ -159,17 +159,14 @@ img {
     color: var(--black-color);
     margin: 0px;
 }
-.food-row{
-    display: flex;
-    flex-direction: row;
-    gap: 57px;
-}
+
 .food{
     display: flex;
     flex-direction: column;
     border-radius: 10px;
-    min-width: 375px;
-    border: 1px solid var(--white-color);
+    width: 375px;
+    height: 319px;
+    border: 1px solid var(--orange-color);
 }
 .food-image{
     min-width: 100%;
@@ -189,6 +186,7 @@ img {
     font-size: 20px;
     font-weight: 700;
     line-height: 100%;
+    color: var(--black-color);
     margin: 0px;
 }
 .food-detail-2{
@@ -224,7 +222,7 @@ img {
 .section-five-content{
     display: flex;
     flex-direction: column;
-    gap: 70px;
+    gap: 40px;
     padding: 20px 20px 20px 20px;
     margin: 30px 30px 30px 30px;
 }
@@ -289,6 +287,7 @@ img {
 }
 .menu-food{
     display: flex;
-    flex-direction: column;
-    gap: 58px;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 10px;
 }
