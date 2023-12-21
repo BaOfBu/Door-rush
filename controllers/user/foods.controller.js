@@ -3,6 +3,8 @@ import Feedback from "../../models/feedbackModel.js";
 import User from "../../models/userModel.js";
 import Food from "../../models/foodModel.js";
 import Merchant from "../../models/merchantModel.js"
+import ShopService from "../../services/user/shop.service.js"
+import e from "express";
 
 // [GET]/foods
 const index = function (req, res) {
@@ -12,24 +14,45 @@ const index = function (req, res) {
         userName: "Họ và tên"
     });
 };
-// [GET]/foods/{{shop_id}}
+
+// [GET]/foods/{{shop}}
 const shop = async function (req, res) {
     // Get the params from the route
     const shopName = req.params.shop || 0
 
     // Handle the problem
     if(!shopName){
-        return redirect("/")
+        return res.redirect("/foods")
     }
 
     // Get the data of shop
-    let shop = await Merchant.find({name: shopName}).populate("category").populate("menu")
+    let shop = await ShopService.findByName(shopName)
+    if(!shop){
+        return res.redirect("/foods")
+    }
 
-    // Get the data of recommend food
-    let recommend = await Food.find({})
-
-
+    const shopEmail = shop.email
+    const shopPhone = shop.phone
+    const shopImage = shop.image
+    const shopRating = Math.round(shop.rating)
+    let shopAddress = ShopService.mergeAddress(shop)
+    let shopFood = await ShopService.getAllFood(shop)
+    let shopCategory = ShopService.getAllCategory(shop, shopFood)
+    let popularCategory = ShopService.sliceCategory(shopCategory, 0, 9)
+    let recommendFood = await ShopService.getRecommendFood(shop)
+    
     res.render("user/shop.hbs", {
+        //shop data
+        shopEmail: shopEmail,
+        shopName: shopName,
+        shopImage: shopImage,
+        shopAddress: shopAddress,
+        shopPhone: shopPhone,
+        shopRating: shopRating,
+        popularCategory: popularCategory,
+        shopCategory: shopCategory,
+        recommendFood: recommendFood,
+        //header date
         user: false,
         type: "food",
         userName: "Họ và tên"

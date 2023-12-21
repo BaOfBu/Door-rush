@@ -113,3 +113,16 @@ function renderNextPage(){
   nextPage.setAttribute('href', "?" + urlParams);
 }
 
+document.addEventListener('DOMContentLoaded', function() {
+  const dropdownButton = document.querySelector('#dropdownCategory');
+  const dropdownMenu = document.querySelector('.dropdown-category');
+
+
+  dropdownMenu.addEventListener('click', function(event) {
+    const selectedCategory = event.target.dataset.value;
+
+    // Update the button text with the selected category
+    dropdownButton.textContent = selectedCategory;
+    document.getElementById('selectedCategory').value = selectedCategory;
+  });
+});
