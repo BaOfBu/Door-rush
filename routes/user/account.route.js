@@ -24,4 +24,7 @@ router.get('/is-available', async function (req, res) {
     res.json(false);
 });
 
+router.get("/forgotpassword", accountController.getForgotPassword);
+router.post("/forgotpassword", accountController.postForgotPassword);
+
 export default router;
