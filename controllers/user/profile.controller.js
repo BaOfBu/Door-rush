@@ -14,6 +14,7 @@ const viewProfile = async function (req, res){
                 type: "profile",
                 userID: userID,
                 fullName: user.fullname,
+                image: user.image,
                 userName: user.username,
                 email: user.email,
                 phone: user.phone,
@@ -29,6 +30,7 @@ const viewProfile = async function (req, res){
                 type: "profile",
                 userID: userID,
                 fullName: user.fullname,
+                image: user.image,
                 userName: user.username,
                 addresses: addresses
             });
@@ -38,6 +40,16 @@ const viewProfile = async function (req, res){
             let orders = await Profile.getUserOrderHistory(userID);
 
             let status = req.query.status || "all";
+            let startDate = req.query.startDate || null;
+            let endDate = req.query.endDate || null;
+
+            let start;
+            let end;
+
+            if(startDate && endDate){
+                start = new Date(startDate);
+                end = new Date(endDate);
+            }
 
             let statusFilter = status;
             if(statusFilter === "all") statusFilter = "Tất cả trạng thái";
@@ -47,7 +59,24 @@ const viewProfile = async function (req, res){
             if(statusFilter === "cancelled") statusFilter = "Đã hủy";
 
             if (statusFilter !== "Tất cả trạng thái") {
-                orders = orders.filter(order => order.status === statusFilter);
+                if(startDate && endDate){
+                    orders = orders.filter(order => {
+                        let timeOrder = new Date(order.timeOrder);
+                        return order.status === statusFilter &&
+                        timeOrder >= start && timeOrder <= end
+                    });
+                }else{
+                    orders = orders.filter(order => {
+                        return order.status === statusFilter
+                    });
+                }
+            }else{
+                if(startDate && endDate){
+                    orders = orders.filter(order => {
+                        let timeOrder = new Date(order.timeOrder);
+                        return timeOrder >= start && timeOrder <= end
+                    });
+                }
             }
             
             const limit = 4;
@@ -62,7 +91,9 @@ const viewProfile = async function (req, res){
                 pageNumbers.push({
                 value: i,
                 isActive: i === +page,
-                statusFilter: status
+                statusFilter: status,
+                startDate: startDate,
+                endDate: endDate
                 });
             }
 
@@ -82,13 +113,30 @@ const viewProfile = async function (req, res){
                 type: "profile",
                 userID: userID,
                 fullName: user.fullname,
-                userName: user.username,
+                image: user.image,
+                userName: user.image,
                 orders: list,
                 empty: orders.length === 0,
                 isFirstPage: isFirstPage,
                 isLastPage: isLastPage,
                 pageNumbers: pageNumbers,
                 statusFilter: statusFilter,
+                startDate: startDate,
+                endDate: endDate,
+            });
+            break;
+        };
+        case "register":{
+            const categories = await Profile.getCategories();
+
+            res.render("user/profile", {
+                user: true,
+                type: "profile",
+                userID: userID,
+                fullName: user.fullname,
+                image: user.image,
+                userName: user.username,
+                categories: categories
             });
             break;
         };
@@ -98,6 +146,7 @@ const viewProfile = async function (req, res){
                 type: "profile",
                 userID: userID,
                 fullName: user.fullname,
+                image: user.image,
                 userName: user.username,
             });
             break;
@@ -118,6 +167,7 @@ const updateUserInformation = async function (req, res){
                 type: "profile",
                 userID: userID,
                 fullName: updatedUser.fullname,
+                image: user.image,
                 userName: updatedUser.username,
                 email: updatedUser.email,
                 phone: updatedUser.phone,
@@ -185,8 +235,22 @@ const updateUserInformation = async function (req, res){
                 type: "profile",
                 userID: userID,
                 fullName: user.fullname,
+                image: user.image,
                 userName: user.username,
                 addresses: addresses
+            });
+            break;
+        };
+        case "register":{
+            const user = await Profile.getUserInfo(userID);
+            await Profile.createShopRegister(user.username, user.password, updatedData);
+            res.render("user/profile", {
+                user: true,
+                type: "profile",
+                userID: userID,
+                fullName: user.fullname,
+                image: user.image,
+                userName: user.username,
             });
             break;
         };
@@ -196,10 +260,11 @@ const updateUserInformation = async function (req, res){
                 type: "profile",
                 userID: userID,
                 fullName: user.fullname,
+                image: user.image,
                 userName: user.username,
             });
             break;
-        }
+        };
     }
 }
 export default {viewProfile, updateUserInformation};
