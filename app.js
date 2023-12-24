@@ -7,10 +7,12 @@ import mongoose from "mongoose";
 import dotenv from "dotenv";
 import { dirname } from "path";
 import { fileURLToPath } from "url";
+import bodyParser from "body-parser";
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
 import userRoutes from "./routes/user/index.route.js";
 import adminRoutes from "./routes/admin/index.route.js";
+import verifyRoutes from "./routes/user/verify.route.js";
 
 const port = 8888;
 const app = express();
@@ -21,6 +23,8 @@ app.use(
     })
 );
 app.use(express.json());
+
+app.use(bodyParser.urlencoded({ extended: true }));
 
 dotenv.config();
 mongoose.set("strictQuery", false);
@@ -95,6 +99,7 @@ app.use("/static", express.static("static"));
 
 app.use("/", userRoutes);
 app.use("/admin", adminRoutes);
+app.use("/verify", verifyRoutes);
 
 app.set('trust proxy', 1) // trust first proxy
 app.use(session({
