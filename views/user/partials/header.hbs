@@ -2,7 +2,7 @@
     <div class="container">
         <div class="d-flex align-items-center justify-content-between nav-bar">
             <div class="d-flex align-items-center justify-content-center gap-5">
-                <a href="#"><img src="/static/images/logo.png" alt="" /></a>
+                <a href="/"><img src="/static/images/logo.png" alt="" /></a>
                 <div class="d-flex align-items-center justify-content-center gap-5">
                     <a href="/"><button class="header-text-white {{#if (equal type 'home')}}active{{/if}}">Trang chủ</button></a>
                     <a href="/foods"><button class="header-text-white {{#if (equal type 'food')}}active{{/if}}">Đồ ăn</button></a>
@@ -23,15 +23,52 @@
                        
                     </button>
                 </a>
-                {{#if this.user}}
-                <a href="#" class="icon-btn">
+                <!-- {{#if auth}}
+                <a href="/profile" class="icon-btn">
                     <button class="user-btn d-flex align-items-center justify-content-between gap-2">
-                        <i class="bi bi-person h1"></i>{{this.userName}}
+                        <i class="bi bi-person h1"></i>{{authUser.username}}
                     </button>
                 </a>
                 {{else}}
-                <a href="#"><button class="sign-in-btn">Đăng nhập</button></a>
-                <a href="#"><button class="sign-up-btn">Đăng ký</button></a>
+                <a href="/account/login"><button class="sign-in-btn">Đăng nhập</button></a>
+                <a href="/account/register"><button class="sign-up-btn">Đăng ký</button></a>
+                {{/if}} -->
+                {{#if auth}}
+                <a class="nav-link dropdown-toggle user-btn d-flex align-items-center justify-content-between gap-2" 
+                href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    <i class="bi bi-person h1"></i>
+                    <b class="orange-text">{{authUser.username}}</b>
+                </a>
+                <ul class="dropdown-menu">
+                    <li><a class="dropdown-item" href="/profile/{{authUser._id}}/?optional=default">
+                    <i class="bi bi-person"></i>
+                    <span class="orange-text">Profile</span>
+                    </a></li>
+                    <div class="dropdown-divider"></div>
+                    <form id="frmLogout" action="/account/logout" method="post"></form>
+                    <li><a class="dropdown-item" href="javascript: $('#frmLogout').submit()">
+                    <i class="bi bi-box-arrow-in-left"></i>
+                    <span class="orange-text">Logout</span>
+                    </a></li>
+                </ul>
+                <!-- <div class="dropdown">
+                <button class="btn btn-secondary nav-link dropdown-toggle user-btn d-flex align-items-center justify-content-between gap-2" 
+                    type="button" id="dropdownProfile" data-bs-toggle="dropdown" aria-expanded="false">
+                    <i class="bi bi-person h1"></i><b>{{authUser.username}}</b>
+                </button>
+                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                    <li><a class="dropdown-item" href="/profile"><i class="bi bi-person"></i>Profile</a></li>
+                    <form id="frmLogout" action="/account/logout" method="post"></form>
+                    <li><a class="dropdown-item" href="#">Another action</a></li>
+                    <li><a class="dropdown-item" href="javascript: $('#frmLogout').submit()">
+                    <i class="bi bi-box-arrow-in-left"></i>
+                    Logout
+                    </a></li>
+                </ul>
+                </div> -->
+                {{else}}
+                <a href="/account/login"><button class="sign-in-btn">Đăng nhập</button></a>
+                <a href="/account/register"><button class="sign-up-btn">Đăng ký</button></a>
                 {{/if}}
             </div>
         </div>

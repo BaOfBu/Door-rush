@@ -9,15 +9,15 @@
     align-items: center;
     flex-direction: column;
     position: absolute;
-    top: 36px;
-    right: 430px;
+    top: 20%;
+    left: 10%;
     font-size: 40px;
 }
 
 .inner-order{
     position: absolute;
-    top: 110px;
-    right: 550px;
+    top: 35%;
+    left: 40%;
 }
 
 .inner-image-two{

@@ -22,26 +22,35 @@ const merchantSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    address: { 
-        type: mongoose.Schema.Types.ObjectId, 
-        ref: "Address" 
+    address: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Address"
     },
-    category: [{ 
-        type: mongoose.Schema.Types.ObjectId, 
-        ref: "Category" 
-    }],
-    menu: [{ 
-        type: mongoose.Schema.Types.ObjectId, 
-        ref: "Food" 
-    }],
+    category: [
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "Category"
+        }
+    ],
+    menu: [
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "Food"
+        }
+    ],
+    foodRecommend: [
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "Food"
+        }
+    ],
     revenue: Number,
     image: String,
     priceRange: String,
     rating: Number,
     hasDiscount: Boolean
-}, {collection: "Merchant"});
+});
 
-// const Merchant = Account.discriminator("Merchant", merchantSchema);
-const Merchant = mongoose.model("Merchant", merchantSchema);
+const Merchant = Account.discriminator("Merchant", merchantSchema);
 
 export default Merchant;

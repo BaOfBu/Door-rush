@@ -85,3 +85,25 @@
     background-color: var(--orange-color);
     color: var(--white-color);
 }
+.dropdown-menu {
+    color: var(--orange-color);
+    width: 100px;
+}
+.dropdown-item {
+    color: var(--orange-color);
+}
+.bi.bi-person.h1 {
+    color: var(--orange-color);
+}
+.bi.bi-person {
+    color: var(--orange-color);
+}
+.orange-text {
+    color: var(--orange-color);
+}
+.bi.bi-box-arrow-in-left {
+    color: var(--orange-color);
+}
+.dropdown-toggle::after {
+    color: var(--orange-color);
+}

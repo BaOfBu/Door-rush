@@ -14,6 +14,14 @@ import Voucher from "../../models/voucherModel.js";
 
 const router = express.Router();
 
+const formatter = new Intl.DateTimeFormat('vi-VN', {
+  timeZone: 'Asia/Ho_Chi_Minh',
+  day: '2-digit',
+  month: '2-digit',
+  year: 'numeric'
+});
+
+
 function generateAddressData() {
   const addressData = new Address ({
     houseNumber: faker.number.int({min: 1, max: 1000}),
@@ -40,6 +48,7 @@ function generateFoodTypeData(){
   return foodTypeData;
 }
 
+
 async function generateFoodData(){
   let foodType = [];
   let feedBack = [];
@@ -51,7 +60,7 @@ async function generateFoodData(){
 
     const feedbackData = new Feedback ({
       itemId: foodTypeData._id,
-      userId: ["6575de3d12871376fb2d1a20"],
+      userId: ["657ed32ab3c555f469af362d"],
       rating: faker.number.float({ min: 1, max: 5, precision: 0.1 }),
       comment: faker.lorem.sentence(),
       feedbackDate: faker.date.past(),
@@ -101,7 +110,7 @@ router.get("/generate-merchant", async function () {
           email: faker.helpers.fromRegExp("[a-z0-9]{10}@gmail\.com"),
           phone: faker.helpers.fromRegExp("0346 [0-9]{3} [0-9]{3}"),
           address: address._id,
-          category: ["6575e8733728f10ba2eeaf49"],
+          category: ["658070c464153bdfd0555006"],
           menu: foodData,
           revenue: 0,
           image: faker.image.url(),
@@ -168,9 +177,9 @@ async function generateOrderData(userID){
   await Voucher.findByIdAndUpdate(voucher_ship, { $set: { startDate: temp.startDate, endDate: temp.endDate } }, { new: true });
 
   const orderData = new Order({
-    merchantId: "65788f9d248963c4cf34a0c7",
+    merchantId: "657ed260b3c555f469af360f",
     items: orderItems,
-    status: "delivered",
+    status: faker.helpers.arrayElement(["Đang chuẩn bị", "Đang giao", "Hoàn thành", "Đã hủy"]),
     userId: userID,
     vouchers: vouchers,
     total: faker.number.int({min: 1, max: 20})*100000,
@@ -185,11 +194,11 @@ async function generateOrderData(userID){
 router.get("/generate-user", async function(){
   try {
 
-    let numGenUser = 2;
+    let numGenUser = 1;
 
     for(let i = 0; i < numGenUser; i++){
       
-      let numGenAddress = 2;
+      let numGenAddress = 1;
       let addresses = [];
 
       for(let i = 0; i < numGenAddress; i++){
@@ -206,7 +215,7 @@ router.get("/generate-user", async function(){
         email: faker.helpers.fromRegExp("[a-z0-9]{10}@gmail\.com"),
         phone: faker.helpers.fromRegExp("0346 [0-9]{3} [0-9]{3}"),
         gender: faker.helpers.arrayElement(["Nam", "Nữ", "Khác"]),
-        birthday: faker.date.birthdate(),
+        birthdate: formatter.format(faker.date.between({from: "1950-01-01", to: "2017-01-01"})),
         addresses: addresses,
         orders: [],
         image: faker.image.avatar()
@@ -233,10 +242,47 @@ router.get("/generate-user", async function(){
   } 
 })
 
+router.get("/generate-category", async function(){
+  let name = [
+    "Cơm",
+    "Đồ nước",
+    "Đồ uống",
+    "Đồ ăn nhanh",
+    "Phở",
+    "Hủ tiếu",
+    "Bánh canh",
+    "Bánh mì",
+    "Bún riêu",
+    "Cơm tấm",
+    "Cơm niêu",
+    "Cơm gà",
+    "Bánh xèo",
+    "Bún chả",
+    "Bánh cuốn",
+    "Bún thịt nướng",
+    "Nem nướng",
+    "Nem chua rán",
+    "Bún đậu mắm tôm",
+    "Gỏi cuốn",
+    "Chả giò",
+    "Bánh bột lọc",
+    "Trà sữa",
+    "Trà trái cây",
+    "Nước ngọt"
+  ]
+  for(let i = 0; i < name.length; i++){
+    const category = new Category({
+      name: name[i],
+    });
+    await category.save();
+  }
+
+});
+
 router.get("/find-food", async function(){
   const foods = await Food.findById({_id: "65788f9c248963c4cf34a0bb"});
   console.log(foods);
-})
+});
 router.get("/find-category", async function(){
   // find({}) để tìm kiếm toàn bộ
   // select("field1 field2 ...") để chỉ lấy những field trong đối tượng mình muốn. __id và __t mặc định sẽ luôn lấy, không cần thêm vào select
@@ -275,7 +321,7 @@ router.get("/find-address", async function(){
       select: "city street houseNumber"
     }).exec();
     const filteredMerchants = merchants.filter(merchant => merchant.address !== null);
-    console.log("Merchants : ", filteredMerchants);
+    console.log("Merchants : ", merchants[0].address.houseNumber);
 });
 
 export default router;
