@@ -34,7 +34,7 @@ const postRegister = async function (req, res) {
     const mailOptions = {
       from: 'ntson21@clc.fitus.edu.vn',
       to: 'sonsung2003@gmail.com',
-      subject: 'Verify Your Email',
+      subject: 'no-reply',
       text: `Click the following link to verify your email: ${verificationLink}`,
     };
 
