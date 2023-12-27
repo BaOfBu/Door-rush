@@ -182,6 +182,7 @@ async function generateOrderData(userID){
   timeStatus.push(timeOrder.setMinutes(timeOrder.getMinutes() + 1));
   timeStatus.push(timeOrder.setMinutes(timeOrder.getMinutes() + 50));
   timeStatus.push(timeOrder.setMinutes(timeOrder.getMinutes() + 80));
+
   const orderData = new Order({
     merchantId: "658bc785b2e15b47b4ab3683",
     items: orderItems,
@@ -189,7 +190,8 @@ async function generateOrderData(userID){
     userId: userID,
     vouchers: vouchers,
     total: faker.number.int({min: 1, max: 20})*100000,
-    timeStatus: timeStatus
+    timeStatus: timeStatus,
+    addressOrder: "658bc732b2e15b47b4ab3651"
   });
 
   await orderData.save();

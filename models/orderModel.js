@@ -18,6 +18,10 @@ const orderSchema = new mongoose.Schema({
         enum: ["Đang chờ", "Đang chuẩn bị", "Đang giao", "Hoàn thành", "Đã hủy"]
     },
     timeStatus: [{type: Date}],
+    addressOrder: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Address"
+    },
     userId: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "User"
