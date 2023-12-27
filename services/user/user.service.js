@@ -1,7 +1,14 @@
-import Account from '../../models/accountModel.js';
+import Account from '../../models/accountModel.js'
+import User from '../../models/userModel.js'
 
 export default {
-  findByUsername(username) {
-    return Account.findOne({ username: username });
+  async findByUsername(username) {
+    return await Account.findOne({ username: username });
+  },
+  async add_user(user) {
+    return await User.insertMany(user);
+  },
+  async findByEmail(email){
+    return await User.findOne({email:email});
   }
 }
