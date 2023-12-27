@@ -8,7 +8,9 @@ const index = async function (req, res) {
             path: "items",
             populate: [{ path: "foodId" }, { path: "typeFoodId" }]
         })
-        .populate("userId");
+        .populate("userId")
+        .populate("addressOrder")
+        .populate("vouchers");
     let orderTime = new Date(order.timeStatus[0]).toLocaleString("en-GB", {
         hour12: true
     });
@@ -75,7 +77,16 @@ const index = async function (req, res) {
             totalPrice: Intl.NumberFormat("vi-VN").format(String(totalPrice)) + " VNĐ"
         });
     }
-
+    let address = {
+        house: String(order.addressOrder.houseNumber + ", " + order.addressOrder.street + ","),
+        wardDistrict: String(order.addressOrder.ward + ", " + order.addressOrder.district + ","),
+        locationCity: String(order.addressOrder.city)
+    };
+    const vouchers = order.vouchers;
+    let totalDiscount = 0;
+    for (const voucher of vouchers) {
+        totalDiscount += voucher.valueOfDiscount || 0;
+    }
     let orderInfo = {
         shopName: shopName,
         userPhone: order.userId.phone,
@@ -92,9 +103,11 @@ const index = async function (req, res) {
         orderId: orderId,
         orderStatus: orderStatus,
         totalItem: order.items.length,
-        totalPrice: Intl.NumberFormat("vi-VN").format(String(totalPriceOrder)) + " VNĐ"
+        totalPrice: Intl.NumberFormat("vi-VN").format(String(totalPriceOrder)) + " VNĐ",
+        address: address,
+        totalDiscount: Intl.NumberFormat("vi-VN").format(String(totalDiscount)) + " VNĐ",
+        totalPriceAfterFee: Intl.NumberFormat("vi-VN").format(String(order.total)) + " VNĐ"
     };
-    console.log(order.userId.phone);
     res.render("user/order-status.hbs", {
         orderInfo,
         orderItem: eachOrderItem

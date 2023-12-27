@@ -119,9 +119,9 @@
                     <span class="order-location-title">GIAO HÀNG ĐẾN</span>
                     <div class="order-location-info">
                         <span>Địa chỉ</span>
-                        <span>227 Nguyễn Văn Cừ,</span>
-                        <span>phường 4, quận 5,</span>
-                        <span>Thành phố Hồ Chí minh</span>
+                        <span>{{this.orderInfo.address.house}}</span>
+                        <span>{{this.orderInfo.address.wardDistrict}}</span>
+                        <span>{{this.orderInfo.address.locationCity}}</span>
                     </div>
                     <div class="order-user-phone">
                         <span>SĐT</span>
@@ -141,11 +141,11 @@
                         </div>
                         <div class="order-review-detail-item">
                             <span>Giảm giá</span>
-                            <span>-15.000đ</span>
+                            <span>-{{this.orderInfo.totalDiscount}}</span>
                         </div>
                         <div class="order-review-total-price">
                             <span>Phải trả</span>
-                            <span class="order-review-total-price-main">165.000đ</span>
+                            <span class="order-review-total-price-main">{{this.orderInfo.totalPriceAfterFee}}</span>
                         </div>
                     </div>
                 </div>
