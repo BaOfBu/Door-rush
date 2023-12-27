@@ -11,16 +11,16 @@ const postRegister = async function (req, res) {
     const raw_password = req.body.raw_password;
     const salt = bcrypt.genSaltSync(10);
     const hash_password = bcrypt.hashSync(raw_password, salt);
-
-    const user = {
+    //console.log(req.body);
+    const user = [{
         username: req.body.username,
         password: hash_password,
         name: req.body.name,
         email: req.body.email,
-        dob: dob,
-        permission: 0
-    };
-    await userService.add(user);
+        role: 'User',
+        status: 'active'
+    }];
+    await userService.add_user(user);
     res.render("user/register");
 };
 
@@ -57,4 +57,25 @@ const logout = function (req, res) {
     res.redirect(req.headers.referer);
 };
 
-export default { logout, getLogin, postLogin, getRegister, postRegister };
+const is_available_user = async function (req, res) {
+    const username = req.query.username;
+    const user = await userService.findByUsername(username);
+    const message = "is-available";
+    console.log(message);
+    console.log(username);
+    if (user === null) {
+        return res.json(true);
+    }
+    res.json(false);
+};
+
+const is_available_email = async function (req, res) {
+    const email = req.query.email;
+    const result = await userService.findByEmail(email);
+    if (result === null) {
+        return res.json(true);
+    }
+    res.json(false);
+};
+
+export default { is_available_email,is_available_user ,logout, getLogin, postLogin, getRegister, postRegister };
