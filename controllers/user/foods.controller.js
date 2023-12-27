@@ -59,6 +59,7 @@ const shop = async function (req, res) {
         userName: "Họ và tên"
     });
 };
+
 // [GET]/foods/{{shop_name}}/{{foodID}}
 const foodDetail = async function (req, res) {
     // Get the params from the route
@@ -166,5 +167,4 @@ const giveFeedback = async function (req, res) {
         );
     } catch {}
 };
-
 export default { index, foodDetail, shop, addToCart, giveFeedback };

@@ -1,4 +1,3 @@
-import OrderItem from "../../models/orderItemModel.js";
 import OrderService from "../../services/user/order.service.js";
 // [GET]/order?id={{orderId}}
 const index = async function (req, res) {
@@ -10,8 +9,8 @@ const index = async function (req, res) {
             populate: [{ path: "foodId" }, { path: "typeFoodId" }]
         })
         .populate("userId");
-    let orderTime = new Date(order.timeOrder).toLocaleString("en-GB", {
-        hour12: false
+    let orderTime = new Date(order.timeStatus[0]).toLocaleString("en-GB", {
+        hour12: true
     });
     let orderPredictTime = "11:40 AM May 16, 2022";
     let shopName = order.merchantId.name;
@@ -19,22 +18,42 @@ const index = async function (req, res) {
         {
             status: "Đang chờ",
             img: "/static/images/user/order-status/confirm-status.png",
-            isCurrent: false
+            isCurrent: false,
+            time: new Date(order.timeStatus[0]).toLocaleString("en-GB", {
+                hour: "numeric",
+                minute: "numeric",
+                hour12: true
+            })
         },
         {
             status: "Đang chuẩn bị",
             img: "/static/images/user/order-status/prepare-food-status.png",
-            isCurrent: false
+            isCurrent: false,
+            time: new Date(order.timeStatus[1]).toLocaleString("en-GB", {
+                hour: "numeric",
+                minute: "numeric",
+                hour12: true
+            })
         },
         {
             status: "Đang giao",
             img: "/static/images/user/order-status/delivering-status.png",
-            isCurrent: false
+            isCurrent: false,
+            time: new Date(order.timeStatus[2]).toLocaleString("en-GB", {
+                hour: "numeric",
+                minute: "numeric",
+                hour12: true
+            })
         },
         {
             status: "Hoàn thành",
             img: "/static/images/user/order-status/finish-status.png",
-            isCurrent: false
+            isCurrent: false,
+            time: new Date(order.timeStatus[3]).toLocaleString("en-GB", {
+                hour: "numeric",
+                minute: "numeric",
+                hour12: true
+            })
         }
     ];
     for (let i = 0; i < orderStatus.length; i++) {
@@ -59,18 +78,29 @@ const index = async function (req, res) {
 
     let orderInfo = {
         shopName: shopName,
+        userPhone: order.userId.phone,
         orderPredictTime: orderPredictTime,
         orderTime: orderTime,
+        distance: 1.7,
+        shipFee: function calculateShipFee(distance) {
+            if (distance <= 2) {
+                return Intl.NumberFormat("vi-VN").format(13000) + " VNĐ";
+            } else if (distance > 2 && distance <= 5) {
+                return Intl.NumberFormat("vi-VN").format(25000) + " VNĐ";
+            }
+        },
         orderId: orderId,
         orderStatus: orderStatus,
         totalItem: order.items.length,
         totalPrice: Intl.NumberFormat("vi-VN").format(String(totalPriceOrder)) + " VNĐ"
     };
-
+    console.log(order.userId.phone);
     res.render("user/order-status.hbs", {
         orderInfo,
         orderItem: eachOrderItem
     });
 };
 // Chưa xử lý giao hàng đến (không rõ địa chỉ nào), Chưa xử lý các chi phí giao hàng, thời gian
+// 0 -> 2km <-> 13k
+// 2km -> 5km <-> 25k
 export default { index };

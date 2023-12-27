@@ -22,7 +22,7 @@
                     <h3 class="order-status-id-header">ID đơn hàng: {{orderInfo.orderId}}</h3>
                     <button class="order-status-detail-btn">
                         <i class="bi bi-file-earmark-text"></i>
-                        <span>Hóa đơn</span>
+                        <span>Liên lạc</span>
                     </button>
                 </div>
 
@@ -52,13 +52,13 @@
                         <div class="timeline-step active">
                             <p class="timeline-text">{{this.status}}</p>
                             <div class="timeline-icon"></div>
-                            <p class="timeline-time">11:06 AM</p>
+                            <p class="timeline-time">{{this.time}}</p>
                         </div>
                     {{else}}
                         <div class="timeline-step">
                             <p class="timeline-text">{{this.status}}</p>
                             <div class="timeline-icon"></div>
-                            <p class="timeline-time">11:06 AM</p>
+                            <p class="timeline-time">{{this.time}}</p>
                         </div>
                     {{/if}}
                 {{/each}}
@@ -125,7 +125,7 @@
                     </div>
                     <div class="order-user-phone">
                         <span>SĐT</span>
-                        <span>03676842622</span>
+                        <span>{{this.orderInfo.userPhone}}</span>
                     </div>
                 </div>
                 <div class="order-review">
@@ -136,8 +136,8 @@
                             <span>{{this.orderInfo.totalPrice}}</span>
                         </div>
                         <div class="order-review-detail-item">
-                            <span>Phí giao hàng (1.7 km)</span>
-                            <span>15.000đ</span>
+                            <span>Phí giao hàng ({{this.orderInfo.distance}} km)</span>
+                            <span>{{orderInfo.shipFee orderInfo.distance}}</span>
                         </div>
                         <div class="order-review-detail-item">
                             <span>Giảm giá</span>
