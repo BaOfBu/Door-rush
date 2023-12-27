@@ -62,7 +62,9 @@ class Profile{
                 let id = order._id;
                 let status = order.status;
                 let total = order.total;
-                let timeOrder = order.timeOrder.toLocaleDateString('en-US', options);
+                console.log(order.timeStatus);
+                
+                let timeOrder = order.timeStatus[0].toLocaleDateString('en-US', options);
                 
                 let quantity = await this.countQuantityItemsOfOrder(id);
 

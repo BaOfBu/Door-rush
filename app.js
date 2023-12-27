@@ -11,6 +11,7 @@ const __dirname = dirname(fileURLToPath(import.meta.url));
 
 import userRoutes from "./routes/user/index.route.js";
 import adminRoutes from "./routes/admin/index.route.js";
+import merchantRoutes from "./routes/merchant/index.route.js";
 
 const port = 8888;
 const app = express();
@@ -94,6 +95,7 @@ app.use(function (req, res, next) {
 app.use("/static", express.static("static"));
 
 app.use("/", userRoutes);
+app.use("/merchant", merchantRoutes);
 app.use("/admin", adminRoutes);
 
 app.set('trust proxy', 1) // trust first proxy
