@@ -14,53 +14,83 @@ const index = async function (req, res) {
     let orderTime = new Date(order.timeStatus[0]).toLocaleString("en-GB", {
         hour12: true
     });
-    let orderPredictTime = "11:40 AM May 16, 2022";
     let shopName = order.merchantId.name;
     let orderStatus = [
         {
             status: "Đang chờ",
             img: "/static/images/user/order-status/confirm-status.png",
             isCurrent: false,
-            time: new Date(order.timeStatus[0]).toLocaleString("en-GB", {
-                hour: "numeric",
-                minute: "numeric",
-                hour12: true
-            })
+            isNext: false,
+            time: order.timeStatus[0]
+                ? new Date(order.timeStatus[0]).toLocaleString("en-GB", {
+                      hour: "numeric",
+                      minute: "numeric",
+                      hour12: true
+                  })
+                : null
         },
         {
             status: "Đang chuẩn bị",
             img: "/static/images/user/order-status/prepare-food-status.png",
             isCurrent: false,
-            time: new Date(order.timeStatus[1]).toLocaleString("en-GB", {
-                hour: "numeric",
-                minute: "numeric",
-                hour12: true
-            })
+            isNext: false,
+            time: order.timeStatus[1]
+                ? new Date(order.timeStatus[1]).toLocaleString("en-GB", {
+                      hour: "numeric",
+                      minute: "numeric",
+                      hour12: true
+                  })
+                : null
         },
         {
             status: "Đang giao",
             img: "/static/images/user/order-status/delivering-status.png",
             isCurrent: false,
-            time: new Date(order.timeStatus[2]).toLocaleString("en-GB", {
-                hour: "numeric",
-                minute: "numeric",
-                hour12: true
-            })
+            isNext: false,
+            time: order.timeStatus[2]
+                ? new Date(order.timeStatus[2]).toLocaleString("en-GB", {
+                      hour: "numeric",
+                      minute: "numeric",
+                      hour12: true
+                  })
+                : null
         },
         {
             status: "Hoàn thành",
             img: "/static/images/user/order-status/finish-status.png",
             isCurrent: false,
-            time: new Date(order.timeStatus[3]).toLocaleString("en-GB", {
-                hour: "numeric",
-                minute: "numeric",
-                hour12: true
-            })
+            isNext: false,
+            time: order.timeStatus[3]
+                ? new Date(order.timeStatus[3]).toLocaleString("en-GB", {
+                      hour: "numeric",
+                      minute: "numeric",
+                      hour12: true
+                  })
+                : null
         }
     ];
-    for (let i = 0; i < orderStatus.length; i++) {
-        if (orderStatus[i].status === order.status) {
+    let predictTime;
+    let isCurrent;
+    for (let i = 3; i >= 0; i--) {
+        if (order.timeStatus[i] != null) {
+            isCurrent = i;
             orderStatus[i].isCurrent = true;
+            if (i != 2) {
+                predictTime = new Date(order.timeStatus[i].getTime() + 5 * 60000).toLocaleString("en-GB", {
+                    hour: "numeric",
+                    minute: "numeric",
+                    hour12: true
+                });
+            } else {
+                predictTime = new Date(order.timeStatus[i].getTime() + 15 * 60000).toLocaleString("en-GB", {
+                    hour: "numeric",
+                    minute: "numeric",
+                    hour12: true
+                });
+            }
+
+            if (i != 3) orderStatus[i + 1].isNext = true;
+            break;
         }
     }
     let totalPriceOrder = 0;
@@ -90,7 +120,6 @@ const index = async function (req, res) {
     let orderInfo = {
         shopName: shopName,
         userPhone: order.userId.phone,
-        orderPredictTime: orderPredictTime,
         orderTime: orderTime,
         distance: 1.7,
         shipFee: function calculateShipFee(distance) {
@@ -109,11 +138,11 @@ const index = async function (req, res) {
         totalPriceAfterFee: Intl.NumberFormat("vi-VN").format(String(order.total)) + " VNĐ"
     };
     res.render("user/order-status.hbs", {
-        orderInfo,
+        isCurrent: isCurrent,
+        orderInfo: orderInfo,
+        predictTime: predictTime,
         orderItem: eachOrderItem
     });
 };
-// Chưa xử lý giao hàng đến (không rõ địa chỉ nào), Chưa xử lý các chi phí giao hàng, thời gian
-// 0 -> 2km <-> 13k
-// 2km -> 5km <-> 25k
+
 export default { index };

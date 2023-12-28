@@ -33,9 +33,16 @@
                     </div>
                     <img src="/static/images/user/order-status/line.png" class="order-status-line" alt="" />
                     <div class="order-status-time-arrive">
-                        <i class="fa-solid fa-truck-fast"></i>
-                        <span>Giao hàng dự kiến: </span>
-                        <span>{{orderInfo.orderPredictTime}}</span>
+                        {{#if (equal isCurrent '2')}}
+                            <i class="fa-solid fa-truck-fast"></i>
+                            <span>Giao hàng dự kiến: </span>
+                            <span>{{this.predictTime}}</span>
+                        {{/if}}
+                        {{#if (equal isCurrent '3')}}
+                            <i class="fa-solid fa-truck-fast"></i>
+                            <span>Giao hàng thành công </span>
+                        {{/if}}
+                        
                     </div>
                 </div>
             </div>
@@ -55,11 +62,21 @@
                             <p class="timeline-time">{{this.time}}</p>
                         </div>
                     {{else}}
-                        <div class="timeline-step">
-                            <p class="timeline-text">{{this.status}}</p>
-                            <div class="timeline-icon"></div>
-                            <p class="timeline-time">{{this.time}}</p>
-                        </div>
+                        {{#if this.isNext}}
+                            <div class="timeline-step">
+                                <p class="timeline-text">{{this.status}}</p>
+                                <div class="timeline-icon"></div>
+                                <p class="timeline-time">Dự kiến {{../predictTime}}</p>
+                            </div>
+                        {{else}}
+                            <div class="timeline-step">
+                                <p class="timeline-text">{{this.status}}</p>
+                                <div class="timeline-icon"></div>
+                                {{#if this.time}}
+                                    <p class="timeline-time">{{this.time}}</p>
+                                {{/if}}
+                            </div>
+                        {{/if}}
                     {{/if}}
                 {{/each}}
             </div>
