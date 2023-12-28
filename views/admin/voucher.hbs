@@ -5,7 +5,7 @@
 <section class="voucher-admin">
     <div class="section-one">
         <h1 class="title-page">Danh sách ưu đãi</h1>
-        <a href="#" class="add-btn">
+        <a href="./voucher/add" class="add-btn">
             <i class="bi bi-plus-circle"></i>
             Thêm ưu đãi mới</a>
     </div>
@@ -41,12 +41,16 @@
             </table>
             <div class="card-footer">
                 <span>
-                    <b>Trang 1 / 10</b>
-                    <span> ( Tổng số: {{this.numberOfVoucher}} )</span>
+                    <b>Trang {{this.currentPage}} / {{this.nPages}}</b>
+                    <span> ( Tổng số: {{this.total}} )</span>
                 </span>
                 <div class="button-pagnation">
-                    <button class="next-btn">Trang trước</button>
-                    <button class="prev-btn">Trang sau</button>
+                    {{#if prev}}
+                        <a href="?page={{this.prev}}"><button class="next-btn">Trang trước</button></a>
+                    {{/if}}
+                    {{#if next}}
+                        <a href="?page={{this.next}}"><button class="prev-btn">Trang sau</button></a>
+                    {{/if}}
                 </div>
             </div>
         </div>
