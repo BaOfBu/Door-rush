@@ -1,10 +1,11 @@
+import voucherService from "../../services/admin/voucher.service.js";
 import VoucerService from "../../services/admin/voucher.service.js";
 function capitalizeFirstLetter(str) {
     return str.replace(/\b\w/g, match => match.toUpperCase());
 }
 const index = async function (req, res) {
     const page = req.query.page || 1;
-    const limit = 6;
+    const limit = 5;
     const offset = (page - 1) * limit;
     const listVoucher = await VoucerService.findAll(offset, limit);
     const extractedDataListVoucher = listVoucher.map(({ voucherId, startDate, endDate, typeVoucher }) => ({
@@ -15,7 +16,6 @@ const index = async function (req, res) {
     }));
     const totalCount = await VoucerService.countDocuments();
     const nPages = Math.ceil(totalCount / limit);
-    console.log(nPages);
     res.render("admin/voucher", {
         total: totalCount,
         nPages: nPages,
@@ -28,10 +28,15 @@ const index = async function (req, res) {
     });
 };
 const add = async function (req, res) {
-    res.render("admin/add-voucher");
+    res.render("admin/add-voucher", {
+        type: "voucher"
+    });
 };
 const addTheVoucher = async function (req, res) {
-    console.log(req.body);
+    req.body.valueOfDiscount = Number(req.body.valueOfDiscount);
+    req.body.startDate = new Date(req.body.startDate);
+    req.body.endDate = new Date(req.body.endDate);
+    await voucherService.save(req.body);
     res.redirect("back");
 };
 export default { index, add, addTheVoucher };

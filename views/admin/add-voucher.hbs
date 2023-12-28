@@ -18,8 +18,8 @@
                 <div class="mb-3">
                     <label for="typeVoucher" class="form-label"><b>Loại mã</b></label>
                     <select class="form-select" aria-label="Default select example" id="typeVoucher" name="typeVoucher">
-                        <option value="1">Food</option>
-                        <option value="2">Ship</option>
+                        <option value="food">Food</option>
+                        <option value="ship">Ship</option>
                     </select>
                 </div>
                 <div class="mb-3">
@@ -36,9 +36,13 @@
                         <input type="text" class="form-control" aria-describedby="basic-addon2" name="valueOfDiscount" id="discount" />
                         <span class="input-group-text" id="basic-addon2">VNĐ</span>
                     </div></div>
+                <div class="btn">
+                    <button class="add-btn" type="submit" id="add-btn">Thêm ưu đãi</button>
+                    <a href="/admin/voucher" class="return-btn">Trở về</a>
+                </div>
 
-                <button class="add-btn" type="submit" id="add-btn">Thêm ưu đãi</button>
             </form>
+
         </div>
     </div>
 </section>

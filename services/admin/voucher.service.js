@@ -9,5 +9,9 @@ export default {
     },
     countDocuments() {
         return Voucher.countDocuments();
+    },
+    save(entity) {
+        const newVoucher = new Voucher(entity);
+        return newVoucher.save();
     }
 };
