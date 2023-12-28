@@ -60,7 +60,7 @@ async function generateFoodData(){
 
     const feedbackData = new Feedback ({
       itemId: foodTypeData._id,
-      userId: ["657ed32ab3c555f469af362d"],
+      userId: ["658bc732b2e15b47b4ab3653"],
       rating: faker.number.float({ min: 1, max: 5, precision: 0.1 }),
       comment: faker.lorem.sentence(),
       feedbackDate: faker.date.past(),
@@ -130,8 +130,8 @@ router.get("/generate-merchant", async function () {
 
 function generateOrderItemData(){
   const orderItemData = new OrderItem ({
-    foodId: "65788f9c248963c4cf34a0bb",
-    typeFoodId: "65788f9c248963c4cf34a0b7",
+    foodId: "658bc784b2e15b47b4ab3677",
+    typeFoodId: "658bc784b2e15b47b4ab366f",
     quantity: faker.number.int({min: 1, max: 5}),
     notes: faker.lorem.sentence(),
   });
@@ -176,14 +176,22 @@ async function generateOrderData(userID){
 
   await Voucher.findByIdAndUpdate(voucher_ship, { $set: { startDate: temp.startDate, endDate: temp.endDate } }, { new: true });
 
+  let timeStatus = [];
+  let timeOrder = faker.date.between({from: temp.startDate, to: temp.endDate});
+  timeStatus.push(timeOrder);
+  timeStatus.push(timeOrder.setMinutes(timeOrder.getMinutes() + 1));
+  timeStatus.push(timeOrder.setMinutes(timeOrder.getMinutes() + 50));
+  timeStatus.push(timeOrder.setMinutes(timeOrder.getMinutes() + 80));
+
   const orderData = new Order({
-    merchantId: "657ed260b3c555f469af360f",
+    merchantId: "658bc785b2e15b47b4ab3683",
     items: orderItems,
-    status: faker.helpers.arrayElement(["Đang chuẩn bị", "Đang giao", "Hoàn thành", "Đã hủy"]),
+    status: "Đang chờ",
     userId: userID,
     vouchers: vouchers,
     total: faker.number.int({min: 1, max: 20})*100000,
-    timeOrder: faker.date.between({from: temp.startDate, to: temp.endDate})
+    timeStatus: timeStatus,
+    addressOrder: "658bc732b2e15b47b4ab3651"
   });
 
   await orderData.save();

@@ -1,5 +1,6 @@
 import Address from "../../models/addressModel.js";
 import Profile from "../../services/user/profile.service.js";
+import bcrypt from 'bcrypt';
 
 const viewProfile = async function (req, res){
     const userID = req.params.userID;
@@ -53,6 +54,7 @@ const viewProfile = async function (req, res){
 
             let statusFilter = status;
             if(statusFilter === "all") statusFilter = "Tất cả trạng thái";
+            if(statusFilter === "pending") statusFilter = "Đang chờ";
             if(statusFilter === "preparing") statusFilter = "Đang chuẩn bị";
             if(statusFilter === "delivering") statusFilter = "Đang giao";
             if(statusFilter === "delivered") statusFilter = "Hoàn thành";
@@ -161,6 +163,7 @@ const updateUserInformation = async function (req, res){
     const updatedData = req.body;
     switch(optional){
         case "default":{
+            const user = await Profile.getUserInfo(userID);
             const updatedUser = await Profile.updateUserInfo(userID, updatedData);
             res.render("user/profile", {
                 user: true,
@@ -241,6 +244,30 @@ const updateUserInformation = async function (req, res){
             });
             break;
         };
+        case "password":{
+            const raw_current_password = req.body.currentPassword;
+            const user = await Profile.getUserInfo(userID);
+            const ret = bcrypt.compareSync(raw_current_password, user.password);
+            if (ret === false) {
+                return res.render("user/profile", {
+                    err_message: "Incorrectly current password."
+                });
+            }else{
+                const raw_new_password = req.body.newPassword;
+                const salt = bcrypt.genSaltSync(10);
+                const hash_password = bcrypt.hashSync(raw_new_password, salt);
+                const updatedUser = await Profile.updateUserInfo(userID, {password: hash_password});
+                res.render("user/profile", {
+                    user: true,
+                    type: "profile",
+                    userID: userID,
+                    fullName: user.fullname,
+                    image: user.image,
+                    userName: user.username,
+                }); 
+            }
+            break;
+        }
         case "register":{
             const user = await Profile.getUserInfo(userID);
             await Profile.createShopRegister(user.username, user.password, updatedData);
