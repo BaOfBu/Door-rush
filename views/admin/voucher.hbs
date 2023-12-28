@@ -1,1 +1,56 @@
-<h1>Trang quản lý khuyến mãi</h1>
+{{#section "js"}}{{/section}}
+{{#section "css"}}
+    <link rel="stylesheet" href="/static/css/admin/voucher.css" />
+{{/section}}
+<section class="voucher-admin">
+    <div class="section-one">
+        <h1 class="title-page">Danh sách ưu đãi</h1>
+        <a href="#" class="add-btn">
+            <i class="bi bi-plus-circle"></i>
+            Thêm ưu đãi mới</a>
+    </div>
+    <div class="section-two">
+        <div class="card">
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th scope="col" class="text-center" style="width: 20%;">Mã ưu đãi</th>
+                        <th scope="col" style="width: 20%;">Loại ưu đãi</th>
+                        <th scope="col">Ngày bắt đầu</th>
+                        <th scope="col">Ngày kết thúc</th>
+                        <th scope="col">Trạng thái</th>
+                        <th scope="col"> &nbsp;</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {{#each listVoucher}}
+                        <tr class="h-70">
+                            <th scope="row" class="text-center">{{this.voucherId}}</th>
+                            <td>{{this.typeVoucher}}</td>
+                            <td>{{this.startDate}}</td>
+                            <td>{{this.endDate}}</td>
+                            <td>Đang hoạt động</td>
+                            <td style="width: 20%;">
+                                <button class="edit-btn">Sửa</button>
+                                <button class="remove-btn">Xóa</button>
+                            </td>
+                        </tr>
+                    {{/each}}
+
+                </tbody>
+            </table>
+            <div class="card-footer">
+                <span>
+                    <b>Trang 1 / 10</b>
+                    <span> ( Tổng số: {{this.numberOfVoucher}} )</span>
+                </span>
+                <div class="button-pagnation">
+                    <button class="next-btn">Trang trước</button>
+                    <button class="prev-btn">Trang sau</button>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</section>
