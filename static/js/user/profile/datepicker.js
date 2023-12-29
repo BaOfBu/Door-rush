@@ -54,6 +54,7 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 });  
 
+
 document.addEventListener('DOMContentLoaded', function () {
   const dateRangePicker = document.getElementById('datePicker');
   const toggleIcon = document.getElementById('toggle');
