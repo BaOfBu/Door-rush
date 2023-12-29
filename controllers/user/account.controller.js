@@ -82,6 +82,10 @@ const postLogin = async function (req, res) {
     req.session.auth = true;
     req.session.authUser = user;
     const url = req.session.retUrl || "/";
+    console.log(url);
+    if (url === "/account/login") {
+        res.redirect("/");
+    }
     //console.log(url);
     res.redirect(url);
 };
