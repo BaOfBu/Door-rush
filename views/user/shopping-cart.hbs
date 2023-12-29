@@ -1,0 +1,117 @@
+{{#section "js"}}
+    <script src="/static/js/user/shopping-cart/index.js"></script>
+{{/section}}
+{{#section "css"}}
+    <link rel="stylesheet" href="/static/css/user/shopping-cart.css" />
+{{/section}}
+
+<div class="shopping-cart-page">
+    <section class="section-one">
+        <div class="container">
+            <div class="section-one-content">
+                <div class="shopping-cart-breadcrumbs">
+                    <span>Trang chủ</span>
+                    <span>&gt;</span>
+                    <span>Giỏ hàng</span>
+                </div>
+            </div>
+        </div>
+    </section>
+    {{#if noItem}}
+    <section class="section-two">
+        <div class="container">
+            <div class="section-two-content">
+                <p class="shopping-cart-title">Chưa có món ăn nào trong giỏ hàng</p>
+                <p class="shopping-cart-message">Hãy nếm thử những món ăn ngon nào!</p>
+            </div>
+        </div>
+    </section>
+    {{else}}
+    <section class="section-two">
+        <div class="container">
+            <div class="section-two-content">
+                <p class="shopping-cart-title">Giỏ hàng của bạn</p>
+            </div>
+        </div>
+    </section>
+    {{/if}}
+    <section class="section-three">
+        <div class="container">
+            <div class="section-three-content">
+                {{#each itemList}}
+                <div class="item-card">
+                    <div class="item-card-col-1">
+                        <p class="item-title-font">SẢN PHẨM</p>
+                        <div class="item-info">
+                            <img class="item-img" src="{{this.itemImage}}" alt="{{this.itemImage}}">
+                            <div class="item-name">
+                                <p class="item-title-font">{{this.itemName}}</p>
+                                <p class="item-normal-font">{{this.itemType}}</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="item-card-col-2">
+                        <div class="price-col">
+                            <p class="item-title-font text-align-center">GIÁ</p>
+                            <p class="item-normal-font text-align-center">{{this.itemPrice}}Đ</p>
+                        </div>
+                        <div class="price-col">
+                            <p class="item-title-font text-align-center">SỐ LƯỢNG</p>
+                            <p class="item-normal-font text-align-center">{{this.itemQuantity}}</p>
+                        </div>
+                        <div class="price-col">
+                            <p class="item-title-font text-align-center">THÀNH TIỀN</p>
+                            <p class="item-normal-font text-align-center">{{this.itemTotal}}Đ</p>
+                        </div>
+                    </div>
+                </div>
+                {{/each}}
+            </div>
+        </div>
+    </section>
+    <section class="section-four">
+        <div class="container">
+            <div class="section-four-content">
+                <div class="order-option-row">
+                    <p class="order-option-title">MÃ GIẢM GIÁ</p>
+                    <select class="order-option-combobox">
+                        <option class="option-font" value="">
+                            Chọn mã giảm giá</option>
+                        {{#each foodVoucher}}
+                        <option class="option-font" value="{{this.voucherId}}">
+                            Mã: {{this.voucherId}} Giảm: {{this.discount}}Đ</option>
+                        {{/each}}
+                    </select>
+                </div>
+                <div class="order-option-row">
+                    <p class="order-option-title">MÃ SHIPPING</p>
+                    <select class="order-option-combobox">
+                        <option class="option-font" value="">
+                            Chọn mã shipping</option>
+                        {{#each shipVoucher}}
+                        <option class="option-font" value="{{this.voucherId}}">
+                            Mã: {{this.voucherId}} Giảm: {{this.discount}}Đ</option>
+                        {{/each}}
+                    </select>
+                </div>
+                <div class="order-option-row">
+                    <p class="order-option-title">ĐỊA CHỈ GIAO HÀNG</p>
+                    <div class="order-option-address">
+                        <input class="order-option-combobox" placeholder="Nhập địa chỉ">
+                        <select class="order-option-combobox">
+                            <option class="option-font" value="">
+                                Chọn địa chỉ</option>
+                            {{#each addresses}}
+                            <option class="option-font" value="{{this}}">{{this}}</option>
+                            {{/each}}
+                        </select>
+                    </div>
+                </div>
+                <div class="order-option-row">
+                    <p class="order-option-title">TỔNG GIÁ TIÊN</p>
+                    <p class="order-total">{{total}}Đ</p>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
