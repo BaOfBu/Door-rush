@@ -4,6 +4,6 @@ import auth from "../../middleware/auth.mdw.js";
 const router = express.Router();
 
 // [GET] ./order?id={{orderId}}
-router.get("/",auth, orderController.index);
+router.get("/",auth.authUser, orderController.index);
 
 export default router;

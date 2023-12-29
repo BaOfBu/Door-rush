@@ -1,4 +1,3 @@
-import express from "express";
 import bcrypt from "bcrypt";
 import userService from "../../services/user/user.service.js";
 import nodemailer from "nodemailer";
@@ -82,7 +81,12 @@ const postLogin = async function (req, res) {
     req.session.auth = true;
     req.session.authUser = user;
     const url = req.session.retUrl || "/";
-    console.log(url);
+    if(user.role === "Merchant"){
+        return res.redirect("/merchant");
+    }
+    if(user.role === "Admin"){
+        return res.redirect("/admin");
+    }
     if (url === "/account/login") {
         res.redirect("/");
     }

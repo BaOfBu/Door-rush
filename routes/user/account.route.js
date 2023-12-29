@@ -12,7 +12,7 @@ router.get('/login', accountController.getLogin);
 
 router.post('/login', accountController.postLogin);
 
-router.post('/logout', auth, accountController.logout);
+router.post('/logout', accountController.logout);
 
 // eg: /account/is-available?username=abc
 router.get('/is-available-user',accountController.is_available_user);
