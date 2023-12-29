@@ -15,13 +15,12 @@ router.post('/login', accountController.postLogin);
 router.post('/logout', auth, accountController.logout);
 
 // eg: /account/is-available?username=abc
-router.get('/is-available', async function (req, res) {
-    const username = req.query.username;
-    const user = await userService.findByUsername(username);
-    if (!user) {
-        return res.json(true);
-    }
-    res.json(false);
-});
+router.get('/is-available-user',accountController.is_available_user);
+
+router.get('/is-available-email',accountController.is_available_email);
+
+router.post('/register/verification',accountController.post_verification);
+
+router.get('/register/verification',accountController.get_verification);
 
 export default router;
