@@ -31,12 +31,13 @@ const postRegister = async function (req, res) {
   try {
     const newUser = await userService.add_user(user);
     // Send verification email
-    const verificationLink = `http://yourapp.com/verify/${newUser._id}/${verificationToken}`;
+    // random a 6 digits number for OTP
+    const verificationCode = Math.floor(100000 + Math.random() * 900000);
     const mailOptions = {
       from: 'ntson21@clc.fitus.edu.vn',
       to: req.body.email,
       subject: 'no-reply',
-      text: `Click the following link to verify your email: ${verificationLink}`,
+      text: `Your OTP code is ${verificationCode}`,
     };
 
     const transporter = nodemailer.createTransport({
@@ -51,6 +52,8 @@ const postRegister = async function (req, res) {
 
     res.render('user/register', {
       message: 'Registration successful. Check your email for verification instructions.',
+      email: req.body.email,
+      username: req.body.username
     });
   } catch (error) {
     console.error(error);
@@ -112,4 +115,37 @@ const is_available_email = async function (req, res) {
     res.json(false);
 };
 
-export default { is_available_email,is_available_user ,logout, getLogin, postLogin, getRegister, postRegister };
+const get_verification = function (req, res) {
+    res.render("user/verification");
+}
+
+const post_verification = async function (req, res) {
+    const user = await userService.findById(req.params.id);
+    if (!user) {
+        return res.render("user/verification", {
+            err_message: "Invalid user."
+        });
+    }
+
+    const ret = bcrypt.compareSync(req.params.token, user.emailVerificationToken);
+    if (ret === false) {
+        return res.render("user/verification", {
+            err_message: "Invalid token."
+        });
+    }
+
+    if (user.emailVerificationExpires < Date.now()) {
+        return res.render("user/verification", {
+            err_message: "Token expired."
+        });
+    }
+
+    user.status = "Active";
+    await user.save();
+
+    res.render("user/verification", {
+        message: "Account verification successful."
+    });
+}
+
+export default { get_verification,post_verification,is_available_email,is_available_user ,logout, getLogin, postLogin, getRegister, postRegister };

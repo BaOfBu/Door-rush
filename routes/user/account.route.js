@@ -19,4 +19,8 @@ router.get('/is-available-user',accountController.is_available_user);
 
 router.get('/is-available-email',accountController.is_available_email);
 
+router.post('/verify',accountController.post_verification);
+
+router.get('/verify',accountController.get_verification);
+
 export default router;
