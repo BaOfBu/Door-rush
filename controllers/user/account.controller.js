@@ -60,6 +60,7 @@ const postRegister = async function (req, res) {
 };
 
 const getLogin = function (req, res) {
+    req.session.retUrl = req.headers.referer || "/";
     res.render("user/login");
 };
 
