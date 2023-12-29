@@ -139,3 +139,18 @@ img{
     flex-direction: column;
     gap: 10px;
 }
+.order-button-row{
+    display: flex;
+    flex-direction: row;
+    justify-content: end;
+    gap: 10px;
+}
+.order-button{
+    background-color: var(--orange-color);
+    padding: 20px;
+    color: var(--white-color);
+    font-size: 32px;
+    font-weight: 700;
+    line-height: 100%;
+    text-align: center;
+}
