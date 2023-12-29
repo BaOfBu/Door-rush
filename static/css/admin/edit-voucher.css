@@ -1,0 +1,39 @@
+.title-page {
+    font-weight: 600;
+    color: var(--orange-color);
+}
+.section-two {
+    margin-top: 20px;
+}
+.content-title {
+    font-size: 24px;
+}
+.btn {
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 20px;
+}
+.edit-btn {
+    border: 1px solid var(--orange-color);
+    color: var(--orange-color);
+    padding: 10px 20px;
+    border-radius: 5px;
+}
+.edit-btn:hover {
+    color: var(--white-color);
+    background-color: var(--orange-color);
+}
+.return-btn {
+    text-decoration: none;
+    border: 1px solid var(--orange-color);
+    color: var(--orange-color);
+    padding: 10px 20px;
+    border-radius: 5px;
+}
+.return-btn:hover {
+    color: var(--white-color);
+    background-color: var(--orange-color);
+}

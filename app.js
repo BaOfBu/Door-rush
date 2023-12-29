@@ -83,10 +83,9 @@ app.use(function (req, res, next) {
 
 app.use(function (req, res, next) {
     // console.log(req.session.auth);
-    if (typeof (req.session.auth) === 'undefined') {
-      req.session.auth = false;
+    if (typeof req.session.auth === "undefined") {
+        req.session.auth = false;
     }
-  
     res.locals.auth = req.session.auth;
     res.locals.authUser = req.session.authUser;
     next();
@@ -98,20 +97,22 @@ app.use("/", userRoutes);
 app.use("/merchant", merchantRoutes);
 app.use("/admin", adminRoutes);
 
-app.set('trust proxy', 1) // trust first proxy
-app.use(session({
-  secret: 'New Session',
-  resave: false,
-  saveUninitialized: true,
-  cookie: {}
-}));
+app.set("trust proxy", 1); // trust first proxy
+app.use(
+    session({
+        secret: "New Session",
+        resave: false,
+        saveUninitialized: true,
+        cookie: {}
+    })
+);
 
 // auth for login
 app.use(function (req, res, next) {
-    if (typeof (req.session.auth) === 'undefined') {
-      req.session.auth = false;
+    if (typeof req.session.auth === "undefined") {
+        req.session.auth = false;
     }
-  
+
     res.locals.auth = req.session.auth;
     res.locals.authUser = req.session.authUser;
     next();
