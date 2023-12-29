@@ -1,5 +1,5 @@
 import Voucher from "../../models/voucherModel.js";
-
+import mongoose from "mongoose";
 export default {
     findAll() {
         return Voucher.find();
@@ -13,5 +13,9 @@ export default {
     save(entity) {
         const newVoucher = new Voucher(entity);
         return newVoucher.save();
+    },
+    delete(voucherId) {
+        const voucherObjectId = new mongoose.Types.ObjectId(voucherId);
+        return Voucher.deleteOne({ _id: voucherObjectId });
     }
 };

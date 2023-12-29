@@ -1,4 +1,6 @@
-{{#section "js"}}{{/section}}
+{{#section "js"}}
+    <script src="../../static/js/admin/voucher.js"></script>
+{{/section}}
 {{#section "css"}}
     <link rel="stylesheet" href="/static/css/admin/voucher.css" />
 {{/section}}
@@ -32,11 +34,13 @@
                             <td>Đang hoạt động</td>
                             <td style="width: 20%;">
                                 <button class="edit-btn">Sửa</button>
-                                <button class="remove-btn">Xóa</button>
+                                <a href="/admin/voucher/remove-voucher?voucherId={{this._id}}"><button
+                                        type="button"
+                                        class="remove-btn"
+                                    >Xóa</button></a>
                             </td>
                         </tr>
                     {{/each}}
-
                 </tbody>
             </table>
             <div class="card-footer">
