@@ -1,9 +1,10 @@
 import express from "express";
 import profileController from "../../controllers/user/profile.controller.js";
+import auth from "../../middleware/auth.mdw.js";
 
 const router = express.Router();
 
-router.get("/:userID", profileController.viewProfile);
+router.get("/:userID",auth, profileController.viewProfile);
 
 router.post("/:userID", profileController.updateUserInformation);
 

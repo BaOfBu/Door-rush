@@ -1,23 +1,5 @@
 {{#section 'js'}}
-<script>
-  $('#frmRegister').on('submit', function (e) {
-    e.preventDefault();
-
-    const username = $('#txtUsername').val();
-    if (username.length === 0) {
-      alert('Please input username.');
-      return;
-    }
-
-    $.getJSON(`/account/is-available?username=${username}`, function (data) {
-      if (data === false) {
-        alert('Username is already taken.');
-      } else {
-        $('#frmRegister').off('submit').submit();
-      }
-    });
-  })
-</script>
+<script src="/static/js/user/account/index.js"></script>
 {{/section}}
 
 {{#section 'css'}}
