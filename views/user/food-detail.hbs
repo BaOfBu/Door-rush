@@ -4,6 +4,7 @@
         {{{json feedbacks.length}}}
         var typeOfFood =
         {{{json typeOfFood}}}
+        var typeOfFoodId ={{{json typeOfFoodId}}}
         var priceOfFood =
         {{{json foodPrice}}}
     </script>
@@ -66,7 +67,7 @@
             <div class="food-detail-img">
                 <img src={{this.foodImg}} alt="" />
             </div>
-            <form action="" class="food-detail-note" method="get">
+            <form action="" class="food-detail-note" method="post">
                 <div class="form-group-type-quantity">
                     <div class="form-group-type">
                         <label for="food-type"><b>Sản phẩm</b></label>
@@ -85,11 +86,9 @@
                     <label for="food-note"><b>Thêm chú thích</b></label>
                     <textarea class="form-control" id="food-note" rows="5"></textarea>
                 </div>
-                <a href="/foods/{{shopName}}/{{foodId}}/add-to-cart"><button
-                        type="button"
-                        class="food-detail-btn add-food-btn"
-                        id="addItemToCart"
-                    >Thêm vào giỏ</button></a>
+                {{!-- <a href="/foods/{{shopName}}/{{foodId}}/add-to-cart"> --}}
+                <button type="submit" class="food-detail-btn add-food-btn" id="addItemToCart">Thêm vào giỏ</button>
+                {{! </a> }}
                 <a href="#"><button type="button" class="food-detail-btn buy-food-btn">Mua ngay</button></a>
             </form>
         </div>
@@ -209,7 +208,6 @@
                         </div>
                     </div>
                 </div>
-
                 <div class="rating-pop-up-rate-description">
                     <label for="floatingTextarea2">Ghi chú của bạn về sản phẩm</label>
                     <textarea

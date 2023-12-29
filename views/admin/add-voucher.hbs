@@ -1,0 +1,48 @@
+{{#section "js"}}
+    <script src="../../static/js/admin/add-voucher.js"></script>
+{{/section}}
+{{#section "css"}}
+    <link rel="stylesheet" href="/static/css/admin/add-voucher.css" />
+{{/section}}
+<section class="add-voucher-admin">
+    <div class="section-one">
+        <h1 class="title-page">Thêm ưu đãi mới</h1>
+    </div>
+    <div class="section-two">
+        <div class="content">
+            <form method="post">
+                <div class="mb-3">
+                    <label for="inputNameVoucher" class="form-label"><b>Mã ưu đãi</b></label>
+                    <input type="text" class="form-control" id="inputNameVoucher" name="voucherId" />
+                </div>
+                <div class="mb-3">
+                    <label for="typeVoucher" class="form-label"><b>Loại mã</b></label>
+                    <select class="form-select" aria-label="Default select example" id="typeVoucher" name="typeVoucher">
+                        <option value="food">Food</option>
+                        <option value="ship">Ship</option>
+                    </select>
+                </div>
+                <div class="mb-3">
+                    <label for="start-date" class="form-label"><b>Ngày bắt đầu</b></label>
+                    <input type="date" class="form-control" id="start-date" name="startDate" />
+                </div>
+                <div class="mb-3">
+                    <label for="end-date" class="form-label"><b>Ngày kết thúc</b></label>
+                    <input type="date" class="form-control" name="endDate" id="end-date" />
+                </div>
+                <div class="mb-3">
+                    <label for="discount" class="form-label"><b>Ưu đãi</b></label>
+                    <div class="input-group mb-3">
+                        <input type="text" class="form-control" aria-describedby="basic-addon2" name="valueOfDiscount" id="discount" />
+                        <span class="input-group-text" id="basic-addon2">VNĐ</span>
+                    </div></div>
+                <div class="btn">
+                    <button class="add-btn" type="submit" id="add-btn">Thêm ưu đãi</button>
+                    <a href="/admin/voucher" class="return-btn">Trở về</a>
+                </div>
+
+            </form>
+
+        </div>
+    </div>
+</section>

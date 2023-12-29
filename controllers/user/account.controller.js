@@ -9,54 +9,54 @@ const getRegister = function (req, res) {
 };
 
 const postRegister = async function (req, res) {
-  const raw_password = req.body.raw_password || "";
-  const salt = bcrypt.genSaltSync(10);
-  const hash_password = bcrypt.hashSync(raw_password, salt);
-  const verificationCode = Math.floor(100000 + Math.random() * 900000).toString();
-  const verificationToken = bcrypt.hashSync(verificationCode, salt);
+    const raw_password = req.body.raw_password || "";
+    const salt = bcrypt.genSaltSync(10);
+    const hash_password = bcrypt.hashSync(raw_password, salt);
+    const verificationCode = Math.floor(100000 + Math.random() * 900000).toString();
+    const verificationToken = bcrypt.hashSync(verificationCode, salt);
 
-  const user = {
-    username: req.body.username,
-    password: hash_password,
-    email: req.body.email,
-    role: "User",
-    status: "pending",
-    permission: 0,
-    phone: req.body.phone,
-    emailVerificationToken: verificationToken,
-    emailVerificationExpires: Date.now() + 3600000, // Token expires in 1 hour
-  };
-
-  //console.log(user);
-
-  try {
-    await userService.add_user(user);
-    // Send verification email
-    // random a 6 digits number for OTP
-    const mailOptions = {
-      from: 'ntson21@clc.fitus.edu.vn',
-      to: req.body.email,
-      subject: 'OTP Code for Door-rush website',
-      text: `Your OTP code is ${verificationCode}`,
+    const user = {
+        username: req.body.username,
+        password: hash_password,
+        email: req.body.email,
+        role: "User",
+        status: "pending",
+        permission: 0,
+        phone: req.body.phone,
+        emailVerificationToken: verificationToken,
+        emailVerificationExpires: Date.now() + 3600000 // Token expires in 1 hour
     };
 
-    const transporter = nodemailer.createTransport({
-      service: 'gmail',
-      auth: {
-        user: 'ntson21@clc.fitus.edu.vn',
-        pass: 'Ntson2101296773776',
-      },
-    });
+    //console.log(user);
 
-    await transporter.sendMail(mailOptions);
+    try {
+        await userService.add_user(user);
+        // Send verification email
+        // random a 6 digits number for OTP
+        const mailOptions = {
+            from: "ntson21@clc.fitus.edu.vn",
+            to: req.body.email,
+            subject: "OTP Code for Door-rush website",
+            text: `Your OTP code is ${verificationCode}`
+        };
 
-    req.session.username = req.body.username;
-    req.session.email = req.body.email;
-    res.redirect("/account/register/verification");
-  } catch (error) {
-    console.error(error);
-    res.status(500).send('Internal Server Error');
-  }
+        const transporter = nodemailer.createTransport({
+            service: "gmail",
+            auth: {
+                user: "ntson21@clc.fitus.edu.vn",
+                pass: "Ntson2101296773776"
+            }
+        });
+
+        await transporter.sendMail(mailOptions);
+
+        req.session.username = req.body.username;
+        req.session.email = req.body.email;
+        res.redirect("/account/register/verification");
+    } catch (error) {
+        console.error(error);
+        res.status(500).send("Internal Server Error");
+    }
 };
 
 const getLogin = function (req, res) {
@@ -78,12 +78,10 @@ const postLogin = async function (req, res) {
             err_message: "Invalid username or password."
         });
     }
-
     delete user.password;
     req.session.auth = true;
     req.session.authUser = user;
     const url = req.session.retUrl || "/";
-    console.log(url);
     res.redirect(url);
 };
 
@@ -92,7 +90,7 @@ const logout = function (req, res) {
     req.session.auth = false;
     req.session.authUser = undefined;
     res.redirect("../../../account/login");
-    localStorage.removeItem('selectedDateRange');
+    localStorage.removeItem("selectedDateRange");
 };
 
 const is_available_user = async function (req, res) {
@@ -117,8 +115,8 @@ const is_available_email = async function (req, res) {
 };
 
 const get_verification = function (req, res) {
-    res.render("user/verification",{username: req.session.username, email: req.session.email});
-}
+    res.render("user/verification", { username: req.session.username, email: req.session.email });
+};
 
 const post_verification = async function (req, res) {
     console.log(req.body);
@@ -128,8 +126,8 @@ const post_verification = async function (req, res) {
             err_message: "Invalid user."
         });
     }
-    const OTP = req.body.first+req.body.second+req.body.third+req.body.fourth+req.body.fifth+req.body.sixth;
-    console.log("OTP:"+OTP);
+    const OTP = req.body.first + req.body.second + req.body.third + req.body.fourth + req.body.fifth + req.body.sixth;
+    console.log("OTP:" + OTP);
 
     const ret = bcrypt.compareSync(OTP, user.emailVerificationToken);
     if (ret === false) {
@@ -146,6 +144,16 @@ const post_verification = async function (req, res) {
     await user.save();
 
     res.redirect("/account/login");
-}
+};
 
-export default { get_verification,post_verification,is_available_email,is_available_user ,logout, getLogin, postLogin, getRegister, postRegister };
+export default {
+    get_verification,
+    post_verification,
+    is_available_email,
+    is_available_user,
+    logout,
+    getLogin,
+    postLogin,
+    getRegister,
+    postRegister
+};

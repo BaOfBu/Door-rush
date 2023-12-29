@@ -1,10 +1,9 @@
 import FoodService from "../../services/user/food.service.js";
-import Feedback from "../../models/feedbackModel.js";
 import User from "../../models/userModel.js";
 import Food from "../../models/foodModel.js";
-import Merchant from "../../models/merchantModel.js"
-import ShopService from "../../services/user/shop.service.js"
-import e from "express";
+import ShopService from "../../services/user/shop.service.js";
+import OrderItem from "../../models/orderItemModel.js";
+import FoodType from "../../models/foodTypeModel.js";
 
 // [GET]/foods
 const index = function (req, res) {
@@ -18,29 +17,29 @@ const index = function (req, res) {
 // [GET]/foods/{{shop}}
 const shop = async function (req, res) {
     // Get the params from the route
-    const shopName = req.params.shop || 0
+    const shopName = req.params.shop || 0;
 
     // Handle the problem
-    if(!shopName){
-        return res.redirect("/foods")
+    if (!shopName) {
+        return res.redirect("/foods");
     }
 
     // Get the data of shop
-    let shop = await ShopService.findByName(shopName)
-    if(!shop){
-        return res.redirect("/foods")
+    let shop = await ShopService.findByName(shopName);
+    if (!shop) {
+        return res.redirect("/foods");
     }
 
-    const shopEmail = shop.email
-    const shopPhone = shop.phone
-    const shopImage = shop.image
-    const shopRating = Math.round(shop.rating)
-    let shopAddress = ShopService.mergeAddress(shop)
-    let shopFood = await ShopService.getAllFood(shop)
-    let shopCategory = ShopService.getAllCategory(shop, shopFood)
-    let popularCategory = ShopService.sliceCategory(shopCategory, 0, 9)
-    let recommendFood = await ShopService.getRecommendFood(shop)
-    
+    const shopEmail = shop.email;
+    const shopPhone = shop.phone;
+    const shopImage = shop.image;
+    const shopRating = Math.round(shop.rating);
+    let shopAddress = ShopService.mergeAddress(shop);
+    let shopFood = await ShopService.getAllFood(shop);
+    let shopCategory = ShopService.getAllCategory(shop, shopFood);
+    let popularCategory = ShopService.sliceCategory(shopCategory, 0, 9);
+    let recommendFood = await ShopService.getRecommendFood(shop);
+
     res.render("user/shop.hbs", {
         //shop data
         shopEmail: shopEmail,
@@ -58,6 +57,7 @@ const shop = async function (req, res) {
         userName: "Họ và tên"
     });
 };
+
 // [GET]/foods/{{shop_name}}/{{foodID}}
 const foodDetail = async function (req, res) {
     // Get the params from the route
@@ -80,6 +80,7 @@ const foodDetail = async function (req, res) {
     });
     // Get type of food
     let typeOfFood = food.foodType.map(type => type.product);
+    let typeOfFoodId = food.foodType.map(type => type._id);
     // Get user rating for food
     let userRating = [];
     for (let i = 1; i <= Math.round(food.rating); i++) {
@@ -121,17 +122,27 @@ const foodDetail = async function (req, res) {
         // data of header
         user: true,
         typeOfFood: typeOfFood,
+        typeOfFoodId: typeOfFoodId,
         type: "food",
         userName: "Họ và tên"
     });
 };
-// [Get]/foods/{{shop_name}}/{{foodId}}/add-to-cart
+// [POST]/foods/{{shop_name}}/{{foodId}}/addToCart
 const addToCart = async function (req, res) {
     // Get the params from the route
     req.session.numberItem = req.session.numberItem + 1;
+    let foodId = await FoodService.findByIdForOrderItem(req.body.foodId);
+    let foodType = await FoodType.findById(String(req.body.foodType));
+    const orderItem = new OrderItem({
+        foodId: foodId._id,
+        typeFoodId: foodType._id,
+        quantity: req.body.quantity,
+        notes: req.body.notes
+    });
+    orderItem.save();
     res.redirect(req.headers.referer);
 };
-// [POST]/foods/{{shop_name}}/{{foodId}}
+// [POST]/foods/{{shop_name}}/{{foodId}}/getfeedback
 const giveFeedback = async function (req, res) {
     try {
         let user = await User.findById(req.body.userId);
@@ -152,9 +163,6 @@ const giveFeedback = async function (req, res) {
             },
             { new: true, useFindAndModify: false }
         );
-    } catch {
-        console.log("None");
-    }
+    } catch {}
 };
-
 export default { index, foodDetail, shop, addToCart, giveFeedback };
