@@ -22,11 +22,12 @@ const postRegister = async function (req, res) {
     role: "User",
     status: "pending",
     permission: 0,
+    phone: req.body.phone,
     emailVerificationToken: verificationToken,
     emailVerificationExpires: Date.now() + 3600000, // Token expires in 1 hour
   };
 
-  console.log(user);
+  //console.log(user);
 
   try {
     await userService.add_user(user);
@@ -64,7 +65,7 @@ const getLogin = function (req, res) {
 
 const postLogin = async function (req, res) {
     const user = await userService.findByUsername(req.body.username);
-    console.log(user);
+    //console.log(user);
     if (!user) {
         return res.render("user/login", {
             err_message: "Invalid username or password."
@@ -82,13 +83,16 @@ const postLogin = async function (req, res) {
     req.session.auth = true;
     req.session.authUser = user;
     const url = req.session.retUrl || "/";
+    console.log(url);
     res.redirect(url);
 };
 
 const logout = function (req, res) {
+    req.session.retUrl = req.headers.referer || "/";
     req.session.auth = false;
     req.session.authUser = undefined;
-    res.redirect(req.headers.referer);
+    res.redirect("../../../account/login");
+    localStorage.removeItem('selectedDateRange');
 };
 
 const is_available_user = async function (req, res) {
@@ -100,7 +104,7 @@ const is_available_user = async function (req, res) {
     if (user === null) {
         return res.json(true);
     }
-    res.json(false);
+    return res.json(false);
 };
 
 const is_available_email = async function (req, res) {
@@ -109,7 +113,7 @@ const is_available_email = async function (req, res) {
     if (result === null) {
         return res.json(true);
     }
-    res.json(false);
+    return res.json(false);
 };
 
 const get_verification = function (req, res) {
@@ -129,15 +133,13 @@ const post_verification = async function (req, res) {
 
     const ret = bcrypt.compareSync(OTP, user.emailVerificationToken);
     if (ret === false) {
-        return res.render("user/verification", {
-            err_message: "Invalid OTP."
-        });
+        req.session.err_message = "Invalid OTP.";
+        return res.redirect("/account/register/verification");
     }
 
     if (user.emailVerificationExpires < Date.now()) {
-        return res.render("user/verification", {
-            err_message: "Token expired."
-        });
+        req.session.err_message = "OTP expired.";
+        return res.redirect("/account/register/verification");
     }
 
     user.status = "active";

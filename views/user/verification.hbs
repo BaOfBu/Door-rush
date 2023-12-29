@@ -8,6 +8,12 @@
 {{/section}}
 
 <main>
+  {{#if req.session.err_message}}
+    alert({{req.session.err_message}});
+  {{/if}}
+  {{#if req.session.success_message}}
+    alert({{req.session.success_message}});
+  {{/if}}
   <div
     style="background-image: url('../../static/images/user/account/SignInBackround.png'); background-position: center; background-repeat: no-repeat; background-size:cover;"
   >
