@@ -14,9 +14,8 @@ const index = function (req, res) {
         userName: "Họ và tên"
     });
 };
-
 // [GET]/foods/{{shop}}
-const shop = async function (req, res) {
+const shop = async (req, res) => {
     // Get the params from the route
     const shopName = req.params.shop || 0;
 
@@ -155,7 +154,6 @@ const giveFeedback = async function (req, res) {
             comment: req.body.comment,
             feedbackDate: req.body.feedbackDate
         });
-        console.log(newFeedback);
         const savedFeedback = await newFeedback.save();
         console.log(savedFeedback);
         const foodItemId = food._id;
