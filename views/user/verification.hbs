@@ -1,8 +1,10 @@
 {{#section 'js'}}
+<script src="/static/js/user/account/verify.js"></script>
 {{/section}}
 
 {{#section 'css'}}
 <link rel="stylesheet" href="../../static/css/user/register.css">
+<link rel="stylesheet" href="../../static/css/user/verification.css">
 {{/section}}
 
 <main>
@@ -21,24 +23,25 @@
             <h3 style="color: #F59359; ">Xác minh tài khoản</h3>
             <p style="color: #9EA0A5;">Vui lòng nhập mã OTP được gửi về {{this.email}} của bạn để xác minh tài khoản</p>
             <form action="" method="post" id="frmRegister">
+              <div class="mb-6 text-center d-flex flex-row">
+                <div id="otp" class="d-flex justify-content-center flex-row">
+                  <input class="m-2 text-center form-control form-control-solid rounded focus:border-blue-400 focus:shadow-outline" type="text" name="first" id="first"  maxlength="1" autofocus/>
+                  <input class="m-2 text-center form-control form-control-solid rounded focus:border-blue-400 focus:shadow-outline" type="text" name="second" id="second" maxlength="1" />
+                  <input class="m-2 text-center form-control form-control-solid rounded focus:border-blue-400 focus:shadow-outline" type="text" name="third" id="third" maxlength="1" />
+                  <input class="m-2 text-center form-control form-control-solid rounded focus:border-blue-400 focus:shadow-outline" type="text" name="fourth" id="fourth" maxlength="1" />
+                  <input class="m-2 text-center form-control form-control-solid rounded focus:border-blue-400 focus:shadow-outline" type="text" name="fifth" id="fifth" maxlength="1" />
+                  <input class="m-2 text-center form-control form-control-solid rounded focus:border-blue-400 focus:shadow-outline" type="text" name="sixth" id="sixth" maxlength="1" />
+                </div>
+              </div>
+              <input type="text" name="username" value={{this.username}} hidden/>
               <div class="form-group">
-                    <label for="txtOTP" style="color: #F59359; margin-bottom: 1px;">OTP Code</label>
-                    <input 
-                    type="text" 
-                    name="OTP" 
-                    id="txtOTP" 
-                    class="form-control form-control-lg d-flex flex-fill"
-                    style="border-radius:8px;font-size: 16px; height:50px;margin: 8px 0 15px;"
-                    autofocus>
-                </div>
-                <div class="form-group">
-                    <div class="ml-2">
-                        <button type="submit" class="btn w-100 btn-lg btn-info" 
-                        style="background-color: #F59359; color:#fff; margin: 8px 0 8px 0;">
-                            Đăng kí ngay
-                        </button>
-                    </div>
-                </div>
+                  <div class="ml-2" >
+                      <button type="submit" class="btn w-100 btn-lg btn-info" 
+                      style="background-color: #F59359; color:#fff; margin: 8px 0 8px 0;">
+                          Xác minh
+                      </button>
+                  </div>
+              </div>
             </form>
 
             {{!-- <p style="color: #9EA0A5;">Đã có tài khoản?

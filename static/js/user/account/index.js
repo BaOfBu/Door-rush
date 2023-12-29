@@ -5,8 +5,7 @@ $("#frmRegister").on("submit",function(e){
   var conpassword = $("#txtConfirm").val();
   var email = $("#txtEmail").val();
   var pattern = /^\b[A-Z0-9._%-]+@[A-Z0-9.-]+\.[A-Z]{2,4}\b$/i;
-  var flag = false;
-
+  var flag = true;
   console.log(password);
   console.log(conpassword);
   if (username.length === 0 || username === null) {
@@ -25,8 +24,8 @@ $("#frmRegister").on("submit",function(e){
     console.log(data);
     if (data === false) {
       alert('Username is already taken.');
-    } else {
-      flag = true;
+      flag = false;
+      return;
     }
   });
 
@@ -34,12 +33,11 @@ $("#frmRegister").on("submit",function(e){
     console.log(data);
     if (data === false) {
       alert('Email is already taken.');
-    } else {
-      flag = true;
+      flag = false;
+      return;
     }
   });
-  
-  if(flag === false){
+  if(flag === true){
     $('#frmRegister').off('submit').submit();
   }
 })

@@ -21,7 +21,9 @@ const userSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId, 
         ref: "Order" 
     }],
-    image: String
+    image: String,
+    emailVerificationToken: String,
+    emailVerificationExpires: Date
 });
 
 const User = Account.discriminator("User", userSchema);
