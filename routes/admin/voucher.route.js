@@ -3,6 +3,8 @@ import voucherController from "../../controllers/admin/voucher.controller.js";
 const router = express.Router();
 router.get("/", voucherController.index);
 router.get("/add", voucherController.add);
+router.get("/edit-voucher", voucherController.editVoucher);
 router.get("/remove-voucher", voucherController.removeVoucher);
 router.post("/add", voucherController.addTheVoucher);
+router.post("/edit-voucher", voucherController.editVoucherDatabase);
 export default router;
