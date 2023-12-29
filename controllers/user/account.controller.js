@@ -2,7 +2,6 @@ import express from "express";
 import bcrypt from "bcrypt";
 import userService from "../../services/user/user.service.js";
 import nodemailer from "nodemailer";
-import auth from "../../middleware/auth.mdw.js";
 
 const getRegister = function (req, res) {
     res.render("user/register");
@@ -60,6 +59,7 @@ const postRegister = async function (req, res) {
 };
 
 const getLogin = function (req, res) {
+    req.session.retUrl = req.headers.referer || "/";
     res.render("user/login");
 };
 
@@ -83,7 +83,7 @@ const postLogin = async function (req, res) {
     req.session.auth = true;
     req.session.authUser = user;
     const url = req.session.retUrl || "/";
-    console.log(url);
+    //console.log(url);
     res.redirect(url);
 };
 
@@ -92,7 +92,7 @@ const logout = function (req, res) {
     req.session.auth = false;
     req.session.authUser = undefined;
     res.redirect("../../../account/login");
-    localStorage.removeItem('selectedDateRange');
+    //localStorage.removeItem('selectedDateRange');
 };
 
 const is_available_user = async function (req, res) {
