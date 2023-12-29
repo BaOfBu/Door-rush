@@ -1,6 +1,9 @@
 import OrderService from "../../services/user/order.service.js";
 // [GET]/order?id={{orderId}}
 const index = async function (req, res) {
+    if (req.session.auth === false) {
+        res.redirect("/account/login");
+    }
     let orderId = req.query.id || 0;
     const order = await OrderService.findById(orderId)
         .populate("merchantId")
