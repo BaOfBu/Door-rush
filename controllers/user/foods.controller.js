@@ -3,6 +3,7 @@ import User from "../../models/userModel.js";
 import Food from "../../models/foodModel.js";
 import ShopService from "../../services/user/shop.service.js";
 import OrderItem from "../../models/orderItemModel.js";
+import Feedback from "../../models/feedbackModel.js";
 import FoodType from "../../models/foodTypeModel.js";
 
 // [GET]/foods
@@ -57,7 +58,6 @@ const shop = async function (req, res) {
         userName: "Họ và tên"
     });
 };
-
 // [GET]/foods/{{shop_name}}/{{foodID}}
 const foodDetail = async function (req, res) {
     // Get the params from the route
@@ -108,6 +108,7 @@ const foodDetail = async function (req, res) {
         };
     });
     res.render("user/food-detail.hbs", {
+        isAccount: req.session.auth,
         // Data of page
         foodImg: food.image,
         foodId: foodId,
@@ -145,7 +146,7 @@ const addToCart = async function (req, res) {
 // [POST]/foods/{{shop_name}}/{{foodId}}/getfeedback
 const giveFeedback = async function (req, res) {
     try {
-        let user = await User.findById(req.body.userId);
+        let user = req.session.authUser;
         let food = await FoodService.findById(req.body.itemId);
         const newFeedback = new Feedback({
             itemId: food._id,
@@ -154,7 +155,9 @@ const giveFeedback = async function (req, res) {
             comment: req.body.comment,
             feedbackDate: req.body.feedbackDate
         });
+        console.log(newFeedback);
         const savedFeedback = await newFeedback.save();
+        console.log(savedFeedback);
         const foodItemId = food._id;
         await Food.findByIdAndUpdate(
             foodItemId,
