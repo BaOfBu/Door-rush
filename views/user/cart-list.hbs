@@ -1,0 +1,49 @@
+{{#section "js"}}
+{{/section}}
+{{#section "css"}}
+    <link rel="stylesheet" href="/static/css/user/cart-list.css" />
+{{/section}}
+
+<div class="cart-list-page">
+    <section class="section-one">
+        <div class="container">
+            <div class="section-one-content">
+                <div class="cart-list-breadcrumbs">
+                    <span>Trang chủ</span>
+                    <span>&gt;</span>
+                    <span>Tài khoản: </span>
+                    <span>{{userFullname}}</span>
+                    <span>&gt;</span>
+                    <span>Danh sách giỏ hàng</span>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="section-two">
+        <div class="container">
+            <div class="section-two-content">
+                <p class="cart-list-title">Danh sách giỏ hàng</p>
+            </div>
+        </div>
+    </section>
+    <section class="section-three">
+        <div class="container">
+            <div class="section-three-content">
+                {{#each cartList}}
+                <a href="/shopping-cart/{{../userID}}/{{this.orderID}}" class="order-link">
+                    <div class="cart-card">
+                        <div class="cart-card-header">
+                            <span class="order-id">ID Đơn hàng: {{this.orderID}}</span>
+                            <span class="shop-name">Quán: {{this.merchantName}}</span>
+                        </div>
+                        <div class="cart-card-body">
+                            <span class="total-header">Tổng giá</span>
+                            <span class="total-body">{{this.total}} VNĐ</span>
+                        </div>
+                    </div>
+                </a>
+                {{/each}}
+            </div>
+        </div>
+    </section>
+</div>
