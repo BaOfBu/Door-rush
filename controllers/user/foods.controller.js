@@ -142,6 +142,7 @@ const addToCart = async function (req, res) {
         notes: req.body.notes
     });
     const orderItemMongo = await orderItem.save();
+    let timeStatus = Array.from({ length: 4 }, () => null);
     // New Order in "Giỏ hàng" with userId and merchantId
     if (req.session.order === "") {
         let new_order = new Order({
@@ -150,6 +151,7 @@ const addToCart = async function (req, res) {
             items: (await orderItemMongo)._id,
             userId: req.session.authUser || null,
             total: 0,
+            timeStatus: timeStatus,
             addressOrder: null
         });
         const new_order_mongodb = new_order.save();
