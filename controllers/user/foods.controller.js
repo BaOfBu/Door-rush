@@ -65,8 +65,21 @@ const foodDetail = async function (req, res) {
     const shopName = req.params.shop || 0;
     const foodId = req.params.id || 0;
     const merchantId = await MerchantService.findByName(shopName);
-    // Handle the problem
+    let currentMerchant;
+    let isSameMerchant = false;
+    if (req.session.order != "") {
+        const orderCurrent = await OrderService.findById(req.session.order);
+        currentMerchant = String(orderCurrent.merchantId);
+        if (currentMerchant == String(merchantId[0]._id)) {
+            isSameMerchant = true;
+        } else {
+            isSameMerchant = false;
+        }
+    } else isSameMerchant = true;
+
     if (!shopName) {
+        // console.log(orderCurrent);
+        // Handle the problem
         return res.redirect("/");
     }
     if (!foodId) {
@@ -112,6 +125,7 @@ const foodDetail = async function (req, res) {
     res.render("user/food-detail.hbs", {
         merchantId: String(merchantId[0]._id),
         isAccount: req.session.auth,
+        isSameMerchant: isSameMerchant,
         // Data of page
         foodImg: food.image,
         foodId: foodId,
@@ -133,43 +147,80 @@ const foodDetail = async function (req, res) {
 };
 // [POST]/foods/{{shop_name}}/{{foodId}}/addToCart
 const addToCart = async function (req, res) {
-    let foodId = await FoodService.findByIdForOrderItem(req.body.foodId);
-    let foodType = await FoodType.findById(String(req.body.foodType));
-    const orderItem = new OrderItem({
-        foodId: foodId._id,
-        typeFoodId: foodType._id,
-        quantity: req.body.quantity,
-        notes: req.body.notes
-    });
-    const orderItemMongo = await orderItem.save();
-    let timeStatus = Array.from({ length: 4 }, () => null);
-    // New Order in "Giỏ hàng" with userId and merchantId
-    if (req.session.order === "") {
-        let new_order = new Order({
-            merchantId: req.body.merchantId,
-            status: "Giỏ hàng",
-            items: (await orderItemMongo)._id,
-            userId: req.session.authUser || null,
-            total: 0,
-            timeStatus: timeStatus,
-            addressOrder: null
+    if (req.body.isSameMerchant == true) {
+        let foodId = await FoodService.findByIdForOrderItem(req.body.foodId);
+        let foodType = await FoodType.findById(String(req.body.foodType));
+        const orderItem = new OrderItem({
+            foodId: foodId._id,
+            typeFoodId: foodType._id,
+            quantity: req.body.quantity,
+            notes: req.body.notes
         });
-        const new_order_mongodb = new_order.save();
-        req.session.order = (await new_order_mongodb)._id;
-        req.session.numberItem = 1;
+        const orderItemMongo = await orderItem.save();
+        let timeStatus = Array.from({ length: 4 }, () => null);
+        // New Order in "Giỏ hàng" with userId and merchantId
+        if (req.session.order === "") {
+            let new_order = new Order({
+                merchantId: req.body.merchantId,
+                status: "Giỏ hàng",
+                items: (await orderItemMongo)._id,
+                userId: req.session.authUser || null,
+                total: 0,
+                timeStatus: timeStatus,
+                addressOrder: null
+            });
+            const new_order_mongodb = new_order.save();
+            req.session.order = (await new_order_mongodb)._id;
+            req.session.numberItem = 1;
+        } else {
+            Order.updateOne({ _id: req.session.order }, { $push: { items: orderItemMongo._id } })
+                .then(result => {
+                    // console.log(result);
+                })
+                .catch(error => {
+                    console.error("Error updating order:", error);
+                });
+            req.session.numberItem = req.session.numberItem + 1;
+        }
+        res.redirect(req.headers.referer);
+    } else if (req.body.option == false) {
+        res.redirect(req.headers.referer);
     } else {
-        Order.updateOne({ _id: req.session.order }, { $push: { items: orderItemMongo._id } })
+        let foodId = await FoodService.findByIdForOrderItem(req.body.foodId);
+        let foodType = await FoodType.findById(String(req.body.foodType));
+        const orderItem = new OrderItem({
+            foodId: foodId._id,
+            typeFoodId: foodType._id,
+            quantity: req.body.quantity,
+            notes: req.body.notes
+        });
+        const orderItemMongo = await orderItem.save();
+        const orderCurrent = await OrderService.findById(req.session.order);
+        const itemOrder = orderCurrent.items;
+        for (let i = 0; i < itemOrder.length; i++) {
+            itemOrder[i] = String(itemOrder[i]);
+        }
+        let timeStatus = Array.from({ length: 4 }, () => null);
+        Order.updateOne(
+            { _id: req.session.order },
+            {
+                $set: { merchantId: req.body.merchantId, items: orderItemMongo._id }
+            }
+        )
             .then(result => {
                 // console.log(result);
             })
             .catch(error => {
                 console.error("Error updating order:", error);
             });
-        req.session.numberItem = req.session.numberItem + 1;
+        OrderItem.deleteMany({ _id: { $in: itemOrder } })
+            .then(result => {})
+            .catch(error => {
+                console.error("Error deleting items:", error);
+            });
+        req.session.numberItem = 1;
+        res.redirect(req.headers.referer);
     }
-    // const orderCurrent = await OrderService.findById(req.session.order);
-    // req.session.numberItem = orderCurrent.items.length || 0;
-    res.redirect(req.headers.referer);
 };
 // [POST]/foods/{{shop_name}}/{{foodId}}/getfeedback
 const giveFeedback = async function (req, res) {
