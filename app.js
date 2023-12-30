@@ -94,7 +94,8 @@ app.use(function (req, res, next) {
 });
 
 app.use("/static", express.static("static"));
-app.use("/account/logout", userRoutes);
+// app.use("/account/login",userRoutes);
+app.use("/account/logout",auth.authLogout, userRoutes);
 app.use("/merchant",auth.authMerchant,merchantRoutes);
 app.use("/admin",auth.authAdmin,adminRoutes);
 app.use("/",auth.authUserforStart,userRoutes);
