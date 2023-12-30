@@ -1,4 +1,5 @@
 import express from "express";
+session;
 import { engine } from "express-handlebars";
 import session from "express-session";
 import path from "path";
@@ -79,6 +80,10 @@ app.use(function (req, res, next) {
     if (typeof req.session.numberItem === "undefined") {
         req.session.numberItem = 0;
     }
+    if (typeof req.session.order === "undefined") {
+        req.session.order = "";
+    }
+    res.locals.order = req.session.order;
     res.locals.numberItem = req.session.numberItem;
     next();
 });
@@ -100,16 +105,6 @@ app.use("/merchant",auth.authMerchant,merchantRoutes);
 app.use("/admin",auth.authAdmin,adminRoutes);
 app.use("/",auth.authUserforStart,userRoutes);
 
-
-app.set("trust proxy", 1); // trust first proxy
-app.use(
-    session({
-        secret: "New Session",
-        resave: false,
-        saveUninitialized: true,
-        cookie: {}
-    })
-);
 
 // auth for login
 app.use(function (req, res, next) {
