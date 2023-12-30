@@ -1,5 +1,4 @@
 import FoodService from "../../services/user/food.service.js";
-import User from "../../models/userModel.js";
 import Food from "../../models/foodModel.js";
 import ShopService from "../../services/user/shop.service.js";
 import OrderItem from "../../models/orderItemModel.js";
