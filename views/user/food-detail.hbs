@@ -9,6 +9,8 @@
         var typeOfFoodId ={{{json typeOfFoodId}}}
         var priceOfFood =
         {{{json foodPrice}}}
+        var merchantId =
+        {{{json merchantId}}}
     </script>
     {{! Swiper }}
     <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
@@ -25,7 +27,10 @@
         <div class="food-detail">
             <div class="food-detail-info">
                 <div class="food-detail-info-description">
-                    <span class="food-detail-info-breadcrumbs">Đồ ăn &gt; {{this.shopName}} &gt; <b>{{this.foodName}}</b></span>
+                    <span class="food-detail-info-breadcrumbs">Đồ ăn &gt;
+                        {{this.shopName}}
+                        &gt;
+                        <b>{{this.foodName}}</b></span>
                     <h3 class="food-detail-info-title">{{this.foodName}}</h3>
                     <div class="food-detail-price-rating">
                         {{#if this.rating}}

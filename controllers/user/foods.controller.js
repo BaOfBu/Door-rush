@@ -3,7 +3,10 @@ import Food from "../../models/foodModel.js";
 import ShopService from "../../services/user/shop.service.js";
 import OrderItem from "../../models/orderItemModel.js";
 import Feedback from "../../models/feedbackModel.js";
+import MerchantService from "../../services/user/Merchant.service.js";
 import FoodType from "../../models/foodTypeModel.js";
+import OrderService from "../../services/user/order.service.js";
+import Order from "../../models/orderModel.js";
 
 // [GET]/foods
 const index = function (req, res) {
@@ -61,6 +64,7 @@ const foodDetail = async function (req, res) {
     // Get the params from the route
     const shopName = req.params.shop || 0;
     const foodId = req.params.id || 0;
+    const merchantId = await MerchantService.findByName(shopName);
     // Handle the problem
     if (!shopName) {
         return res.redirect("/");
@@ -106,6 +110,7 @@ const foodDetail = async function (req, res) {
         };
     });
     res.render("user/food-detail.hbs", {
+        merchantId: String(merchantId[0]._id),
         isAccount: req.session.auth,
         // Data of page
         foodImg: food.image,
@@ -128,8 +133,6 @@ const foodDetail = async function (req, res) {
 };
 // [POST]/foods/{{shop_name}}/{{foodId}}/addToCart
 const addToCart = async function (req, res) {
-    // Get the params from the route
-    req.session.numberItem = req.session.numberItem + 1;
     let foodId = await FoodService.findByIdForOrderItem(req.body.foodId);
     let foodType = await FoodType.findById(String(req.body.foodType));
     const orderItem = new OrderItem({
@@ -138,7 +141,32 @@ const addToCart = async function (req, res) {
         quantity: req.body.quantity,
         notes: req.body.notes
     });
-    orderItem.save();
+    const orderItemMongo = await orderItem.save();
+    // New Order in "Giỏ hàng" with userId and merchantId
+    if (req.session.order === "") {
+        let new_order = new Order({
+            merchantId: req.body.merchantId,
+            status: "Giỏ hàng",
+            items: (await orderItemMongo)._id,
+            userId: req.session.authUser || null,
+            total: 0,
+            addressOrder: null
+        });
+        const new_order_mongodb = new_order.save();
+        req.session.order = (await new_order_mongodb)._id;
+        req.session.numberItem = 1;
+    } else {
+        Order.updateOne({ _id: req.session.order }, { $push: { items: orderItemMongo._id } })
+            .then(result => {
+                // console.log(result);
+            })
+            .catch(error => {
+                console.error("Error updating order:", error);
+            });
+        req.session.numberItem = req.session.numberItem + 1;
+    }
+    // const orderCurrent = await OrderService.findById(req.session.order);
+    // req.session.numberItem = orderCurrent.items.length || 0;
     res.redirect(req.headers.referer);
 };
 // [POST]/foods/{{shop_name}}/{{foodId}}/getfeedback

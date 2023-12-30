@@ -92,42 +92,49 @@ document.getElementById("returnButton").addEventListener("click", function () {
     form.reset();
     document.getElementById("thank-you-form").style.display = "none";
 });
-
 // Xử lý nút bấm thêm vào giỏ
 document.getElementById("addItemToCart").addEventListener("click", function (event) {
-    const selectedFoodTypeIndex = document.getElementById("food-type").value;
-    const selectedFoodType = typeOfFoodId[selectedFoodTypeIndex];
-    // Ngăn không cho form submit theo cách thông thường
-    event.preventDefault();
-    // Get the current URL's path
-    const path = window.location.pathname;
-    // Split the path into segments
-    const pathSegments = path.split("/");
-    let itemId = pathSegments[3];
-    fetch(`${itemId}/addToCart`, {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify({
-            foodId: itemId,
-            quantity: Number(document.getElementById("food-quantity").value),
-            foodType: selectedFoodType,
-            notes: document.getElementById("food-note").value
+    if (isAccount === false) {
+        event.preventDefault();
+        alert("Bạn cần phải đăng nhập để thêm vào giỏ hàng");
+        window.location.href = "/account/login";
+    } else {
+        const selectedFoodTypeIndex = document.getElementById("food-type").value;
+        const selectedFoodType = typeOfFoodId[selectedFoodTypeIndex];
+        // Ngăn không cho form submit theo cách thông thường
+        event.preventDefault();
+        // Get the current URL's path
+        const path = window.location.pathname;
+        // Split the path into segments
+        const pathSegments = path.split("/");
+        let itemId = pathSegments[3];
+        fetch(`${itemId}/addToCart`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                isAccount: isAccount,
+                merchantId: merchantId,
+                foodId: itemId,
+                quantity: Number(document.getElementById("food-quantity").value),
+                foodType: selectedFoodType,
+                notes: document.getElementById("food-note").value
+            })
         })
-    })
-        .then(response => {
-            if (!response.ok) {
-                throw new Error(`HTTP error! Status: ${response.status}`);
-            }
-            window.location.reload();
-            return response.json;
-        })
-        .then(data => {
-            if (data.success) {
-            }
-        })
-        .catch(error => {
-            console.error("There has been a problem with your fetch operation:", error);
-        });
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error(`HTTP error! Status: ${response.status}`);
+                }
+                window.location.reload();
+                return response.json;
+            })
+            .then(data => {
+                if (data.success) {
+                }
+            })
+            .catch(error => {
+                console.error("There has been a problem with your fetch operation:", error);
+            });
+    }
 });
