@@ -14,6 +14,8 @@ import userRoutes from "./routes/user/index.route.js";
 import adminRoutes from "./routes/admin/index.route.js";
 import merchantRoutes from "./routes/merchant/index.route.js";
 
+import auth from "./middleware/auth.mdw.js";
+
 const port = 8888;
 const app = express();
 
@@ -97,10 +99,12 @@ app.use(function (req, res, next) {
 });
 
 app.use("/static", express.static("static"));
+// app.use("/account/login",userRoutes);
+app.use("/account/logout",auth.authLogout, userRoutes);
+app.use("/merchant",auth.authMerchant,merchantRoutes);
+app.use("/admin",auth.authAdmin,adminRoutes);
+app.use("/",auth.authUserforStart,userRoutes);
 
-app.use("/", userRoutes);
-app.use("/merchant", merchantRoutes);
-app.use("/admin", adminRoutes);
 
 // auth for login
 app.use(function (req, res, next) {

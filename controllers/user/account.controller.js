@@ -1,4 +1,3 @@
-import express from "express";
 import bcrypt from "bcrypt";
 import userService from "../../services/user/user.service.js";
 import nodemailer from "nodemailer";
@@ -94,10 +93,21 @@ const postLogin = async function (req, res) {
     }
 
     const url = req.session.retUrl || "/";
+    if(user.role === "Merchant"){
+        return res.redirect("/merchant");
+    }
+    if(user.role === "Admin"){
+        return res.redirect("/admin");
+    }
+    if (url === "/account/login") {
+        res.redirect("/");
+    }
+    //console.log(url);
     res.redirect(url);
 };
 
 const logout = function (req, res) {
+    console.log("logout");
     req.session.retUrl = req.headers.referer || "/";
     req.session.auth = false;
     req.session.authUser = undefined;
