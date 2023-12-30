@@ -1,0 +1,60 @@
+{{#section "js"}}
+    <script src="../../static/js/admin/edit-voucher.js"></script>
+{{/section}}
+{{#section "css"}}
+    <link rel="stylesheet" href="/static/css/admin/edit-voucher.css" />
+{{/section}}
+<section class="add-voucher-admin">
+    <div class="section-one">
+        <h1 class="title-page">Chỉnh sửa ưu đãi</h1>
+    </div>
+    <div class="section-two">
+        <div class="content">
+            <form method="post">
+                <div class="mb-3">
+                    <label for="inputNameVoucher" class="form-label"><b>Mã ưu đãi</b></label>
+                    <input type="text" class="form-control" id="inputNameVoucher" name="voucherId" value="{{voucher.voucherId}}" />
+                </div>
+                <div class="mb-3">
+                    <label for="typeVoucher" class="form-label"><b>Loại mã</b></label>
+                    <select class="form-select" aria-label="Default select example" id="typeVoucher" name="typeVoucher">
+                        {{#if (equal voucher.typeVoucher "food")}}
+                            <option value="food" selected>Food</option>
+                            <option value="ship">Ship</option>
+                        {{else}}
+                            <option value="food">Food</option>
+                            <option value="ship" selected>Ship</option>
+                        {{/if}}
+                    </select>
+                </div>
+                <div class="mb-3">
+                    <label for="start-date" class="form-label"><b>Ngày bắt đầu</b></label>
+                    <input type="date" class="form-control" id="start-date" name="startDate" value={{voucher.startDate}} />
+                </div>
+                <div class="mb-3">
+                    <label for="end-date" class="form-label"><b>Ngày kết thúc</b></label>
+                    <input type="date" class="form-control" name="endDate" id="end-date" value={{voucher.endDate}} />
+                </div>
+                <div class="mb-3">
+                    <label for="discount" class="form-label"><b>Ưu đãi</b></label>
+                    <div class="input-group mb-3">
+                        <input
+                            type="text"
+                            class="form-control"
+                            aria-describedby="basic-addon2"
+                            name="valueOfDiscount"
+                            id="discount"
+                            value={{voucher.valueOfDiscount}}
+                        />
+                        <span class="input-group-text" id="basic-addon2">VNĐ</span>
+                    </div></div>
+                <div class="btn">
+                    <button class="edit-btn" type="submit" id="edit-btn">Chỉnh sửa ưu đãi</button>
+                    <a href="/admin/voucher" class="return-btn">Trở về</a>
+                </div>
+
+            </form>
+
+        </div>
+    </div>
+</section>
