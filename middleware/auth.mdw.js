@@ -28,6 +28,7 @@ const authLogout = function (req, res, next) {
 };
 
 const authUserforStart = function (req, res, next) {
+  console.log("authUserforStart");
   if(req.originalUrl === '/account/logout'){
     return next();
   }
@@ -44,16 +45,21 @@ const authUserforStart = function (req, res, next) {
 
 const authMerchant = function (req, res, next) {
   console.log("authMerchant");
-  if(req.originalUrl === '/merchant'){
-    return next();
-  }
   if(req.session.authUser){
     switch (req.session.authUser.role) {
       case 'Admin':
         return res.redirect('/admin');
       case 'User':
         return res.redirect('/');
+      case undefined:
+        return res.redirect('/account/login');
     }
+  }
+  // to sent logout post request
+  console.log(req.originalUrl);
+  if(req.originalUrl === '/account/logout'){
+    console.log("logout here");
+    return next();
   }
   if (req.session.auth === false) {
     req.session.retUrl = req.originalUrl;
@@ -64,15 +70,18 @@ const authMerchant = function (req, res, next) {
 
 const authAdmin = function (req, res, next) {
   console.log("authAdmin");
+  // check user when enter url from different role
   if(req.session.authUser){
     switch (req.session.authUser.role) {
       case 'Merchant':
         return res.redirect('/merchant');
       case 'User':
         return res.redirect('/');
+      case undefined:
+        return res.redirect('/account/login');
     }
   }
-  if(req.originalUrl === '/account/logout' || req.originalUrl === '/admin'){
+  if(req.originalUrl === '/account/logout'){
     return next();
   }
   if (req.session.auth === false) {
