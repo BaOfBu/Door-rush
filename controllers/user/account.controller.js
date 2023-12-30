@@ -1,8 +1,6 @@
-import express from "express";
 import bcrypt from "bcrypt";
 import userService from "../../services/user/user.service.js";
 import nodemailer from "nodemailer";
-import auth from "../../middleware/auth.mdw.js";
 
 const getRegister = function (req, res) {
     res.render("user/register");
@@ -83,15 +81,26 @@ const postLogin = async function (req, res) {
     req.session.auth = true;
     req.session.authUser = user;
     const url = req.session.retUrl || "/";
+    if(user.role === "Merchant"){
+        return res.redirect("/merchant");
+    }
+    if(user.role === "Admin"){
+        return res.redirect("/admin");
+    }
+    if (url === "/account/login") {
+        res.redirect("/");
+    }
+    //console.log(url);
     res.redirect(url);
 };
 
 const logout = function (req, res) {
+    console.log("logout");
     req.session.retUrl = req.headers.referer || "/";
     req.session.auth = false;
     req.session.authUser = undefined;
-    res.redirect("../../../account/login");
-    localStorage.removeItem("selectedDateRange");
+    res.redirect("/account/login");
+    //localStorage.removeItem('selectedDateRange');
 };
 
 const is_available_user = async function (req, res) {
