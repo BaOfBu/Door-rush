@@ -1,4 +1,8 @@
-{{#section "js"}}{{/section}}
+{{#section "js"}}
+    var shopId =
+    {{{json shopId}}}
+    <script src="../../static/js/admin/detail-validate-shop.js"></script>
+{{/section}}
 {{#section "css"}}
     <link rel="stylesheet" href="/static//css/admin/detail-validate-shop.css" />
 {{/section}}
@@ -12,11 +16,14 @@
         </nav>
         <h2 class="tittle">Đơn hàng kiểm duyệt chờ xử lý: {{this.shopId}}</h2>
         <span class="sub-time">Thời gian đăng ký: <b>{{merchantRegister.timeRegister}}</b></span>
-        {{!-- <h4 class="username-detail">Tài khoản: {{merchantRegister.username}}</h4> --}}
     </div>
     <div class="detail-form mt-3">
-        <form method="post">
+        <form method="post" id="form-validate">
             <legend class="mb-4 title-form">Thông tin đăng ký</legend>
+            <div class="mb-3 custom-form">
+                <label for="username" class="form-label"><b>Tên tài khoản</b></label>
+                <input type="text" class="form-control" id="username" name="username" value="{{merchantRegister.username}}" disabled />
+            </div>
             <div class="mb-3 custom-form">
                 <label for="nameOfShop" class="form-label"><b>Tên nhà hàng, quán ăn</b></label>
                 <input type="text" class="form-control" id="nameOfShop" name="nameOfShop" value="{{merchantRegister.name}}" disabled />
@@ -52,11 +59,11 @@
                 <label for="foodType" class="form-label"><b>Loại hình kinh doanh</b></label>
                 <input type="text" class="form-control" id="foodType" name="foodType" value="{{merchantRegister.category}}" disabled />
             </div>
-            <div class="btn">
-                <button class="accept-btn" id="accept-btn">Phê duyệt</button>
-                <a class="return-btn" href="/admin/validate-shop">Trở về</a>
+            <div class="btn mt-3">
+                <button class="check-btn" id="check-btn" type="submit">Kiểm tra</button>
+                <button class="accept-btn" id="accept-btn" type="button">Phê duyệt</button>
+                <a class="return-btn" href="{{this.previousLink}}">Trở về</a>
             </div>
-
         </form>
 
     </div>

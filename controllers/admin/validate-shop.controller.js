@@ -31,6 +31,7 @@ const index = async function (req, res) {
 // [GET]/admin/validate-shop/:id
 const detailShopValidate = async function (req, res) {
     const shopId = req.params.id;
+    const previousLink = req.get("Referer") || "/default-previous-link";
     const merchantRegister = await MerchantService.findPendingByID(shopId).populate("address").populate("category").lean();
     merchantRegister.timeRegister = new Date(merchantRegister.timeRegister).toLocaleDateString("en-GB");
     merchantRegister.address =
@@ -46,7 +47,13 @@ const detailShopValidate = async function (req, res) {
     merchantRegister.category = merchantRegister.category.map(category => category.name).join(", ");
     res.render("admin/detail-validate-shop", {
         shopId: shopId,
-        merchantRegister: merchantRegister
+        merchantRegister: merchantRegister,
+        previousLink: previousLink
     });
 };
-export default { index, detailShopValidate };
+// [GET]/admin/validate-shop/:id/checkValidate
+const checkValidate = async function (req, res) {
+    res.json(true);
+};
+
+export default { index, detailShopValidate, checkValidate };

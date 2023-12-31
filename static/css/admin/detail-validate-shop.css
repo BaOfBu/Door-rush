@@ -25,7 +25,8 @@
     font-weight: 700;
 }
 .accept-btn,
-.return-btn {
+.return-btn,
+.check-btn {
     padding: 10px 15px;
     border: 1px solid var(--white-color);
     background-color: var(--orange-color);
@@ -39,6 +40,7 @@
 .btn {
     padding: 0;
     display: flex;
+    gap: 20px;
 }
 .detail-form {
     width: 80%;
