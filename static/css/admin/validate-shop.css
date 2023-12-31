@@ -3,6 +3,9 @@
     flex-direction: column;
     gap: 20px;
 }
+.section-one {
+    padding: 10px;
+}
 .title-page {
     font-weight: 600;
     color: var(--orange-color);
@@ -70,6 +73,7 @@ input[type="text"][name="daterange"] {
 .custom-table td,
 .custom-table th {
     padding-left: 20px;
+    padding-right: 10px;
 }
 .h-70 {
     height: 35px;

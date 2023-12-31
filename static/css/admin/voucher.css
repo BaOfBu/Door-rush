@@ -26,6 +26,9 @@
     justify-content: space-between;
     align-items: center;
 }
+.sub-count {
+    color: var(--grey-light-color);
+}
 .h-70 {
     height: 35px;
     line-height: 40px;
