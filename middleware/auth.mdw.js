@@ -1,6 +1,6 @@
 const authUser = function (req, res, next) {
   //console.log(req.session.authUser);
-  console.log("authUser");
+  //console.log("authUser");
   if(req.session.authUser){
     switch (req.session.authUser.role) {
       case 'Admin':
@@ -21,6 +21,7 @@ const authUser = function (req, res, next) {
 
 const authLogout = function (req, res, next) {
   if (req.session.auth === false) {
+    //console.log("authLogout");
     req.session.retUrl = req.originalUrl;
     return res.redirect('/account/login');
   }
@@ -28,8 +29,9 @@ const authLogout = function (req, res, next) {
 };
 
 const authUserforStart = function (req, res, next) {
-  console.log("authUserforStart");
+  //console.log("authUserforStart");
   if(req.originalUrl === '/account/logout'){
+    //console.log("logout here");
     return next();
   }
   if(req.session.authUser){
@@ -44,7 +46,7 @@ const authUserforStart = function (req, res, next) {
 }
 
 const authMerchant = function (req, res, next) {
-  console.log("authMerchant");
+  //console.log("authMerchant");
   if(req.session.authUser){
     switch (req.session.authUser.role) {
       case 'Admin':
@@ -56,9 +58,9 @@ const authMerchant = function (req, res, next) {
     }
   }
   // to sent logout post request
-  console.log(req.originalUrl);
-  if(req.originalUrl === '/account/logout'){
-    console.log("logout here");
+  //console.log(req.originalUrl);
+  if(req.originalUrl == '/account/logout'){
+    //console.log("logout here");
     return next();
   }
   if (req.session.auth === false) {
@@ -69,7 +71,7 @@ const authMerchant = function (req, res, next) {
 };
 
 const authAdmin = function (req, res, next) {
-  console.log("authAdmin");
+  //console.log("authAdmin");
   // check user when enter url from different role
   if(req.session.authUser){
     switch (req.session.authUser.role) {
@@ -82,6 +84,7 @@ const authAdmin = function (req, res, next) {
     }
   }
   if(req.originalUrl === '/account/logout'){
+    //console.log("logout here");
     return next();
   }
   if (req.session.auth === false) {

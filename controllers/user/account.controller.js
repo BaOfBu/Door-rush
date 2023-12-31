@@ -107,7 +107,7 @@ const postLogin = async function (req, res) {
 };
 
 const logout = function (req, res) {
-    console.log("logout");
+    // console.log("logout");
     req.session.retUrl = req.headers.referer || "/";
     req.session.auth = false;
     req.session.authUser = undefined;
