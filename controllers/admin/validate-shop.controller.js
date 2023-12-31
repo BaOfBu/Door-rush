@@ -53,7 +53,12 @@ const detailShopValidate = async function (req, res) {
 };
 // [GET]/admin/validate-shop/:id/checkValidate
 const checkValidate = async function (req, res) {
-    res.json(true);
+    const merchant = await MerchantService.findActiveByName(req.query.shopName, req.query.cccd);
+    if (merchant.length === 0) {
+        res.json(true);
+    } else {
+        res.json(false);
+    }
 };
 
 export default { index, detailShopValidate, checkValidate };
