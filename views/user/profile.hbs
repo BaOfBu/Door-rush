@@ -1,8 +1,14 @@
 {{#section "js"}}
+    <script
+        src="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.full.min.js">
+    </script>
+
     <script src="/static/js/user/profile/datepicker.js"></script>
     <script src="/static/js/user/profile/index.js"></script>
 {{/section}}
 {{#section "css"}}
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.min.css">
+
     <link rel="stylesheet" href="/static/css/user/profile.css" />
 {{/section}}
 
@@ -71,15 +77,17 @@
                                     </div>
                                 </div>
 
-                                <div class="form-group-dob mb-4">
-                                    <span class="label">Ngày sinh</span>
+                                <div class="form-group mb-4">
+                                    <label class="label" for="txtDoB">Ngày sinh</label>
                                     <div class="row">
                                         <div class="input-container">
-                                            <input type="text" name="birthdate" id="datePicker" placeholder="Chọn ngày sinh của bạn" value="{{birthdate}}">
                                             <div id="toggle" class="fas fa-calendar"></div>
+                                            <input type="text" name="birthdate" id="txtDoB" class="form-control" value="{{birthdate}}">
                                         </div>
                                     </div>
+                                    
                                 </div>
+
                                 <div class="d-flex justify-content-center mb-4">
                                     <button type="submit" class="btn custom-button" id="updateButton">
                                         <i class="bi bi-floppy-fill"></i>
@@ -95,7 +103,12 @@
                                 {{#each addresses}}
                                     <div class="form-group mb-4">
                                         <label for="inputAddress{{this.index}}">Địa chỉ {{this.index}}</label>
-                                        <input type="text" class="form-control" name="address" id="inputAddress{{this.index}}" placeholder="Nhập địa chỉ của bạn" value="{{this.info}}">
+                                        <div class="input-group has-validation">
+                                            <input type="text" class="form-control" name="address" id="inputAddress{{this.index}}" placeholder="Nhập địa chỉ của bạn" aria-describedby="checkValidationAddress{{this.index}}" value="{{this.info}}">
+                                            <div id="checkValidationAddress{{this.index}}" class="invalid-feedback">
+                                                Vui lòng nhập đúng định dạng của địa chỉ: "Số nhà" "Tên đường", "Phường", "Quận", "TP.HCM". Ví dụ: 227 Nguyễn Văn Cừ, phường 4, quận 5, TP.HCM.
+                                            </div>
+                                        </div>
                                     </div>
                                 {{/each}}
                                 
@@ -104,7 +117,7 @@
                                         <i class="bi bi-pin-map-fill"></i>
                                         <span>Thêm địa chỉ mới</span>
                                     </button>
-                                    <button type="submit" class="btn custom-button">
+                                    <button id="submitButton" type="submit" class="btn custom-button">
                                         <i class="bi bi-floppy-fill"></i>
                                         <span>Cập nhật thông tin</span>
                                     </button>
@@ -235,22 +248,46 @@
                             <form id="passwordForm" action="" method="post">
                                 <div class="form-group mb-4">
                                     <label for="inputCurrentPassword">Mật khẩu hiện tại</label>
-                                    <input type="password" class="form-control" name="currentPassword" id="inputCurrentPassword" placeholder="Nhập mật khẩu hiện tại của bạn">
+                                    <div class="input-group has-validation">
+                                        <input type="password" class="form-control" name="currentPassword" id="inputCurrentPassword" aria-describedby="checkValidationOldPassword" required placeholder="Nhập mật khẩu hiện tại của bạn">
+                                        <div id="checkValidationOldPassword" class="invalid-feedback">
+                                            Mật khẩu không chính xác, vui lòng nhập lại.
+                                        </div>
+                                    </div>
                                 </div>
-                                <div class="form-group mb-4">
+                                {{!-- <div class="form-group mb-4">
                                     <label for="inputNewPassword">Mật khẩu mới</label>
                                     <input type="password" class="form-control" name="newPassword" id="inputNewPassword" placeholder="Nhập mật khẩu mới muốn thay đổi">
-                                </div>
+                                </div> --}}
                                 <div class="form-group mb-4">
+                                    <label for="txtPassword">Mật khẩu mới</label>
+                                    <div class="input-group has-validation">
+                                        <input type="password" name="newPassword" id="txtPassword" class="form-control" aria-describedby="checkValidationPassword" required>
+                                        <div id="checkValidationPassword" class="invalid-feedback">
+                                            Vui lòng nhập mật khẩu gồm ít nhất 8 kí tự và nhiều nhất là 50 kí tự, có chứa ít nhất 1 chữ cái in hoa, 1 chữ cái thường và 1 chữ số, không chứa khoảng trắng nào.
+                                        </div>
+                                    </div>
+                                </div>
+                                {{!-- <div class="form-group mb-4">
                                     <label for="re-enterNewPassword">Nhập lại mật khẩu mới</label>
                                     <input type="password" class="form-control" name="re_enterNewPassword" id="re-enterNewPassword" placeholder="Nhập lại mật khẩu mới">
+                                </div> --}}
+                                <div class="form-group mb-4">
+                                    <label for="txtConfirm">Nhập lại mật khẩu mới</label>
+                                    <div class="input-group has-validation">
+                                        <input type="password" name="re_enterNewPassword" id="txtConfirm" class="form-control" aria-describedby="checkValidationConfirmPassword" required>
+                                        <div id="checkValidationConfirmPassword" class="invalid-feedback">
+                                            Vui lòng nhập chính xác mật khẩu đã nhập ở trên
+                                        </div>
+                                    </div>
                                 </div>
                                 <div class="d-flex justify-content-center mb-4">
-                                    <button type="submit" class="btn custom-button">
+                                    <button id="submitPasswordButton" type="submit" class="btn custom-button">
                                         <i class="bi bi-floppy-fill"></i>
                                         <span>Đổi mật khẩu</span>
                                     </button>
                                 </div>
+                                <input type="hidden" id="userID" value="{{userID}}">
                             </form>
                         </div>
 

@@ -116,7 +116,8 @@ router.get("/generate-merchant", async function () {
           image: faker.image.url(),
           priceRange: "50.000Đ - 100.000Đ",
           rating: 0,
-          hasDiscount: false
+          hasDiscount: false,
+          timeRegister: new Date()
         });
 
         await fakeMerchantData.save();
@@ -186,7 +187,7 @@ async function generateOrderData(userID){
   const orderData = new Order({
     merchantId: "658bc785b2e15b47b4ab3683",
     items: orderItems,
-    status: "Đang chờ",
+    status: faker.helpers.arrayElement(["Đang chờ", "Đang chuẩn bị", "Đang giao", "Hoàn thành", "Đã hủy"]),
     userId: userID,
     vouchers: vouchers,
     total: faker.number.int({min: 1, max: 20})*100000,
