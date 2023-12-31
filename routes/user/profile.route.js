@@ -8,4 +8,6 @@ router.get("/:userID",auth, profileController.viewProfile);
 
 router.post("/:userID", profileController.updateUserInformation);
 
+router.get("/:userID/is-available", profileController.isAvailable);
+
 export default router;

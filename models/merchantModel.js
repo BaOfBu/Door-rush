@@ -48,7 +48,8 @@ const merchantSchema = new mongoose.Schema({
     image: String,
     priceRange: String,
     rating: Number,
-    hasDiscount: Boolean
+    hasDiscount: Boolean,
+    timeRegister: Date
 });
 
 const Merchant = Account.discriminator("Merchant", merchantSchema);
