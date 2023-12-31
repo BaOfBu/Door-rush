@@ -28,4 +28,25 @@ const index = async function (req, res) {
         type: "validate-shop"
     });
 };
-export default { index };
+// [GET]/admin/validate-shop/:id
+const detailShopValidate = async function (req, res) {
+    const shopId = req.params.id;
+    const merchantRegister = await MerchantService.findPendingByID(shopId).populate("address").populate("category").lean();
+    merchantRegister.timeRegister = new Date(merchantRegister.timeRegister).toLocaleDateString("en-GB");
+    merchantRegister.address =
+        merchantRegister.address.houseNumber +
+        ", " +
+        merchantRegister.address.street +
+        ", " +
+        merchantRegister.address.ward +
+        ", " +
+        merchantRegister.address.district +
+        ", " +
+        merchantRegister.address.city;
+    merchantRegister.category = merchantRegister.category.map(category => category.name).join(", ");
+    res.render("admin/detail-validate-shop", {
+        shopId: shopId,
+        merchantRegister: merchantRegister
+    });
+};
+export default { index, detailShopValidate };

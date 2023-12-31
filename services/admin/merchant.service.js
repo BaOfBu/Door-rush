@@ -7,6 +7,9 @@ export default {
     findPending(offset, limit) {
         return Merchant.find({ status: "pending" }).skip(offset).limit(limit);
     },
+    findPendingByID(id) {
+        return Merchant.findOne({ status: "pending", _id: id });
+    },
     countPending() {
         return Merchant.find({ status: "pending" }).countDocuments();
     }
