@@ -1,8 +1,8 @@
-.voucher-page{
+.address-page{
     min-width: 1440px;
     min-height: 1000px;
 }
-.voucher-breadcrumbs{
+.address-breadcrumbs{
     display: flex;
     flex-direction: row;
     gap: 12px;
@@ -16,13 +16,13 @@
     flex-direction: column;
     margin: 30px 65px 30px 65px;
 }
-.search-bar{
+.input-bar{
     display: flex;
     flex-direction: row;
     gap: 30px;
     margin: 30px 0px 30px 0px;
 }
-.search-input{
+.address-input{
     width: 800px;
     padding: 17px;
     font-size: 24px;
@@ -30,7 +30,7 @@
     line-height: 100%;
     border: 1px solid var(--black-color);
 }
-.search-button{
+.add-button{
     text-decoration: none;
     background-color: var(--orange-color);
     padding: 20px;
@@ -40,36 +40,21 @@
     line-height: 100%;
     text-align: center;
 }
-.voucher-pane{
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    gap: 30px;
-}
-.voucher-card{
+.address-pane{
     display: flex;
     flex-direction: column;
-    padding: 20px;
-} 
-.food{
-    background-color: var(--orange-color);
-    color: var(--black-color);
-}
-.ship{
-    background-color: green;
-    color: var(--white-color);
-}
-.voucher-id{
-    font-size: 24px;
-    font-weight: 600;
-    line-height: 100%;
-    text-align: center;
-}
-.voucher-detail{
-    font-size: 24px;
-    font-weight: 400;
-    line-height: 100%;
 }
 .add-voucher{
     text-decoration: none;
+}
+.address-card{
+    padding: 30px 0px 30px 0px;
+    border-bottom: 1px solid var(--grey-color);
+}
+.save-address{
+    font-size: 32px;
+    font-weight: 600;
+    line-height: 100%;
+    color: var(--black-color);
+    margin: 0;
 }

@@ -6,6 +6,7 @@ router.get("/", shoppingCartController.displayOrder)
 router.get("/food-voucher", shoppingCartController.displayFoodVoucher)
 router.get("/ship-voucher", shoppingCartController.displayShipVoucher)
 router.get("/add-voucher", shoppingCartController.addVoucher)
-router.get("/order-address", shoppingCartController.displayOrder)
+router.get("/address", shoppingCartController.displayAddresss)
+router.get("/add-address", shoppingCartController.addAddress)
 
 export default router

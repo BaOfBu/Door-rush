@@ -2,6 +2,7 @@ import User from "../../models/userModel.js"
 import Order from "../../models/orderModel.js"
 import OrderItem from "../../models/orderItemModel.js"
 import Voucher from "../../models/voucherModel.js"
+import Address from "../../models/addressModel.js"
 
 const getOrderItems = async (orderItemsID) => {
     let itemList = []
@@ -20,22 +21,6 @@ const getOrderItems = async (orderItemsID) => {
         itemList.push(temp)
     }
     return itemList
-}
-
-const getSaveAddress = async (userID) => {
-    const saveAddress = await User.findById(userID)
-                                .select("addresses")
-                                .populate("addresses").exec()               
-    let addresses = []
-    for(let each of saveAddress.addresses){
-        const address = each.houseNumber 
-                + " " + each.street 
-                + ", " + each.ward 
-                + ", " + each.district 
-                + ", " + each.city 
-        addresses.push(address)
-    }
-    return addresses
 }
 
 const calculateTotal= async (orderID) => {
@@ -64,7 +49,6 @@ const getOrderDetail = async (order) => {
 
     let orderFoodVoucher; let orderShipVoucher
     for(const each of order.vouchers){
-        console.log(order.vouchers)
         if(each.typeVoucher == "food"){
             orderFoodVoucher = {
                 voucherId: each.voucherId,
@@ -213,9 +197,97 @@ const addVoucher = async (req, res, next) => {
         res.redirect("/shopping-cart")
     }
 }
+
+const getSaveAddress = async (userID) => {
+    const saveAddress = await User.findById(userID)
+                                .select("addresses")
+                                .populate("addresses").exec()               
+    let addresses = []
+    for(let each of saveAddress.addresses){
+        const address = each.houseNumber 
+                + " " + each.street 
+                + ", " + each.ward 
+                + ", " + each.district 
+                + ", " + each.city 
+        addresses.push(address)
+    }
+    return addresses
+}
+
+const displayAddresss = async (req, res, next) => {
+    const userID = "658bc732b2e15b47b4ab3653"
+    const saveAddress = await getSaveAddress(userID)
+    res.render("user/address.hbs", {
+        saveAddress: saveAddress,
+        user: true
+    })
+}
+
+const formetAddress = (address) => {
+    let parts = address.split(", ")
+    let split = parts[0].split(" ")
+    let rest = ""
+    for (let j = 1; j < split.length; j++) {
+        rest += split[j]
+        if (j !== split.length - 1) rest += " "
+    }
+    let dataAddress = {
+        houseNumber: split[0],
+        street: rest,
+        ward: parts[1],
+        district: parts[2],
+        city: parts[3],
+    }
+    return dataAddress
+}
+
+const findAddressInDatabase = async (dataAddress) => {
+    const address = await Address.findOne({
+        houseNumber: dataAddress.houseNumber,
+        street: dataAddress.street,
+        ward: dataAddress.ward,
+        district: dataAddress.district,
+        city:dataAddress.city
+    })
+    return address
+}
+
+const addAddressToOrder = async (orderID, addressID) => {
+    const order = await Order.findOneAndUpdate({_id: orderID}, 
+        {addressOrder: addressID}, { new: true })
+    return (order.addressOrder) ? true : false
+}
+
+const addAddress = async (req, res, next) => {
+    const orderID = "659043996f51a58bbdb0b5ea"
+    const address = req.query.address
+    if(!address){
+        res.redirect("/shopping-cart/address")
+    }else{
+        const dataAddress = formetAddress(address)
+        const dbAddress = await findAddressInDatabase(dataAddress)
+        let isAdd = false
+        if(!dbAddress){
+            let newAddress = new Address(dataAddress)
+            await newAddress.save();
+            isAdd = await addAddressToOrder(orderID, newAddress._id)
+        }else{
+            isAdd = await addAddressToOrder(orderID, dbAddress._id)
+        }
+    
+        if(isAdd){
+            res.redirect("/shopping-cart")
+        }else{
+            res.redirect("/shopping-cart/address")
+        }
+    }
+}
+
 export default {
     displayOrder,
     displayFoodVoucher,
     displayShipVoucher,
-    addVoucher
+    addVoucher,
+    displayAddresss,
+    addAddress
 }
