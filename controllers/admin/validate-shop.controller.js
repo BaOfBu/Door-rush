@@ -1,5 +1,6 @@
 import MerchantService from "../../services/admin/merchant.service.js";
 import Merchant from "../../models/merchantModel.js";
+import nodemailer from "nodemailer";
 // [GET]/admin/validate-shop?page=
 const index = async function (req, res) {
     const page = req.query.page || 1;
@@ -65,6 +66,71 @@ const checkValidate = async function (req, res) {
     }
 };
 const refuseValidate = async function (req, res) {
+    const emailMerchant = await MerchantService.findById(req.params.id);
+    try {
+        const name = emailMerchant.representative;
+        const mailOptions = {
+            from: "ntson21@clc.fitus.edu.vn",
+            to: emailMerchant.email,
+            subject: "Thông báo từ Door Rush",
+            html: `
+            <html>
+              <head>
+                <style>
+                  body {
+                    font-family: 'Arial', sans-serif;
+                    background-color: #f4f4f4;
+                    color: #333;
+                  }
+                  .container {
+                    max-width: 600px;
+                    padding: 20px;
+                    background-color: #fff;
+                    border-radius: 5px;
+                    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+                  }
+                  h2 {
+                    color: #4285f4;
+                  }
+                  p {
+                    line-height: 1.6;
+                  }
+                  .apology {
+                    
+                  }
+                  .signature {
+                    margin-top: 20px;
+                    text-align: right;
+                    font-style: italic;
+                  }
+                </style>
+              </head>
+              <body>
+                <div class="container">
+                  <h2>Xin chào ${name},</h2>
+                  <p class="apology">Chúng tôi rất xin lỗi vì đơn yêu cầu tham gia kinh doanh của bạn không thể được chấp nhận.</p>
+                  <p>Vui lòng kiểm tra lại thông tin và thử lại.</p>
+                  <p class="apology">Chân thành xin lỗi vì sự bất tiện này.</p>
+                  <div class="signature">
+                    <p>Trân trọng,</p>
+                    <p>Door Rush Team</p>
+                  </div>
+                </div>
+              </body>
+            </html>
+          `
+        };
+        const transporter = nodemailer.createTransport({
+            service: "gmail",
+            auth: {
+                user: "ntson21@clc.fitus.edu.vn",
+                pass: "Ntson2101296773776"
+            }
+        });
+        await transporter.sendMail(mailOptions);
+    } catch (error) {
+        console.error(error);
+    }
     const result = await Merchant.deleteOne({ _id: req.params.id });
     res.json(true);
 };

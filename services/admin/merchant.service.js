@@ -15,5 +15,8 @@ export default {
     },
     countPending() {
         return Merchant.find({ status: "pending" }).countDocuments();
+    },
+    findById(id) {
+        return Merchant.findOne({ _id: id });
     }
 };
