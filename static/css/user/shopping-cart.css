@@ -111,33 +111,17 @@ img{
     font-weight: 900;
     line-height: 140%;
 }
-.order-option-combobox{
-    display: flex;
-    flex-direction: row;
-    justify-content: end;
-    padding: 12px 10px 12px 10px;
-    border-radius: 10px;
-    color: var(--black-color);
-    font-size: 24px;
-    font-weight: 700;
-    line-height: 100%;
-}
-.option-font{
-    color: var(--black-color);
-    font-size: 24px;
-    font-weight: 700;
-    line-height: 100%;
-}
 .order-total{
     color: var(--black-color);
     font-size: 40px;
     font-weight: 900;
     line-height: 140%;
 }
-.order-option-address{
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
+.order-option-body{
+    color: var(--black-color);
+    font-size: 24px;
+    font-weight: 700;
+    line-height: 100%;
 }
 .order-button-row{
     display: flex;
@@ -146,10 +130,11 @@ img{
     gap: 10px;
 }
 .order-button{
+    text-decoration: none;
     background-color: var(--orange-color);
     padding: 20px;
     color: var(--white-color);
-    font-size: 32px;
+    font-size: 24px;
     font-weight: 700;
     line-height: 100%;
     text-align: center;

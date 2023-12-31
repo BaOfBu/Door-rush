@@ -15,7 +15,7 @@ const orderSchema = new mongoose.Schema({
     ],
     status: {
         type: String,
-        enum: ["Đang chờ", "Đang chuẩn bị", "Đang giao", "Hoàn thành", "Đã hủy"]
+        enum: ["Giỏ hàng", "Đang chờ", "Đang chuẩn bị", "Đang giao", "Hoàn thành", "Đã hủy"]
     },
     timeStatus: [{type: Date}],
     addressOrder: {

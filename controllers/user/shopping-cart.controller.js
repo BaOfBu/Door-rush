@@ -2,11 +2,10 @@ import User from "../../models/userModel.js"
 import Order from "../../models/orderModel.js"
 import OrderItem from "../../models/orderItemModel.js"
 import Voucher from "../../models/voucherModel.js"
-import e from "express"
 
-const getItemList = async (order) => {
+const getOrderItems = async (orderItemsID) => {
     let itemList = []
-    for(const each of order.items){
+    for(const each of orderItemsID){
         const item = await OrderItem.findById(each._id)
                                     .populate("foodId typeFoodId").exec()
         const total = item.typeFoodId.price * item.quantity
@@ -21,28 +20,6 @@ const getItemList = async (order) => {
         itemList.push(temp)
     }
     return itemList
-}
-
-const getActiveVoucher = async (type) => {
-    const now = Date.now() 
-    const voucher = await Voucher.find({
-        startDate: {$lte: now}, 
-        endDate: {$gte: now}, 
-        typeVoucher: type
-    }).exec()
-    let result = []
-    for(const each of voucher){
-        const temp = {
-            _id: each._id,
-            voucherId: each.voucherId,
-            startDate: each.startDate,
-            endDate: each.endDate,
-            typeVoucher: type,
-            discount: each.valueOfDiscount
-        }
-        result.push(temp)
-    }
-    return result
 }
 
 const getSaveAddress = async (userID) => {
@@ -61,53 +38,184 @@ const getSaveAddress = async (userID) => {
     return addresses
 }
 
-const calculateTotal = (itemList, curFoodVoucher, curShipVoucher) => {
+const calculateTotal= async (orderID) => {
+    const order = await Order.findById(orderID).populate("vouchers addressOrder").exec()
     let total = 0
-    for(const each of itemList){
-        
-        total = total + each.itemTotal
+    for(const each of order.items){
+        const item = await OrderItem.findById(each._id)
+                                    .populate("foodId typeFoodId").exec()
+        total = total + (item.typeFoodId.price * item.quantity)
     }
-    const allDiscount = curFoodVoucher.discount + curShipVoucher.discount
+
+    const distance = 3
+    total = (distance > 2) ? (total + 25000) : (total + 13000)
+
+    let allDiscount = 0
+    for(const each of order.vouchers){
+        allDiscount += each.valueOfDiscount
+    }
     total = (total < allDiscount) ? 0 : (total - allDiscount)
+
     return total
 }
 
-const getOrder = async (req, res, next) => {
-    const userID = "658bc732b2e15b47b4ab3653"
-    const orderID = "658bc733b2e15b47b4ab365e"
+const getOrderDetail = async (order) => {
+    const orderItems = await getOrderItems(order.items)
 
-    const order = await Order.findById(orderID).exec()
+    let orderFoodVoucher; let orderShipVoucher
+    for(const each of order.vouchers){
+        console.log(order.vouchers)
+        if(each.typeVoucher == "food"){
+            orderFoodVoucher = {
+                voucherId: each.voucherId,
+                valueOfDiscount: each.valueOfDiscount
+            }
+        }
+        if(each.typeVoucher == "ship"){
+            orderShipVoucher = {
+                voucherId: each.voucherId,
+                valueOfDiscount: each.valueOfDiscount
+            }
+        }
+    }
+
+    let addressOrder
+    if(order.addressOrder){
+        addressOrder = order.addressOrder.houseNumber 
+                    + " " + order.addressOrder.street 
+                    + ", " + order.addressOrder.ward 
+                    + ", " + order.addressOrder.district 
+                    + ", " + order.addressOrder.city 
+    }
+
+    const orderDetail = {
+        orderItems: orderItems,
+        orderFoodVoucher: orderFoodVoucher,
+        orderShipVoucher: orderShipVoucher,
+        addressOrder: addressOrder,
+        total: order.total
+    }  
+    return orderDetail        
+}
+
+const formatDate = (date) => {
+    const result = date.getMonth()
+                    + "/" + date.getDay()
+                    + "/" + date.getYear()
+    return result
+}
+
+const getActiveVoucher = async (type, voucherId) => {
+    const now = Date.now() 
+    const voucher = await Voucher.find({
+        voucherId: {'$regex': voucherId, $options:'i'},
+        startDate: {$lte: now}, 
+        endDate: {$gte: now}, 
+        typeVoucher: type
+    })
+    .sort({endDate: 1}).exec()
+    let result = []
+    for(const each of voucher){
+        const startDate = formatDate(each.startDate)
+        const endDate = formatDate(each.endDate)
+        const temp = {
+            _id: each._id,
+            voucherId: each.voucherId,
+            startDate: startDate,
+            endDate: endDate,
+            typeVoucher: each.typeVoucher,
+            valueOfDiscount: each.valueOfDiscount
+        }
+        result.push(temp)
+    }
+    return result
+}
+const displayOrder = async (req, res, next) => {
+    const orderID = "659043996f51a58bbdb0b5ea"
+
+    const order = await Order.findById(orderID).populate("vouchers addressOrder").exec()
     if(!order){
         res.render("user/shopping-cart", {
             user: true,
             noItem: true
         })
     } else {
-        const itemList = await getItemList(order)
-        console.log(itemList)
-        const foodVoucher = await getActiveVoucher("food")
-        console.log(foodVoucher)
-        const shipVoucher = await getActiveVoucher("ship")
-        console.log(shipVoucher)
-        const addresses = await getSaveAddress(userID)
-        console.log(addresses)
-        const total = calculateTotal(itemList, foodVoucher[0], shipVoucher[0])
-        console.log(total)
-        for(const each of foodVoucher){
-            console.log(each.voucherId)
-            console.log(each.discount)
-        }
+        await updateTotal(orderID)
+        let orderDetail = await getOrderDetail(order)
         res.render("user/shopping-cart", {
             user: true,
             noItem: false,
-            itemList: itemList,
-            foodVoucher: foodVoucher,
-            shipVoucher: shipVoucher,
-            addresses: addresses,
-            total: total
+            orderDetail: orderDetail
         })
     }
 }
+
+const displayFoodVoucher = async (req, res, next) => {
+    const searchID = req.query.voucherId
+    const voucherType = "food"
+    let voucher
+    if(searchID){
+        voucher = await getActiveVoucher(voucherType, searchID)
+    }else{
+        voucher = await getActiveVoucher(voucherType, "")
+    }
+    res.render("user/voucher", {
+        user: true,
+        searchID: searchID,
+        voucher: voucher,
+        voucherType: voucherType
+    })
+}
+
+const displayShipVoucher = async (req, res, next) => {
+    const searchID = req.query.voucherId
+    const voucherType = "ship"
+    let voucher
+    if(searchID){
+        voucher = await getActiveVoucher(voucherType, searchID)
+    }else{
+        voucher = await getActiveVoucher(voucherType, "")
+    }
+    res.render("user/voucher", {
+        user: true,
+        searchID: searchID,
+        voucher: voucher,
+        voucherType: voucherType
+    })
+}
+
+const updateTotal = async (orderID) => {
+    const total = await calculateTotal(orderID)
+    await Order.findOneAndUpdate({_id: orderID}, {total: total}, {now: true})
+}
+
+const addVoucher = async (req, res, next) => {
+    const orderID = "659043996f51a58bbdb0b5ea"
+    const id = req.query.id
+    const type = req.query.type
+    const voucher = await Voucher.findById(id).exec()
+    if(!voucher){
+        const url = "/shopping-cart/" + type + "-voucher"
+        res.redirect(url)
+    }else{
+        let order = await Order.findById(orderID).populate("vouchers").exec()
+        let hasVoucher = false 
+        for(const each of order.vouchers){
+            if(each.typeVoucher == type){
+                hasVoucher = true
+            }
+        }
+        if(!hasVoucher){
+            order.vouchers.push(id)
+            await order.save()
+        }
+        await updateTotal(orderID)
+        res.redirect("/shopping-cart")
+    }
+}
 export default {
-    getOrder
+    displayOrder,
+    displayFoodVoucher,
+    displayShipVoucher,
+    addVoucher
 }
