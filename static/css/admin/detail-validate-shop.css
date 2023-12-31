@@ -26,7 +26,8 @@
 }
 .accept-btn,
 .return-btn,
-.check-btn {
+.check-btn,
+.remove-btn {
     padding: 10px 15px;
     border: 1px solid var(--white-color);
     background-color: var(--orange-color);

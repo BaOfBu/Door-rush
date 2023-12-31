@@ -1,4 +1,5 @@
 import MerchantService from "../../services/admin/merchant.service.js";
+import Merchant from "../../models/merchantModel.js";
 // [GET]/admin/validate-shop?page=
 const index = async function (req, res) {
     const page = req.query.page || 1;
@@ -54,11 +55,17 @@ const detailShopValidate = async function (req, res) {
 // [GET]/admin/validate-shop/:id/checkValidate
 const checkValidate = async function (req, res) {
     const merchant = await MerchantService.findActiveByName(req.query.shopName, req.query.cccd);
-    if (merchant.length === 0) {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    const isValid = emailRegex.test(req.query.email);
+    if (merchant.length === 0 && isValid) {
+        const updatedMerchant = await Merchant.findOneAndUpdate({ _id: req.params.id }, { $set: { status: "active" } }, { new: true });
         res.json(true);
     } else {
         res.json(false);
     }
 };
-
-export default { index, detailShopValidate, checkValidate };
+const refuseValidate = async function (req, res) {
+    const result = await Merchant.deleteOne({ _id: req.params.id });
+    res.json(true);
+};
+export default { index, detailShopValidate, checkValidate, refuseValidate };
