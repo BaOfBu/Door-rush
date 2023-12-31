@@ -8,5 +8,6 @@ router.get("/ship-voucher", shoppingCartController.displayShipVoucher)
 router.get("/add-voucher", shoppingCartController.addVoucher)
 router.get("/address", shoppingCartController.displayAddresss)
 router.get("/add-address", shoppingCartController.addAddress)
+router.get("/submit-order", shoppingCartController.submitOrder)
 
 export default router
