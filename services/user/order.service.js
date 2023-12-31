@@ -6,5 +6,8 @@ export default {
     },
     findById(orderId) {
         return Order.findById(orderId);
+    },
+    findTheInCartUserId(userId) {
+        return Order.find({ userId: userId, status: "Giỏ hàng" });
     }
 };
