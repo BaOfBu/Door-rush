@@ -1,7 +1,7 @@
-import express from "express";
 import bcrypt from "bcrypt";
 import userService from "../../services/user/user.service.js";
 import nodemailer from "nodemailer";
+import OrderService from "../../services/user/order.service.js";
 import auth from "../../middleware/auth.mdw.js";
 
 const getRegister = function (req, res) {
@@ -60,6 +60,7 @@ const postRegister = async function (req, res) {
 };
 
 const getLogin = function (req, res) {
+    req.session.retUrl = req.headers.referer || "/";
     res.render("user/login");
 };
 
@@ -81,14 +82,37 @@ const postLogin = async function (req, res) {
     delete user.password;
     req.session.auth = true;
     req.session.authUser = user;
+    let userId = req.session.authUser || null;
+    const order = await OrderService.findTheInCartUserId(userId);
+    if (order.length === 0) {
+        req.session.order = "";
+        req.session.numberItem = 0;
+    } else {
+        req.session.order = order[0]._id;
+        req.session.numberItem = order[0].items.length;
+    }
+
     const url = req.session.retUrl || "/";
+    if(user.role === "Merchant"){
+        return res.redirect("/merchant");
+    }
+    if(user.role === "Admin"){
+        return res.redirect("/admin");
+    }
+    if (url === "/account/login") {
+        res.redirect("/");
+    }
+    //console.log(url);
     res.redirect(url);
 };
 
 const logout = function (req, res) {
+    console.log("logout");
     req.session.retUrl = req.headers.referer || "/";
     req.session.auth = false;
     req.session.authUser = undefined;
+    req.session.order = "";
+    req.session.numberItem = 0;
     res.redirect("../../../account/login");
     localStorage.removeItem("selectedDateRange");
 };

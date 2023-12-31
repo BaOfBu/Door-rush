@@ -1,0 +1,88 @@
+.manage-shop-admin {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+.title-page {
+    font-weight: 600;
+    color: var(--orange-color);
+}
+.section-three {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+.card-footer {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+}
+.next-btn,
+.prev-btn {
+    background-color: var(--grey-bold-color);
+    padding: 10px 20px;
+    border-radius: 5px;
+    font-weight: 500;
+}
+.sub-count {
+    color: var(--grey-light-color);
+    font-size: 16px;
+}
+.has-search {
+    width: 40%;
+}
+.has-search .form-control {
+    padding-left: 2.375rem;
+}
+
+.has-search .form-control-feedback {
+    position: absolute;
+    z-index: 2;
+    display: block;
+    width: 2.375rem;
+    height: 2.375rem;
+    line-height: 2.375rem;
+    text-align: center;
+    pointer-events: none;
+    color: #aaa;
+}
+.section-two {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+input[type="text"][name="daterange"] {
+    background-color: #e2e8f0;
+    font-size: 14px;
+    border: none;
+}
+.search-group {
+    border-radius: 4px;
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    align-items: center;
+    padding: 10px;
+    background-color: #e2e8f0;
+}
+.custom-table td,
+.custom-table th {
+    padding-left: 20px;
+}
+.h-70 {
+    height: 35px;
+    line-height: 40px;
+}
+.detail-btn {
+    padding-left: 5px;
+    padding-right: 5px;
+    color: var(--orange-color);
+    border: 1px solid var(--orange-color);
+    border-radius: 5px;
+}
+.detail-btn:hover {
+    color: white;
+    background-color: var(--orange-color);
+}

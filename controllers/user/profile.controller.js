@@ -1,6 +1,7 @@
 import Address from "../../models/addressModel.js";
 import Profile from "../../services/user/profile.service.js";
 import bcrypt from 'bcrypt';
+import moment from "moment";
 
 const viewProfile = async function (req, res){
     const userID = req.params.userID;
@@ -9,7 +10,7 @@ const viewProfile = async function (req, res){
     const user = await Profile.getUserInfo(userID);
     switch(optional){
         case "default":{
-            const dob = user.birthdate;
+            const dob = moment(user.birthdate, 'MM-DD-YYYY').format('DD/MM/YYYY');;
             res.render("user/profile", {
                 user: true,
                 type: "profile",
@@ -160,6 +161,7 @@ const viewProfile = async function (req, res){
 const updateUserInformation = async function (req, res){
     const userID = req.params.userID;
     const optional = req.query.optional || "default";
+    req.body.birthdate = moment(req.body.birthdate, 'DD/MM/YYYY').format('MM-DD-YYYY');
     const updatedData = req.body;
     switch(optional){
         case "default":{
@@ -248,24 +250,34 @@ const updateUserInformation = async function (req, res){
             const raw_current_password = req.body.currentPassword;
             const user = await Profile.getUserInfo(userID);
             const ret = bcrypt.compareSync(raw_current_password, user.password);
-            if (ret === false) {
-                return res.render("user/profile", {
-                    err_message: "Incorrectly current password."
-                });
-            }else{
+            if (ret === true) {
                 const raw_new_password = req.body.newPassword;
                 const salt = bcrypt.genSaltSync(10);
                 const hash_password = bcrypt.hashSync(raw_new_password, salt);
                 const updatedUser = await Profile.updateUserInfo(userID, {password: hash_password});
-                res.render("user/profile", {
-                    user: true,
-                    type: "profile",
-                    userID: userID,
-                    fullName: user.fullname,
-                    image: user.image,
-                    userName: user.username,
-                }); 
+                console.log("Đã đổi mk thành: ", raw_new_password);
             }
+            res.render("user/profile", {
+                user: true,
+                type: "profile",
+                userID: userID,
+                fullName: user.fullname,
+                image: user.image,
+                userName: user.username,
+            }); 
+            // const raw_new_password = req.body.newPassword;
+            // const salt = bcrypt.genSaltSync(10);
+            // const hash_password = bcrypt.hashSync(raw_new_password, salt);
+            // const updatedUser = await Profile.updateUserInfo(userID, {password: hash_password});
+            // console.log("Đã đổi mk thành: ", raw_new_password);
+            // res.render("user/profile", {
+            //     user: true,
+            //     type: "profile",
+            //     userID: userID,
+            //     fullName: updatedUser.fullname,
+            //     image: updatedUser.image,
+            //     userName: updatedUser.username,
+            // });
             break;
         }
         case "register":{
@@ -294,4 +306,20 @@ const updateUserInformation = async function (req, res){
         };
     }
 }
-export default {viewProfile, updateUserInformation};
+
+const isAvailable = async function (req, res){
+    console.log(req.query);
+    const id = req.params.userID;
+    const currentPassword = req.query.currentPassword;
+
+    const user = await Profile.getUserInfo(id);
+    console.log("user: ", user);
+    const ret = bcrypt.compareSync(currentPassword, user.password);
+
+    if (ret === true) {
+        return res.json(true);
+    }
+    res.json(false);
+}
+
+export default {viewProfile, updateUserInformation, isAvailable};

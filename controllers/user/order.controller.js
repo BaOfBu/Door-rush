@@ -2,7 +2,6 @@ import OrderService from "../../services/user/order.service.js";
 // [GET]/order?id={{orderId}}
 const index = async function (req, res) {
     if (req.session.auth === false) {
-    req.session.retUrl = req.path;
         res.redirect("/account/login");
     } else {
         let orderId = req.query.id || 0;

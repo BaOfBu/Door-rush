@@ -44,19 +44,20 @@ const addTheVoucher = async function (req, res) {
 };
 // [GET]/admin/voucher/remove-voucher
 const removeVoucher = async function (req, res) {
-    const voucherId = req.query.voucherId;
+    const voucherId = req.query.voucherId || -1;
     await VoucherService.delete(voucherId);
     res.redirect("/admin/voucher");
 };
 // [GET]/admin/voucher/edit-voucher?id={{voucherID}}
 const editVoucher = async function (req, res) {
-    const id = req.query.id === undefined ? -1 : req.query.id;
+    const id = req.query.id || -1;
+    if (id == -1) {
+        res.redirect("/admin/voucher");
+        return;
+    }
     const voucher = await VoucherService.findById(id).lean();
     voucher.startDate = formatDate(voucher.startDate);
     voucher.endDate = formatDate(voucher.endDate);
-    if (id === -1) {
-        res.redirect("/admin/voucher");
-    }
     res.render("admin/edit-voucher", {
         type: "voucher",
         voucher: voucher
