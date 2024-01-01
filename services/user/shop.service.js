@@ -32,6 +32,7 @@ const getAllFood = async (shop) => {
             category: category
         })
     }
+    console.log(shopFood)
     return shopFood
 }
 const getAllCategory = (shop, shopFood) => {

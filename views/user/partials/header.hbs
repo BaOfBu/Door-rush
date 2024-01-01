@@ -15,14 +15,15 @@
                         <i class="bi bi-search h3"></i>
                     </button>
                 </a>
-                <a href="#" class="icon-btn bag">
+                {{#if auth}}
+                <a href="/shopping-cart" class="icon-btn bag">
                     <button class="d-flex align-items-center justify-content-between gap-3 icon-btn">
                         <i class="bi bi-handbag ml-3 h2 mt-1">
                         </i>Giỏ hàng
-                         <div class="number-of-item-order">{{this.numberItem}}</div>
-                       
+                         {{!-- <div class="number-of-item-order">{{this.numberItem}}</div> --}}
                     </button>
                 </a>
+                {{/if}}
                 <!-- {{#if auth}}
                 <a href="/profile" class="icon-btn">
                     <button class="user-btn d-flex align-items-center justify-content-between gap-2">

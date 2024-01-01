@@ -1,0 +1,49 @@
+{{#section "js"}}
+    {{!-- <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <script src="/static/js/user/voucher/index.js"></script> --}}
+{{/section}}
+{{#section "css"}}
+    <link rel="stylesheet" href="/static/css/user/voucher.css" />
+{{/section}}
+
+<div class="voucher-page">
+    <section class="section-one">
+        <div class="container">
+            <div class="section-one-content">
+                <div class="voucher-breadcrumbs">
+                    <span>Trang chủ</span>
+                    <span>&gt;</span>
+                    <span>Giỏ hàng</span>
+                    <span>&gt;</span>
+                    {{#if (equal voucherType 'food')}}<span>Mã giảm giá</span>{{/if}}
+                    {{#if (equal voucherType 'ship')}}<span>Mã shipping</span>{{/if}}
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="section-two">
+        <div class="container">
+            <div class="section-two-content">
+                <div class="search-bar"method="get">
+                    <form action="/shopping-cart/{{voucherType}}-voucher">
+                        <input name="voucherId" type="text" class="search-input" placeholder="Tìm kiếm" 
+                        {{#if searchID}} value="{{searchID}}"{{/if}}/>
+                        <button class="search-button">Tìm kiếm</button>
+                    </form>
+                </div>
+                <div class="voucher-pane">
+                    {{#each voucher}}
+                    <a class="add-voucher" href="/shopping-cart/add-voucher?id={{this._id}}&type={{../voucherType}}">
+                        <div class="voucher-card {{../voucherType}}">
+                            <p class="voucher-id">{{this.voucherId}}</p>
+                            <p class="voucher-detail">Giảm: {{this.valueOfDiscount}}Đ</p>
+                            <p class="voucher-detail">Từ: {{this.startDate}}</p>
+                            <p class="voucher-detail">Đến: {{this.endDate}}</p>
+                        </div>
+                    </a>
+                    {{/each}}
+                </div>
+            </div>
+        </div>
+    </section>
+</div>

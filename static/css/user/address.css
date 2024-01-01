@@ -1,0 +1,60 @@
+.address-page{
+    min-width: 1440px;
+    min-height: 1000px;
+}
+.address-breadcrumbs{
+    display: flex;
+    flex-direction: row;
+    gap: 12px;
+    color: var(--grey-color);
+    font-weight: 400;
+    line-height: 150%;
+    margin: 65px 65px 0px 65px;
+}
+.section-two-content{
+    display: flex;
+    flex-direction: column;
+    margin: 30px 65px 30px 65px;
+}
+.input-bar{
+    display: flex;
+    flex-direction: row;
+    gap: 30px;
+    margin: 30px 0px 30px 0px;
+}
+.address-input{
+    width: 800px;
+    padding: 17px;
+    font-size: 24px;
+    font-weight: 400;
+    line-height: 100%;
+    border: 1px solid var(--black-color);
+}
+.add-button{
+    text-decoration: none;
+    background-color: var(--orange-color);
+    padding: 20px;
+    color: var(--white-color);
+    font-size: 24px;
+    font-weight: 700;
+    line-height: 100%;
+    text-align: center;
+}
+.address-pane{
+    display: flex;
+    flex-direction: column;
+}
+.add-voucher{
+    text-decoration: none;
+}
+.address-card{
+    padding: 30px 0px 30px 0px;
+    border-bottom: 1px solid var(--grey-color);
+}
+.save-address{
+    font-size: 32px;
+    font-weight: 600;
+    line-height: 100%;
+    color: var(--black-color);
+    margin: 0;
+}
