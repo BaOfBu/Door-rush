@@ -113,7 +113,6 @@ const logout = function (req, res) {
     req.session.order = "";
     req.session.numberItem = 0;
     res.redirect("../../../account/login");
-    localStorage.removeItem("selectedDateRange");
 };
 
 const is_available_user = async function (req, res) {

@@ -3,11 +3,15 @@ import profileController from "../../controllers/user/profile.controller.js";
 import auth from "../../middleware/auth.mdw.js";
 
 const router = express.Router();
+router.use(express.json());
+router.use(express.urlencoded({ extended: true }));
 
-router.get("/:userID",auth.authUser, profileController.viewProfile);
+router.get("/", auth.authUser, profileController.viewProfile);
 
-router.post("/:userID", profileController.updateUserInformation);
+router.post("/", profileController.updateUserInformation);
 
-router.get("/:userID/is-available", profileController.isAvailable);
+router.post("/upload-avatar", profileController.uploadAvatar);
+
+router.get("/is-available", auth.authUser, profileController.isAvailable);
 
 export default router;
