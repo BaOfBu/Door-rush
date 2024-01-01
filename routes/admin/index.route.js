@@ -20,6 +20,7 @@ router.use("/manage-shop", manageShopRoutes);
 router.use("/manage-user", manageUserRoutes);
 router.use("/validate-shop", validateShopRoutes);
 router.use("/voucher", voucherRoutes);
+
 router.use("/seeds", seedRoutes);
 
 export default router;
