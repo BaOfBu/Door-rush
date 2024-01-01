@@ -1,0 +1,44 @@
+{{#section "js"}}
+    {{!-- <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <script src="/static/js/user/address/index.js"></script> --}}
+{{/section}}
+{{#section "css"}}
+    <link rel="stylesheet" href="/static/css/user/address.css" />
+{{/section}}
+
+<div class="address-page">
+    <section class="section-one">
+        <div class="container">
+            <div class="section-one-content">
+                <div class="address-breadcrumbs">
+                    <span>Trang chủ</span>
+                    <span>&gt;</span>
+                    <span>Giỏ hàng</span>
+                    <span>&gt;</span>
+                    <span>Chọn địa chỉ</span>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="section-two">
+        <div class="container">
+            <div class="section-two-content">
+                <div class="input-bar"method="get">
+                    <form action="/shopping-cart/add-address">
+                        <input name="address" type="text" class="address-input" placeholder="Nhập địa chỉ"/>
+                        <button class="add-button">Xác nhận</button>
+                    </form>
+                </div>
+                <div class="address-pane">
+                    {{#each saveAddress}}
+                    <a class="add-voucher" href="/shopping-cart/add-address?address={{this}}">
+                        <div class="address-card">
+                            <p class="save-address">{{this}}</p>
+                        </div>
+                    </a>
+                    {{/each}}
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
