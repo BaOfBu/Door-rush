@@ -94,10 +94,9 @@ const authAdmin = function (req, res, next) {
   next();
 }
 export default {
-  authUser,
-  authLogout,
-  authUserforStart,
-  authMerchant,
-  authAdmin
+    authUser,
+    authLogout,
+    authUserforStart,
+    authMerchant,
+    authAdmin
 };
-

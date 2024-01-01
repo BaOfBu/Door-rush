@@ -15,7 +15,7 @@
         <div class="card">
             <table class="table table-hover custom-table">
                 <thead>
-                    <tr>
+                    <tr style="height: 30px;line-height: 30px;">
                         <th scope="col" style="width: 20%;">Mã ưu đãi</th>
                         <th scope="col" style="width: 20%;">Loại ưu đãi</th>
                         <th scope="col">Ngày bắt đầu</th>
@@ -47,7 +47,7 @@
             <div class="card-footer">
                 <span>
                     <b>Trang {{this.currentPage}} / {{this.nPages}}</b>
-                    <span> ( Tổng số: {{this.total}} )</span>
+                    <span class="sub-count"> ( Tổng số: {{this.total}} )</span>
                 </span>
                 <div class="button-pagnation">
                     {{#if prev}}

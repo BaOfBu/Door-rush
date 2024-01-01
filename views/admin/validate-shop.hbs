@@ -15,7 +15,7 @@
     <div class="section-two">
         <div class="form-group has-search">
             <span class="fa fa-search form-control-feedback"></span>
-            <input type="text" class="form-control" placeholder="Tìm kiếm yêu cầu xử lý theo ID" />
+            <input type="text" class="form-control" placeholder="Tìm kiếm yêu cầu xử lý theo tài khoản" />
         </div>
         <div class="search-group">
             <i class="bi bi-calendar4"></i>
@@ -28,26 +28,25 @@
         <div class="card">
             <table class="table table-hover custom-table">
                 <thead>
-
-                    <tr>
-                        <th scope="col" style="width: 15%;">ID</th>
+                    <tr style="height: 30px;line-height: 30px;">
+                        <th scope="col" style="width: 10%;">STT</th>
                         <th scope="col" style="width: 15%;">Username</th>
-                        <th scope="col">Ngày đăng ký</th>
+                        <th scope="col" style="width: 15%;">Ngày đăng ký</th>
                         <th scope="col">Tên cửa hàng</th>
-                        <th scope="col">Loại kinh doanh</th>
+                        <th scope="col" style="width: 25%;">Loại kinh doanh</th>
                         <th scope="col"> &nbsp;</th>
                     </tr>
                 </thead>
                 <tbody>
                     {{#each merchant}}
                         <tr class="h-70">
-                            <th scope="row">#1007837</th>
+                            <th scope="row">{{this.pageIndex}}</th>
                             <td>{{this.username}}</td>
-                            <td>dd/mm/yyyy</td>
+                            <td>{{this.timeRegister}}</td>
                             <td>{{this.name}}</td>
-                            <td>Cơm</td>
+                            <td>{{this.categories}}</td>
                             <td style="width: 15%;">
-                                <a href=""><button class="detail-btn">Xem chi tiết</button></a>
+                                <a href="/admin/validate-shop/{{this.id}}"><button class="detail-btn">Xem chi tiết</button></a>
                             </td>
                         </tr>
                     {{/each}}
@@ -57,6 +56,7 @@
             <div class="card-footer">
                 <span>
                     <b>Trang {{this.currentPage}} / {{this.nPages}}</b>
+                    <span class="sub-count">&nbsp;&nbsp;(Tổng số yêu cầu: {{this.total}})</span>
                 </span>
                 <div class="button-pagnation">
                     {{#if prev}}
@@ -68,6 +68,6 @@
                 </div>
             </div>
         </div>
-        <span class="sub-count">Tổng số yêu cầu: {{this.total}}</span>
+
     </div>
 </section>
