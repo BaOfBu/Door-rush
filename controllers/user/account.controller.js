@@ -93,16 +93,15 @@ const postLogin = async function (req, res) {
     }
 
     const url = req.session.retUrl || "/";
-    if(user.role === "Merchant"){
+    if (user.role === "Merchant") {
         return res.redirect("/merchant");
     }
-    if(user.role === "Admin"){
+    if (user.role === "Admin") {
         return res.redirect("/admin");
     }
     if (url === "/account/login") {
         res.redirect("/");
     }
-    //console.log(url);
     res.redirect(url);
 };
 
