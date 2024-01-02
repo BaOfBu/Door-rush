@@ -4,6 +4,16 @@ import Address from "../../models/addressModel.js";
 import Order from "../../models/orderModel.js";
 import Category from "../../models/categoryModel.js";
 
+const formatterH = new Intl.DateTimeFormat('vi-VN', {
+    timeZone: 'Asia/Ho_Chi_Minh',
+    day: '2-digit',
+    month: '2-digit',
+    year: 'numeric',
+    hour: 'numeric',
+    minute: 'numeric',
+    second: 'numeric'
+});
+
 class Profile{
     async getCategories(){
         try {
@@ -62,8 +72,14 @@ class Profile{
                 let id = order._id;
                 let status = order.status;
                 let total = order.total;
-                let timeOrder = order.timeOrder.toLocaleDateString('en-US', options);
+                console.log(order.timeStatus);
                 
+                const vietnamTimeZone = 'Asia/Ho_Chi_Minh';
+                // let timeOrder = order.timeStatus[0];
+                const options = { timeZone: vietnamTimeZone, hour12: false, year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', second: '2-digit' };
+                let timeOrder = order.timeStatus[0].toLocaleDateString('en-US', options);
+                
+                console.log("Convert: ", new Date(timeOrder));
                 let quantity = await this.countQuantityItemsOfOrder(id);
 
                 const merchant = await Merchant.findOne({ _id: order.merchantId })
@@ -88,7 +104,6 @@ class Profile{
     
                 return { id, status, total, timeOrder, quantity, id_merchant, name_merchant, image_merchant, address_merchant };
             }));
-    
             return infoOrders || []; // Return an empty array if no orders found
         } catch (error) {
             console.error("Error fetching user's order history:", error);
@@ -161,12 +176,17 @@ class Profile{
     }
 
     async createShopRegister(username, password, info){
-        let categories = [];
+        let promises = info.type.split(", ").map(async (category) => {
+            let tmp = await Category.findOne({ name: category });
+            if (tmp) {
+                return tmp._id;
+            } else {
+                throw new Error(`Category not found: ${category}`);
+            }
+        });
 
-        let tmp = await Category.findOne({name: info.type});
-
-        categories.push(tmp._id);
-
+        let categories = await Promise.all(promises);
+    
         let split = info.address.split(", ");
 
         let tmp2 = split[0].split(" ");
@@ -203,11 +223,32 @@ class Profile{
             email: info.email,
             phone: info.phone,
             address: address._id,
-            category: categories
+            category: categories,
+            timeRegister: new Date()
         });
 
         await merchant.save();      
         return merchant;
+    }
+
+    async isPendingMerchant(username){
+        try {
+            const pendingMerchant = await Merchant.find({username: username})
+            .lean()
+            .exec();
+            console.log(pendingMerchant);
+            
+            if(pendingMerchant){
+                console.log("true");
+                return true;
+            }
+            console.log("false");
+            return false;
+            
+        } catch (error) {
+            console.error("Error fetching merchant's information:", error);
+            throw error;  // Rethrow the error for higher-level handling if needed
+        }
     }
     
 }

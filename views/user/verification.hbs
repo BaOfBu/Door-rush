@@ -1,0 +1,60 @@
+{{#section 'js'}}
+<script src="/static/js/user/account/verify.js"></script>
+{{/section}}
+
+{{#section 'css'}}
+<link rel="stylesheet" href="../../static/css/user/register.css">
+<link rel="stylesheet" href="../../static/css/user/verification.css">
+{{/section}}
+
+<main>
+  {{#if req.session.err_message}}
+    alert({{req.session.err_message}});
+  {{/if}}
+  {{#if req.session.success_message}}
+    alert({{req.session.success_message}});
+  {{/if}}
+  <div
+    style="background-image: url('../../static/images/user/account/SignInBackround.png'); background-position: center; background-repeat: no-repeat; background-size:cover;"
+  >
+    <div class="container">
+      <div class="d-flex flex-row flex-fill align-items-center justify-content-end">
+        <div
+          class="col-sm-6 d-flex justify-content-center align-items-center"
+          style="background-color: #fff; height: 500px; margin: 30px 0px 100px 0px; border-radius: 8px;"
+        >
+          <div 
+          class="d-flex flex-column flex-xl-fill align-items-center"
+          style="margin: 30px 40px 30px 40px;">
+            <h3 style="color: #F59359; ">Xác minh tài khoản</h3>
+            <p style="color: #9EA0A5;">Vui lòng nhập mã OTP được gửi về {{this.email}} của bạn để xác minh tài khoản</p>
+            <form action="" method="post" id="frmRegister">
+              <div class="mb-6 text-center d-flex flex-row">
+                <div id="otp" class="d-flex justify-content-center flex-row">
+                  <input class="m-2 text-center form-control form-control-solid rounded focus:border-blue-400 focus:shadow-outline" type="text" name="first" id="first"  maxlength="1" autofocus/>
+                  <input class="m-2 text-center form-control form-control-solid rounded focus:border-blue-400 focus:shadow-outline" type="text" name="second" id="second" maxlength="1" />
+                  <input class="m-2 text-center form-control form-control-solid rounded focus:border-blue-400 focus:shadow-outline" type="text" name="third" id="third" maxlength="1" />
+                  <input class="m-2 text-center form-control form-control-solid rounded focus:border-blue-400 focus:shadow-outline" type="text" name="fourth" id="fourth" maxlength="1" />
+                  <input class="m-2 text-center form-control form-control-solid rounded focus:border-blue-400 focus:shadow-outline" type="text" name="fifth" id="fifth" maxlength="1" />
+                  <input class="m-2 text-center form-control form-control-solid rounded focus:border-blue-400 focus:shadow-outline" type="text" name="sixth" id="sixth" maxlength="1" />
+                </div>
+              </div>
+              <input type="text" name="username" value={{this.username}} hidden/>
+              <div class="form-group">
+                  <div class="ml-2" >
+                      <button type="submit" class="btn w-100 btn-lg btn-info" 
+                      style="background-color: #F59359; color:#fff; margin: 8px 0 8px 0;">
+                          Xác minh
+                      </button>
+                  </div>
+              </div>
+            </form>
+
+            {{!-- <p style="color: #9EA0A5;">Đã có tài khoản?
+              <a href="/account/login" style="color: #F59359; text-decoration: none;">Đăng nhập</a></p> --}}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>

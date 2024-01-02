@@ -4,6 +4,9 @@ export default {
     findAll() {
         return Food.find();
     },
+    findByIdForOrderItem(foodId) {
+        return Food.findById(foodId);
+    },
     findById(foodId) {
         return Food.findById(foodId)
             .populate("foodType")

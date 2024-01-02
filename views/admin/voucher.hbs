@@ -1,1 +1,65 @@
-<h1>Trang quản lý khuyến mãi</h1>
+{{#section "js"}}
+    <script src="../../static/js/admin/voucher.js"></script>
+{{/section}}
+{{#section "css"}}
+    <link rel="stylesheet" href="/static/css/admin/voucher.css" />
+{{/section}}
+<section class="voucher-admin">
+    <div class="section-one">
+        <h1 class="title-page">Danh sách ưu đãi</h1>
+        <a href="/admin/voucher/add" class="add-btn">
+            <i class="bi bi-plus-circle"></i>
+            Thêm ưu đãi mới</a>
+    </div>
+    <div class="section-two">
+        <div class="card">
+            <table class="table table-hover custom-table">
+                <thead>
+                    <tr style="height: 30px;line-height: 30px;">
+                        <th scope="col" style="width: 20%;">Mã ưu đãi</th>
+                        <th scope="col" style="width: 20%;">Loại ưu đãi</th>
+                        <th scope="col">Ngày bắt đầu</th>
+                        <th scope="col">Ngày kết thúc</th>
+                        <th scope="col">Trạng thái</th>
+                        <th scope="col"> &nbsp;</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {{#each listVoucher}}
+                        <tr class="h-70">
+                            <th scope="row">{{this.voucherId}}</th>
+                            <td>{{this.typeVoucher}}</td>
+                            <td>{{this.startDate}}</td>
+                            <td>{{this.endDate}}</td>
+                            <td>Đang hoạt động</td>
+                            <td style="width: 20%;">
+                                <a href="/admin/voucher/edit-voucher?id={{this._id}}"><button class="edit-btn">Sửa</button></a>
+                                <a href="/admin/voucher/remove-voucher?voucherId={{this._id}}"><button
+                                        type="button"
+                                        class="remove-btn"
+                                        id="remove-btn"
+                                    >Xóa</button></a>
+                            </td>
+                        </tr>
+                    {{/each}}
+                </tbody>
+            </table>
+            <div class="card-footer">
+                <span>
+                    <b>Trang {{this.currentPage}} / {{this.nPages}}</b>
+                    <span class="sub-count"> ( Tổng số: {{this.total}} )</span>
+                </span>
+                <div class="button-pagnation">
+                    {{#if prev}}
+                        <a href="?page={{this.prev}}"><button class="next-btn">Trang trước</button></a>
+                    {{/if}}
+                    {{#if next}}
+                        <a href="?page={{this.next}}"><button class="prev-btn">Trang sau</button></a>
+                    {{/if}}
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</section>

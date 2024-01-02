@@ -1,5 +1,6 @@
 import express from "express";
-import { faker } from "@faker-js/faker";
+import { en, faker } from "@faker-js/faker";
+import moment from "moment";
 import mongoose from "mongoose";
 import Category from "../../models/categoryModel.js";
 import User from "../../models/userModel.js";
@@ -60,7 +61,7 @@ async function generateFoodData(){
 
     const feedbackData = new Feedback ({
       itemId: foodTypeData._id,
-      userId: ["657ed32ab3c555f469af362d"],
+      userId: ["658bc732b2e15b47b4ab3653"],
       rating: faker.number.float({ min: 1, max: 5, precision: 0.1 }),
       comment: faker.lorem.sentence(),
       feedbackDate: faker.date.past(),
@@ -116,7 +117,8 @@ router.get("/generate-merchant", async function () {
           image: faker.image.url(),
           priceRange: "50.000Đ - 100.000Đ",
           rating: 0,
-          hasDiscount: false
+          hasDiscount: false,
+          timeRegister: new Date()
         });
 
         await fakeMerchantData.save();
@@ -130,8 +132,8 @@ router.get("/generate-merchant", async function () {
 
 function generateOrderItemData(){
   const orderItemData = new OrderItem ({
-    foodId: "65788f9c248963c4cf34a0bb",
-    typeFoodId: "65788f9c248963c4cf34a0b7",
+    foodId: "658bc784b2e15b47b4ab3677",
+    typeFoodId: "658bc784b2e15b47b4ab366f",
     quantity: faker.number.int({min: 1, max: 5}),
     notes: faker.lorem.sentence(),
   });
@@ -141,8 +143,10 @@ function generateOrderItemData(){
 
 async function generateVoucherData(type){
   let startTime = faker.date.past();
-  let endTime = faker.date.between({from: startTime, to: faker.date.recent()});
-
+  let tmp = faker.date.recent();
+  let endTime = faker.date.between({from: startTime, to: tmp});
+  console.log(startTime);
+  console.log(endTime);
   const voucherData = new Voucher({
     voucherId: "NOELVUIVE",
     startDate: startTime,
@@ -174,16 +178,31 @@ async function generateOrderData(userID){
   const voucher_ship = await generateVoucherData("ship");
   vouchers.push(voucher_ship);
 
+  // let start = temp.startDate;
+  // let startTime = start.getMonth + '-' + start.getDay + '-' + start.getFullYear + ' 00:00:00';
+  // let end = temp.endDate;
+  // let endTime = end.getMonth + '-' + end.getDay + '-' + end.getFullYear + ' 00:00:00';
   await Voucher.findByIdAndUpdate(voucher_ship, { $set: { startDate: temp.startDate, endDate: temp.endDate } }, { new: true });
 
+  let timeStatus = [];
+  let timeOrderOrigin = faker.date.between({from: temp.startDate, to: temp.endDate});
+
+  let time = timeOrderOrigin.setMinutes(timeOrderOrigin.getMinutes() + 1);
+  timeStatus.push(time);
+  time = timeOrderOrigin.setMinutes(timeOrderOrigin.getMinutes() + 50);
+  timeStatus.push(time);
+  time = timeOrderOrigin.setMinutes(timeOrderOrigin.getMinutes() + 100);
+  timeStatus.push(time);
+
   const orderData = new Order({
-    merchantId: "657ed260b3c555f469af360f",
+    merchantId: "658bc785b2e15b47b4ab3683",
     items: orderItems,
-    status: faker.helpers.arrayElement(["Đang chuẩn bị", "Đang giao", "Hoàn thành", "Đã hủy"]),
+    status: faker.helpers.arrayElement(["Đang chờ", "Đang chuẩn bị", "Đang giao", "Hoàn thành", "Đã hủy"]),
     userId: userID,
     vouchers: vouchers,
     total: faker.number.int({min: 1, max: 20})*100000,
-    timeOrder: faker.date.between({from: temp.startDate, to: temp.endDate})
+    timeStatus: timeStatus,
+    addressOrder: "658bc732b2e15b47b4ab3651"
   });
 
   await orderData.save();
@@ -208,14 +227,14 @@ router.get("/generate-user", async function(){
 
       let fakeUserData = new User ({
         username: faker.internet.userName(),
-        password: faker.internet.password(),
+        password: "Password123",
         role: "User",
         status: "active",
         fullname: "Tên người dùng",
         email: faker.helpers.fromRegExp("[a-z0-9]{10}@gmail\.com"),
         phone: faker.helpers.fromRegExp("0346 [0-9]{3} [0-9]{3}"),
         gender: faker.helpers.arrayElement(["Nam", "Nữ", "Khác"]),
-        birthdate: formatter.format(faker.date.between({from: "1950-01-01", to: "2017-01-01"})),
+        birthdate: formatter.format(faker.date.between({from: "01-01-1950 00:00:00", to: "01-01-2017 00:00:00"})),
         addresses: addresses,
         orders: [],
         image: faker.image.avatar()

@@ -1,0 +1,75 @@
+.voucher-page{
+    min-width: 1440px;
+    min-height: 1000px;
+}
+.voucher-breadcrumbs{
+    display: flex;
+    flex-direction: row;
+    gap: 12px;
+    color: var(--grey-color);
+    font-weight: 400;
+    line-height: 150%;
+    margin: 65px 65px 0px 65px;
+}
+.section-two-content{
+    display: flex;
+    flex-direction: column;
+    margin: 30px 65px 30px 65px;
+}
+.search-bar{
+    display: flex;
+    flex-direction: row;
+    gap: 30px;
+    margin: 30px 0px 30px 0px;
+}
+.search-input{
+    width: 800px;
+    padding: 17px;
+    font-size: 24px;
+    font-weight: 400;
+    line-height: 100%;
+    border: 1px solid var(--black-color);
+}
+.search-button{
+    text-decoration: none;
+    background-color: var(--orange-color);
+    padding: 20px;
+    color: var(--white-color);
+    font-size: 24px;
+    font-weight: 700;
+    line-height: 100%;
+    text-align: center;
+}
+.voucher-pane{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 30px;
+}
+.voucher-card{
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+} 
+.food{
+    background-color: var(--orange-color);
+    color: var(--black-color);
+}
+.ship{
+    background-color: green;
+    color: var(--white-color);
+}
+.voucher-id{
+    font-size: 24px;
+    font-weight: 600;
+    line-height: 100%;
+    text-align: center;
+}
+.voucher-detail{
+    font-size: 24px;
+    font-weight: 400;
+    line-height: 100%;
+}
+.add-voucher{
+    text-decoration: none;
+}

@@ -1,1 +1,73 @@
-<h1>Duyệt xác nhận cửa hàng</h1>
+{{#section "js"}}
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+    <script src="../../static/js/admin/validate-shop.js"></script>
+{{/section}}
+{{#section "css"}}
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
+    <link rel="stylesheet" href="/static/css/admin/validate-shop.css" />
+{{/section}}
+<section class="manage-shop-admin">
+    <div class="section-one">
+        <h1 class="title-page">Danh sách cửa hàng đang chờ xét duyệt</h1>
+    </div>
+    <div class="section-two">
+        <div class="form-group has-search">
+            <span class="fa fa-search form-control-feedback"></span>
+            <input type="text" class="form-control" placeholder="Tìm kiếm yêu cầu xử lý theo tài khoản" />
+        </div>
+        <div class="search-group">
+            <i class="bi bi-calendar4"></i>
+            <input type="text" name="daterange" value="" />
+            <i class="bi bi-chevron-down"></i>
+        </div>
+
+    </div>
+    <div class="section-three">
+        <div class="card">
+            <table class="table table-hover custom-table">
+                <thead>
+                    <tr style="height: 30px;line-height: 30px;">
+                        <th scope="col" style="width: 10%;">STT</th>
+                        <th scope="col" style="width: 15%;">Username</th>
+                        <th scope="col" style="width: 15%;">Ngày đăng ký</th>
+                        <th scope="col">Tên cửa hàng</th>
+                        <th scope="col" style="width: 25%;">Loại kinh doanh</th>
+                        <th scope="col"> &nbsp;</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {{#each merchant}}
+                        <tr class="h-70">
+                            <th scope="row">{{this.pageIndex}}</th>
+                            <td>{{this.username}}</td>
+                            <td>{{this.timeRegister}}</td>
+                            <td>{{this.name}}</td>
+                            <td>{{this.categories}}</td>
+                            <td style="width: 15%;">
+                                <a href="/admin/validate-shop/{{this.id}}"><button class="detail-btn">Xem chi tiết</button></a>
+                            </td>
+                        </tr>
+                    {{/each}}
+
+                </tbody>
+            </table>
+            <div class="card-footer">
+                <span>
+                    <b>Trang {{this.currentPage}} / {{this.nPages}}</b>
+                    <span class="sub-count">&nbsp;&nbsp;(Tổng số yêu cầu: {{this.total}})</span>
+                </span>
+                <div class="button-pagnation">
+                    {{#if prev}}
+                        <a href="?page={{this.prev}}"><button class="next-btn">Trang trước</button></a>
+                    {{/if}}
+                    {{#if next}}
+                        <a href="?page={{this.next}}"><button class="prev-btn">Trang sau</button></a>
+                    {{/if}}
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>

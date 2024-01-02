@@ -1,0 +1,70 @@
+{{#section "js"}}
+    var shopId =
+    {{{json shopId}}}
+    <script src="../../static/js/admin/detail-validate-shop.js"></script>
+{{/section}}
+{{#section "css"}}
+    <link rel="stylesheet" href="/static//css/admin/detail-validate-shop.css" />
+{{/section}}
+<section class="detail-validate-shop">
+    <div class="tittle-header">
+        <nav style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="/admin/validate-shop" class="custom-link">Trang kiểm duyệt</a></li>
+                <li class="breadcrumb-item active" aria-current="page">ID: {{this.shopId}}</li>
+            </ol>
+        </nav>
+        <h2 class="tittle">Đơn hàng kiểm duyệt chờ xử lý: {{this.shopId}}</h2>
+        <span class="sub-time">Thời gian đăng ký: <b>{{merchantRegister.timeRegister}}</b></span>
+    </div>
+    <div class="detail-form mt-3">
+        <form method="post" id="form-validate">
+            <legend class="mb-4 title-form">Thông tin đăng ký</legend>
+            <div class="mb-3 custom-form">
+                <label for="username" class="form-label"><b>Tên tài khoản</b></label>
+                <input type="text" class="form-control" id="username" name="username" value="{{merchantRegister.username}}" disabled />
+            </div>
+            <div class="mb-3 custom-form">
+                <label for="nameOfShop" class="form-label"><b>Tên nhà hàng, quán ăn</b></label>
+                <input type="text" class="form-control" id="nameOfShop" name="nameOfShop" value="{{merchantRegister.name}}" disabled />
+            </div>
+            <div class="mb-3 custom-form">
+                <label for="nameOfrepresentative" class="form-label"><b>Tên người đại diện</b></label>
+                <input
+                    type="text"
+                    class="form-control"
+                    id="nameOfrepresentative"
+                    name="nameOfrepresentative"
+                    value="{{merchantRegister.representative}}"
+                    disabled
+                />
+            </div>
+            <div class="mb-3 custom-form">
+                <label for="cardId" class="form-label"><b>CCCD Người đại diện</b></label>
+                <input type="text" class="form-control" id="cardId" name="cardId" value="{{merchantRegister.cccd}}" disabled />
+            </div>
+            <div class="mb-3 custom-form">
+                <label for="email" class="form-label"><b>Email</b></label>
+                <input type="text" class="form-control" id="email" name="email" value="{{merchantRegister.email}}" disabled />
+            </div>
+            <div class="mb-3 custom-form">
+                <label for="phone" class="form-label"><b>Số điện thoại</b></label>
+                <input type="text" class="form-control" id="phone" name="phone" value="{{merchantRegister.phone}}" disabled />
+            </div>
+            <div class="mb-3 custom-form">
+                <label for="address" class="form-label"><b>Địa chỉ kinh doanh</b></label>
+                <input type="text" class="form-control" id="address" name="address" value="{{merchantRegister.address}}" disabled />
+            </div>
+            <div class="mb-3 custom-form">
+                <label for="foodType" class="form-label"><b>Loại hình kinh doanh</b></label>
+                <input type="text" class="form-control" id="foodType" name="foodType" value="{{merchantRegister.category}}" disabled />
+            </div>
+            <div class="btn mt-3">
+                <button class="accept-btn" id="accept-btn" type="button">Phê duyệt</button>
+                <button class="remove-btn" id="remove-btn" type="button">Từ chối</button>
+                <a class="return-btn" href="{{this.previousLink}}">Trở về</a>
+            </div>
+        </form>
+
+    </div>
+</section>

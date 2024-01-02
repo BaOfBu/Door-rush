@@ -1,6 +1,6 @@
 <div class="sidebar">
     <div class="image">
-        <img src="/static/images/logo-white.png" alt="" />
+        <a href="/admin"><img src="/static/images/logo-white.png" alt="" /></a>
     </div>
     <div>
         <div class="sidebar-list-item">
@@ -38,7 +38,8 @@
 
     </div>
     <div class="sign-up">
-        <a href="#" class="sidebar-item">
+        <form id="frmLogout" action="/account/logout" method="post"></form>
+        <a href="javascript: $('#frmLogout').submit()" class="sidebar-item">
             <i class="bi bi-box-arrow-left icon-white"></i>
             <span class="sidebar-item-text">Đăng xuất</span>
         </a>

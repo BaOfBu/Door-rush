@@ -1,14 +1,19 @@
 import Address from "../../models/addressModel.js";
 import Profile from "../../services/user/profile.service.js";
-
+import bcrypt from 'bcrypt';
+import moment from "moment";
+import multer from "multer";
+  
 const viewProfile = async function (req, res){
-    const userID = req.params.userID;
+    const userID = req.session.authUser._id;
+    console.log("userID: ", userID);
     const optional = req.query.optional || "default";
 
     const user = await Profile.getUserInfo(userID);
     switch(optional){
         case "default":{
-            const dob = user.birthdate;
+            const dob = moment(user.birthdate, 'YYYY-MM-DD').format('DD/MM/YYYY');
+            // const dob = user.birthdate;
             res.render("user/profile", {
                 user: true,
                 type: "profile",
@@ -45,7 +50,7 @@ const viewProfile = async function (req, res){
 
             let start;
             let end;
-
+            
             if(startDate && endDate){
                 start = new Date(startDate);
                 end = new Date(endDate);
@@ -53,6 +58,7 @@ const viewProfile = async function (req, res){
 
             let statusFilter = status;
             if(statusFilter === "all") statusFilter = "Tất cả trạng thái";
+            if(statusFilter === "pending") statusFilter = "Đang chờ";
             if(statusFilter === "preparing") statusFilter = "Đang chuẩn bị";
             if(statusFilter === "delivering") statusFilter = "Đang giao";
             if(statusFilter === "delivered") statusFilter = "Hoàn thành";
@@ -78,6 +84,8 @@ const viewProfile = async function (req, res){
                     });
                 }
             }
+
+            console.log(orders);
             
             const limit = 4;
             const page = req.query.page || 1;
@@ -127,17 +135,32 @@ const viewProfile = async function (req, res){
             break;
         };
         case "register":{
-            const categories = await Profile.getCategories();
+            let isExists = await Profile.isPendingMerchant(user.username);
+            if(!isExists){
+                const categories = await Profile.getCategories();
 
-            res.render("user/profile", {
-                user: true,
-                type: "profile",
-                userID: userID,
-                fullName: user.fullname,
-                image: user.image,
-                userName: user.username,
-                categories: categories
-            });
+                res.render("user/profile", {
+                    user: true,
+                    type: "profile",
+                    userID: userID,
+                    fullName: user.fullname,
+                    image: user.image,
+                    userName: user.username,
+                    categories: categories,
+                    isExists: isExists
+                });
+            }else{
+                res.render("user/profile", {
+                    user: true,
+                    type: "profile",
+                    userID: userID,
+                    fullName: user.fullname,
+                    image: user.image,
+                    userName: user.username,
+                    isExists: isExists
+                });
+            }
+            
             break;
         };
         default:{
@@ -155,24 +178,63 @@ const viewProfile = async function (req, res){
 
 }
 
+const storage = multer.diskStorage({
+    destination: function (req, file, cb) {
+        cb(null, process.cwd() + '/static/images/user/account/');
+    },
+    filename: function (req, file, cb) {
+        const userID = req.session.authUser._id;
+        const filename = userID + '.' + file.originalname.split('.').pop();
+        req.body.image = "/static/images/user/account/" + filename;
+        console.log(filename);
+        cb(null, filename);
+    }
+});
+
+const upload = multer({ storage: storage });
+
+const uploadAvatar = async function(req, res) {
+    console.log("Đã vô upload");
+    const userID = req.session.authUser._id;
+    
+    upload.single('image')(req, res, async function (err) {
+        if (err) {
+            console.error("error: ", err);
+            return res.status(500).json({ error: 'Error during upload.' });
+        } else {
+            console.log("file name: ", req.body.image);
+            const update = await Profile.updateUserInfo(userID, { image: req.body.image });
+            console.log("Đã up ảnh thành công, ", update);
+            return res.json({ success: true, image: req.body.image });
+        }
+    });
+}
+
 const updateUserInformation = async function (req, res){
-    const userID = req.params.userID;
+    const userID = req.session.authUser._id;
+
+    console.log("Đã vô update: ", userID);
     const optional = req.query.optional || "default";
     const updatedData = req.body;
+    delete updatedData.image;
     switch(optional){
         case "default":{
+            let split = updatedData.birthdate.split('/');
+            updatedData.birthdate = split[2] + '-' + split[1] + '-' + split[0];
+            console.log(updatedData);
             const updatedUser = await Profile.updateUserInfo(userID, updatedData);
+            const dob = moment(updatedUser.birthdate, 'YYYY-MM-DD').format('DD/MM/YYYY');
             res.render("user/profile", {
                 user: true,
                 type: "profile",
                 userID: userID,
                 fullName: updatedUser.fullname,
-                image: user.image,
+                image: updatedUser.image,
                 userName: updatedUser.username,
                 email: updatedUser.email,
                 phone: updatedUser.phone,
                 gender: updatedUser.gender,
-                birthdate: updatedUser.birthdate,
+                birthdate: dob,
             });
             break;
         };
@@ -241,8 +303,29 @@ const updateUserInformation = async function (req, res){
             });
             break;
         };
+        case "password":{
+            const raw_current_password = req.body.currentPassword;
+            const user = await Profile.getUserInfo(userID);
+            const ret = bcrypt.compareSync(raw_current_password, user.password);
+            if (ret === true) {
+                const raw_new_password = req.body.newPassword;
+                const salt = bcrypt.genSaltSync(10);
+                const hash_password = bcrypt.hashSync(raw_new_password, salt);
+                const updatedUser = await Profile.updateUserInfo(userID, {password: hash_password});
+            }
+            res.render("user/profile", {
+                user: true,
+                type: "profile",
+                userID: userID,
+                fullName: user.fullname,
+                image: user.image,
+                userName: user.username,
+            }); 
+            break;
+        }
         case "register":{
             const user = await Profile.getUserInfo(userID);
+
             await Profile.createShopRegister(user.username, user.password, updatedData);
             res.render("user/profile", {
                 user: true,
@@ -251,6 +334,7 @@ const updateUserInformation = async function (req, res){
                 fullName: user.fullname,
                 image: user.image,
                 userName: user.username,
+                isExists: true
             });
             break;
         };
@@ -267,4 +351,19 @@ const updateUserInformation = async function (req, res){
         };
     }
 }
-export default {viewProfile, updateUserInformation};
+
+const isAvailable = async function (req, res){
+    const id = req.session.authUser._id;
+    const currentPassword = req.query.currentPassword;
+
+    const user = await Profile.getUserInfo(id);
+    console.log("user: ", user);
+    const ret = bcrypt.compareSync(currentPassword, user.password);
+
+    if (ret === true) {
+        return res.json(true);
+    }
+    res.json(false);
+}
+
+export default {viewProfile, uploadAvatar, updateUserInformation, isAvailable};
