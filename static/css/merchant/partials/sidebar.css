@@ -78,7 +78,7 @@ body {
     height: 100vh;
     width: calc(100% - 300px);
     left: 300px;
-    padding: 60px 40px;
+    padding: 30px 40px;
 }
 .active {
     background-color: var(--orange-thin-color);
