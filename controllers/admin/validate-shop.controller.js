@@ -4,7 +4,7 @@ import nodemailer from "nodemailer";
 // [GET]/admin/validate-shop?page=
 const index = async function (req, res) {
     const page = req.query.page || 1;
-    const limit = 5;
+    const limit = 2;
     const offset = (page - 1) * limit;
     const merchant = await MerchantService.findPending(offset, limit).populate("category");
     const totalCount = await MerchantService.countPending();
@@ -21,6 +21,8 @@ const index = async function (req, res) {
         };
     });
     res.render("admin/validate-shop", {
+        search: false,
+        filter: "Tìm kiếm yêu cầu xử lý theo tài khoản",
         total: totalCount,
         nPages: nPages,
         prev: Number(page) === 1 ? 0 : Number(page) - 1,
@@ -65,6 +67,7 @@ const checkValidate = async function (req, res) {
         res.json(false);
     }
 };
+// [GET]/admin/validate-shop/:id/refuseValidate
 const refuseValidate = async function (req, res) {
     const emailMerchant = await MerchantService.findById(req.params.id);
     try {
@@ -134,4 +137,66 @@ const refuseValidate = async function (req, res) {
     const result = await Merchant.deleteOne({ _id: req.params.id });
     res.json(true);
 };
-export default { index, detailShopValidate, checkValidate, refuseValidate };
+// [GET]/admin/validate-shop/search?text=""&page=""
+const searchShops = async function (req, res) {
+    const text = req.query.text || "";
+    const page = req.query.page || 1;
+    const limit = 2;
+    const offset = (page - 1) * limit;
+    const totalCount = await MerchantService.countPendingByUsername(text);
+    const nPages = Math.ceil(totalCount / limit);
+    if (text != "") {
+        const merchant = await MerchantService.findPendingByUsername(text, offset, limit).populate("category");
+        const merchantArray = merchant.map((merchant, index) => {
+            return {
+                username: merchant.username,
+                id: merchant._id,
+                username: merchant.username,
+                name: merchant.name,
+                prev: Number(page) === 1 ? 0 : Number(page) - 1,
+                next: Number(page) === Number(nPages) ? 0 : Number(page) + 1,
+                pageIndex: Number(offset) + Number(index) + 1,
+                timeRegister: new Date(merchant.timeRegister).toLocaleDateString("en-GB"),
+                categories: merchant.category.map(category => category.name).join(", ")
+            };
+        });
+        res.render("admin/validate-shop", {
+            search: true,
+            isEmpty: merchant.length > 0 ? 0 : 1,
+            filter: text,
+            total: totalCount,
+            nPages: nPages,
+            prev: Number(page) === 1 ? 0 : Number(page) - 1,
+            next: Number(page) === Number(nPages) ? 0 : Number(page) + 1,
+            currentPage: page,
+            merchant: merchantArray,
+            type: "validate-shop"
+        });
+    } else {
+        const merchant = await MerchantService.findPending().populate("category");
+        const merchantArray = merchant.map((merchant, index) => {
+            return {
+                username: merchant.username,
+                id: merchant._id,
+                username: merchant.username,
+                name: merchant.name,
+                // pageIndex: Number(offset) + Number(index) + 1,
+                timeRegister: new Date(merchant.timeRegister).toLocaleDateString("en-GB"),
+                categories: merchant.category.map(category => category.name).join(", ")
+            };
+        });
+        res.render("admin/validate-shop", {
+            search: false,
+            filter: "Tìm kiếm yêu cầu xử lý theo tài khoản",
+            total: totalCount,
+            nPages: nPages,
+            prev: Number(page) === 1 ? 0 : Number(page) - 1,
+            next: Number(page) === Number(nPages) ? 0 : Number(page) + 1,
+            currentPage: page,
+            merchant: merchantArray,
+            type: "validate-shop"
+        });
+    }
+};
+
+export default { index, detailShopValidate, checkValidate, refuseValidate, searchShops };

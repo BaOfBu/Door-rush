@@ -47,9 +47,14 @@
     height: 2.375rem;
     line-height: 2.375rem;
     text-align: center;
-    pointer-events: none;
-    color: #aaa;
+    /* pointer-events: none; */
+    color: var(--white-color);
+    background-color: var(--orange-color);
 }
+#search-text {
+    padding-left: 50px;
+}
+
 .section-two {
     display: flex;
     flex-direction: row;
