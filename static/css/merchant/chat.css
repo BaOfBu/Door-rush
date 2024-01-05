@@ -6,8 +6,8 @@ body{
     position: relative;
     height: 100vh;
     width: calc(100% - 300px);
-    left: 300px;
-    padding: 30px 40px;
+    left: 150px;
+    /* padding: 30px 40px; */
 }
 .card {
     background: #fff;
@@ -91,7 +91,7 @@ body{
 }
 
 .chat .chat-header .chat-about {
-    float: left;
+    float: none;
     padding-left: 10px
 }
 
@@ -216,7 +216,14 @@ body{
     height: 0
 }
 
-@media only screen and (max-width: 767px) {
+.DivWithScroll{
+    height: 550px;
+    overflow:scroll;
+    overflow-x:hidden;
+}
+
+
+/* @media only screen and (max-width: 767px) {
     .chat-app .people-list {
         height: 465px;
         width: 100%;
@@ -260,4 +267,4 @@ body{
         height: calc(100vh - 350px);
         overflow-x: auto
     }
-}
+} */
