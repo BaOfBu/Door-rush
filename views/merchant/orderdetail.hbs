@@ -1,0 +1,125 @@
+{{#section "js"}}
+    <script src="/static/js/user/order-status/index.js"></script>
+{{/section}}
+{{#section "css"}}
+    <link rel="stylesheet" href="/static/css/merchant/orderdetail.css" />
+{{/section}}
+<div class="order-status custom-container">
+    <section class="section-one">
+        <div class="container">
+            <div class="section-one-content">
+                <nav style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
+                    <ol class="breadcrumb custom-breadcrumb">
+                        <li class="breadcrumb-item"><a href="#">Đơn hàng</a></li>
+                        <li class="breadcrumb-item"><a href="#">{{statusFilter}}</a></li>
+                        <li class="breadcrumb-item"><a href="#">{{orderInfo.orderId}}</a></li>
+                    </ol>
+                </nav>
+
+                <div class="order-status-id-order">
+                    <h3 class="order-status-id-header">ID đơn hàng: {{orderInfo.orderId}}</h3>
+                    <button class="order-status-detail-btn">
+                        <i class="bi bi-file-earmark-text"></i>
+                        <span>Liên hệ với khách hàng</span>
+                    </button>
+                </div>
+
+                <div class="order-status-sub-info">
+                    <div class="order-stauts-time-begin">
+                        <span>Thời gian đặt đơn: </span>
+                        <b>{{orderInfo.orderTime}}</b>
+                    </div>
+                    <img src="/static/images/user/order-status/line.png" class="order-status-line" alt="" />
+                    <div class="order-status-time-arrive">
+                        {{#if (equal isCurrent '2')}}
+                            <i class="fa-solid fa-truck-fast"></i>
+                            <span>Giao hàng dự kiến: </span>
+                            <span>{{this.predictTime}}</span>
+                        {{/if}}
+                        {{#if (equal isCurrent '3')}}
+                            <i class="fa-solid fa-truck-fast"></i>
+                            <span>Giao hàng thành công </span>
+                        {{/if}}
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section-four">
+        <div class="container">
+            <div class="order-detail-shop">
+                <span>Khách hàng: {{orderInfo.username}}</span>
+                <span>&gt;</span>
+            </div>
+            <div class="production-order-list">
+                <div class="production-order-list-title">
+                    <span>Sản phẩm</span>
+                    <span>Giá</span>
+                    <span>Số lượng</span>
+                    <span>Thành tiền</span>
+                </div>
+                {{#each orderItem}}
+                    <div class="production-order-item">
+                        <div class="product-info">
+                            <div class="product-img">
+                                <img src={{this.image}} alt="" />
+                            </div>
+                            <div class="product-title">
+                                <span>{{this.name}}</span>
+                                <p>{{this.notes}} </p>
+                            </div>
+                        </div>
+                        <div class="product-price">
+                            <span>{{this.price}}</span>
+                        </div>
+                        <div class="product-quantity">
+                            <span>{{this.quantity}}</span>
+                        </div>
+                        <div class="product-total">
+                            <span>{{this.totalPrice}}</span>
+                        </div>
+                    </div>
+                {{/each}}
+            </div>
+            <div class="production-order-info">
+                <div class="order-location">
+                    <span class="order-location-title">GIAO HÀNG ĐẾN</span>
+                    <div class="order-location-info">
+                        <span>Địa chỉ</span>
+                        <span>{{this.orderInfo.address.house}}</span>
+                        <span>{{this.orderInfo.address.wardDistrict}}</span>
+                        <span>{{this.orderInfo.address.locationCity}}</span>
+                    </div>
+                    <div class="order-user-phone">
+                        <span>SĐT</span>
+                        <span>{{this.orderInfo.userPhone}}</span>
+                    </div>
+                </div>
+                <div class="order-review">
+                    <span class="order-review-title">TÓM TẮT ĐƠN HÀNG</span>
+                    <div class="order-review-detail">
+                        <div class="order-review-total-quatity">
+                            <span>Tổng cộng ({{this.orderInfo.totalItem}} món)</span>
+                            <span>{{this.orderInfo.totalPrice}}</span>
+                        </div>
+                        <div class="order-review-detail-item">
+                            <span>Phí giao hàng ({{this.orderInfo.distance}} km)</span>
+                            <span>{{this.orderInfo.shipFee this.orderInfo.distance}}</span>
+                        </div>
+                        <div class="order-review-detail-item">
+                            <span>Giảm giá</span>
+                            <span>-{{this.orderInfo.totalDiscount}}</span>
+                        </div>
+                        <img src="/static/images/user/order-status/line.png" class="order-status-line" alt="" />
+                        <div class="order-review-total-price">
+                            <span>Phải trả</span>
+                            <span class="order-review-total-price-main">{{this.orderInfo.totalPriceAfterFee}}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
