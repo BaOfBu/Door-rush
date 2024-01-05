@@ -4,16 +4,6 @@ import Address from "../../models/addressModel.js";
 import Order from "../../models/orderModel.js";
 import Category from "../../models/categoryModel.js";
 
-const formatterH = new Intl.DateTimeFormat('vi-VN', {
-    timeZone: 'Asia/Ho_Chi_Minh',
-    day: '2-digit',
-    month: '2-digit',
-    year: 'numeric',
-    hour: 'numeric',
-    minute: 'numeric',
-    second: 'numeric'
-});
-
 class Profile{
     async getCategories(){
         try {
@@ -61,12 +51,6 @@ class Profile{
                 .lean()
                 .populate({ path: "orders" })
                 .exec();
-    
-            const options = {
-                day: '2-digit',
-                month: '2-digit',
-                year: 'numeric',
-            };
 
             let infoOrders = await Promise.all(user.orders.map(async (order) => {
                 let id = order._id;

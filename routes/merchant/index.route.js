@@ -1,7 +1,7 @@
 import express from "express";
-const router = express.Router();
-
 import homeRoutes from "./home.route.js";
+import orderListRoutes from "./orderlist.route.js";
+const router = express.Router();
 
 function setDefaultLayoutAndPartials(req, res, next) {
     res.locals.layout = "merchant/layouts/main";
@@ -11,5 +11,7 @@ function setDefaultLayoutAndPartials(req, res, next) {
 router.use(setDefaultLayoutAndPartials);
 
 router.use("/", homeRoutes);
+router.use("/orders", orderListRoutes);
+
 
 export default router;
