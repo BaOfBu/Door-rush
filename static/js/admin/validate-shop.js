@@ -10,7 +10,6 @@ $(document).ready(function () {
     $('input[name="daterange"]').on("apply.daterangepicker", function (ev, picker) {
         $(this).val(picker.startDate.format("DD/MM/YYYY") + " - " + picker.endDate.format("DD/MM/YYYY"));
     });
-
     $('input[name="daterange"]').on("cancel.daterangepicker", function (ev, picker) {
         $(this).data("daterangepicker").setStartDate(currentDate);
         $(this).data("daterangepicker").setEndDate(currentDate);
