@@ -1,20 +1,3 @@
-$(function() {
-  $('#txtDoB').datetimepicker({
-    timepicker: false,
-    format: 'd/m/Y',
-    mask: true,
-    closeOnDateSelect: true,
-    onChangeDateTime:function(dp,$input){
-      console.log($input.val());
-    }
-    
-  });
-
-  $('#toggle').on('click', function() {
-    $('#txtDoB').datetimepicker('toggle');
-  });
-});
-
 $(function () {
   let startDate = localStorage.getItem('selectedStartDate');
   let endDate = localStorage.getItem('selectedEndDate');
@@ -41,8 +24,6 @@ $(function () {
     let statusFilter = document.getElementById('dropdownMenu').innerText.replace(/\s/g, '');
     const statusMapping = {
         "Tấtcảtrạngthái": "all",
-        "Đangchuẩnbị": "preparing",
-        "Đanggiao": "delivering",
         "Hoànthành": "delivered",
         "Đãhủy": "cancelled"
     };

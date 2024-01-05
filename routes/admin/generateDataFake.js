@@ -1,5 +1,6 @@
 import express from "express";
-import { faker } from "@faker-js/faker";
+import { en, faker } from "@faker-js/faker";
+import moment from "moment";
 import mongoose from "mongoose";
 import Category from "../../models/categoryModel.js";
 import User from "../../models/userModel.js";
@@ -142,8 +143,10 @@ function generateOrderItemData(){
 
 async function generateVoucherData(type){
   let startTime = faker.date.past();
-  let endTime = faker.date.between({from: startTime, to: faker.date.recent()});
-
+  let tmp = faker.date.recent();
+  let endTime = faker.date.between({from: startTime, to: tmp});
+  console.log(startTime);
+  console.log(endTime);
   const voucherData = new Voucher({
     voucherId: "NOELVUIVE",
     startDate: startTime,
@@ -175,14 +178,21 @@ async function generateOrderData(userID){
   const voucher_ship = await generateVoucherData("ship");
   vouchers.push(voucher_ship);
 
+  // let start = temp.startDate;
+  // let startTime = start.getMonth + '-' + start.getDay + '-' + start.getFullYear + ' 00:00:00';
+  // let end = temp.endDate;
+  // let endTime = end.getMonth + '-' + end.getDay + '-' + end.getFullYear + ' 00:00:00';
   await Voucher.findByIdAndUpdate(voucher_ship, { $set: { startDate: temp.startDate, endDate: temp.endDate } }, { new: true });
 
   let timeStatus = [];
-  let timeOrder = faker.date.between({from: temp.startDate, to: temp.endDate});
-  timeStatus.push(timeOrder);
-  timeStatus.push(timeOrder.setMinutes(timeOrder.getMinutes() + 1));
-  timeStatus.push(timeOrder.setMinutes(timeOrder.getMinutes() + 50));
-  timeStatus.push(timeOrder.setMinutes(timeOrder.getMinutes() + 80));
+  let timeOrderOrigin = faker.date.between({from: temp.startDate, to: temp.endDate});
+
+  let time = timeOrderOrigin.setMinutes(timeOrderOrigin.getMinutes() + 1);
+  timeStatus.push(time);
+  time = timeOrderOrigin.setMinutes(timeOrderOrigin.getMinutes() + 50);
+  timeStatus.push(time);
+  time = timeOrderOrigin.setMinutes(timeOrderOrigin.getMinutes() + 100);
+  timeStatus.push(time);
 
   const orderData = new Order({
     merchantId: "658bc785b2e15b47b4ab3683",
@@ -217,14 +227,14 @@ router.get("/generate-user", async function(){
 
       let fakeUserData = new User ({
         username: faker.internet.userName(),
-        password: faker.internet.password(),
+        password: "Password123",
         role: "User",
         status: "active",
         fullname: "Tên người dùng",
         email: faker.helpers.fromRegExp("[a-z0-9]{10}@gmail\.com"),
         phone: faker.helpers.fromRegExp("0346 [0-9]{3} [0-9]{3}"),
         gender: faker.helpers.arrayElement(["Nam", "Nữ", "Khác"]),
-        birthdate: formatter.format(faker.date.between({from: "1950-01-01", to: "2017-01-01"})),
+        birthdate: formatter.format(faker.date.between({from: "01-01-1950 00:00:00", to: "01-01-2017 00:00:00"})),
         addresses: addresses,
         orders: [],
         image: faker.image.avatar()

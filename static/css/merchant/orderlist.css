@@ -1,0 +1,91 @@
+.menu-category-bar{
+    border-radius: 10px;
+    border: 2px solid var(--light-color);
+}
+
+.nav-item a span{
+    font-weight: bold;
+    color: var(--grey-color);
+    padding: 5px 0 5px 0;
+}
+
+.nav-item .nav-active{
+    color: var(--orange-color);
+    border-bottom: 3px solid var(--orange-color);
+}
+.custom-container{
+    position: relative;
+    height: 100vh;
+    width: calc(100% - 300px);
+    left: 300px;
+    padding: 60px 40px;
+}
+
+.custom-breadcrumb a{
+    color: var(--grey-light-color);
+    text-decoration: none;
+}
+
+.custom-breadcrumb a:hover{
+    color: var(--orange-color);
+}
+
+.custom-breadcrumb a:active{
+    color: var(--black-color);
+}
+
+.order-history .filter{
+    padding-right: 0px;
+}
+.order-history .custom-button{
+    background-color: var(--orange-color);
+    color: var(--white-color);
+}
+
+.order-history .custom-button:hover{
+    background-color: #FF8E00;
+    color: var(--white-color);
+}
+
+.order-history span{
+    color: var(--grey-light-color);
+}
+
+#view-more{
+    color: var(--grey-color);
+}
+
+#view-more:hover{
+    color: var(--orange-color);
+}
+
+.input-container {
+    position: relative;
+    width: 260px;
+    padding-left: 10px;
+}
+
+.input-container input::placeholder{
+    color: var(--black-color);
+    font-size: 14px;
+}
+
+#toggleIcon {
+    position: absolute;
+    top: 50%;
+    right: 10px;
+    transform: translateY(-50%);
+    cursor: pointer;
+}
+  
+#dateRangePicker {
+    width: 240px;
+    background-color: var(--light-color);
+    border: 3px solid var(--light-color);
+    padding-left: 8px;
+}
+
+.order-history .custom-filter {
+    background-color: var(--light-color);
+}
+

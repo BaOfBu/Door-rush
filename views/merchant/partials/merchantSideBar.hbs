@@ -15,7 +15,7 @@
                 </div>
                 <span class="sidebar-item-text">Trang chủ</span>
             </a>
-            <a href="/merchant/chats" class="sidebar-item {{#if (equal type 'chats')}}active{{/if}}">
+            <a href="/merchant/chats" onclick="console.log('Clicked Orders:', '/merchant/orders')" class="sidebar-item {{#if (equal type 'chats')}}active{{/if}}">
                 <div class="sidebar-item-icon">
                     {{#if (equal type 'chats')}}
                         <img src="/static/images/merchant/home/icon-chat-filled.png" class="icon-filled" alt="chat">
@@ -25,7 +25,7 @@
                 </div>
                 <span class="sidebar-item-text">Phản hồi</span>
             </a>
-            <a href="/merchant/orders" class="sidebar-item {{#if (equal type 'orders')}}active{{/if}}">
+            <a href="/merchant/orders?optional=preparing&page=1" class="sidebar-item {{#if (equal type 'orders')}}active{{/if}}">
                 <div class="sidebar-item-icon">
                     {{#if (equal type 'orders')}}
                         <img src="/static/images/merchant/home/icon-shopping-bag-filled.png" class="icon-filled" alt="shopping-bag"> 

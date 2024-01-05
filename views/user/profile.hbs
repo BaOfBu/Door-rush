@@ -1,13 +1,28 @@
 {{#section "js"}}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
     <script
         src="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.full.min.js">
     </script>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-daterangepicker/3.0.5/daterangepicker.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/js/bootstrap-datetimepicker.min.js"></script>
+
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-fileinput/5.5.2/js/fileinput.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-fileinput/5.5.2/js/locales/vi.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-fileinput/5.5.2/js/plugins/buffer.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-fileinput/5.5.2/js/plugins/filetype.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-fileinput/5.5.2/js/plugins/piexif.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-fileinput/5.5.2/js/plugins/sortable.min.js"></script>
 
     <script src="/static/js/user/profile/datepicker.js"></script>
     <script src="/static/js/user/profile/index.js"></script>
 {{/section}}
 {{#section "css"}}
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/css/bootstrap-datetimepicker.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-daterangepicker/3.0.5/daterangepicker.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-fileinput/5.5.2/css/fileinput.min.css">
 
     <link rel="stylesheet" href="/static/css/user/profile.css" />
 {{/section}}
@@ -17,23 +32,23 @@
         <div class="d-flex flex-row">
             <div class="side">
                 <div class="user mb-5">
-                    <img src="{{image}}" class="size-image" />
+                    <img src="{{image}}" class="size-image"/>
                     <h5 class="my-auto text-center">{{fullName}}</h5>
                 </div>
                 <nav class="link">
-                    <a href="/profile/{{userID}}/?optional=default" class="page">
+                    <a href="/profile?optional=default" class="page">
                         Tài khoản của tôi
                     </a>
-                    <a href="/profile/{{userID}}/?optional=address" class="page">
+                    <a href="/profile?optional=address" class="page">
                         Địa chỉ thường dùng
                     </a>
-                    <a href="/profile/{{userID}}/?optional=history" class="page">
+                    <a href="/profile?optional=history" class="page">
                         Lịch sử đơn hàng
                     </a>
-                    <a href="/profile/{{userID}}/?optional=password" class="page">
+                    <a href="/profile?optional=password" class="page">
                         Đổi mật khẩu
                     </a>
-                    <a href="/profile/{{userID}}/?optional=register" class="page">
+                    <a href="/profile?optional=register" class="page">
                         Đăng ký tạo cửa hàng
                     </a>
                 </nav>
@@ -44,24 +59,37 @@
                     <div class="row justify-content-center">
                         <div class="col-md-12 content" id="default">
                             <h2 class="mb-4">Tài khoản của tôi</h2>
+                            {{!-- enctype="multipart/form-data" --}}
                             <form id="infoForm" action="" method="post">
-                                <div class="form-group mb-4">
+                                <div class="form-group mb-4 d-flex align-items-start">
                                     <label for="inputUserName">Tên đăng nhập</label>
                                     <input type="text" class="form-control" id="inputUserName" readonly value="{{userName}}">
                                 </div>
-                                <div class="form-group mb-4">
+                                <div class="form-group mb-4 d-flex align-items-start">
                                     <label for="inputFullName">Họ và Tên</label>
                                     <input type="text" name="fullname" class="form-control" id="inputFullName" placeholder="Nhập họ và tên của bạn" value="{{fullName}}">
                                 </div>
-                                <div class="form-group mb-4">
+                                <div class="form-group mb-4 d-flex align-items-start">
                                     <label for="inputEmail">Email</label>
-                                    <input type="email" name="email" class="form-control" id="inputEmail" placeholder="Nhập email của bạn" value="{{email}}">
+                                    <div class="has-validation">
+                                        <input type="email" name="email" class="form-control" id="inputEmail" aria-describedby="checkValidationEmailUser" placeholder="Nhập email của bạn" value="{{email}}">
+                                        <div id="checkValidationEmailUser" class="invalid-feedback">
+                                            Vui lòng nhập đúng định dạng của email, ví dụ: abc@gmail.com
+                                        </div>
+                                    </div>
+                                    
                                 </div>
-                                <div class="form-group mb-4">
+                                <div class="form-group mb-4 d-flex align-items-start">
                                     <label for="inputPhoneNumber">Số điện thoại</label>
-                                    <input type="text" name="phone" class="form-control" id="inputPhoneNumber" placeholder="Nhập số điện thoại của bản thân" value="{{phone}}">
+                                    <div class="has-validation">
+                                        <input type="text" name="phone" class="form-control" id="inputPhoneNumber" aria-describedby="checkValidationPhoneUser" placeholder="Nhập số điện thoại của bản thân" value="{{phone}}">
+                                        <div id="checkValidationPhoneUser" class="invalid-feedback">
+                                            Vui lòng nhập đúng định dạng của số điện thoại, ví dụ: 0346257268
+                                        </div>
+                                    </div>
+                                
                                 </div>
-                                <div class="form-group-radio mb-4">
+                                <div class="form-group-radio mb-4 d-flex align-items-start">
                                     <span class="label">Giới tính</span>
                                     <div class="form-check form-check-inline input">
                                         <input class="form-check-input" type="radio" name="gender" id="inlineRadio1" value="Nam" {{#if (equal "Nam" gender)}}checked{{/if}}>
@@ -77,17 +105,21 @@
                                     </div>
                                 </div>
 
-                                <div class="form-group mb-4">
+                                <div class="form-group mb-4 d-flex align-items-start">
                                     <label class="label" for="txtDoB">Ngày sinh</label>
                                     <div class="row">
                                         <div class="input-container">
                                             <div id="toggle" class="fas fa-calendar"></div>
-                                            <input type="text" name="birthdate" id="txtDoB" class="form-control" value="{{birthdate}}">
+                                            <input type="text" id="txtDoB" name="birthdate" class="form-control" value="{{birthdate}}">
                                         </div>
                                     </div>
                                     
                                 </div>
-
+                                <div class="form-group mb-4">
+                                    <label for="fuMain">Ảnh đại diện</label>
+                                    <input type="file" id="fuMain" name="image">
+                                </div>
+                                
                                 <div class="d-flex justify-content-center mb-4">
                                     <button type="submit" class="btn custom-button" id="updateButton">
                                         <i class="bi bi-floppy-fill"></i>
@@ -101,12 +133,13 @@
                             <h2 class="mb-4">Địa chỉ thường dùng</h2>
                             <form id="addressForm" action="" method="post">
                                 {{#each addresses}}
-                                    <div class="form-group mb-4">
-                                        <label for="inputAddress{{this.index}}">Địa chỉ {{this.index}}</label>
-                                        <div class="input-group has-validation">
+                                    <div class="form-group mb-4 d-flex align-items-start">
+                                        <label class="d-flex align-items-center" for="inputAddress{{this.index}}">Địa chỉ {{this.index}}</label>
+                                        <div class="has-validation">
                                             <input type="text" class="form-control" name="address" id="inputAddress{{this.index}}" placeholder="Nhập địa chỉ của bạn" aria-describedby="checkValidationAddress{{this.index}}" value="{{this.info}}">
                                             <div id="checkValidationAddress{{this.index}}" class="invalid-feedback">
-                                                Vui lòng nhập đúng định dạng của địa chỉ: "Số nhà" "Tên đường", "Phường", "Quận", "TP.HCM". Ví dụ: 227 Nguyễn Văn Cừ, phường 4, quận 5, TP.HCM.
+                                                Vui lòng nhập đúng định dạng của địa chỉ: "Số nhà" "Tên đường", "Phường", "Quận", "TP.HCM".
+                                                <br> Ví dụ: 227 Nguyễn Văn Cừ, phường 4, quận 5, TP.HCM.
                                             </div>
                                         </div>
                                     </div>
@@ -128,7 +161,7 @@
                         <div class="order-history content" id="history">
                             <div class="d-flex justify-content-between">
                                 <h2 class="mb-3">Lịch sử đơn hàng</h2>
-                                <div class="d-flex filter">
+                                <div class="d-flex filter align-items-center mb-4">
                                     <div class="dropdown">
                                         <button class="btn dropdown-toggle btn-sm custom-filter" type="button" id="dropdownMenu" data-toggle="dropdown" aria-expanded="false">
                                         {{statusFilter}}
@@ -143,14 +176,35 @@
                                         </ul>
                                     </div>
 
-                                    <div class="input-container">
+                                    <div class="">
+                                        {{!-- <label for="periodPicker">Chọn Khoảng Thời Gian:</label> --}}
+                                        <div class="input-container" id="periodPicker">
+                                            <div class="">
+                                                <input type="text" class="form-control" id="timeRange" placeholder="Chọn khoảng thời gian đặt hàng"/>
+                                                <span class="input-group-addon">
+                                                    <span class="glyphicon glyphicon-calendar"></span>
+                                                </span>
+                                                <div id="toggleIcon" class="fas fa-calendar"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    {{!-- <div class="input-container">
                                         <input type="text" id="dateRangePicker" placeholder="Chọn khoảng thời gian đặt hàng">
                                         <div id="toggleIcon" class="fas fa-calendar"></div>
-                                    </div>
+                                    </div> --}}
 
                                 </div>
                             </div>
-                            {{#each orders}}
+                            {{#if empty}}
+                                <div class="card">
+                                    <div class="card-footer text-muted" id="none">
+                                        Không tìm thấy đơn hàng phù hợp nào. Bạn vui lòng kiểm tra và thử lại nhé. 
+                                    </div>   
+                                </div> 
+                                    
+                            {{else}}
+                                {{#each orders}}
                                     <div class="card border mb-3">
                                         <div class="card-body">
                                             <div class="row">
@@ -206,76 +260,71 @@
                                         </div>
                                     </div>
                                 {{/each}}
-                            <nav aria-label="Page navigation example" class="justify-content-center">
-                                <ul class="pagination">
-                                    {{#if this.isFirstPage}}
-                                        <li class="page-item disabled">
-                                            <a class="page-link" href="#">Trang trước</a>
-                                        </li>
-                                    {{else}}
-                                        <li class="page-item">
-                                            <a class="page-link" href="#" id="previousPage" onclick="renderPreviousPage()">Trang trước</a>
-                                        </li>
-                                    {{/if}}
+                                <nav aria-label="Page navigation example" class="justify-content-center">
+                                    <ul class="pagination">
+                                        {{#if this.isFirstPage}}
+                                            <li class="page-item disabled">
+                                                <a class="page-link" href="#">Trang trước</a>
+                                            </li>
+                                        {{else}}
+                                            <li class="page-item">
+                                                <a class="page-link" href="#" id="previousPage" onclick="renderPreviousPage()">Trang trước</a>
+                                            </li>
+                                        {{/if}}
 
-                                    {{#each this.pageNumbers}}
-                                    {{#if isActive}}
-                                    <li class="page-item active" aria-current="page">
-                                        <a class="page-link" href="#">{{value}}</a>
-                                    </li>
-                                    {{else}}
-                                    <li class="page-item">
-                                        <a class="page-link" href="?optional=history&status={{statusFilter}}&startDate={{startDate}}&endDate={{endDate}}&page={{value}}">{{value}}</a>
-                                    </li>
-                                    {{/if}}
-                                    {{/each}}
-
-                                    {{#if this.isLastPage}}
-                                        <li class="page-item disabled">
-                                            <a class="page-link" href="#">Trang sau</a>
+                                        {{#each this.pageNumbers}}
+                                        {{#if isActive}}
+                                        <li class="page-item active" aria-current="page">
+                                            <a class="page-link" href="#">{{value}}</a>
                                         </li>
-                                    {{else}}
+                                        {{else}}
                                         <li class="page-item">
-                                            <a class="page-link" href="#" id="nextPage" onclick="renderNextPage()">Trang sau</a>
+                                            <a class="page-link" href="?optional=history&status={{statusFilter}}&startDate={{startDate}}&endDate={{endDate}}&page={{value}}">{{value}}</a>
                                         </li>
-                                    {{/if}}
-                                </ul>
-                            </nav>
+                                        {{/if}}
+                                        {{/each}}
+
+                                        {{#if this.isLastPage}}
+                                            <li class="page-item disabled">
+                                                <a class="page-link" href="#">Trang sau</a>
+                                            </li>
+                                        {{else}}
+                                            <li class="page-item">
+                                                <a class="page-link" href="#" id="nextPage" onclick="renderNextPage()">Trang sau</a>
+                                            </li>
+                                        {{/if}}
+                                    </ul>
+                                </nav>
+                            {{/if}}
                         </div>
 
                         <div class="col-md-12 floating-form content" id="password">
                             <h2 class="mb-4">Đổi mật khẩu</h2>
                             <form id="passwordForm" action="" method="post">
-                                <div class="form-group mb-4">
+                                <div class="form-group mb-4 d-flex align-items-start">
                                     <label for="inputCurrentPassword">Mật khẩu hiện tại</label>
-                                    <div class="input-group has-validation">
+                                    <div class="has-validation">
                                         <input type="password" class="form-control" name="currentPassword" id="inputCurrentPassword" aria-describedby="checkValidationOldPassword" required placeholder="Nhập mật khẩu hiện tại của bạn">
                                         <div id="checkValidationOldPassword" class="invalid-feedback">
                                             Mật khẩu không chính xác, vui lòng nhập lại.
                                         </div>
                                     </div>
                                 </div>
-                                {{!-- <div class="form-group mb-4">
-                                    <label for="inputNewPassword">Mật khẩu mới</label>
-                                    <input type="password" class="form-control" name="newPassword" id="inputNewPassword" placeholder="Nhập mật khẩu mới muốn thay đổi">
-                                </div> --}}
-                                <div class="form-group mb-4">
+
+                                <div class="form-group mb-4 d-flex align-items-start" >
                                     <label for="txtPassword">Mật khẩu mới</label>
-                                    <div class="input-group has-validation">
-                                        <input type="password" name="newPassword" id="txtPassword" class="form-control" aria-describedby="checkValidationPassword" required>
+                                    <div class="has-validation">
+                                        <input type="password" name="newPassword" id="txtPassword" class="form-control" aria-describedby="checkValidationPassword" required placeholder="Nhập mật khẩu mới của bạn">
                                         <div id="checkValidationPassword" class="invalid-feedback">
                                             Vui lòng nhập mật khẩu gồm ít nhất 8 kí tự và nhiều nhất là 50 kí tự, có chứa ít nhất 1 chữ cái in hoa, 1 chữ cái thường và 1 chữ số, không chứa khoảng trắng nào.
                                         </div>
                                     </div>
                                 </div>
-                                {{!-- <div class="form-group mb-4">
-                                    <label for="re-enterNewPassword">Nhập lại mật khẩu mới</label>
-                                    <input type="password" class="form-control" name="re_enterNewPassword" id="re-enterNewPassword" placeholder="Nhập lại mật khẩu mới">
-                                </div> --}}
-                                <div class="form-group mb-4">
+
+                                <div class="form-group mb-4 d-flex align-items-start">
                                     <label for="txtConfirm">Nhập lại mật khẩu mới</label>
-                                    <div class="input-group has-validation">
-                                        <input type="password" name="re_enterNewPassword" id="txtConfirm" class="form-control" aria-describedby="checkValidationConfirmPassword" required>
+                                    <div class="has-validation">
+                                        <input type="password" name="re_enterNewPassword" id="txtConfirm" class="form-control" aria-describedby="checkValidationConfirmPassword" required placeholder="Nhập lại mới khẩu mới của bạn">
                                         <div id="checkValidationConfirmPassword" class="invalid-feedback">
                                             Vui lòng nhập chính xác mật khẩu đã nhập ở trên
                                         </div>
@@ -292,55 +341,128 @@
                         </div>
 
                         <div class="col-md-12 floating-form content" id="register">
-                            <h2 class="mb-4">Thông tin đăng ký</h2>
-                            <form action="#" method="post">
-                                <div class="form-group mb-4">
-                                    <label for="inputShopName">Tên nhà hàng/ quán ăn</label>
-                                    <input type="text" class="form-control" id="inputShopName" name="name" placeholder="Nhập tên nhà hàng/ quán ăn muốn đăng ký">
-                                </div>
-                                <div class="form-group mb-4">
-                                    <label for="inputFullName">Tên người đại diện</label>
-                                    <input type="text" class="form-control" id="inputFullName" name="representative" placeholder="Nhập tên người đại diện của quán">
-                                </div>
-                                <div class="form-group mb-4">
-                                    <label for="inputCitizenIdentityCard">CCCD người đại diện</label>
-                                    <input type="text" class="form-control" id="inputCitizenIdentityCard" name="cccd" placeholder="Nhập CCCD của người đại diện quán">
-                                </div>
-                                <div class="form-group mb-4">
-                                    <label for="inputShopEmail">Email của quán</label>
-                                    <input type="email" class="form-control" id="inputShopEmail" name="email" placeholder="Nhập email của quán">
-                                </div>
-                                <div class="form-group mb-4">
-                                    <label for="inputShopPhoneNumber">Số điện thoại của quán</label>
-                                    <input type="text" class="form-control" id="inputShopPhoneNumber" name="phone" placeholder="Nhập số điện thoại của quán">
-                                </div>
-                                <div class="form-group mb-4">
-                                    <label for="inputShopAddress">Địa chỉ kinh doanh</label>
-                                    <input type="text" class="form-control" id="inputShopAddress" name="address" placeholder="Nhập địa chỉ kinh doanh">
-                                </div>
-                                <div class="form-group mb-4">
-                                    <label for="selectType">Loại kinh doanh</label>
-                                    <div class="dropup">
-                                        <button class="form-control dropdown-toggle custom-filter" type="button" id="dropdownCategory" data-toggle="dropdown" aria-expanded="false">
-                                        Hãy chọn những loại kinh doanh của cửa hàng bạn
-                                        </button>
-                                        <input id="selectedCategory" name="type" type="hidden"></input>
-                                        <ul class="dropdown-menu dropdown-category" aria-labelledby="dropdownCategory">
-                                            {{#each this.categories}}
-                                                <li><a class="dropdown-item category" data-value="{{name}}">{{name}}</a></li>
-                                            {{/each}}
-                                        </ul>
-                                    </div>
+                            {{#if isExists}}
+                                <div class="card">
+                                    <div class="card-footer text-muted" id="none">
+                                        Đơn đăng ký trở thành merchant của bạn đang trong thời gian xác nhận, vui lòng đợi trong vài ngày. 
+                                        Khi được duyệt, tài khoản của bạn sẽ tự động trở thành merchant. Còn nếu không được duyệt, bạn sẽ
+                                        nhận được email từ chối vì lý do nào đấy.
+                                    </div>   
+                                </div> 
+                            {{else}}
+                                <h2 class="mb-4">Thông tin đăng ký</h2>
+                                <form action="" method="post" id="RegisterForm">
+                                    <div class="form-group mb-4 d-flex align-items-start">
+                                        <label for="inputShopName">Tên nhà hàng/ quán ăn</label>
+                                        <div class="has-validation">
+                                            <input type="text" class="form-control" id="inputShopName" name="name" aria-describedby="checkValidationShopName" placeholder="Nhập tên nhà hàng/ quán ăn muốn đăng ký" required>
+                                            <div id="checkValidationShopName" class="invalid-feedback">
+                                                Vui lòng không bỏ trống mục này
+                                            </div>
+                                        </div>
                                     
-                                </div>
-                                
-                                <div class="d-flex justify-content-center mb-4">
-                                    <button type="submit" class="btn custom-button">
-                                        <i class="bi bi-ui-checks"></i>
-                                        <span>Gửi đơn đăng ký</span>
-                                    </button>
-                                </div>
-                            </form>
+                                    </div>
+                                    <div class="form-group mb-4 d-flex align-items-start">
+                                        <label for="inputFullName">Tên người đại diện</label>
+                                        <div class="has-validation">
+                                            <input type="text" class="form-control" id="inputRepresentative" name="representative" aria-describedby="checkValidationRepresentative" placeholder="Nhập tên người đại diện của quán" required>
+                                            <div id="checkValidationRepresentative" class="invalid-feedback">
+                                                Vui lòng không bỏ trống mục này
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group mb-4 d-flex align-items-start">
+                                        <label for="inputCitizenIdentityCard">CCCD người đại diện</label>
+                                        <div class="has-validation">
+                                            <input type="text" class="form-control" id="inputCitizenIdentityCard" name="cccd" aria-describedby="checkValidationCCCD" placeholder="Nhập CCCD của người đại diện quán" required>    
+                                            <div id="checkValidationCCCD" class="invalid-feedback">
+                                                Vui lòng nhập đúng định dạng của CCCD (12 chữ số), ví dụ: 070303024139
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group mb-4 d-flex align-items-start">
+                                        <label for="inputShopEmail">Email của quán</label>
+                                        <div class="has-validation">
+                                            <input type="email" class="form-control" id="inputShopEmail" name="email" aria-describedby="checkValidationEmail" placeholder="Nhập email của quán" required>
+                                            <div id="checkValidationEmail" class="invalid-feedback">
+                                                Vui lòng nhập đúng định dạng của email, ví dụ: abc@gmail.com
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group mb-4 d-flex align-items-start">
+                                        <label for="inputShopPhoneNumber">Số điện thoại của quán</label>
+                                        <div class="has-validation">
+                                            <input type="text" class="form-control" id="inputShopPhoneNumber" name="phone" aria-describedby="checkValidationPhone" placeholder="Nhập số điện thoại của quán" required>
+                                            <div id="checkValidationPhone" class="invalid-feedback">
+                                                Vui lòng nhập đúng định dạng của số điện thoại, ví dụ: 0346257268
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group mb-4 d-flex align-items-start">
+                                        <label for="inputShopAddress">Địa chỉ kinh doanh</label>
+                                        <div class="has-validation">
+                                            <input type="text" class="form-control" id="inputShopAddress" name="address" aria-describedby="checkValidationAddressShop" placeholder="Nhập địa chỉ kinh doanh" required>
+                                            <div id="checkValidationAddressShop" class="invalid-feedback">
+                                                Vui lòng nhập đúng định dạng của địa chỉ: "Số nhà" "Tên đường", "Phường", "Quận", "TP.HCM". <br> Ví dụ: 227 Nguyễn Văn Cừ, phường 4, quận 5, TP.HCM.
+                                            </div>
+                                        </div>
+                                    </div>
+                                    {{!-- <div class="form-group mb-4">
+                                        <label for="selectType">Loại kinh doanh</label>
+                                        <div class="dropup">
+                                            <button class="form-control dropdown-toggle custom-filter" type="button" id="dropdownCategory" data-toggle="dropdown" aria-expanded="false">
+                                            Hãy chọn những loại kinh doanh của cửa hàng bạn
+                                            </button>
+                                            <input id="selectedCategory" name="type" type="hidden"></input>
+                                            <ul class="dropdown-menu dropdown-category" aria-labelledby="dropdownCategory">
+                                                {{#each this.categories}}
+                                                    <li><a class="dropdown-item category" data-value="{{name}}">{{name}}</a></li>
+                                                {{/each}}
+                                            </ul>
+                                        </div>
+                                    </div> --}}
+                                    
+                                    {{!-- <div class="form-group mb-4">
+                                        <label for="selectType">Loại kinh doanh</label>
+                                        <select id="dropdownCategory" name="type" class="form-control selectpicker" data-live-search="true" multiple>
+                                            {{#each this.categories}}
+                                                <option value="{{name}}">{{name}}</option>
+                                            {{/each}}
+                                        </select>
+                                    </div> --}}
+                                    <div class="form-group mb-4 d-flex align-items-start">
+                                        <label for="selectType">Loại kinh doanh</label>
+                                        <div class="dropup">
+                                            <div class="has-validation">
+                                                <button class="form-control dropdown-toggle custom-filter d-flex justify-content-start align-items-center is-invalid" aria-describedby="checkValidationCategories" type="button" id="dropdownCategory" data-toggle="dropdown" aria-expanded="false">
+                                                Hãy chọn những loại kinh doanh của cửa hàng bạn
+                                                </button>
+                                                <input id="selectedCategory" name="type" type="hidden">
+                                                <ul class="custom-dropdown-menu dropdown-menu dropdown-category" aria-labelledby="dropdownCategory">
+                                                    {{#each this.categories}}
+                                                        <li>
+                                                            <div class="custom-checkbox">
+                                                                <input type="checkbox" class="custom-control-input category-checkbox" id="{{name}}" data-value="{{name}}">
+                                                                <label class="dropdown-item category" for="{{name}}">{{name}}</label>
+                                                            </div>
+                                                        </li>
+                                                    {{/each}}
+                                                </ul>
+                                                <div id="checkValidationCategories" class="invalid-feedback">
+                                                Vui lòng chọn ít nhất một lựa chọn, nhiều nhất là ba.
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="d-flex justify-content-center mb-4">
+                                        <button id="submitRegisterButton" type="submit" class="btn custom-button">
+                                            <i class="bi bi-ui-checks"></i>
+                                            <span>Gửi đơn đăng ký</span>
+                                        </button>
+                                    </div>
+                                </form>
+                            {{/if}}
                         </div>
                     </div>
                 </div>
