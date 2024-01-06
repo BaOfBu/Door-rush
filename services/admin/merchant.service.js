@@ -3,6 +3,12 @@ export default {
     findAll() {
         return Merchant.find();
     },
+    findAllActive(offset, limit) {
+        return Merchant.find({ status: "active" }).skip(offset).limit(limit);
+    },
+    countActive() {
+        return Merchant.find({ status: "active" }).countDocuments();
+    },
     findActiveByName(name) {
         return Merchant.find({ name: name, status: "active" });
     },
@@ -94,5 +100,17 @@ export default {
     },
     findById(id) {
         return Merchant.findOne({ _id: id });
+    },
+    updateStatusBan(id) {
+        try {
+            const updatedItem = Merchant.findByIdAndUpdate(id, { status: "ban" }, { new: true });
+            if (!updatedItem) {
+                return null;
+            }
+            return updatedItem;
+        } catch (error) {
+            console.error("Error updating the item:", error);
+            throw error;
+        }
     }
 };
