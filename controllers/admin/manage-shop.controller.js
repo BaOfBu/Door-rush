@@ -117,4 +117,109 @@ const banShop = async function (req, res) {
     }
     res.json(true);
 };
-export default { index, banShop };
+// [GET]/admin/manage-shop/search?text=""&page=""
+const searchShops = async function (req, res) {
+    const startDate = req.query.dateStart || "";
+    const endDate = req.query.dateEnd || "";
+    const text = req.query.text || "";
+    const page = req.query.page || 1;
+    const limit = 1;
+    const offset = (page - 1) * limit;
+    if (text != "") {
+        const totalCount = await MerchantService.countActiveByName(text);
+        const nPages = Math.ceil(totalCount / limit);
+        const merchant = await MerchantService.findActiveByName(text, offset, limit).populate("address");
+        const merchantArray = [];
+        for (let i = 0; i < merchant.length; i++) {
+            const orders = await OrderService.findAllOrderOfMerchant(merchant[i]._id);
+            const sumOfOrders = orders.reduce((accumulator, order) => {
+                return accumulator + order.total;
+            }, 0);
+            merchantArray.push({
+                id: merchant[i]._id,
+                name: merchant[i].name,
+                pageIndex: Number(offset) + i + 1,
+                timeRegister: new Date(merchant[i].timeRegister).toLocaleDateString("en-GB"),
+                address: `${merchant[i].address.houseNumber} ${merchant[i].address.street}, ${merchant[i].address.ward}, ${merchant[i].address.district}, ${merchant[i].address.city}`,
+                profit: sumOfOrders
+            });
+        }
+        res.render("admin/manage-shop", {
+            date: false,
+            search: true,
+            isEmpty: merchant.length > 0 ? 0 : 1,
+            filter: text,
+            total: totalCount,
+            nPages: nPages,
+            prev: Number(page) === 1 ? 0 : Number(page) - 1,
+            next: Number(page) === Number(nPages) ? 0 : Number(page) + 1,
+            currentPage: page,
+            merchant: merchantArray,
+            type: "manage-shop"
+        });
+    } else if (startDate == "" && endDate == "") {
+        const totalCount = await MerchantService.countActiveByName(text);
+        const nPages = Math.ceil(totalCount / limit);
+        const merchant = await MerchantService.findAllActive().populate("address");
+        const merchantArray = [];
+        for (let i = 0; i < merchant.length; i++) {
+            const orders = await OrderService.findAllOrderOfMerchant(merchant[i]._id);
+            const sumOfOrders = orders.reduce((accumulator, order) => {
+                return accumulator + order.total;
+            }, 0);
+            merchantArray.push({
+                id: merchant[i]._id,
+                name: merchant[i].name,
+                pageIndex: Number(offset) + i + 1,
+                timeRegister: new Date(merchant[i].timeRegister).toLocaleDateString("en-GB"),
+                address: `${merchant[i].address.houseNumber} ${merchant[i].address.street}, ${merchant[i].address.ward}, ${merchant[i].address.district}, ${merchant[i].address.city}`,
+                profit: sumOfOrders
+            });
+        }
+        res.render("admin/manage-shop", {
+            date: false,
+            search: false,
+            filter: "Tìm kiếm yêu cầu xử lý theo tài khoản",
+            total: totalCount,
+            nPages: nPages,
+            prev: Number(page) === 1 ? 0 : Number(page) - 1,
+            next: Number(page) === Number(nPages) ? 0 : Number(page) + 1,
+            currentPage: page,
+            merchant: merchantArray,
+            type: "manage-shop"
+        });
+    } else if (startDate != "" && endDate != "") {
+        const totalCount = await MerchantService.countActiveByDate(startDate, endDate);
+        const nPages = Math.ceil(totalCount / limit);
+        const merchantDate = await MerchantService.findActiveByDateRange(startDate, endDate, offset, limit).populate("address");
+        const merchantArray = [];
+        for (let i = 0; i < merchantDate.length; i++) {
+            const orders = await OrderService.findAllOrderOfMerchant(merchantDate[i]._id);
+            const sumOfOrders = orders.reduce((accumulator, order) => {
+                return accumulator + order.total;
+            }, 0);
+            merchantArray.push({
+                id: merchantDate[i]._id,
+                name: merchantDate[i].name,
+                pageIndex: Number(offset) + i + 1,
+                timeRegister: new Date(merchantDate[i].timeRegister).toLocaleDateString("en-GB"),
+                address: `${merchantDate[i].address.houseNumber} ${merchantDate[i].address.street}, ${merchantDate[i].address.ward}, ${merchantDate[i].address.district}, ${merchantDate[i].address.city}`,
+                profit: sumOfOrders
+            });
+        }
+        res.render("admin/manage-shop", {
+            date: true,
+            search: true,
+            isEmpty: merchantDate.length > 0 ? 0 : 1,
+            filter: text,
+            total: totalCount,
+            nPages: nPages,
+            prev: Number(page) === 1 ? 0 : Number(page) - 1,
+            next: Number(page) === Number(nPages) ? 0 : Number(page) + 1,
+            currentPage: page,
+            merchant: merchantArray,
+            type: "manage-shop"
+        });
+    }
+};
+export default { index, banShop, searchShops };

@@ -30,7 +30,6 @@
             {{else}}
                 <input type="text" class="form-control" placeholder="Tìm kiếm yêu cầu xử lý theo tài khoản" id="search-text" />
             {{/if}}
-
         </div>
         <div class="search-group">
             <i class="bi bi-calendar4"></i>
@@ -53,9 +52,15 @@
                 </thead>
                 <tbody>
                     {{#if isEmpty}}
-                        <tr>
-                            <td colspan="6" style="padding: 20px; user-select: none;">Tên cửa hàng không hợp lệ</td>
-                        </tr>
+                        {{#if date}}
+                            <tr>
+                                <td colspan="6" style="padding: 20px; user-select: none;">Tên cửa hàng không hợp lệ</td>
+                            </tr>
+                            {{else}}
+                             <tr>
+                                <td colspan="6" style="padding: 20px; user-select: none;">Không có cửa hàng thõa mãn</td>
+                            </tr>
+                        {{/if}}
                     {{else}}
                         {{#each merchant}}
                             <tr class="h-70">

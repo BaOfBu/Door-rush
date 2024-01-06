@@ -3,11 +3,21 @@ export default {
     findAll() {
         return Merchant.find();
     },
+    findAllActive() {
+        return Merchant.find({ status: "active" });
+    },
     findAllActive(offset, limit) {
         return Merchant.find({ status: "active" }).skip(offset).limit(limit);
     },
     countActive() {
         return Merchant.find({ status: "active" }).countDocuments();
+    },
+    countActiveByName(name) {
+        const usernameRegex = new RegExp(name, "i");
+        return Merchant.find({
+            status: "active",
+            name: { $regex: usernameRegex }
+        }).countDocuments();
     },
     findActiveByName(name) {
         return Merchant.find({ name: name, status: "active" });
@@ -20,6 +30,15 @@ export default {
     },
     findPendingByID(id) {
         return Merchant.findOne({ status: "pending", _id: id });
+    },
+    findActiveByName(name, offset, limit) {
+        const usernameRegex = new RegExp(name, "i");
+        return Merchant.find({
+            status: "active",
+            name: { $regex: usernameRegex }
+        })
+            .skip(offset)
+            .limit(limit);
     },
     findPendingByUsername(username, offset, limit) {
         const usernameRegex = new RegExp(username, "i");
@@ -74,6 +93,29 @@ export default {
             throw error;
         }
     },
+    findActiveByDateRange(startDate, endDate, offset, limit) {
+        try {
+            const partsStart = startDate.split("-");
+            const startDateConvert = new Date(partsStart[2], partsStart[1] - 1, partsStart[0]);
+
+            const partsEnd = endDate.split("-");
+            const endDateConvert = new Date(partsEnd[2], partsEnd[1] - 1, partsEnd[0]);
+
+            const merchant = Merchant.find({
+                timeRegister: {
+                    $gte: startDateConvert,
+                    $lte: endDateConvert
+                },
+                status: "active"
+            })
+                .skip(offset)
+                .limit(limit);
+            return merchant;
+        } catch (error) {
+            console.error("Error in findPendingByDateRange:", error);
+            throw error;
+        }
+    },
     countPendingByUsername(username) {
         const usernameRegex = new RegExp(username, "i");
         return Merchant.countDocuments({
@@ -93,6 +135,19 @@ export default {
                 $lte: endDateConvert
             },
             status: "pending"
+        }).countDocuments();
+    },
+    countActiveByDate(startDate, endDate) {
+        const partsStart = startDate.split("-");
+        const startDateConvert = new Date(partsStart[2], partsStart[1] - 1, partsStart[0]);
+        const partsEnd = endDate.split("-");
+        const endDateConvert = new Date(partsEnd[2], partsEnd[1] - 1, partsEnd[0]);
+        return Merchant.find({
+            timeRegister: {
+                $gte: startDateConvert,
+                $lte: endDateConvert
+            },
+            status: "active"
         }).countDocuments();
     },
     countPending() {

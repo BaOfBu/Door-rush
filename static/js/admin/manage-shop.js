@@ -30,10 +30,10 @@ $(document).ready(function () {
         var startDate = picker.startDate.format("DD-MM-YYYY");
         var endDate = picker.endDate.format("DD-MM-YYYY");
         if (startDate != "" && endDate != "") {
-            var url = `/admin/validate-shop/search?dateStart=${startDate}&dateEnd=${endDate}`;
+            var url = `/admin/manage-shop/search?dateStart=${startDate}&dateEnd=${endDate}`;
             window.location.href = url;
         } else {
-            var url = `/admin/validate-shop`;
+            var url = `/admin/manage-shop`;
             window.location.href = url;
         }
         $(this).val(startDate + " - " + endDate);
@@ -43,6 +43,7 @@ $(document).ready(function () {
         $(this).data("daterangepicker").setStartDate(currentDate);
         $(this).data("daterangepicker").setEndDate(currentDate);
         $(this).val(currentDate.format("MM/DD/YYYY") + " - " + currentDate.format("MM/DD/YYYY"));
+        window.location.href = "/admin/manage-shop";
     });
 
     $(".search-group").on("click", function () {
@@ -52,17 +53,16 @@ $(document).ready(function () {
 
 document.addEventListener("DOMContentLoaded", function () {
     sendDataToServer();
-    /*
     var searchLink = document.getElementById("search-link");
     var searchText = document.getElementById("search-text");
     searchLink.addEventListener("click", function (event) {
         event.preventDefault();
         var query = encodeURIComponent(searchText.value);
         if (query != "") {
-            var url = `/admin/validate-shop/search?text=${query}`;
+            var url = `/admin/manage-shop/search?text=${query}`;
             window.location.href = url;
         } else {
-            var url = `/admin/validate-shop`;
+            var url = `/admin/manage-shop`;
             window.location.href = url;
         }
     });
@@ -104,7 +104,6 @@ document.addEventListener("DOMContentLoaded", function () {
             searchLink.click();
         }
     });
-    */
 });
 
 function sendDataToServer() {

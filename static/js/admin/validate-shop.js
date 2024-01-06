@@ -43,6 +43,7 @@ $(document).ready(function () {
         $(this).data("daterangepicker").setStartDate(currentDate);
         $(this).data("daterangepicker").setEndDate(currentDate);
         $(this).val(currentDate.format("MM/DD/YYYY") + " - " + currentDate.format("MM/DD/YYYY"));
+        window.location.href = "/admin/validate-shop";
     });
 
     $(".search-group").on("click", function () {
