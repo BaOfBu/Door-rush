@@ -1,17 +1,42 @@
 $(document).ready(function () {
     var currentDate = moment();
     var daterangepickerInput = $('input[name="daterange"]');
-
-    daterangepickerInput.daterangepicker({
-        startDate: currentDate,
-        endDate: currentDate,
-        locale: {
-            cancelLabel: "Clear"
-        }
+    var params = {};
+    var parser = new URL(window.location.href);
+    parser.searchParams.forEach((value, key) => {
+        params[key] = value;
     });
+    if (params.dateStart && params.dateEnd) {
+        daterangepickerInput.daterangepicker({
+            startDate: params.dateStart,
+            endDate: params.dateEnd,
+            locale: {
+                cancelLabel: "Clear",
+                format: "DD-MM-YYYY"
+            }
+        });
+    } else {
+        daterangepickerInput.daterangepicker({
+            startDate: currentDate,
+            endDate: currentDate,
+            locale: {
+                cancelLabel: "Clear",
+                format: "DD-MM-YYYY"
+            }
+        });
+    }
 
     daterangepickerInput.on("apply.daterangepicker", function (ev, picker) {
-        $(this).val(picker.startDate.format("DD/MM/YYYY") + " - " + picker.endDate.format("DD/MM/YYYY"));
+        var startDate = picker.startDate.format("DD-MM-YYYY");
+        var endDate = picker.endDate.format("DD-MM-YYYY");
+        if (startDate != "" && endDate != "") {
+            var url = `/admin/validate-shop/search?dateStart=${startDate}&dateEnd=${endDate}`;
+            window.location.href = url;
+        } else {
+            var url = `/admin/validate-shop`;
+            window.location.href = url;
+        }
+        $(this).val(startDate + " - " + endDate);
     });
 
     daterangepickerInput.on("cancel.daterangepicker", function (ev, picker) {

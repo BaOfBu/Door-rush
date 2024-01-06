@@ -1,5 +1,4 @@
 import Merchant from "../../models/merchantModel.js";
-import mongoose from "mongoose";
 export default {
     findAll() {
         return Merchant.find();
@@ -25,12 +24,70 @@ export default {
             .skip(offset)
             .limit(limit);
     },
+    findPendingByDateRange(startDate, endDate) {
+        try {
+            const partsStart = startDate.split("-");
+            const startDateConvert = new Date(partsStart[2], partsStart[1] - 1, partsStart[0]);
+
+            const partsEnd = endDate.split("-");
+            const endDateConvert = new Date(partsEnd[2], partsEnd[1] - 1, partsEnd[0]);
+
+            const merchant = Merchant.find({
+                timeRegister: {
+                    $gte: startDateConvert,
+                    $lte: endDateConvert
+                },
+                status: "pending"
+            });
+            return merchant;
+        } catch (error) {
+            console.error("Error in findPendingByDateRange:", error);
+            throw error;
+        }
+    },
+    findPendingByDateRange(startDate, endDate, offset, limit) {
+        try {
+            const partsStart = startDate.split("-");
+            const startDateConvert = new Date(partsStart[2], partsStart[1] - 1, partsStart[0]);
+
+            const partsEnd = endDate.split("-");
+            const endDateConvert = new Date(partsEnd[2], partsEnd[1] - 1, partsEnd[0]);
+
+            const merchant = Merchant.find({
+                timeRegister: {
+                    $gte: startDateConvert,
+                    $lte: endDateConvert
+                },
+                status: "pending"
+            })
+                .skip(offset)
+                .limit(limit);
+            return merchant;
+        } catch (error) {
+            console.error("Error in findPendingByDateRange:", error);
+            throw error;
+        }
+    },
     countPendingByUsername(username) {
         const usernameRegex = new RegExp(username, "i");
         return Merchant.countDocuments({
             status: "pending",
             username: { $regex: usernameRegex }
         });
+    },
+    countPendingByDate(startDate, endDate) {
+        const partsStart = startDate.split("-");
+        const startDateConvert = new Date(partsStart[2], partsStart[1] - 1, partsStart[0]);
+
+        const partsEnd = endDate.split("-");
+        const endDateConvert = new Date(partsEnd[2], partsEnd[1] - 1, partsEnd[0]);
+        return Merchant.find({
+            timeRegister: {
+                $gte: startDateConvert,
+                $lte: endDateConvert
+            },
+            status: "pending"
+        }).countDocuments();
     },
     countPending() {
         return Merchant.find({ status: "pending" }).countDocuments();
