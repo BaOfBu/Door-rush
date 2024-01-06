@@ -71,4 +71,10 @@ document.addEventListener("DOMContentLoaded", function () {
             window.location.href = currentUrl.toString();
         });
     }
+    searchText.addEventListener("keypress", function (event) {
+        if (event.key === "Enter") {
+            event.preventDefault();
+            searchLink.click();
+        }
+    });
 });
