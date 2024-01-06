@@ -14,6 +14,7 @@ const index = async function (req, res) {
             .populate("userId")
             .populate("addressOrder")
             .populate("vouchers");
+        // console.log(order);
         let orderTime = new Date(order.timeStatus[0]).toLocaleString("en-GB", {
             hour12: true
         });
