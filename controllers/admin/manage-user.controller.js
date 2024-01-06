@@ -158,7 +158,7 @@ const banUser = async function (req, res) {
         console.error(error);
     }
 
-    const isSuccess = await UserService.deleteById(id);
+    const isSuccess = await UserService.updateStatusBan(id);
     if (isSuccess.deletedCount == 1) {
         res.json(true);
     } else {

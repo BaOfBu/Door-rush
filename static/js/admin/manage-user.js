@@ -46,8 +46,8 @@ document.addEventListener("DOMContentLoaded", function () {
     }
     searchText.addEventListener("keypress", function (event) {
         if (event.key === "Enter") {
-            event.preventDefault(); 
-            searchLink.click(); 
+            event.preventDefault();
+            searchLink.click();
         }
     });
 });

@@ -34,6 +34,20 @@ export default {
     },
     deleteById(id) {
         const userId = new mongoose.Types.ObjectId(id);
-        return User.deleteOne({ _id: userId });
+        return User.update({ _id: userId });
+    },
+    updateStatusBan(id) {
+        try {
+            const updatedItem = User.findByIdAndUpdate(id, { status: "ban" }, { new: true });
+            if (!updatedItem) {
+                console.log("Item not found with id:", id);
+                return null;
+            }
+            // console.log("Updated item:", updatedItem);
+            return updatedItem;
+        } catch (error) {
+            console.error("Error updating the item:", error);
+            throw error;
+        }
     }
 };
