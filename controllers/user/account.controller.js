@@ -24,7 +24,8 @@ const postRegister = async function (req, res) {
         permission: 0,
         phone: req.body.phone,
         emailVerificationToken: verificationToken,
-        emailVerificationExpires: Date.now() + 3600000 // Token expires in 1 hour
+        emailVerificationExpires: Date.now() + 3600000 ,// Token expires in 1 hour
+        timeRegister: Date.now()
     };
 
     //console.log(user);
@@ -92,17 +93,23 @@ const postLogin = async function (req, res) {
         req.session.numberItem = order[0].items.length;
     }
 
-    const url = req.session.retUrl || "/";
+    var url = req.session.retUrl || "/";
+    console.log(url);
     if (user.role === "Merchant") {
         return res.redirect("/merchant");
     }
     if (user.role === "Admin") {
         return res.redirect("/admin");
     }
-    if (url === "/account/login") {
-        res.redirect("/");
+    const home = "http://localhost:8888/";
+    if (url === "http://localhost:8888/account/login" || url === "http://localhost:8888/account/register" 
+    || url === "http://localhost:8888/account/register/verification") {
+        //console.log("redirect to home");
+        return res.redirect("/");
     }
-    res.redirect(url);
+    else{
+        return res.redirect(url);
+    }
 };
 
 const logout = function (req, res) {

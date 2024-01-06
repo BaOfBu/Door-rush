@@ -106,16 +106,16 @@ app.use("/admin",auth.authAdmin,adminRoutes);
 app.use("/",auth.authUserforStart,userRoutes);
 
 
-// auth for login
-app.use(function (req, res, next) {
-    if (typeof req.session.auth === "undefined") {
-        req.session.auth = false;
-    }
+// // auth for login
+// app.use(function (req, res, next) {
+//     if (typeof req.session.auth === "undefined") {
+//         req.session.auth = false;
+//     }
 
-    res.locals.auth = req.session.auth;
-    res.locals.authUser = req.session.authUser;
-    next();
-});
+//     res.locals.auth = req.session.auth;
+//     res.locals.authUser = req.session.authUser;
+//     next();
+// });
 
 app.listen(port, function serverStartedHandler() {
     console.log(`Door-rush server is running at http://localhost:${port}`);

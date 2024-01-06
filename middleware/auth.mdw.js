@@ -13,7 +13,7 @@ const authUser = function (req, res, next) {
     return next();
   }
   if (req.session.auth === false) {
-    req.session.retUrl = req.originalUrl;
+    req.session.retUrl = req.url;
     return res.redirect('/account/login');
   }
   next();
@@ -22,7 +22,7 @@ const authUser = function (req, res, next) {
 const authLogout = function (req, res, next) {
   if (req.session.auth === false) {
     //console.log("authLogout");
-    req.session.retUrl = req.originalUrl;
+    req.session.retUrl = req.url;
     return res.redirect('/account/login');
   }
   next();
@@ -64,7 +64,7 @@ const authMerchant = function (req, res, next) {
     return next();
   }
   if (req.session.auth === false) {
-    req.session.retUrl = req.originalUrl;
+    req.session.retUrl = req.url;
     return res.redirect('/account/login');
   }
   next();
@@ -88,7 +88,7 @@ const authAdmin = function (req, res, next) {
     return next();
   }
   if (req.session.auth === false) {
-    req.session.retUrl = req.originalUrl;
+    req.session.retUrl = req.url;
     return res.redirect('/account/login');
   }
   next();

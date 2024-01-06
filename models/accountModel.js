@@ -20,7 +20,7 @@ const accountSchema = new mongoose.Schema(
             type: String,
             enum: ["active", "ban", "pending"],
             required: true
-        }
+        },
     },
     { collection: "Account" }
 );
