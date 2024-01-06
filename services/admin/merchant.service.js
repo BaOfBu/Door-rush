@@ -4,8 +4,11 @@ export default {
     findAll() {
         return Merchant.find();
     },
-    findActiveByName(name, cccd) {
-        return Merchant.find({ name: name, status: "active", cccd: cccd });
+    findActiveByName(name) {
+        return Merchant.find({ name: name, status: "active" });
+    },
+    findActiveByCCCD(cccd) {
+        return Merchant.find({ status: "active", cccd: cccd });
     },
     findPending(offset, limit) {
         return Merchant.find({ status: "pending" }).skip(offset).limit(limit);

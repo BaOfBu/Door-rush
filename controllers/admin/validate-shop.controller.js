@@ -57,10 +57,11 @@ const detailShopValidate = async function (req, res) {
 };
 // [GET]/admin/validate-shop/:id/checkValidate
 const checkValidate = async function (req, res) {
-    const merchant = await MerchantService.findActiveByName(req.query.shopName, req.query.cccd);
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    const isValid = emailRegex.test(req.query.email);
-    if (merchant.length === 0 && isValid) {
+    const merchant_name = await MerchantService.findActiveByName(req.query.shopName);
+    const merchant_cccd = await MerchantService.findActiveByCCCD(req.query.cccd);
+    // const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    // const isValid = emailRegex.test(req.query.email);
+    if (merchant_name.length == 0 && merchant_cccd.length == 0) {
         const updatedMerchant = await Merchant.findOneAndUpdate({ _id: req.params.id }, { $set: { status: "active" } }, { new: true });
         res.json(true);
     } else {
@@ -198,5 +199,4 @@ const searchShops = async function (req, res) {
         });
     }
 };
-
 export default { index, detailShopValidate, checkValidate, refuseValidate, searchShops };
