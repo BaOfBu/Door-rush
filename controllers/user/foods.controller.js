@@ -131,6 +131,7 @@ const foodDetail = async function (req, res) {
         foodId: foodId,
         shopName: shopName,
         foodName: foodName,
+        orderId: req.session.order,
         foodPrice: foodPrice,
         description: food.description,
         rating: food.rating,

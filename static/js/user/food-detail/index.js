@@ -144,3 +144,60 @@ document.getElementById("addItemToCart").addEventListener("click", function (eve
             console.error("There has been a problem with your fetch operation:", error);
         });
 });
+// Xử lý nút bấm mua ngay
+document.getElementById("buy-only").addEventListener("click", function (event) {
+    let option;
+    if (isAccount === false) {
+        event.preventDefault();
+        alert("Bạn cần phải đăng nhập để mua sản phẩm");
+        window.location.href = "/account/login";
+    } else if (isSameMerchant == false) {
+        option = window.confirm(
+            "Bạn có muốn thay thế các món ăn hiện tại trong giỏ hàng của cửa hàng khác bằng món ăn của cửa hàng này không?"
+        );
+    }
+    const selectedFoodTypeIndex = document.getElementById("food-type").value;
+    const selectedFoodType = typeOfFoodId[selectedFoodTypeIndex];
+    // Ngăn không cho form submit theo cách thông thường
+    event.preventDefault();
+    // Get the current URL's path
+    const path = window.location.pathname;
+    // Split the path into segments
+    const pathSegments = path.split("/");
+    let itemId = pathSegments[3];
+    fetch(`${itemId}/addToCart`, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            isSameMerchant: isSameMerchant,
+            option: option,
+            isAccount: isAccount,
+            merchantId: merchantId,
+            foodId: itemId,
+            quantity: Number(document.getElementById("food-quantity").value),
+            foodType: selectedFoodType,
+            notes: document.getElementById("food-note").value
+        })
+    })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error(`HTTP error! Status: ${response.status}`);
+            }
+            if (option == false) {
+                window.location.reload();
+            } else {
+                window.location.href = "/shopping-cart";
+            }
+
+            return response.json;
+        })
+        .then(data => {
+            if (data.success) {
+            }
+        })
+        .catch(error => {
+            console.error("There has been a problem with your fetch operation:", error);
+        });
+});
