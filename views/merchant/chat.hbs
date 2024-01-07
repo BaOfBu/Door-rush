@@ -20,66 +20,15 @@
                     {{! User }}
                     <div class="DivWithScroll">
                         <ul class="list-unstyled chat-list mt-2 mb-0">
+                            {{#each conversations}}
                             <li class="clearfix d-flex align-items-center">
                                 <img src="https://bootdey.com/img/Content/avatar/avatar1.png" alt="avatar" />
                                 <div class="about">
-                                    <div class="name">Vincent Porter</div>
+                                    <div class="name">{{this.username}}</div>
                                 </div>
                             </li>
-                            <li class="clearfix active d-flex align-items-center">
-                                <img src="https://bootdey.com/img/Content/avatar/avatar2.png" alt="avatar" />
-                                <div class="about">
-                                    <div class="name">Aiden Chavez</div>
-                                </div>
-                            </li>
-                            <li class="clearfix d-flex align-items-center">
-                                <img src="https://bootdey.com/img/Content/avatar/avatar1.png" alt="avatar" />
-                                <div class="about">
-                                    <div class="name">Vincent Porter</div>
-                                </div>
-                            </li>
-                            <li class="clearfix active d-flex align-items-center">
-                                <img src="https://bootdey.com/img/Content/avatar/avatar2.png" alt="avatar" />
-                                <div class="about">
-                                    <div class="name">Aiden Chavez</div>
-                                </div>
-                            </li>
-                            <li class="clearfix d-flex align-items-center">
-                                <img src="https://bootdey.com/img/Content/avatar/avatar1.png" alt="avatar" />
-                                <div class="about">
-                                    <div class="name">Vincent Porter</div>
-                                </div>
-                            </li>
-                            <li class="clearfix active d-flex align-items-center">
-                                <img src="https://bootdey.com/img/Content/avatar/avatar2.png" alt="avatar" />
-                                <div class="about">
-                                    <div class="name">Aiden Chavez</div>
-                                </div>
-                            </li>
-                            <li class="clearfix d-flex align-items-center">
-                                <img src="https://bootdey.com/img/Content/avatar/avatar1.png" alt="avatar" />
-                                <div class="about">
-                                    <div class="name">Vincent Porter</div>
-                                </div>
-                            </li>
-                            <li class="clearfix active d-flex align-items-center">
-                                <img src="https://bootdey.com/img/Content/avatar/avatar2.png" alt="avatar" />
-                                <div class="about">
-                                    <div class="name">Aiden Chavez</div>
-                                </div>
-                            </li>
-                            <li class="clearfix d-flex align-items-center">
-                                <img src="https://bootdey.com/img/Content/avatar/avatar1.png" alt="avatar" />
-                                <div class="about">
-                                    <div class="name">Vincent Porter</div>
-                                </div>
-                            </li>
-                            <li class="clearfix active d-flex align-items-center">
-                                <img src="https://bootdey.com/img/Content/avatar/avatar2.png" alt="avatar" />
-                                <div class="about">
-                                    <div class="name">Aiden Chavez</div>
-                                </div>
-                            </li>
+                            {{/each}}
+
                         </ul>
                     </div>
                 </div>
