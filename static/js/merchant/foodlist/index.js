@@ -1,24 +1,54 @@
 // Lấy các phần tử DOM
 const addCategoryBtn = document.getElementById('addCategoryBtn');
-const modal = document.getElementById('myModal');
+const modalCategory = document.getElementById('modalCategory');
 const categoryList = document.getElementById('categoryList');
 const categoryInput = document.getElementById('categoryInput');
 const addCategory = document.getElementById('addCategory');
-const closeBtn = document.getElementsByClassName('close')[0];
+const closeCategory = document.getElementById('closeCategory');
+
+const modalProduct = document.getElementById('modalProduct');
+const addProductBtn = document.getElementById('addProductBtn');
+const closeProduct = document.getElementById('closeProduct');
+
+const modalProductDetail = document.getElementById('modalProductDetail');
+const viewProductBtn = document.getElementById('viewProductBtn');
+const closeProductDetail = document.getElementById('closeProductDetail');
 
 // Bắt sự kiện khi nhấn vào nút Thêm Category
+addProductBtn.addEventListener('click', function() {
+    // Hiển thị modal
+    modalProduct.style.display = 'block';
+
+    // Hiển thị danh sách category đã có (ở đây là danh sách giả định)
+    // renderCategoryList(getCategoryList());
+});
+
 addCategoryBtn.addEventListener('click', function() {
     // Hiển thị modal
-    modal.style.display = 'block';
+    modalCategory.style.display = 'block';
 
     // Hiển thị danh sách category đã có (ở đây là danh sách giả định)
     renderCategoryList(getCategoryList());
 });
 
+viewProductBtn.addEventListener('click', function(){
+    modalProductDetail.style.display = 'block';
+});
+
 // Bắt sự kiện khi nhấn vào nút Đóng hoặc nút đóng modal
-closeBtn.addEventListener('click', function() {
+closeCategory.addEventListener('click', function() {
     // Ẩn modal
-    modal.style.display = 'none';
+    modalCategory.style.display = 'none';
+});
+
+closeProduct.addEventListener('click', function() {
+    // Ẩn modal
+    modalProduct.style.display = 'none';
+});
+
+closeProductDetail.addEventListener('click', function() {
+    // Ẩn modal
+    modalProductDetail.style.display = 'none';
 });
 
 // Bắt sự kiện khi nhấn vào nút Thêm
@@ -32,7 +62,7 @@ addCategory.addEventListener('click', function() {
         console.log('Thêm category mới:', newCategory);
 
         // Ẩn modal
-        modal.style.display = 'none';
+        modalCategory.style.display = 'none';
 
         // Reset giá trị của input
         categoryInput.value = '';
@@ -44,7 +74,6 @@ addCategory.addEventListener('click', function() {
     }
 });
 
-// Hàm hiển thị danh sách category
 // Hàm hiển thị danh sách category
 function renderCategoryList(categories) {
     const categoryList = document.getElementById('categoryList');

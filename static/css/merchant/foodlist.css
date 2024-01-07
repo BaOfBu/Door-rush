@@ -74,4 +74,28 @@
     border-color: #dc3545;
 }
 
+.quantity{
+    margin-left: 10px;
+}
 
+.status{
+    margin-left: 10px;
+    width: 40%;
+}
+
+.primary{
+    margin-left: 10px;
+}
+
+.items .nav .nav-item .nav-link:hover{
+    color: var(--black-color);
+}
+
+.items .nav .nav-item .nav-link{
+    color: var(--grey-color);
+}
+
+.items .nav .nav-item .nav-link:active{
+    background-color: var(--orange-color);
+    color: var(--white-color);
+}
