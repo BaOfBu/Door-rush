@@ -147,6 +147,19 @@ class Profile{
         }
     }
 
+    async updateMerchantInfo(userID, updatedData){
+        try {
+            const updatedUser = await Merchant.findByIdAndUpdate(userID, updatedData, { new: true });
+            if (!updatedUser) {
+                return res.status(404).json({ error: 'Không tìm thấy merchant' });
+            }
+            return updatedUser;
+        } catch (error) {
+          console.error('Lỗi khi cập nhật người dùng:', error);
+          return res.status(500).json({ error: 'Lỗi server' });
+        }
+    }
+
     async updateUserAddress(addressID, updatedData){
         try {
             const updatedAddress = await Address.findByIdAndUpdate(addressID, updatedData, { new: true });

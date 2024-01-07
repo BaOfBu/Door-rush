@@ -140,13 +140,15 @@ const refuseValidate = async function (req, res) {
 };
 // [GET]/admin/validate-shop/search?text=""&page=""
 const searchShops = async function (req, res) {
+    const startDate = req.query.dateStart || "";
+    const endDate = req.query.dateEnd || "";
     const text = req.query.text || "";
     const page = req.query.page || 1;
-    const limit = 2;
+    const limit = 1;
     const offset = (page - 1) * limit;
-    const totalCount = await MerchantService.countPendingByUsername(text);
-    const nPages = Math.ceil(totalCount / limit);
     if (text != "") {
+        const totalCount = await MerchantService.countPendingByUsername(text);
+        const nPages = Math.ceil(totalCount / limit);
         const merchant = await MerchantService.findPendingByUsername(text, offset, limit).populate("category");
         const merchantArray = merchant.map((merchant, index) => {
             return {
@@ -162,6 +164,7 @@ const searchShops = async function (req, res) {
             };
         });
         res.render("admin/validate-shop", {
+            date: false,
             search: true,
             isEmpty: merchant.length > 0 ? 0 : 1,
             filter: text,
@@ -173,7 +176,9 @@ const searchShops = async function (req, res) {
             merchant: merchantArray,
             type: "validate-shop"
         });
-    } else {
+    } else if (startDate == "" && endDate == "") {
+        const totalCount = await MerchantService.countPendingByUsername(text);
+        const nPages = Math.ceil(totalCount / limit);
         const merchant = await MerchantService.findPending().populate("category");
         const merchantArray = merchant.map((merchant, index) => {
             return {
@@ -181,14 +186,46 @@ const searchShops = async function (req, res) {
                 id: merchant._id,
                 username: merchant.username,
                 name: merchant.name,
-                // pageIndex: Number(offset) + Number(index) + 1,
+                pageIndex: Number(offset) + Number(index) + 1,
                 timeRegister: new Date(merchant.timeRegister).toLocaleDateString("en-GB"),
                 categories: merchant.category.map(category => category.name).join(", ")
             };
         });
         res.render("admin/validate-shop", {
+            date: false,
             search: false,
             filter: "Tìm kiếm yêu cầu xử lý theo tài khoản",
+            total: totalCount,
+            nPages: nPages,
+            prev: Number(page) === 1 ? 0 : Number(page) - 1,
+            next: Number(page) === Number(nPages) ? 0 : Number(page) + 1,
+            currentPage: page,
+            merchant: merchantArray,
+            type: "validate-shop"
+        });
+    } else if (startDate != "" && endDate != "") {
+        const totalCount = await MerchantService.countPendingByDate(startDate, endDate);
+        const nPages = Math.ceil(totalCount / limit);
+        const merchantDate = await MerchantService.findPendingByDateRange(startDate, endDate, offset, limit).populate("category");
+        const merchantArray = merchantDate.map((merchantDate, index) => {
+            return {
+                username: merchantDate.username,
+                id: merchantDate._id,
+                username: merchantDate.username,
+                name: merchantDate.name,
+                prev: Number(page) === 1 ? 0 : Number(page) - 1,
+                next: Number(page) === Number(nPages) ? 0 : Number(page) + 1,
+                pageIndex: Number(offset) + Number(index) + 1,
+                timeRegister: new Date(merchantDate.timeRegister).toLocaleDateString("en-GB"),
+                categories: merchantDate.category.map(category => category.name).join(", ")
+            };
+        });
+        res.render("admin/validate-shop", {
+            date: true,
+            search: true,
+            isEmpty: merchantDate.length > 0 ? 0 : 1,
+            filter: "",
+            date: true,
             total: totalCount,
             nPages: nPages,
             prev: Number(page) === 1 ? 0 : Number(page) - 1,

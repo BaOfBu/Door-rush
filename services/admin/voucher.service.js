@@ -5,7 +5,7 @@ export default {
         return Voucher.find();
     },
     findAll(offset, limit) {
-        return Voucher.find().skip(offset).limit(limit);
+        return Voucher.find().sort({ endDate: -1 }).skip(offset).limit(limit);
     },
     countDocuments() {
         return Voucher.countDocuments();

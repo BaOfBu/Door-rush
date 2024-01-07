@@ -20,10 +20,12 @@
                 </div>
                 <div class="order-status-id-order">
                     <h3 class="order-status-id-header">ID đơn hàng: {{orderInfo.orderId}}</h3>
+                    <a href="/order/chat?id={{orderInfo.orderId}}" style="text-decoration:none">
                     <button class="order-status-detail-btn">
                         <i class="bi bi-file-earmark-text"></i>
                         <span>Liên lạc</span>
                     </button>
+                    </a>
                 </div>
 
                 <div class="order-status-sub-info">
@@ -51,7 +53,8 @@
     <div class="container">
         <hr />
     </div>
-    <section class="section-two">
+    {{#if status}}
+        <section class="section-two">
         <div class="container">
             <div class="timeline">
                 {{#each this.orderInfo.orderStatus}}
@@ -81,15 +84,23 @@
                 {{/each}}
             </div>
         </div>
-    </section>
+        </section>
+    {{/if}}
+   
     <section class="section-three">
         <div class="container">
-            {{#each orderInfo.orderStatus}}
-                {{#if this.isCurrent}}
-                    <img src={{this.img}} class="order-status-img" alt="" />
-                    <span class="order-status-detail">{{this.status}}</span>
-                {{/if}}
-            {{/each}}
+            {{#if status}}
+                {{#each orderInfo.orderStatus}}
+                    {{#if this.isCurrent}}
+                        <img src={{this.img}} class="order-status-img" alt="" />
+                        <span class="order-status-detail">{{this.status}}</span>
+                    {{/if}}
+                {{/each}}
+                {{else}}
+                   <img src="../../static/images/user/order-status/cancel-order.png" class="order-status-img" alt="" />
+                   <span class="order-status-detail">Đơn hàng đã bị hủy</span>
+            {{/if}}
+            
         </div>
     </section>
     <div class="container">

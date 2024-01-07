@@ -22,7 +22,11 @@
         <div class="form-group has-search">
             <a id="search-link"><span class="fa fa-search form-control-feedback"></span></a>
             {{#if search}}
-                <input type="text" class="form-control" placeholder="" id="search-text" value="{{this.filter}}" />
+                {{#if date}}
+                    <input type="text" class="form-control" placeholder="Tìm kiếm yêu cầu xử lý theo tài khoản" id="search-text" />
+                {{else}}
+                    <input type="text" class="form-control" placeholder="" id="search-text" value="{{this.filter}}" />
+                {{/if}}
             {{else}}
                 <input type="text" class="form-control" placeholder="Tìm kiếm yêu cầu xử lý theo tài khoản" id="search-text" />
             {{/if}}
