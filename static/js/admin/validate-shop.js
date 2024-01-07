@@ -17,15 +17,13 @@ $(document).ready(function () {
         });
     } else {
         daterangepickerInput.daterangepicker({
-            startDate: currentDate,
-            endDate: currentDate,
             locale: {
                 cancelLabel: "Clear",
                 format: "DD-MM-YYYY"
             }
         });
+        daterangepickerInput.val("Chọn ngày để lọc");
     }
-
     daterangepickerInput.on("apply.daterangepicker", function (ev, picker) {
         var startDate = picker.startDate.format("DD-MM-YYYY");
         var endDate = picker.endDate.format("DD-MM-YYYY");
@@ -40,9 +38,13 @@ $(document).ready(function () {
     });
 
     daterangepickerInput.on("cancel.daterangepicker", function (ev, picker) {
-        $(this).data("daterangepicker").setStartDate(currentDate);
-        $(this).data("daterangepicker").setEndDate(currentDate);
-        $(this).val(currentDate.format("MM/DD/YYYY") + " - " + currentDate.format("MM/DD/YYYY"));
+        // $(this).data("daterangepicker").setStartDate(currentDate);
+        // $(this).data("daterangepicker").setEndDate(currentDate);
+        // $(this).val(currentDate.format("MM/DD/YYYY") + " - " + currentDate.format("MM/DD/YYYY"));
+        picker.setStartDate(null);
+        picker.setEndDate(null);
+        daterangepickerInput.val("Chọn ngày để lọc");
+        daterangepickerInput.val("Chọn ngày để lọc");
         window.location.href = "/admin/validate-shop";
     });
 

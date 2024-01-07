@@ -22,11 +22,10 @@ const index = async function (req, res) {
             .populate("vouchers");
 
         let orderTime;
-        if (order && order.timeStatus && order.timeStatus.length > 0) {
-            orderTime = new Date(order.timeStatus[0]).toLocaleString("en-GB", {
-                hour12: false
-            });
-        }
+        // console.log(order);
+        orderTime = new Date(order.timeStatus[0]).toLocaleString("en-GB", {
+            hour12: false
+        });
         let shopName = order.merchantId.name;
         let orderStatus = [
             {
