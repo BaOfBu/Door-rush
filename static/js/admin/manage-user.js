@@ -1,30 +1,3 @@
-$(document).ready(function () {
-    var currentDate = moment();
-    var daterangepickerInput = $('input[name="daterange"]');
-
-    daterangepickerInput.daterangepicker({
-        startDate: currentDate,
-        endDate: currentDate,
-        locale: {
-            cancelLabel: "Clear"
-        }
-    });
-
-    daterangepickerInput.on("apply.daterangepicker", function (ev, picker) {
-        $(this).val(picker.startDate.format("DD/MM/YYYY") + " - " + picker.endDate.format("DD/MM/YYYY"));
-    });
-
-    daterangepickerInput.on("cancel.daterangepicker", function (ev, picker) {
-        $(this).data("daterangepicker").setStartDate(currentDate);
-        $(this).data("daterangepicker").setEndDate(currentDate);
-        $(this).val(currentDate.format("MM/DD/YYYY") + " - " + currentDate.format("MM/DD/YYYY"));
-    });
-
-    $(".search-group").on("click", function () {
-        daterangepickerInput.focus();
-    });
-});
-
 document.addEventListener("DOMContentLoaded", function () {
     var searchLink = document.getElementById("search-link");
     var searchText = document.getElementById("search-text");
@@ -32,10 +5,10 @@ document.addEventListener("DOMContentLoaded", function () {
         event.preventDefault();
         var query = encodeURIComponent(searchText.value);
         if (query != "") {
-            var url = `/admin/validate-shop/search?text=${query}`;
+            var url = `/admin/manage-user/search?text=${query}`;
             window.location.href = url;
         } else {
-            var url = `/admin/validate-shop`;
+            var url = `/admin/manage-user`;
             window.location.href = url;
         }
     });
@@ -78,3 +51,31 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     });
 });
+var banButtons = document.getElementsByClassName("detail-btn");
+for (var i = 0; i < banButtons.length; i++) {
+    banButtons[i].addEventListener("click", function (event) {
+        event.preventDefault();
+        const userID = this.getAttribute("data-user-id");
+        var url = "/admin/manage-user/ban-user?userId=" + userID;
+        console.log(url);
+        fetch(url, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({ userID: userID })
+        })
+            .then(response => {
+                if (response.ok) {
+                    window.alert("Chặn người dùng thành công");
+                    window.location.reload();
+                } else {
+                    window.alert("Chặn người dùng thất bại! Vui lòng thử lại sau!");
+                }
+            })
+            .then(data => {})
+            .catch(error => {
+                console.error("There has been a problem with your fetch operation:", error);
+            });
+    });
+}

@@ -1,4 +1,4 @@
-.validate-shop-admin {
+.manage-user-admin {
     display: flex;
     flex-direction: column;
     gap: 20px;
@@ -63,20 +63,7 @@
     justify-content: space-between;
     align-items: center;
 }
-input[type="text"][name="daterange"] {
-    background-color: #e2e8f0;
-    font-size: 14px;
-    border: none;
-}
-.search-group {
-    border-radius: 4px;
-    display: flex;
-    flex-direction: row;
-    gap: 10px;
-    align-items: center;
-    padding: 10px;
-    background-color: #e2e8f0;
-}
+
 .custom-table td,
 .custom-table th {
     padding-left: 20px;

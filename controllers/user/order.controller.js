@@ -14,8 +14,9 @@ const index = async function (req, res) {
             .populate("userId")
             .populate("addressOrder")
             .populate("vouchers");
+        // console.log(order);
         let orderTime = new Date(order.timeStatus[0]).toLocaleString("en-GB", {
-            hour12: true
+            hour12: false
         });
         let shopName = order.merchantId.name;
         let orderStatus = [
@@ -28,7 +29,7 @@ const index = async function (req, res) {
                     ? new Date(order.timeStatus[0]).toLocaleString("en-GB", {
                           hour: "numeric",
                           minute: "numeric",
-                          hour12: true
+                          hour12: false
                       })
                     : null
             },
@@ -41,7 +42,7 @@ const index = async function (req, res) {
                     ? new Date(order.timeStatus[1]).toLocaleString("en-GB", {
                           hour: "numeric",
                           minute: "numeric",
-                          hour12: true
+                          hour12: false
                       })
                     : null
             },
@@ -54,7 +55,7 @@ const index = async function (req, res) {
                     ? new Date(order.timeStatus[2]).toLocaleString("en-GB", {
                           hour: "numeric",
                           minute: "numeric",
-                          hour12: true
+                          hour12: false
                       })
                     : null
             },
@@ -67,7 +68,7 @@ const index = async function (req, res) {
                     ? new Date(order.timeStatus[3]).toLocaleString("en-GB", {
                           hour: "numeric",
                           minute: "numeric",
-                          hour12: true
+                          hour12: false
                       })
                     : null
             }
@@ -82,13 +83,13 @@ const index = async function (req, res) {
                     predictTime = new Date(order.timeStatus[i].getTime() + 5 * 60000).toLocaleString("en-GB", {
                         hour: "numeric",
                         minute: "numeric",
-                        hour12: true
+                        hour12: false
                     });
                 } else {
                     predictTime = new Date(order.timeStatus[i].getTime() + 15 * 60000).toLocaleString("en-GB", {
                         hour: "numeric",
                         minute: "numeric",
-                        hour12: true
+                        hour12: false
                     });
                 }
 
