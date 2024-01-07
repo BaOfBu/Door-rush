@@ -19,13 +19,14 @@
                     </div>
                     {{! User }}
                     <div class="DivWithScroll">
-                        <ul class="list-unstyled chat-list mt-2 mb-0">
+                        <ul id="conversationList" class="list-unstyled chat-list mt-2 mb-0">
                             {{#each conversations}}
                             <li class="clearfix d-flex align-items-center">
                                 <img src="https://bootdey.com/img/Content/avatar/avatar1.png" alt="avatar" />
                                 <div class="about">
                                     <div class="name">{{this.username}}</div>
                                 </div>
+                                <input name="random" value={{this.userId}} hidden>
                             </li>
                             {{/each}}
 

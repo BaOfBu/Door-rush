@@ -26,6 +26,11 @@ socket.on('chat message', function(msg) {
     }
 });
 
-function loadMessage(){
-    
-}
+$('#conversationList li').attr('id', function(i) {
+    console.log(i);
+    return 'conver'+(i+1);
+});
+$('#conversationList li input').attr('id', function(i) {
+    console.log(i);
+    return 'userID'+(i+1);
+});
