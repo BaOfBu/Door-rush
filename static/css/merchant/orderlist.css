@@ -61,7 +61,7 @@
 
 .input-container {
     position: relative;
-    width: 260px;
+    width: 250px;
     padding-left: 10px;
 }
 
@@ -77,6 +77,10 @@
     transform: translateY(-50%);
     cursor: pointer;
 }
+
+#resetIcon {
+    padding-left: 10px;
+}
   
 #dateRangePicker {
     width: 240px;
@@ -89,3 +93,13 @@
     background-color: var(--light-color);
 }
 
+.status .custom-filter {
+    width: 100px;
+    background-color: var(--orange-color);
+    color: var(--white-color);
+}
+
+.status .custom-filter:hover{
+    background-color: #FF8E00;
+    color: var(--white-color);
+}

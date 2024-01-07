@@ -7,5 +7,6 @@ const router = express.Router();
 router.get("/", orderListController.orderList);
 router.get("/:orderId", orderListController.orderDetail);
 router.post("/change-order-status", orderListController.updateOrders);
+router.post("/change-merchant-status", orderListController.updateStatusMerchant);
 
 export default router;

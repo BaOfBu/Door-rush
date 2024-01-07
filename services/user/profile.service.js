@@ -61,7 +61,7 @@ class Profile{
                 const vietnamTimeZone = 'Asia/Ho_Chi_Minh';
                 // let timeOrder = order.timeStatus[0];
                 const options = { timeZone: vietnamTimeZone, hour12: false, year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', second: '2-digit' };
-                let timeOrder = order.timeStatus[0].toLocaleDateString('en-US', options);
+                let timeOrder = order.timeStatus[0].toLocaleDateString('en-GB', options);
                 
                 console.log("Convert: ", new Date(timeOrder));
                 let quantity = await this.countQuantityItemsOfOrder(id);
@@ -222,7 +222,7 @@ class Profile{
             .exec();
             console.log(pendingMerchant);
             
-            if(pendingMerchant){
+            if(pendingMerchant.length !== 0){
                 console.log("true");
                 return true;
             }

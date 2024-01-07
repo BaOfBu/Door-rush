@@ -1,34 +1,49 @@
 document.addEventListener('DOMContentLoaded', function () {
   const urlParams = new URLSearchParams(window.location.search);
   const page = urlParams.get('optional');
+  const start = urlParams.get('startDate');
+  const end = urlParams.get('endDate');
 
+  let startDate;
+  let endDate;
+
+  const statusFilter = urlParams.get('status') || "all";
+  
   if(page === 'history'){
-    const statusFilter = urlParams.get('status') || "all";
     
-    const startDate = localStorage.getItem('selectedStartDate');
-    const endDate = localStorage.getItem('selectedEndDate');
+    startDate = localStorage.getItem('selectedStartDate');
+    endDate = localStorage.getItem('selectedEndDate');
     if(startDate !== null && endDate !== null){
       $('#timeRange').val(moment(startDate, 'YYYY-MM-DD').format('DD/MM/YYYY') + ' - ' + moment(endDate, 'YYYY-MM-DD').format('DD/MM/YYYY'));
     }
     setActiveStatusFilter(statusFilter);
   }
-
   
   showContent(page);
   setActiveLink(page);
-});
 
-function showContent(contentId) {
-  const contents = document.querySelectorAll('.content');
-  contents.forEach(content => {
-    content.style.display = 'none';
-  });
-
-  const selectedContent = document.getElementById(contentId);
-  if (selectedContent) {
-    selectedContent.style.display = 'block';
+  function showContent(contentId) {
+    const contents = document.querySelectorAll('.content');
+    contents.forEach(content => {
+      content.style.display = 'none';
+    });
+  
+    const selectedContent = document.getElementById(contentId);
+    if (selectedContent) {
+      selectedContent.style.display = 'block';
+    }
+  
+    if(contentId === 'history' && startDate !== null && endDate != null){
+      startDate = startDate.replace(/[^\d-]/g, "");
+      endDate = endDate.replace(/[^\d-]/g, "");
+      if(start === "" || end === ""){
+        const newUrl = `?optional=history&status=${statusFilter}&startDate=${startDate}&endDate=${endDate}&page=1`;
+        console.log(newUrl);
+        window.location.href = newUrl;
+      }
+    }
   }
-}
+});
 
 function setActiveLink(page) {
   const links = document.querySelectorAll('.link .page');

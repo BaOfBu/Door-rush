@@ -1,0 +1,66 @@
+.custom-container{
+    position: relative;
+    height: 100vh;
+    width: calc(100% - 300px);
+    left: 300px;
+    padding: 40px;
+}
+
+
+.dashboard {
+    display: flex;
+    justify-content: space-between;
+}
+
+.info-card {
+    flex: 1;
+    background-color: var(--light-color);
+    padding: 20px;
+    border-radius: 8px;
+    margin-right: 20px;
+}
+
+.info-card-today {
+    flex: 1;
+    background-color: #FFEFEF;
+    padding-top: 10px;
+    border-radius: 8px;
+    margin-right: 20px;
+}
+
+.info-card-today h4{
+    color: var(--black-color);
+}
+.info-card-today h3{
+    color: var(--orange-color);
+}
+
+.number-today{
+    width: 500px;
+}
+
+.info-card h3,h4{
+    color: var(--orange-color);
+    font-weight: bolder;
+}
+
+.custom-filter {
+    background-color: var(--light-color);
+}
+
+.custom-filter:hover{
+    background-color: var(--light-color);
+    color: var(--black-color);
+}
+  
+.center-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100px; /* Optional: Set a height to center vertically within the viewport */
+}
+  /* canvas { */
+    /* display: block; */
+  /* } */
+
+  
