@@ -14,8 +14,13 @@ const index = async function (req, res) {
             id: user._id,
             name: user.fullname,
             pageIndex: Number(offset) + Number(index) + 1,
-            email: user.email
-            // timeRegister: new Date(merchant.timeRegister).toLocaleDateString("en-GB"),
+            email: user.email,
+            timeRegister: new Date(user.timeRegister).toLocaleString("en-GB", {
+                day: "2-digit",
+                month: "2-digit",
+                year: "numeric",
+                hour12: false
+            })
         };
     });
     res.render("admin/manage-user", {
@@ -33,7 +38,7 @@ const index = async function (req, res) {
 const searchUsers = async function (req, res) {
     const text = req.query.text || "";
     const page = req.query.page || 1;
-    const limit = 2;
+    const limit = 3;
     const offset = (page - 1) * limit;
     const totalCount = await UserService.countByUsername(text);
     const nPages = Math.ceil(totalCount / limit);
@@ -59,7 +64,7 @@ const searchUsers = async function (req, res) {
             next: Number(page) === Number(nPages) ? 0 : Number(page) + 1,
             currentPage: page,
             user: userArray,
-            type: "validate-shop"
+            type: "manage-user"
         });
     } else {
         const user = await UserService.findPending().populate("category");
@@ -157,7 +162,6 @@ const banUser = async function (req, res) {
     } catch (error) {
         console.error(error);
     }
-
     const isSuccess = await UserService.updateStatusBan(id);
     if (isSuccess.deletedCount == 1) {
         res.json(true);
