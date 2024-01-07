@@ -10,18 +10,20 @@
             <div class="section-one-content">
                 <nav style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
                     <ol class="breadcrumb custom-breadcrumb">
-                        <li class="breadcrumb-item"><a href="#">Đơn hàng</a></li>
-                        <li class="breadcrumb-item"><a href="#">{{statusFilter}}</a></li>
-                        <li class="breadcrumb-item"><a href="#">{{orderInfo.orderId}}</a></li>
+                        <li class="breadcrumb-item"><a href="/merchant/orders?optional=pending&page=1">Đơn hàng</a></li>
+                        <li class="breadcrumb-item"><a href="{{#if (equal optional 'history')}}/merchant/orders?optional={{optional}}&status=all&startDate=&endDate=page=1{{else}}/merchant/orders?optional={{optional}}&page=1{{/if}}">{{statusFilter}}</a></li>
+                        <li class="breadcrumb-item">{{orderInfo.orderId}}</li>
                     </ol>
                 </nav>
 
                 <div class="order-status-id-order">
                     <h3 class="order-status-id-header">ID đơn hàng: {{orderInfo.orderId}}</h3>
-                    <button class="order-status-detail-btn">
-                        <i class="bi bi-file-earmark-text"></i>
-                        <span>Liên hệ với khách hàng</span>
-                    </button>
+                    <a href="/merchant/chats/{{orderInfo.userId}}">
+                        <button class="order-status-detail-btn">
+                            <i class="bi bi-file-earmark-text"></i>
+                            <span>Liên hệ với khách hàng</span>
+                        </button>
+                    </a>
                 </div>
 
                 <div class="order-status-sub-info">
@@ -51,7 +53,7 @@
         <div class="container">
             <div class="order-detail-shop">
                 <span>Khách hàng: {{orderInfo.username}}</span>
-                <span>&gt;</span>
+                <a href="/merchant/chats/{{orderInfo.userId}}"><span>&gt;</span></a>
             </div>
             <div class="production-order-list">
                 <div class="production-order-list-title">

@@ -1,0 +1,111 @@
+{{#section 'js'}}
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="../../static/js/merchant/revenue/revenue.js"></script>
+{{/section}}
+
+{{#section 'css'}}
+    <link rel="stylesheet" href="/static/css/merchant/revenue.css" />
+{{/section}}
+<div class="custom-container">
+    
+    <div class="overview">
+        <input type="hidden" id="merchantId" value="{{merchantId}}">
+        <h1>Tổng quan doanh số</h1>
+
+        <div class="dashboard mt-3">
+            <div class="info-card d-flex flex-column align-items-center">
+                <h5>Tổng doanh số</h5>
+                <h3 id="total-revenue"></h3>
+            </div>
+            <div class="info-card d-flex flex-column align-items-center">
+                <h5>Tổng đơn hàng</h5>
+                <h3 id="total-order"></h3>
+            </div>
+            <div class="info-card d-flex flex-column align-items-center">
+                <h5>Số lượng khách hàng</h5>
+                <h3 id="total-customer"></h3>
+            </div>
+        </div>
+        
+        <div class="dashboard mt-3">
+            <div class="info-card d-flex flex-column align-items-center">
+                <h5>Doanh số trung bình hằng tháng</h5>
+                <h3 id="average-monthly"></h3>
+            </div>
+            <div class="info-card d-flex flex-column align-items-center">
+                <h5>Sản phẩm bán chạy nhất</h5>
+                <h4 id="hot-food"></h4>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="today">
+        <h3 class="mt-3">Con số của ngày hôm nay</h3>
+        <div class="center-wrapper">
+        <div class="number-today d-flex justify-content-between">
+            <div class="info-card-today d-flex flex-column align-items-center">
+                <h4>Đã bán được</h4>
+                <h3 id="order-today"></h3>
+            </div>
+            <div class="info-card-today d-flex flex-column align-items-center">
+                <h4>Doanh thu</h4>
+                <h3 id="revenue-today"></h3>
+            </div>
+        </div>
+    </div>
+
+    </div>
+    <div class="detail">
+        <h3 class="mt-3">Chi tiết trong tháng</h3>
+          
+        <div class="d-flex justify-content-center align-items-center">
+            <span>Khung thời gian</span>
+            <div class="month p-2">
+                <button class="btn dropdown-toggle btn-sm custom-filter" type="button" id="dropdownMenuMonth" value="{{currentDate.month}}" data-toggle="dropdown" aria-expanded="false">Tháng {{currentDate.month}}
+                </button>
+                <ul class="dropdown-menu" aria-labelledby="dropdownMenu">
+                </ul>
+            </div>
+
+            <div class="year p-1">
+                <button class="btn dropdown-toggle btn-sm custom-filter" type="button" id="dropdownMenuYear" value="{{currentDate.year}}" data-toggle="dropdown" aria-expanded="false">Năm {{currentDate.year}}
+                </button>
+                <ul class="dropdown-menu" aria-labelledby="dropdownMenu">
+                </ul>
+            </div>
+
+            <input type="hidden" id="startMonth" value="{{startDate.month}}">
+            <input type="hidden" id="currentMonth" value="{{currentDate.month}}">
+            <input type="hidden" id="startYear" value="{{startDate.year}}">
+            <input type="hidden" id="currentYear" value="{{currentDate.year}}">
+        </div>
+
+        <div>
+            <canvas id="revenueOfMonthChart" width="400" height="200"></canvas>
+        </div>
+
+    </div>
+
+    <div class="statistic-month mt-3">
+        <h3>Biến động doanh số trong năm</h3>
+        <div class="revenue-year d-flex justify-content-center align-items-center">
+            <span class="p-2">Khung thời gian</span>
+            <button class="btn dropdown-toggle btn-sm custom-filter" type="button" id="dropdownMenuYears" value="{{currentDate.year}}" data-toggle="dropdown" aria-expanded="false"> {{currentDate.year}}
+            </button>
+            <ul class="dropdown-menu" aria-labelledby="dropdownMenu">
+            </ul>
+        </div>
+        <div>
+            <canvas id="revenueOfYearChart" width="400" height="200"></canvas>
+        </div>
+    </div>
+
+    <div class="statistic-year mt-3">
+        <h3>Doanh số qua từng năm</h3>
+        <div>
+            <canvas id="revenueYearlyChart" width="400" height="200"></canvas>
+        </div>
+    </div>
+
+</div>
