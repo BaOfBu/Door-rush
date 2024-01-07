@@ -1,10 +1,16 @@
 import OrderService from "../../services/user/order.service.js";
+import UserService from "../../services/user/user.service.js";
 // [GET]/order?id={{orderId}}
 const index = async function (req, res) {
     if (req.session.auth === false) {
         res.redirect("/account/login");
     } else {
         let orderId = req.query.id || 0;
+        const user = await UserService.findById(req.session.authUser._id);
+        let contain = user.orders.some(id => id.toString() === orderId);
+        if (!contain) {
+            res.redirect("/profile?optional=history");
+        }
         const order = await OrderService.findById(orderId)
             .populate("merchantId")
             .populate({
@@ -14,10 +20,13 @@ const index = async function (req, res) {
             .populate("userId")
             .populate("addressOrder")
             .populate("vouchers");
-        // console.log(order);
-        let orderTime = new Date(order.timeStatus[0]).toLocaleString("en-GB", {
-            hour12: false
-        });
+
+        let orderTime;
+        if (order && order.timeStatus && order.timeStatus.length > 0) {
+            orderTime = new Date(order.timeStatus[0]).toLocaleString("en-GB", {
+                hour12: false
+            });
+        }
         let shopName = order.merchantId.name;
         let orderStatus = [
             {
@@ -142,6 +151,7 @@ const index = async function (req, res) {
             totalPriceAfterFee: Intl.NumberFormat("vi-VN").format(String(order.total)) + " VNĐ"
         };
         res.render("user/order-status.hbs", {
+            status: order.status == "Đã hủy" ? false : true,
             isCurrent: isCurrent,
             orderInfo: orderInfo,
             predictTime: predictTime,
