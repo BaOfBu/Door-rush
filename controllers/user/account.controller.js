@@ -94,14 +94,14 @@ const postLogin = async function (req, res) {
     }
 
     var url = req.session.retUrl || "/";
-    console.log(url);
+    //console.log(url);
     if (user.role === "Merchant") {
         return res.redirect("/merchant");
     }
     if (user.role === "Admin") {
         return res.redirect("/admin");
     }
-    const home = "http://localhost:8888/";
+    //const home = "http://localhost:8888/";
     if (url === "http://localhost:8888/account/login" || url === "http://localhost:8888/account/register" 
     || url === "http://localhost:8888/account/register/verification") {
         //console.log("redirect to home");

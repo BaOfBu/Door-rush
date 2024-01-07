@@ -1,4 +1,4 @@
-.shop-name{
+.shop-image{
     width: 50%; 
     margin: 0 auto;
 }
@@ -50,6 +50,11 @@ body {
     bottom: 0;
     width: inherit;
     position: absolute;
+}
+.shop-name {
+    width: 90%;
+    margin: 0 auto;
+    text-align: center;
 }
 .sidebar-item-text,
 .icon-white {

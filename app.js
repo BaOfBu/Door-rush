@@ -6,6 +6,7 @@ import path from "path";
 import hbs_sections from "express-handlebars-sections";
 import mongoose from "mongoose";
 import dotenv from "dotenv";
+//import genuuid from "uuid/v4";
 import { dirname } from "path";
 import { fileURLToPath } from "url";
 const __dirname = dirname(fileURLToPath(import.meta.url));
@@ -67,8 +68,10 @@ app.set("view engine", "hbs");
 app.set("views", "./views");
 
 app.set("trust proxy", 1);
-app.use(
-    session({
+app.use(session({
+        // genid: function(req) {
+        //     console.log('session id created');
+        //     return genuuid();},
         secret: "New Session",
         resave: false,
         saveUninitialized: true,
