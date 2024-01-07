@@ -6,6 +6,13 @@
     padding: 30px 40px;
 }
 
+form .custom-button{
+    background-color: var(--orange-color);
+    padding: 8px 12px;
+    color: var(--white-color);
+    margin-right: 24px;
+}
+
 
 .home-container {
     width: 1083px;

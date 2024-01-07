@@ -1,7 +1,10 @@
 {{#section "js"}}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-fileinput/5.5.2/js/fileinput.min.js"></script>
+    <script src="/static/js/merchant/home/index.js"></script>
 {{/section}}
 {{#section "css"}}
     <link rel="stylesheet" href="/static/css/merchant/home.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-fileinput/5.5.2/css/fileinput.min.css">
 {{/section}}
 <div class="custom-container">
     <div class="home-container container">
@@ -42,9 +45,27 @@
     <div class="seperator"></div>
     <div class="information-container container pt-4">
         <div class="row d-flex justify-content-center align-items-center">
-            <div class="col-sm-4 d-flex justify-content-center align-items-center">
-                <i class="bi bi-person-square"></i>
-                <img src="" alt="" >
+            <div class="col-sm-4 d-flex flex-column justify-content-center align-items-center">
+                {{#if authUser.image}}
+                    <img src="{{authUser.image}}" alt="image-shop">
+                {{else}}
+                    <img src="/static/images/user/search/default-image-shop.png" alt="image-shop">
+                {{/if}}
+                <form id="imageForm" action="" method="post" class="d-flex justify-content-center align-items-center">
+                    <div class="d-flex flex-lg-column justify-content-center">
+                        <div class="form-group mt-2 mb-2">
+                            {{!-- <label for="fuMain" style="width: 30%;">Cập nhật</label> --}}
+                            <input type="file" id="fuMain" name="image">
+                        </div>
+                        
+                        <div class="d-flex justify-content-center mb-4">
+                            <button type="submit" class="btn custom-button" id="updateButton">
+                                <i class="bi bi-floppy-fill"></i>
+                                <span>Cập nhật thông tin</span>
+                            </button>
+                        </div>
+                    </div>
+                </form>
             </div>
             <div class="col-sm-7">
                 <div class="row mb-3 d-flex align-items-center">
