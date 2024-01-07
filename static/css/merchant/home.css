@@ -71,5 +71,6 @@ form .custom-button{
     font-family: "Roboto", sans-serif;
     color: var(--grey-color);
     border: 1px solid var(--grey-color);
+    overflow: auto;
 }
 

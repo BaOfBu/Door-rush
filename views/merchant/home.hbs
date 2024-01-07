@@ -11,27 +11,27 @@
         <div class="title p-2"> Danh sách cần làm</div>
         <div class="row gy-4">
             <div class="col-sm-4 col-1 d-flex flex-column align-items-center text-center">
-                <div class="col-6 col-sm-6 number-styling">0</div>
+                <div class="col-6 col-sm-6 number-styling">{{this.waitingOrder}}</div>
                 <div class="w-100 d-none d-md-block"></div>
                 <div class="col-6 col-sm-6 number-title-styling">Đang chờ</div>
             </div>
             <div class="col-sm-4 col-1 d-flex flex-column align-items-center text-center">
-                <div class="col-6 col-sm-6 number-styling">0</div>
+                <div class="col-6 col-sm-6 number-styling">{{this.preparingOrder}}</div>
                 <div class="w-100 d-none d-md-block"></div>
                 <div class="col-6 col-sm-6 number-title-styling">Đang chuẩn bị</div>
             </div>
             <div class="col-sm-4 col-1 d-flex flex-column align-items-center text-center">
-                <div class="col-6 col-sm-6 number-styling">0</div>
+                <div class="col-6 col-sm-6 number-styling">{{this.deliveringOrder}}</div>
                 <div class="w-100 d-none d-md-block"></div>
                 <div class="col-6 col-sm-6 number-title-styling">Đang giao</div>
             </div>
             <div class="col-sm-4 col-1 d-flex flex-column align-items-center text-center">
-                <div class="col-6 col-sm-6 number-styling">0</div>
+                <div class="col-6 col-sm-6 number-styling">{{this.finishOrder}}</div>
                 <div class="w-100 d-none d-md-block"></div>
                 <div class="col-6 col-sm-6 number-title-styling">Hoàn thành</div>
             </div>
             <div class="col-sm-4 col-1 d-flex flex-column align-items-center text-center">
-                <div class="col-6 col-sm-6 number-styling">0</div>
+                <div class="col-6 col-sm-6 number-styling">{{this.cancelOrder}}</div>
                 <div class="w-100 d-none d-md-block"></div>
                 <div class="col-6 col-sm-6 number-title-styling">Đơn hủy</div>
             </div>
@@ -47,7 +47,7 @@
         <div class="row d-flex justify-content-center align-items-center">
             <div class="col-sm-4 d-flex flex-column justify-content-center align-items-center">
                 {{#if authUser.image}}
-                    <img src="{{authUser.image}}" alt="image-shop">
+                    <img src="{{authUser.image}}" alt="image-shop" style="max-height: 200px;">
                 {{else}}
                     <img src="/static/images/user/search/default-image-shop.png" alt="image-shop">
                 {{/if}}

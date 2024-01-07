@@ -1,3 +1,4 @@
+import { ObjectId } from "mongodb";
 import Order from "../../models/orderModel.js";
 
 export default {
@@ -7,22 +8,27 @@ export default {
     findById(orderId) {
         return Order.findById(orderId);
     },
-    findTheInCartMerchant(merchantId) {
-        return Order.find({ merchantId: merchantId});
+    findTheInCartMerchant(Id) {
+        return Order.find({ merchantId: Id});
     },
-    findTheWaitingOrder(merchantId) {
-        return Order.find({ merchantId: merchantId, status: "Đang chờ" });
+    findTheWaitingOrder(Id) {
+        var id = new ObjectId(Id);
+        return Order.find({ merchantId: id, status: "Đang chờ" }).count();
     },
-    findThePreparingOrder(merchantId) {
-        return Order.find({ merchantId: merchantId,status: "Đang chuẩn bị" });
+    findThePreparingOrder(Id) {
+        var id = new ObjectId(Id);
+        return Order.find({ merchantId: id,status: "Đang chuẩn bị" }).count();
     },
-    findTheDeliveringOrder(merchantId) {
-        return Order.find({ merchantId: merchantId,status: "Đang giao" });
+    findTheDeliveringOrder(Id) {
+        var id = new ObjectId(Id);
+        return Order.find({ merchantId: id,status: "Đang giao" }).count();
     },
-    findTheFinishOrder(merchantId) {
-        return Order.find({ merchantId: merchantId,status: "Hoàn thành" });
+    findTheFinishOrder(Id) {
+        var id = new ObjectId(Id);
+        return Order.find({ merchantId: id,status: "Hoàn thành" }).count();
     },
-    findTheCancelOrder(merchantId) {
-        return Order.find({ merchantId: merchantId,status: "Đã hủy" });
+    findTheCancelOrder(Id) {
+        var id = new ObjectId(Id);
+        return Order.find({ merchantId: id,status: "Đã hủy" }).count();
     },
 };

@@ -1,9 +1,26 @@
 import multer from "multer";
 import Profile from "../../services/user/profile.service.js";
+import Order from "../../services/merchant/order.service.js";
 
-const index = function (req, res) {
+const index = async function (req, res) {
+    const merchantId = req.session.authUser._id;
+    const waitingOrder = await Order.findTheWaitingOrder(merchantId);
+    const preparingOrder = await Order.findThePreparingOrder(merchantId);
+    const deliveringOrder = await Order.findTheDeliveringOrder(merchantId);
+    const finishOrder = await Order.findTheFinishOrder(merchantId);
+    const cancelOrder = await Order.findTheCancelOrder(merchantId);
+    // console.log("waitingOrder: ", waitingOrder);
+    // console.log("preparingOrder: ", preparingOrder);
+    // console.log("deliveringOrder: ", deliveringOrder);
+    // console.log("finishOrder: ", finishOrder);
+    // console.log("cancelOrder: ", cancelOrder);
     res.render("merchant/home", {
-        type: "home"
+        type: "home",
+        waitingOrder: waitingOrder,
+        preparingOrder: preparingOrder,
+        deliveringOrder: deliveringOrder,
+        finishOrder: finishOrder,
+        cancelOrder: cancelOrder
     });
 };
 
