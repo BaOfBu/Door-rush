@@ -1,6 +1,14 @@
 const index = async function (req, res) {
     res.render("merchant/chat", {
-        type: "chats"
+        type: "chats",
+        userId: req.session.authUser._id
     });
 };
-export default { index };
+
+const chatHistory = async function (req, res) {
+    res.render("merchant/chat", {
+        type: "chats",
+        
+    });
+}
+export default { index, chatHistory };

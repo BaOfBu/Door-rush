@@ -11,7 +11,7 @@ const index = async function (req, res) {
     const cancelOrder = await Order.findTheCancelOrder(merchantId);
     const address = await Order.getUserAddress(merchantId);
     const categories = await Order.getCategory(merchantId);
-    console.log("address: ", address);
+    //console.log("address: ", address);
     // console.log("waitingOrder: ", waitingOrder);
     // console.log("preparingOrder: ", preparingOrder);
     // console.log("deliveringOrder: ", deliveringOrder);

@@ -11,6 +11,7 @@ import { dirname } from "path";
 import { fileURLToPath } from "url";
 import { Server } from "socket.io";
 import { createServer } from "http";
+import conversationService from "./services/merchant/chat.service.js";
 //import { createAdapter, setupPrimary } from '@socket.io/cluster-adapter';
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
@@ -142,5 +143,29 @@ io.on('connection',function(socket){
         console.log('User registered: ' + username);
         socket.username = username;
         connectedUsers[username] = socket;
+    });
+    socket.on('disconnect',function(){
+        console.log('user disconnected');
+    });
+    socket.on('chat message', async function(data){
+        console.log('Message from: ' + socket.username + ' to ' + data.to);
+        const to = data.to;
+        const message = data.message;
+        console.log(to);
+        const conver = await conversationService.findConversation(socket.username, to);
+        console.log(conver);
+        if (conver) {
+            await conversationService.addMessage(conver._id, socket.username, message);
+        }
+
+        if(connectedUsers.hasOwnProperty(to)){
+            connectedUsers[to].emit('chat message',{
+                //The sender's username
+                username : socket.username,
+
+                //Message sent to receiver
+                message : message
+            });
+        }
     });
 });

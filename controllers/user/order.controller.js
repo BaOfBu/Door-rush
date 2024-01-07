@@ -175,9 +175,12 @@ const chatOrder = async function (req, res) {
             totalPrice: Intl.NumberFormat("vi-VN").format(String(totalPrice)) + " VNĐ"
         });
     }
+    console.log("merchantId", order.merchantId._id);
     res.render("user/order-chat.hbs", {
+        merchantId: order.merchantId._id,
         shopName: order.merchantId.name,
-        orderItem: eachOrderItem
+        orderItem: eachOrderItem,
+        userId: order.userId._id
     });
 }
 
