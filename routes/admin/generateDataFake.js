@@ -160,7 +160,7 @@ async function generateVoucherData(type){
 }
 
 async function generateOrderData(userID){
-  const numGenOrderItem = 2;
+  const numGenOrderItem = 3;
   let orderItems = [];
 
   for(let i = 0; i < numGenOrderItem; i++){
@@ -186,6 +186,7 @@ async function generateOrderData(userID){
 
   let timeStatus = [];
   let timeOrderOrigin = faker.date.between({from: temp.startDate, to: temp.endDate});
+  timeStatus.push(timeOrderOrigin);
 
   let time = timeOrderOrigin.setMinutes(timeOrderOrigin.getMinutes() + 1);
   timeStatus.push(time);
@@ -202,7 +203,8 @@ async function generateOrderData(userID){
     vouchers: vouchers,
     total: faker.number.int({min: 1, max: 20})*100000,
     timeStatus: timeStatus,
-    addressOrder: "658bc732b2e15b47b4ab3651"
+    addressOrder: "658bc732b2e15b47b4ab3651",
+    timeRegister: faker.date.between({from: "2017-01-01 00:00:00", to: "2024-01-01 00:00:00"}),
   });
 
   await orderData.save();
@@ -213,7 +215,7 @@ async function generateOrderData(userID){
 router.get("/generate-user", async function(){
   try {
 
-    let numGenUser = 1;
+    let numGenUser = 10;
 
     for(let i = 0; i < numGenUser; i++){
       
@@ -237,11 +239,12 @@ router.get("/generate-user", async function(){
         birthdate: formatter.format(faker.date.between({from: "01-01-1950 00:00:00", to: "01-01-2017 00:00:00"})),
         addresses: addresses,
         orders: [],
-        image: faker.image.avatar()
+        image: faker.image.avatar(),
+        timeRegister: faker.date.between({from: "2017-01-01 00:00:00", to: "2024-01-01 00:00:00"}),
       });
 
 
-      let numGenOrder = 2;
+      let numGenOrder = 20;
       let orders = [];
 
       for(let i = 0; i < numGenOrder; i++){

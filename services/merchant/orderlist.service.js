@@ -18,5 +18,8 @@ export default {
     },
     updateStatus(orderId, newStatus){
         return Order.findByIdAndUpdate(orderId, {status: newStatus}, {new: true}).exec();
+    },
+    updateStatusMerchant(merchantId, newStatus){
+        return Merchant.findByIdAndUpdate(merchantId, {statusMerchant: newStatus}, {new: true}).exec();
     }
 };

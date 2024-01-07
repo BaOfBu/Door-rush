@@ -55,7 +55,25 @@ $(function () {
     localStorage.setItem('selectedStartDate', JSON.stringify(startDate));
     localStorage.setItem('selectedEndDate', JSON.stringify(endDate));
 
-    const newUrl = `?optional=history&status=${statusValue}&startDate=${startDate}&endDate=${endDate}`;
+    const newUrl = `?optional=history&status=${statusValue}&startDate=${startDate}&endDate=${endDate}&page=1`;
     window.location.href = newUrl;
   });
+  $('#resetIcon').on('click', function(){
+    // $('#timeRange').removeAttribute('value');
+    localStorage.removeItem('selectedStartDate');
+    localStorage.removeItem('selectedEndDate');
+    if(localStorage.getItem('selectedStart')){
+      console.log("local: ", localStorage.removeItem('selectedEndDate'));
+    }
+    let statusFilter = document.getElementById('dropdownMenu').innerText.replace(/\s/g, '');
+    const statusMapping = {
+        "Tấtcảtrạngthái": "all",
+        "Hoànthành": "delivered",
+        "Đãhủy": "cancelled"
+    };
+
+    const statusValue = statusMapping[statusFilter];
+    const newUrl = `/profile?optional=history&status=${statusValue}&startDate=&endDate=&page=1`;
+    window.location.href = newUrl;
+  })
 });
