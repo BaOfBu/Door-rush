@@ -44,6 +44,12 @@ document.addEventListener("DOMContentLoaded", function () {
             window.location.href = currentUrl.toString();
         });
     }
+    searchText.addEventListener("keypress", function (event) {
+        if (event.key === "Enter") {
+            event.preventDefault();
+            searchLink.click();
+        }
+    });
 });
 var banButtons = document.getElementsByClassName("detail-btn");
 for (var i = 0; i < banButtons.length; i++) {

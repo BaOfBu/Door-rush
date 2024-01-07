@@ -43,6 +43,14 @@ const viewProfile = async function (req, res){
         };
         case "history":{
             let orders = await Profile.getUserOrderHistory(userID);
+            orders.sort((a, b) => b.timeOrder - a.timeOrder);
+            let orderCurrent = null;
+            if(orders.length > 0) {
+                console.log("current: ", orders[0]);
+                if(orders[0].status === 'Đang chờ' || orders[0].status === 'Đang chuẩn bị' || orders[0].status === 'Đang giao'){
+                    orderCurrent = orders[0];
+                }
+            }
 
             let status = req.query.status || "all";
             let startDate = req.query.startDate || null;
@@ -58,9 +66,6 @@ const viewProfile = async function (req, res){
 
             let statusFilter = status;
             if(statusFilter === "all") statusFilter = "Tất cả trạng thái";
-            if(statusFilter === "pending") statusFilter = "Đang chờ";
-            if(statusFilter === "preparing") statusFilter = "Đang chuẩn bị";
-            if(statusFilter === "delivering") statusFilter = "Đang giao";
             if(statusFilter === "delivered") statusFilter = "Hoàn thành";
             if(statusFilter === "cancelled") statusFilter = "Đã hủy";
 
@@ -80,7 +85,7 @@ const viewProfile = async function (req, res){
                 if(startDate && endDate){
                     orders = orders.filter(order => {
                         let timeOrder = new Date(order.timeOrder);
-                        return timeOrder >= start && timeOrder <= end
+                        return timeOrder >= start && timeOrder <= end && (order.status === 'Hoàn thành' || order.status === 'Đã hủy');
                     });
                 }
             }
@@ -94,15 +99,94 @@ const viewProfile = async function (req, res){
             const total = orders.length;
             const nPages = Math.ceil(total / limit);
 
+            console.log(nPages);
             const pageNumbers = [];
-            for (let i = 1; i <= nPages; i++) {
-                pageNumbers.push({
-                value: i,
-                isActive: i === +page,
-                statusFilter: status,
-                startDate: startDate,
-                endDate: endDate
-                });
+            if(nPages <= 7){
+                for (let i = 1; i <= nPages; i++) {
+                    pageNumbers.push({
+                    value: i,
+                    isActive: i === +page,
+                    statusFilter: status,
+                    startDate: startDate,
+                    endDate: endDate
+                    });
+                }
+            }else{
+                if(Number(page) + 2 <= nPages){
+                    if(Number(page) > 5){
+                        for (let i = 1; i <= 2; i++) {
+                            pageNumbers.push({
+                            value: i,
+                            isActive: i === +page,
+                            statusFilter: status,
+                            startDate: startDate,
+                            endDate: endDate
+                            });
+                        }
+                        pageNumbers.push({
+                            value: '..',
+                            isActive: false,
+                            statusFilter: status,
+                            startDate: startDate,
+                            endDate: endDate                            
+                        });
+                        for (let i = Number(page) - 2; i <= Number(page) + 2; i++) {
+                            pageNumbers.push({
+                            value: i,
+                            isActive: i === +page,
+                            statusFilter: status,
+                            startDate: startDate,
+                            endDate: endDate
+                            });
+                        }  
+                    }else if(Number(page) > 3){
+                        for (let i = Number(page) - 3; i <= Number(page) + 3; i++) {
+                            pageNumbers.push({
+                            value: i,
+                            isActive: i === +page,
+                            statusFilter: status,
+                            startDate: startDate,
+                            endDate: endDate
+                            });
+                        }    
+                    }else{
+                        for (let i = 1; i <= 7; i++) {
+                            pageNumbers.push({
+                            value: i,
+                            isActive: i === +page,
+                            statusFilter: status,
+                            startDate: startDate,
+                            endDate: endDate
+                            });
+                        } 
+                    }
+                }else if(Number(page) + 2 > nPages){
+                    for (let i = 1; i <= 2; i++) {
+                        pageNumbers.push({
+                        value: i,
+                        isActive: i === +page,
+                        statusFilter: status,
+                        startDate: startDate,
+                        endDate: endDate
+                        });
+                    }
+                    pageNumbers.push({
+                        value: '..',
+                        isActive: false,
+                        statusFilter: status,
+                        startDate: startDate,
+                        endDate: endDate                        
+                    });
+                    for (let i = nPages - 4; i <= nPages; i++) {
+                        pageNumbers.push({
+                        value: i,
+                        isActive: i === +page,
+                        statusFilter: status,
+                        startDate: startDate,
+                        endDate: endDate
+                        });
+                    }
+                }    
             }
 
             let list = orders;
@@ -124,6 +208,7 @@ const viewProfile = async function (req, res){
                 image: user.image,
                 userName: user.image,
                 orders: list,
+                orderCurrent: orderCurrent,
                 empty: orders.length === 0,
                 isFirstPage: isFirstPage,
                 isLastPage: isLastPage,

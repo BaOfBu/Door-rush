@@ -73,6 +73,9 @@
 .order-status-id-order i {
     color: var(--natural-color-500);
 }
+.order-status-id-order a{
+    text-decoration: none;
+}
 .order-status-id-order h3 {
     margin: 0;
     padding: 0;
@@ -129,6 +132,10 @@
     font-size: 16px;
     font-weight: 600;
     line-height: 83.333%;
+}
+.order-detail-shop a{
+    text-decoration: none;
+    color: var(--natural-color-500);
 }
 .production-order-list {
     width: 100%;

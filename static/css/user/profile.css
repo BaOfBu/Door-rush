@@ -113,6 +113,10 @@ form .custom-button:hover{
     color: var(--grey-color);
 }
 
+#resetIcon {
+    padding-left: 10px;
+}
+
 #view-more{
     color: var(--grey-color);
 }

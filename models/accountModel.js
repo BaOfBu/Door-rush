@@ -21,6 +21,10 @@ const accountSchema = new mongoose.Schema(
             enum: ["active", "ban", "pending"],
             required: true
         },
+        timeRegister: {
+            type: Date,
+            required: true
+        }
     },
     { collection: "Account" }
 );

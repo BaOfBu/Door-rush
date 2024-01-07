@@ -77,7 +77,6 @@ function formatDate(date) {
 const editVoucherDatabase = async function (req, res) {
     const id = req.query.id === undefined ? -1 : req.query.id;
     VoucherService.findAndUpdate(id, req.body);
-    const backURL = req.header("Referer") || "/";
-    res.redirect(backURL);
+    res.redirect("back");
 };
 export default { index, add, addTheVoucher, removeVoucher, editVoucher, editVoucherDatabase };
