@@ -28,7 +28,10 @@ const userSchema = new mongoose.Schema({
     image: String,
     emailVerificationToken: String,
     emailVerificationExpires: Date,
-    timeRegister: Date
+    timeRegister:{
+        type: Date,
+        required: true
+    }
 });
 
 const User = Account.discriminator("User", userSchema);

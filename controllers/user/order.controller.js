@@ -159,4 +159,35 @@ const index = async function (req, res) {
     }
 };
 
-export default { index };
+const chatOrder = async function (req, res) {
+    let orderId = req.query.id || 0;
+    const order = await OrderService.findById(orderId)
+        .populate("merchantId")
+        .populate({
+            path: "items",
+            populate: [{ path: "foodId" }, { path: "typeFoodId" }]
+        })
+        .populate("userId")
+        .populate("addressOrder")
+        .populate("vouchers");
+    let totalPriceOrder = 0;
+    let eachOrderItem = [];
+    for (let i = 0; i < order.items.length; i++) {
+        let totalPrice = Number(order.items[i].typeFoodId.price) * Number(order.items[i].quantity);
+        totalPriceOrder += totalPrice;
+        eachOrderItem.push({
+            image: order.items[i].foodId.image,
+            notes: order.items[i].notes,
+            name: order.items[i].foodId.name + " - " + order.items[i].typeFoodId.product,
+            price: Intl.NumberFormat("vi-VN").format(order.items[i].typeFoodId.price) + " VNĐ",
+            quantity: order.items[i].quantity,
+            totalPrice: Intl.NumberFormat("vi-VN").format(String(totalPrice)) + " VNĐ"
+        });
+    }
+    res.render("user/order-chat.hbs", {
+        shopName: order.merchantId.name,
+        orderItem: eachOrderItem
+    });
+}
+
+export default { index ,chatOrder};
