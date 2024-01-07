@@ -2,7 +2,6 @@ import bcrypt from "bcrypt";
 import nodemailer from 'nodemailer';
 import Account from '../../models/accountModel.js';
 import userService from "../../services/user/user.service.js";
-import nodemailer from "nodemailer";
 import OrderService from "../../services/user/order.service.js";
 import auth from "../../middleware/auth.mdw.js";
 
