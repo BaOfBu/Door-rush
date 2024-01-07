@@ -9,6 +9,9 @@ import dotenv from "dotenv";
 //import genuuid from "uuid/v4";
 import { dirname } from "path";
 import { fileURLToPath } from "url";
+import { Server } from "socket.io";
+import { createServer } from "http";
+//import { createAdapter, setupPrimary } from '@socket.io/cluster-adapter';
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
 import userRoutes from "./routes/user/index.route.js";
@@ -18,6 +21,7 @@ import merchantRoutes from "./routes/merchant/index.route.js";
 import auth from "./middleware/auth.mdw.js";
 
 const port = 8888;
+const portSocket = 6666;
 const app = express();
 
 app.use(
@@ -120,6 +124,23 @@ app.use("/",auth.authUserforStart,userRoutes);
 //     next();
 // });
 
-app.listen(port, function serverStartedHandler() {
+const httpServer = app.listen(port, function serverStartedHandler() {
     console.log(`Door-rush server is running at http://localhost:${port}`);
+});
+
+const io = new Server(httpServer, {
+    connectionStateRecovery: {},
+    //adapter: createAdapter()
+});
+var connectedUsers = {};
+
+io.on('connection',function(socket){
+
+/*Register connected user*/
+    console.log('a user connected');
+    socket.on('register',function(username){
+        console.log('User registered: ' + username);
+        socket.username = username;
+        connectedUsers[username] = socket;
+    });
 });

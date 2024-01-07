@@ -2,7 +2,8 @@ import bcrypt from "bcrypt";
 import userService from "../../services/user/user.service.js";
 import nodemailer from "nodemailer";
 import OrderService from "../../services/user/order.service.js";
-import auth from "../../middleware/auth.mdw.js";
+import io from "socket.io-client";
+
 
 const getRegister = function (req, res) {
     res.render("user/register");
