@@ -4,7 +4,7 @@ import mongoose from "mongoose";
 
 export default {
     async findByUsername(username) {
-        return await Account.findOne({ username: username });
+        return await Account.findOne({ username: username }).lean();
     },
     async add_user(user) {
         return await User.insertMany(user);
