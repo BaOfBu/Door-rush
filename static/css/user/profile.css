@@ -1,14 +1,21 @@
-.profile-page{
+.profile-page {
     margin-top: 100px;
 }
-
-.link .page:active,.link .page.active {
+.btn.btn-primary.btn-file {
+    background-color: var(--orange-color) !important;
+    border-color: var(--orange-color) !important;
+}
+.form-check-input:checked {
+    background-color: var(--orange-color) !important;
+    border-color: var(--orange-color) !important;
+}
+.link .page:active,
+.link .page.active {
     color: var(--orange-color);
     font-weight: bold;
     border-bottom: 2px solid;
 }
 
-  
 .form-group {
     display: flex;
     align-items: center;
@@ -22,7 +29,7 @@
     width: 500px;
 }
 
-.form-group input::placeholder{
+.form-group input::placeholder {
     color: var(--grey-color);
     font-style: italic;
 }
@@ -32,12 +39,12 @@
     align-items: center;
 }
 
-.form-group-radio .label{
+.form-group-radio .label {
     width: 20%;
     margin-right: 10px;
 }
 
-.form-group-radio .input{
+.form-group-radio .input {
     width: 10%;
 }
 
@@ -46,48 +53,48 @@
     align-items: center;
 }
 
-.form-group-dob .label{
+.form-group-dob .label {
     width: 20%;
     margin-right: 10px;
 }
 
-.form-group-dob .select{
+.form-group-dob .select {
     width: 30%;
 }
 
-.form-group-dob .row{
+.form-group-dob .row {
     gap: 10px;
 }
 
-form{
+form {
     width: 885px;
 }
-form .custom-button{
+form .custom-button {
     background-color: var(--orange-color);
     padding: 8px 12px;
     color: var(--white-color);
     margin-right: 24px;
 }
 
-form .custom-button:hover{
-    background-color: #FF8E00;
+form .custom-button:hover {
+    background-color: #ff8e00;
     color: var(--white-color);
 }
 
-.side{
+.side {
     width: 40%;
     border-right: 1px solid var(--black-color);
     gap: 32px;
     margin-right: 30px;
 }
 
-.user{
+.user {
     display: flex;
     flex-direction: row;
     gap: 8px;
 }
 
-.size-image{
+.size-image {
     height: 60px;
     width: 80px;
 }
@@ -99,17 +106,17 @@ form .custom-button:hover{
     gap: 32px;
 }
 
-.link a{
+.link a {
     text-decoration: none;
     color: var(--black-color);
     font-weight: bolder;
 }
 
-.link a:hover{
+.link a:hover {
     color: var(--orange-color);
 }
 
-.order-history span{
+.order-history span {
     color: var(--grey-color);
 }
 
@@ -117,24 +124,24 @@ form .custom-button:hover{
     padding-left: 10px;
 }
 
-#view-more{
+#view-more {
     color: var(--grey-color);
 }
 
-#view-more:hover{
+#view-more:hover {
     color: var(--orange-color);
 }
 
-.order-history .filter{
+.order-history .filter {
     padding-right: 0px;
 }
-.order-history .custom-button{
+.order-history .custom-button {
     background-color: var(--orange-color);
     color: var(--white-color);
 }
 
-.order-history .custom-button:hover{
-    background-color: #FF8E00;
+.order-history .custom-button:hover {
+    background-color: #ff8e00;
     color: var(--white-color);
 }
 
@@ -144,11 +151,11 @@ form .custom-button:hover{
     padding-left: 10px;
 }
 
-.input-container input::placeholder{
+.input-container input::placeholder {
     color: var(--black-color);
     font-size: 14px;
 }
-  
+
 #dateRangePicker {
     width: 240px;
     background-color: var(--light-color);
@@ -182,11 +189,11 @@ form .custom-button:hover{
     cursor: pointer;
 }
 
-#selectType .dropup button{
+#selectType .dropup button {
     width: 200px;
 }
 
-#dropdownCategory{
+#dropdownCategory {
     margin-left: 0;
     width: 500px;
     padding-left: 10px;
@@ -208,6 +215,6 @@ form .custom-button:hover{
     margin-right: 8px;
 }
 
-#none{
+#none {
     width: 885px;
 }
