@@ -149,8 +149,10 @@ io.on('connection',function(socket){
     });
     socket.on('disconnect',function(){
         console.log('user disconnected');
+        delete connectedUsers[socket.username];
     });
     socket.on('chat message', async function(data){
+        //console.log(connectedUsers);
         console.log('Message from: ' + socket.username + ' to ' + data.to);
         const to = data.to;
         const message = data.message;

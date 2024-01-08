@@ -18,8 +18,8 @@ export default {
         return result;
     },
     async findConversation(userId, merchantId) {
-        userId = new ObjectId(userId);
-        merchantId = new ObjectId(merchantId);
+        // userId = new ObjectId(userId);
+        // merchantId = new ObjectId(merchantId);
         var res = await Conversation.findOne({ userId: userId, merchantId: merchantId });
         console.log(res);
         if(!res){
@@ -43,14 +43,26 @@ export default {
     addMessage(conversationId, sender, message) {
         return Message.create({ conversationId: conversationId, sender: sender, content: message });
     },
-    async getMessage(conversationId) {
+    async getMessageFromMerchant(conversationId,merchantId) {
+        console.log("get message from merchant");
+        console.log("conversationId",conversationId);
+        console.log("merchantId",merchantId);
         const mess = await Message.find({ conversationId: conversationId }).lean();
         var result = [];
         for (let i = 0; i < mess.length; i++) {
-            result.push({
-                sender: mess[i].sender,
-                message: mess[i].content
-            });
+            if(mess[i].sender == merchantId){
+                result.push({
+                    flag: true,
+                    message: mess[i].content
+                });
+            }
+            else{
+                result.push({
+                    flag: false,
+                    message: mess[i].content
+                });
+            
+            }
         }
         return result;
     }

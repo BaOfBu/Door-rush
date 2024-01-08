@@ -3,6 +3,7 @@ import User from "../../models/userModel.js";
 import {ObjectId} from "mongodb";
 
 const index = async function (req, res) {
+    console.log("chat:", req.session.authUser._id);
     var conversation = await conversationService.findConversationByMerchantId(req.session.authUser._id);
     console.log("conversations: ",conversation);
     res.render("merchant/chat", {
@@ -21,22 +22,21 @@ const chatHistory = async function (req, res) {
     const merchantId = req.session.authUser._id;
     var conversation = await conversationService.findConversationByMerchantId(req.session.authUser._id);
     var conversationwithUser = await conversationService.findConversation(userId, merchantId);
-    var messages = await conversationService.getMessage(conversationwithUser._id);
-    var receiverName = await User.findById(userId);
-    console.log("receiverName: ", receiverName);
-    userId = receiverName._id.toString();
-    userId = new ObjectId(userId);
-    receiverName = receiverName.username;
+    var messages = await conversationService.getMessageFromMerchant(conversationwithUser._id,merchantId);
+    var receiver = await User.findById(userId);
+    userId = receiver._id;
+    var receiverName = receiver.username;
     console.log("userId: ", userId);
     // console.log("messages: ", messages);
     // console.log("userId: ", userId);
     //console.log("userId",req.session.authUser._id)
+    console.log("type of merchantid", typeof merchantId);
     res.render("merchant/chat", {
         type: "chats",
-        userIdTemp: userId,
+        merchantId: merchantId,
         conversations: conversation,
         messagesHistory: messages,
-        receiverId: userId,
+        userId: userId,
         receiverName: receiverName
     });
 }
