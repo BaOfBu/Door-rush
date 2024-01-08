@@ -24,14 +24,15 @@ $(document).ready(function () {
         });
         daterangepickerInput.val("Chọn ngày để lọc");
     }
+
     daterangepickerInput.on("apply.daterangepicker", function (ev, picker) {
         var startDate = picker.startDate.format("DD-MM-YYYY");
         var endDate = picker.endDate.format("DD-MM-YYYY");
         if (startDate != "" && endDate != "") {
-            var url = `/admin/validate-shop/search?dateStart=${startDate}&dateEnd=${endDate}`;
+            var url = `/admin/manage-shop/search?dateStart=${startDate}&dateEnd=${endDate}`;
             window.location.href = url;
         } else {
-            var url = `/admin/validate-shop`;
+            var url = `/admin/manage-shop`;
             window.location.href = url;
         }
         $(this).val(startDate + " - " + endDate);
@@ -44,8 +45,7 @@ $(document).ready(function () {
         picker.setStartDate(null);
         picker.setEndDate(null);
         daterangepickerInput.val("Chọn ngày để lọc");
-        daterangepickerInput.val("Chọn ngày để lọc");
-        window.location.href = "/admin/validate-shop";
+        window.location.href = "/admin/manage-shop";
     });
 
     $(".search-group").on("click", function () {
@@ -54,16 +54,17 @@ $(document).ready(function () {
 });
 
 document.addEventListener("DOMContentLoaded", function () {
+    sendDataToServer();
     var searchLink = document.getElementById("search-link");
     var searchText = document.getElementById("search-text");
     searchLink.addEventListener("click", function (event) {
         event.preventDefault();
         var query = encodeURIComponent(searchText.value);
         if (query != "") {
-            var url = `/admin/validate-shop/search?text=${query}`;
+            var url = `/admin/manage-shop/search?text=${query}`;
             window.location.href = url;
         } else {
-            var url = `/admin/validate-shop`;
+            var url = `/admin/manage-shop`;
             window.location.href = url;
         }
     });
@@ -106,3 +107,21 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     });
 });
+
+function sendDataToServer() {
+    var detailButtons = document.querySelectorAll(".detail-btn");
+    detailButtons.forEach(function (button) {
+        button.addEventListener("click", function (event) {
+            event.preventDefault();
+            var id = this.getAttribute("data-id");
+            $.getJSON(`/admin/manage-shop/ban-shop?id=${id}`, function (data) {
+                if (data === false) {
+                    alert("Báo cáo tài khoản không thành công.");
+                } else {
+                    alert("Báo cáo tài khoản thành công");
+                    window.location.reload();
+                }
+            });
+        });
+    });
+}

@@ -14,14 +14,18 @@ const index = async function (req, res) {
         page = String(nPages);
         res.redirect("/admin/voucher?page=" + page);
     }
-    const extractedDataListVoucher = listVoucher.map(({ _id, voucherId, startDate, endDate, typeVoucher }) => ({
-        _id,
-        voucherId,
-        startDate: new Date(startDate).toLocaleDateString("en-GB"),
-        endDate: new Date(endDate).toLocaleDateString("en-GB"),
-        typeVoucher: capitalizeFirstLetter(typeVoucher)
-    }));
-
+    const currentDate = new Date();
+    const extractedDataListVoucher = listVoucher.map(({ _id, voucherId, startDate, endDate, typeVoucher }) => {
+        const status = new Date(endDate) < currentDate ? "Hết hạn" : "Đang hoạt động";
+        return {
+            _id,
+            voucherId,
+            startDate: new Date(startDate).toLocaleDateString("en-GB"),
+            endDate: new Date(endDate).toLocaleDateString("en-GB"),
+            typeVoucher: capitalizeFirstLetter(typeVoucher),
+            status: status
+        };
+    });
     res.render("admin/voucher", {
         total: totalCount,
         nPages: nPages,
