@@ -64,6 +64,9 @@ const hbs = engine({
         },
         json: function (context) {
             return JSON.stringify(context);
+        },
+        log: function (context) {
+            console.log(context);
         }
     }
 });

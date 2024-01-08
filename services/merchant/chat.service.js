@@ -39,8 +39,16 @@ export default {
     addMessage(conversationId, sender, message) {
         return Message.create({ conversationId: conversationId, sender: sender, content: message });
     },
-    getMessage(conversationId) {
-        return Message.find({ conversationId: conversationId }).lean();
+    async getMessage(conversationId) {
+        const mess = await Message.find({ conversationId: conversationId }).lean();
+        var result = [];
+        for (let i = 0; i < mess.length; i++) {
+            result.push({
+                sender: mess[i].sender,
+                message: mess[i].content
+            });
+        }
+        return result;
     }
     
 };

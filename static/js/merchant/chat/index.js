@@ -6,13 +6,16 @@ socket.emit('register', userId);
 
 var sendBtn = document.getElementById('sendBtn');
 var input = document.getElementById('input');
+var receiverId = document.getElementById('receiverId').value;
 sendBtn.addEventListener('click', function(e) {
     //console.log("hello");
     e.preventDefault();
     if (input.value) {
         console.log(input.value);
-        socket.emit('chat message', input.value);
-        
+        socket.emit('chat message', {
+            to:receiverId,
+            message:input.value
+        });
         $('#chatPanel').append('<li class="clearfix">' + '<div class="message other-message float-right">'+ input.value +'</div>' + '</li>');
         input.value = '';
     }
@@ -21,8 +24,10 @@ sendBtn.addEventListener('click', function(e) {
 socket.on('chat message', function(msg) {
     //console.log(msg);
     if (msg) {
-        $('#chatPanel').append('<li class="clearfix">' + '<div class="message my-message float-left">'+ msg.message +'</div>' + '</li>');
-        window.scrollTo(0, document.body.scrollHeight);
+        if(msg.username == receiverId){
+            $('#chatPanel').append('<li class="clearfix">' + '<div class="message my-message float-left">'+ msg.message +'</div>' + '</li>');
+            window.scrollTo(0, document.body.scrollHeight);
+        }
     }
 });
 
