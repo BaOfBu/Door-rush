@@ -1,7 +1,7 @@
 var socket = io();
-console.log(socket);
+//console.log(socket);
 var userId = document.getElementById('userId').value;
-console.log(userId);
+//console.log(userId);
 socket.emit('register', userId);
 
 var sendBtn = document.getElementById('sendBtn');
@@ -27,10 +27,15 @@ socket.on('chat message', function(msg) {
 });
 
 $('#conversationList li').attr('id', function(i) {
-    console.log(i);
     return 'conver'+(i+1);
 });
 $('#conversationList li input').attr('id', function(i) {
-    console.log(i);
     return 'userID'+(i+1);
+});
+
+$('#conversationList>li').on('click', function(e) {
+    const id = $(this).find('input');
+    console.log(id.val());
+    $('#getHistory').find('input').val(id.val());
+    $('#getHistory').trigger('submit');
 });

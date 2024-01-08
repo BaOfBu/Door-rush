@@ -1,11 +1,16 @@
 {{#section "js"}}
     <script src="/static/js/merchant/chat/index.js"></script>
+    <script type='text/javascript' src='js/handlebars-v4.0.5.js'></script>
 {{/section}}
 {{#section "css"}}
     <link rel="stylesheet" href="/static/css/merchant/chat.css" />
 {{/section}}
 <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" />
 <input id="userId" name="random" type="hidden" value={{userId}}>
+<form id="getHistory" action="/merchant/chats/chat-history" method="post">
+    <input id="conversationId" name="conversationId" type="hidden" value={{conversationId}}>
+</form>
+
 <div class="container custom-container">
     <div class="row clearfix">
         <div class="col-lg-12">
@@ -55,7 +60,23 @@
                     {{! Message }}
                     <div class="chat-history">
                         <ul id="chatPanel" class="m-b-0">
-
+                            {{#each messages}}
+                            {{#if (equal this.sender authUser._id) }}
+                            <script>each messages</script>
+                            <li class="clearfix">
+                                <div class="message other-message float-right">
+                                    {{this.content}}
+                                </div>
+                            </li>
+                            {{#else}}
+                            <li class="clearfix">
+                                <div class="message my-message float-left">
+                                    {{this.content}}
+                                </div>
+                            </li>
+                            {{/else}}
+                            {{/if}}
+                            {{/each}}
                         </ul>
                     </div>
                     <div class="chat-message clearfix">

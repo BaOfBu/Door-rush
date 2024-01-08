@@ -151,9 +151,9 @@ io.on('connection',function(socket){
         console.log('Message from: ' + socket.username + ' to ' + data.to);
         const to = data.to;
         const message = data.message;
-        console.log(to);
+        //console.log(to);
         const conver = await conversationService.findConversation(socket.username, to);
-        console.log(conver);
+        //console.log(conver);
         if (conver) {
             await conversationService.addMessage(conver._id, socket.username, message);
         }

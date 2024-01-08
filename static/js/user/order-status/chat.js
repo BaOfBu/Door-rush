@@ -31,6 +31,9 @@ socket.on('chat message', function(msg) {
 });
 
 $('#conversationList li').attr('id', function(i) {
-    console.log(i);
     return 'conver'+(i+1);
+});
+
+$('#conversationList>li').addEventListener('click', function(e) {
+    console.log("hello");
 });

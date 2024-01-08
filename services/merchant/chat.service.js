@@ -38,6 +38,9 @@ export default {
     },
     addMessage(conversationId, sender, message) {
         return Message.create({ conversationId: conversationId, sender: sender, content: message });
+    },
+    getMessage(conversationId) {
+        return Message.find({ conversationId: conversationId }).lean();
     }
     
 };
