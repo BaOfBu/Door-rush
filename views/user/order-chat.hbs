@@ -9,13 +9,15 @@
 <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" />
 
 <section class="section-one">
-    <div class="container">
+    <div class="container mb-5">
         <H2>THÔNG TIN ĐƠN HÀNG</H2>
         <div class="order-detail-shop">
-            <span>{{shopName}}</span>
+            <h3>{{shopName}}</h3>
         </div>
         <input id="userId" name="random" type="hidden" value={{userId}}>
         <input id="merchantId" name="random" type="hidden" value={{merchantId}}>
+        <input id="totalPrice" name="random" type="hidden" value={{total}}>
+        <input id="orderId" name="random" type="hidden" value={{orderId}}>
         <div class="production-order-list">
             <div class="production-order-list-title">
                 <span>Sản phẩm</span>
@@ -91,12 +93,12 @@
                         </div>
                         <div class="chat-message clearfix">
                             <div class="input-group mb-0 d-flex justify-content-center align-items-center">
-                                <div class="input-group-prepend  px-2">
+                                <div class="input-group-prepend px-2">
                                     <button id="sendOrderInfoBtn" class="input-group-text">Gửi thông tin đơn hàng</button>
                                 </div>
                                 <input id="input" type="text" class="form-control rounded-1" holder="Enter text here...">
-                                <div class="input-group-prepend">
-                                    <button id="sendBtn" class="input-group-text"><i class="fa fa-send"></i></button>
+                                <div class="input-group-prepend px-2">
+                                    <button id="sendBtn" class="input-group-text"><i class="fa fa-send" style="color:#f59359"></i></button>
                                 </div>                                
                             </div>
                         </div>
