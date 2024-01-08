@@ -83,6 +83,20 @@ const addVoucher = async (req, res, next) => {
         res.redirect("/shopping-cart");
     }
 };
+
+const removeVoucher = async (req, res, next) => {
+    const orderID = req.session.order;
+    const type = req.query.type;
+    let order = await shoppingCartService.getOrderVoucher(orderID);
+    for (const each of order.vouchers) {
+        if (each.typeVoucher == type) {
+            await shoppingCartService.deleteVoucher(each._id, orderID);
+        }
+    }
+    await shoppingCartService.updateTotal(orderID);
+    res.redirect("/shopping-cart");
+};
+
 const displayAddresss = async (req, res, next) => {
     const userID = req.session.authUser;
     if (!userID) {
@@ -183,4 +197,5 @@ export default {
     submitOrder,
     deleteItem,
     deleteAllItem,
+    removeVoucher
 };

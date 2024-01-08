@@ -20,6 +20,16 @@
     right: 550px;
 }
 
+.inner-image {
+    width: 100%;
+    text-align: center;
+}
+
+.inner-image img {
+    width: 100%;
+    height: auto;
+}
+
 .inner-image-two{
     position: absolute;
     bottom: -17px;
