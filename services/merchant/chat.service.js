@@ -61,7 +61,28 @@ export default {
                     flag: false,
                     message: mess[i].content
                 });
-            
+            }
+        }
+        return result;
+    },
+    async getMessageFromUser(conversationId,userId) {
+        console.log("get message from merchant");
+        console.log("conversationId",conversationId);
+        console.log("merchantId",userId);
+        const mess = await Message.find({ conversationId: conversationId }).lean();
+        var result = [];
+        for (let i = 0; i < mess.length; i++) {
+            if(mess[i].sender == userId){
+                result.push({
+                    flag: true,
+                    message: mess[i].content
+                });
+            }
+            else{
+                result.push({
+                    flag: false,
+                    message: mess[i].content
+                });
             }
         }
         return result;

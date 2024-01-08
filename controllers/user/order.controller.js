@@ -186,7 +186,7 @@ const chatOrder = async function (req, res) {
         });
     }
     var conversationwithUser = await conversationService.findConversation(req.session.authUser._id, order.merchantId._id);
-    var messages = await conversationService.getMessage(conversationwithUser._id);
+    var messages = await conversationService.getMessageFromUser(conversationwithUser._id,req.session.authUser._id);
     console.log("merchantId", order.merchantId._id);
     console.log("messages", messages);
     res.render("user/order-chat.hbs", {

@@ -8,7 +8,7 @@ const index = async function (req, res) {
     console.log("conversations: ",conversation);
     res.render("merchant/chat", {
         type: "chats",
-        userId: req.session.authUser._id,
+        merchantId: req.session.authUser._id,
         conversations: conversation,
         messagesHistory: "",
         receiverId: "",
@@ -26,11 +26,11 @@ const chatHistory = async function (req, res) {
     var receiver = await User.findById(userId);
     userId = receiver._id;
     var receiverName = receiver.username;
-    console.log("userId: ", userId);
+    //console.log("userId: ", userId);
     // console.log("messages: ", messages);
     // console.log("userId: ", userId);
     //console.log("userId",req.session.authUser._id)
-    console.log("type of merchantid", typeof merchantId);
+    //console.log("type of merchantid", typeof merchantId);
     res.render("merchant/chat", {
         type: "chats",
         merchantId: merchantId,

@@ -1,14 +1,16 @@
 function run(){
     var socket = io();
     //console.log(socket);
-    var userId = document.getElementById('userId').value;
-    console.log("user duoc register",userId);
-    socket.emit('register', userId);
+    var merchantId = document.getElementById('merchantId').value;
+    console.log("user duoc register",merchantId);
+    socket.emit('register', merchantId);
 
     var sendBtn = document.getElementById('sendBtn');
     var input = document.getElementById('input');
     var receiverId = document.getElementById('receiverId').value;
-    
+
+    console.log("receiverId từ jquery",receiverId);
+
     sendBtn.addEventListener('click', function(e) {
         //console.log("hello");
         e.preventDefault();
@@ -24,7 +26,7 @@ function run(){
     });
 
     socket.on('chat message', function(msg) {
-        //console.log(msg);
+        console.log("socket merchant nhận",msg);
         if (msg) {
             // console.log(msg);
             // console.log(msg.username);
@@ -44,7 +46,7 @@ function run(){
     });
 
     $('#conversationList>li').on('click', function(e) {
-        socket.emit('register', userId);
+        socket.emit('register', merchantId);
         const id = $(this).find('input');
         console.log(id.val());
         $('#getHistory').find('input').val(id.val());

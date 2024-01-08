@@ -5,8 +5,8 @@
     <link rel="stylesheet" href="/static/css/merchant/chat.css" />
 {{/section}}
 <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" />
-<input id="userId" name="random" type="hidden" value={{userId}}>
-<input id="receiverId" name="random" type="hidden" value={{receiverId}}>
+<input id="merchantId" name="random" type="hidden" value={{merchantId}}>
+<input id="receiverId" name="random" type="hidden" value={{userId}}>
 <form id="getHistory" action="/merchant/chats/chat-history" method="post">
     <input id="conversationId" name="conversationId" type="hidden" value={{conversationId}}>
 </form>

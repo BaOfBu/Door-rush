@@ -73,9 +73,7 @@
                         <div class="chat-history">
                             <ul id="chatPanel" class="m-b-0">
                                 {{#each this.messagesHistory}}
-                                {{log this.sender}}
-                                {{log userId}}
-                                {{#if (equal this.sender this.userId) }}
+                                {{#if this.flag }}
                                     <li class="clearfix" >
                                         <div class="message other-message float-right">
                                             {{this.message}}
