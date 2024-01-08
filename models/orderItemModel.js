@@ -1,18 +1,19 @@
 import mongoose from "mongoose";
 
-const orderItemSchema = new mongoose.Schema({
-    foodId: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "Food"
+const orderItemSchema = new mongoose.Schema(
+    {
+        foodId: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "Food"
+        },
+        typeFoodId: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "FoodType"
+        },
+        quantity: Number,
+        notes: String
     },
-    typeFoodId: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "TypeFood"
-    },
-    quantity: Number,
-    notes: String
-},
-    {collection: "OrderItem"}
+    { collection: "OrderItem" }
 );
 
 const OrderItem = mongoose.model("OrderItem", orderItemSchema, "OrderItem");

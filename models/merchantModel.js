@@ -44,11 +44,11 @@ const merchantSchema = new mongoose.Schema({
             ref: "Food"
         }
     ],
-    revenue: Number,
     image: String,
     priceRange: String,
     rating: Number,
-    hasDiscount: Boolean
+    hasDiscount: Boolean,
+    statusMerchant: String
 });
 
 const Merchant = Account.discriminator("Merchant", merchantSchema);

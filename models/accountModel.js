@@ -20,6 +20,10 @@ const accountSchema = new mongoose.Schema(
             type: String,
             enum: ["active", "ban", "pending"],
             required: true
+        },
+        timeRegister: {
+            type: Date,
+            required: true
         }
     },
     { collection: "Account" }

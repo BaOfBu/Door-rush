@@ -7,6 +7,7 @@ import homeRoutes from "./home.route.js";
 import profileRoutes from "./profile.route.js";
 import orderRoutes from "./order.route.js";
 import accountRoutes from "./account.route.js";
+import cartRoutes from "./shopping-cart.route.js"
 
 // Middleware to apply default settings to the response locals
 function setDefaultLayoutAndPartials(req, res, next) {
@@ -21,5 +22,6 @@ router.use("/contact", contactRoutes);
 router.use("/", homeRoutes);
 router.use("/order", orderRoutes);
 router.use("/account", accountRoutes);
+router.use("/shopping-cart", cartRoutes);
 
 export default router;

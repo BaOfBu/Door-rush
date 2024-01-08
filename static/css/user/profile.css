@@ -113,6 +113,10 @@ form .custom-button:hover{
     color: var(--grey-color);
 }
 
+#resetIcon {
+    padding-left: 10px;
+}
+
 #view-more{
     color: var(--grey-color);
 }
@@ -122,7 +126,7 @@ form .custom-button:hover{
 }
 
 .order-history .filter{
-    padding-right: 10px;
+    padding-right: 0px;
 }
 .order-history .custom-button{
     background-color: var(--orange-color);
@@ -136,14 +140,13 @@ form .custom-button:hover{
 
 .input-container {
     position: relative;
-    width: 240px;
+    width: 260px;
     padding-left: 10px;
 }
 
 .input-container input::placeholder{
     color: var(--black-color);
     font-size: 14px;
-    padding-left: 8px;
 }
   
 #dateRangePicker {
@@ -166,8 +169,8 @@ form .custom-button:hover{
 #toggleIcon {
     position: absolute;
     top: 50%;
-    right: 0px;
-    transform: translateY(-135%);
+    right: 10px;
+    transform: translateY(-50%);
     cursor: pointer;
 }
 
@@ -180,5 +183,31 @@ form .custom-button:hover{
 }
 
 #selectType .dropup button{
+    width: 200px;
+}
+
+#dropdownCategory{
+    margin-left: 0;
     width: 500px;
+    padding-left: 10px;
+}
+
+.dropdown-category {
+    overflow-y: auto;
+}
+
+.custom-checkbox {
+    display: flex;
+    align-items: center;
+}
+
+.custom-checkbox input {
+    width: 10px;
+    height: 10px;
+    margin-left: 8px;
+    margin-right: 8px;
+}
+
+#none{
+    width: 885px;
 }

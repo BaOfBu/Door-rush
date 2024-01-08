@@ -1,18 +1,21 @@
 import express from "express";
+session;
 import { engine } from "express-handlebars";
 import session from "express-session";
 import path from "path";
 import hbs_sections from "express-handlebars-sections";
 import mongoose from "mongoose";
 import dotenv from "dotenv";
+//import genuuid from "uuid/v4";
 import { dirname } from "path";
 import { fileURLToPath } from "url";
-import bodyParser from "body-parser";
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
 import userRoutes from "./routes/user/index.route.js";
 import adminRoutes from "./routes/admin/index.route.js";
-import verifyRoutes from "./routes/user/verify.route.js";
+import merchantRoutes from "./routes/merchant/index.route.js";
+
+import auth from "./middleware/auth.mdw.js";
 
 const port = 8888;
 const app = express();
@@ -23,8 +26,6 @@ app.use(
     })
 );
 app.use(express.json());
-
-app.use(bodyParser.urlencoded({ extended: true }));
 
 dotenv.config();
 mongoose.set("strictQuery", false);
@@ -67,8 +68,10 @@ app.set("view engine", "hbs");
 app.set("views", "./views");
 
 app.set("trust proxy", 1);
-app.use(
-    session({
+app.use(session({
+        // genid: function(req) {
+        //     console.log('session id created');
+        //     return genuuid();},
         secret: "New Session",
         resave: false,
         saveUninitialized: true,
@@ -80,45 +83,42 @@ app.use(function (req, res, next) {
     if (typeof req.session.numberItem === "undefined") {
         req.session.numberItem = 0;
     }
+    if (typeof req.session.order === "undefined") {
+        req.session.order = "";
+    }
+    res.locals.order = req.session.order;
     res.locals.numberItem = req.session.numberItem;
     next();
 });
 
 app.use(function (req, res, next) {
     // console.log(req.session.auth);
-    if (typeof (req.session.auth) === 'undefined') {
-      req.session.auth = false;
+    if (typeof req.session.auth === "undefined") {
+        req.session.auth = false;
     }
-  
     res.locals.auth = req.session.auth;
     res.locals.authUser = req.session.authUser;
     next();
 });
 
 app.use("/static", express.static("static"));
+// app.use("/account/login",userRoutes);
+app.use("/account/logout",auth.authLogout, userRoutes);
+app.use("/merchant",auth.authMerchant,merchantRoutes);
+app.use("/admin",auth.authAdmin,adminRoutes);
+app.use("/",auth.authUserforStart,userRoutes);
 
-app.use("/", userRoutes);
-app.use("/admin", adminRoutes);
-app.use("/verify", verifyRoutes);
 
-app.set('trust proxy', 1) // trust first proxy
-app.use(session({
-  secret: 'New Session',
-  resave: false,
-  saveUninitialized: true,
-  cookie: {}
-}));
+// // auth for login
+// app.use(function (req, res, next) {
+//     if (typeof req.session.auth === "undefined") {
+//         req.session.auth = false;
+//     }
 
-// auth for login
-app.use(function (req, res, next) {
-    if (typeof (req.session.auth) === 'undefined') {
-      req.session.auth = false;
-    }
-  
-    res.locals.auth = req.session.auth;
-    res.locals.authUser = req.session.authUser;
-    next();
-});
+//     res.locals.auth = req.session.auth;
+//     res.locals.authUser = req.session.authUser;
+//     next();
+// });
 
 app.listen(port, function serverStartedHandler() {
     console.log(`Door-rush server is running at http://localhost:${port}`);
