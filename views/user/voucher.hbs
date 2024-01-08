@@ -32,6 +32,14 @@
                     </form>
                 </div>
                 <div class="voucher-pane">
+                    <a class="add-voucher" href="/shopping-cart/remove-voucher?type={{voucherType}}">
+                        <div class="voucher-card {{voucherType}}">
+                            <br>
+                            <p class="voucher-id">Không thêm mã giảm giá</p>
+                            <br>
+                            <br>
+                        </div>
+                    </a>
                     {{#each voucher}}
                     <a class="add-voucher" href="/shopping-cart/add-voucher?id={{this._id}}&type={{../voucherType}}">
                         <div class="voucher-card {{../voucherType}}">
