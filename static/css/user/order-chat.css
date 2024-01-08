@@ -171,3 +171,7 @@
 .float-right {
     float: right
 }
+
+.custom-input{
+    border-radius: 4px;
+}
