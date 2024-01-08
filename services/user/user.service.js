@@ -8,6 +8,14 @@ export default {
   async add_user(user) {
     return await User.insertMany(user);
   },
+  async updateOne(email, password) {
+    console.log(password);
+    return await Account.findOneAndUpdate(
+      { email },
+      { $set: { password: password } },
+      { new: true }
+    );
+  },
   async findByEmail(email){
     return await User.findOne({email:email});
   }
