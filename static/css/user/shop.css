@@ -23,6 +23,7 @@ html{
 }
 .shop-page{
     min-width: 1440px;
+    min-height: 550px;
 }
 .shop-breadcrumbs{
     display: flex;
@@ -32,6 +33,18 @@ html{
     font-weight: 400;
     line-height: 150%;
     margin: 65px 65px 0px 65px;
+}
+.section-close-content{
+    display: flex;
+    flex-direction: column;
+    margin: 60px 65px 0px 65px;
+}
+.message{
+    color: var(--orange-color);
+    font-size: 32px;
+    font-weight: 600;
+    line-height: 100%;
+    margin: 0;
 }
 .section-two-content{
     display: flex;
@@ -194,6 +207,12 @@ html{
     line-height: 100%;
     color: var(--black-color);
     margin: 0px;
+}
+.food-detail-2{
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    width: 350px;
 }
 .food-name{
     font-size: 32px;

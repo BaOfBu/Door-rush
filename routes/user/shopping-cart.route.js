@@ -9,5 +9,7 @@ router.get("/add-voucher", shoppingCartController.addVoucher)
 router.get("/address", shoppingCartController.displayAddresss)
 router.get("/add-address", shoppingCartController.addAddress)
 router.get("/submit-order", shoppingCartController.submitOrder)
+router.get("/delete-item", shoppingCartController.deleteItem)
+router.get("/delete-all-item", shoppingCartController.deleteAllItem)
 
 export default router

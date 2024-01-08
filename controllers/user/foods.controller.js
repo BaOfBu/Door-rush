@@ -35,6 +35,7 @@ const shop = async (req, res) => {
     const shopEmail = shop.email;
     const shopPhone = shop.phone;
     const shopImage = shop.image;
+    const shopStatus = shop.statusMerchant;
     const shopRating = Math.round(shop.rating);
     let shopAddress = ShopService.mergeAddress(shop);
     let shopFood = await ShopService.getAllFood(shop);
@@ -50,6 +51,7 @@ const shop = async (req, res) => {
         shopAddress: shopAddress,
         shopPhone: shopPhone,
         shopRating: shopRating,
+        shopStatus: shopStatus,
         popularCategory: popularCategory,
         shopCategory: shopCategory,
         recommendFood: recommendFood,

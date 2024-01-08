@@ -76,6 +76,7 @@ const getRecommendFood = async (shop) => {
     }
     return recommendFood
 }
+
 export default {
     findByName,
     mergeAddress,
