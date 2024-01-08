@@ -218,3 +218,12 @@ form .custom-button:hover {
 #none {
     width: 885px;
 }
+
+.inner-image {
+    width: 100%;
+    text-align: center;
+}
+.inner-image img {
+    width: 100%;
+    height: auto;
+}

@@ -38,6 +38,11 @@
     <section class="section-three">
         <div class="container">
             <div class="section-three-content">
+                <div class="line">
+                    <a href="/shopping-cart/delete-all-item" class="order-button">Xóa tất cả</a>
+                    {{#if message}}<p class="message-font">{{message}}</p>{{/if}}
+                </div>
+                
                 {{#if orderDetail.orderItems}}
                     {{#each orderDetail.orderItems}}
                     <div class="item-card">
@@ -64,6 +69,10 @@
                                 <p class="item-title-font text-align-center">THÀNH TIỀN</p>
                                 <p class="item-normal-font text-align-center">{{this.itemTotal}}Đ</p>
                             </div>
+                            <div class="price-col">
+                                <a href="/shopping-cart/delete-item?itemID={{this.itemID}}" class="order-button">
+                                Xóa</a>
+                            </div>
                         </div>
                     </div>
                     {{/each}}
@@ -79,7 +88,7 @@
                     {{#if orderDetail.orderFoodVoucher}}
                     <p class="order-option-body">
                         Mã: {{orderDetail.orderFoodVoucher.voucherId}}
-                        Giảm: {{orderDetail.orderFoodVoucher.valueOfDiscount}}</p>
+                        Giảm: {{orderDetail.orderFoodVoucher.valueOfDiscount}}Đ</p>
                     {{else}}
                     <p class="order-option-body">Chưa chọn mã giảm giá</p>
                     {{/if}}
@@ -89,7 +98,7 @@
                     {{#if orderDetail.orderShipVoucher}}
                     <p class="order-option-body">
                         Mã: {{orderDetail.orderShipVoucher.voucherId}}
-                        Giảm: {{orderDetail.orderShipVoucher.valueOfDiscount}}</p>
+                        Giảm: {{orderDetail.orderShipVoucher.valueOfDiscount}}Đ</p>
                     {{else}}
                     <p class="order-option-body">Chưa chọn mã shipping</p>
                     {{/if}}

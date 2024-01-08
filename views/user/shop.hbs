@@ -28,6 +28,15 @@
             </div>
         </div>
     </section>
+    {{#if (equal shopStatus "Đóng cửa")}}
+    <section class="section-close">
+        <div class="container">
+            <div class="section-close-content">
+                <p class="message">{{shopName}} đã đóng cửa, vui lòng quay lại sau.</p>
+            </div>
+        </div>
+    </section>    
+    {{else}}
     <section class="section-two">
         <div class="container">
             <div class="section-two-content">
@@ -167,4 +176,5 @@
             </div>
         </div>
     </section>
+    {{/if}}
 </div>

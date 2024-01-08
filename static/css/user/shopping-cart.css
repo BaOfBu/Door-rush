@@ -130,6 +130,7 @@ img{
     gap: 10px;
 }
 .order-button{
+    width: fit-content;
     text-decoration: none;
     background-color: var(--orange-color);
     padding: 20px;
@@ -138,4 +139,17 @@ img{
     font-weight: 700;
     line-height: 100%;
     text-align: center;
+}
+.line{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 30px;
+}
+.message-font{
+    color: var(--orange-color);
+    font-size: 32px;
+    font-weight: 700;
+    line-height: 100%;
+    margin: 0;
 }
