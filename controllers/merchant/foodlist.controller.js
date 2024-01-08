@@ -1,5 +1,6 @@
 import FoodList from "../../services/merchant/foodlist.service.js";
 import Profile from "../../services/user/profile.service.js";
+import multer from "multer";
 
 const index = async function (req, res) {
     try {
@@ -16,6 +17,15 @@ const index = async function (req, res) {
             categories.push({id: merchant.category[i]._id, name: merchant.category[i].name});
         }
 
+        for(let i = 0; i<list_category.length;i++){
+            for(let j = 0; j<categories.length;j++){
+                if(list_category[i].name === categories[j].name) {
+                    list_category.splice(i, 1);
+                    i--;
+                    break;
+                }
+            }
+        }
         if(!categoryId){
             categoryId = categories[0].id;
             categoryName = categories[0].name;
@@ -198,6 +208,38 @@ const deleteCategory = async function (req, res){
 
 };
 
+const storage = multer.diskStorage({
+    destination: function (req, file, cb) {
+        cb(null, process.cwd() + '/static/images/merchant/products/');
+    },
+    filename: function (req, file, cb) {
+        const userID = req.session.authUser._id;
+        const filename = userID + "_" + file.originalname;
+        req.body.image = "/static/images/merchant/products/" + filename;
+        console.log("filename: ", filename);
+        cb(null, filename);
+    }
+});
+
+const upload = multer({ storage: storage });
+
+const uploadProductImage = async function(req, res) {
+    console.log("Đã vô upload");
+    const userID = req.session.authUser._id;
+    
+    upload.single('image')(req, res, async function (err) {
+        if (err) {
+            console.error("error: ", err);
+            return res.status(500).json({ error: 'Error during upload.' });
+        } else {
+            console.log("file name: ", req.body.image);
+            const update = await FoodList.updateFoodInfo(req.body.foodId, { image: req.body.image });
+            console.log("Đã up ảnh thành công, ", update);
+            return res.json({ success: true, image: req.body.image });
+        }
+    });
+}
+
 const updateCategory = async function(req, res){
     const merchantId = req.body.merchantId;
     const categories = req.body.categories;
@@ -211,5 +253,18 @@ const updateCategory = async function(req, res){
     }
 }
 
-export default { index, deleteCategory, updateCategory };
+const addProduct = async function(req, res){
+    const merchantId = req.body.merchantId;
+    const product = req.body.product;
+
+    const foodId = await FoodList.addProduct(merchantId, product);
+    console.log("foodId add new: ", foodId);
+    if(foodId){
+        res.json({ success: true, message: 'Đã thêm sản phẩm thành công', foodId: foodId});
+    }else{
+        res.json({ success: true, message: 'Đã xảy ra lỗi khi thêm sản phẩm' });
+    }
+}
+
+export default { index, deleteCategory, updateCategory, uploadProductImage, addProduct };
 
