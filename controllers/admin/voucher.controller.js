@@ -4,19 +4,28 @@ function capitalizeFirstLetter(str) {
 }
 // [GET]/admin/voucher
 const index = async function (req, res) {
-    const page = req.query.page || 1;
+    let page = req.query.page || 1;
     const limit = 5;
     const offset = (page - 1) * limit;
     const listVoucher = await VoucherService.findAll(offset, limit);
-    const extractedDataListVoucher = listVoucher.map(({ _id, voucherId, startDate, endDate, typeVoucher }) => ({
-        _id,
-        voucherId,
-        startDate: new Date(startDate).toLocaleDateString("en-GB"),
-        endDate: new Date(endDate).toLocaleDateString("en-GB"),
-        typeVoucher: capitalizeFirstLetter(typeVoucher)
-    }));
     const totalCount = await VoucherService.countDocuments();
     const nPages = Math.ceil(totalCount / limit);
+    if (page > nPages) {
+        page = String(nPages);
+        res.redirect("/admin/voucher?page=" + page);
+    }
+    const currentDate = new Date();
+    const extractedDataListVoucher = listVoucher.map(({ _id, voucherId, startDate, endDate, typeVoucher }) => {
+        const status = new Date(endDate) < currentDate ? "Hết hạn" : "Đang hoạt động";
+        return {
+            _id,
+            voucherId,
+            startDate: new Date(startDate).toLocaleDateString("en-GB"),
+            endDate: new Date(endDate).toLocaleDateString("en-GB"),
+            typeVoucher: capitalizeFirstLetter(typeVoucher),
+            status: status
+        };
+    });
     res.render("admin/voucher", {
         total: totalCount,
         nPages: nPages,
@@ -46,7 +55,7 @@ const addTheVoucher = async function (req, res) {
 const removeVoucher = async function (req, res) {
     const voucherId = req.query.voucherId || -1;
     await VoucherService.delete(voucherId);
-    res.redirect("/admin/voucher");
+    res.redirect("back");
 };
 // [GET]/admin/voucher/edit-voucher?id={{voucherID}}
 const editVoucher = async function (req, res) {

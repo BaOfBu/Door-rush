@@ -1,4 +1,4 @@
-.shop-name{
+.shop-image{
     width: 50%; 
     margin: 0 auto;
 }
@@ -51,6 +51,11 @@ body {
     width: inherit;
     position: absolute;
 }
+.shop-name {
+    width: 90%;
+    margin: 0 auto;
+    text-align: center;
+}
 .sidebar-item-text,
 .icon-white {
     color: var(--orange-color);
@@ -73,12 +78,12 @@ body {
         color: var(--orange-color);
     }
 }
-.admin-content {
+.merchant-content {
     position: relative;
     height: 100vh;
     width: calc(100% - 300px);
     left: 300px;
-    padding: 60px 40px;
+    padding: 30px 40px;
 }
 .active {
     background-color: var(--orange-thin-color);

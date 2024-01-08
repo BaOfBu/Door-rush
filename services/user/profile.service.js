@@ -4,16 +4,6 @@ import Address from "../../models/addressModel.js";
 import Order from "../../models/orderModel.js";
 import Category from "../../models/categoryModel.js";
 
-const formatterH = new Intl.DateTimeFormat('vi-VN', {
-    timeZone: 'Asia/Ho_Chi_Minh',
-    day: '2-digit',
-    month: '2-digit',
-    year: 'numeric',
-    hour: 'numeric',
-    minute: 'numeric',
-    second: 'numeric'
-});
-
 class Profile{
     async getCategories(){
         try {
@@ -61,12 +51,6 @@ class Profile{
                 .lean()
                 .populate({ path: "orders" })
                 .exec();
-    
-            const options = {
-                day: '2-digit',
-                month: '2-digit',
-                year: 'numeric',
-            };
 
             let infoOrders = await Promise.all(user.orders.map(async (order) => {
                 let id = order._id;
@@ -77,7 +61,7 @@ class Profile{
                 const vietnamTimeZone = 'Asia/Ho_Chi_Minh';
                 // let timeOrder = order.timeStatus[0];
                 const options = { timeZone: vietnamTimeZone, hour12: false, year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', second: '2-digit' };
-                let timeOrder = order.timeStatus[0].toLocaleDateString('en-US', options);
+                let timeOrder = order.timeStatus[0].toLocaleDateString('en-GB', options);
                 
                 console.log("Convert: ", new Date(timeOrder));
                 let quantity = await this.countQuantityItemsOfOrder(id);
@@ -163,6 +147,19 @@ class Profile{
         }
     }
 
+    async updateMerchantInfo(userID, updatedData){
+        try {
+            const updatedUser = await Merchant.findByIdAndUpdate(userID, updatedData, { new: true });
+            if (!updatedUser) {
+                return res.status(404).json({ error: 'Không tìm thấy merchant' });
+            }
+            return updatedUser;
+        } catch (error) {
+          console.error('Lỗi khi cập nhật người dùng:', error);
+          return res.status(500).json({ error: 'Lỗi server' });
+        }
+    }
+
     async updateUserAddress(addressID, updatedData){
         try {
             const updatedAddress = await Address.findByIdAndUpdate(addressID, updatedData, { new: true });
@@ -238,7 +235,7 @@ class Profile{
             .exec();
             console.log(pendingMerchant);
             
-            if(pendingMerchant){
+            if(pendingMerchant.length !== 0){
                 console.log("true");
                 return true;
             }

@@ -42,7 +42,7 @@
                     <a href="/profile?optional=address" class="page">
                         Địa chỉ thường dùng
                     </a>
-                    <a href="/profile?optional=history" class="page">
+                    <a href="/profile?optional=history&status=all&startDate=&endDate=&page=1" class="page">
                         Lịch sử đơn hàng
                     </a>
                     <a href="/profile?optional=password" class="page">
@@ -159,20 +159,82 @@
                         </div>
 
                         <div class="order-history content" id="history">
-                            <div class="d-flex justify-content-between">
-                                <h2 class="mb-3">Lịch sử đơn hàng</h2>
-                                <div class="d-flex filter align-items-center mb-4">
+                            <div class=" justify-content-between">
+                                <div>
+                                    <h2>Đơn hàng hiện tại</h2>
+                                    {{#if orderCurrent}}
+                                        <div class="card border mb-3">
+                                            <div class="card-body">
+                                                <div class="row">
+                                                    <div class="d-flex justify-content-between">
+                                                        <div class="d-flex flex-row">
+                                                            <h5>Đơn hàng</h5>
+                                                            <span>#{{orderCurrent.id}}</span>
+                                                        </div>
+                                                        <span>{{orderCurrent.timeOrder}}</span>
+                                                    </div>
+
+                                                    <div class="col-md-5 col-lg-3 col-xl-3 mb-4 mb-lg-0">
+                                                        <div class="bg-image hover-zoom ripple rounded ripple-surface">
+                                                            <img src="{{orderCurrent.image_merchant}}" class="w-100" />
+                                                            <a href="#!">
+                                                                <div class="hover-overlay">
+                                                                    <div class="mask" style="background-color: rgba(253, 253, 253, 0.15);"></div>
+                                                                </div>
+                                                            </a>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-md-6 col-lg-6 col-xl-6">
+                                                        <h5>{{orderCurrent.name_merchant}}</h5>
+                                                        <div class="mt-0 mb-1 text-muted small">
+                                                            <span>{{orderCurrent.address_merchant}}</span>
+                                                        </div>
+                                                        <p class="text-truncate mb-4 mb-md-0">
+                                                            {{orderCurrent.quantity}} món
+                                                        </p>
+                                                    </div>
+
+                                                    <div class="col-lg-3 col-xl-3 d-flex flex-column justify-content-between">
+                                                        <div class="mb-1 d-flex justify-content-end mt-4" style="color: var(--orange-color);">
+                                                            {{orderCurrent.total}}đ
+                                                        </div>
+                                                        <div class="d-flex justify-content-end">
+                                                            <a href="/order?id={{{orderCurrent.id}}}" id="view-more" class="small">Xem chi tiết</a>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="border-top mt-3">
+                                                        <div class="d-flex justify-content-between align-item-center mt-3">
+                                                            <div class="text-muted small my-auto text-center status">
+                                                                <span>{{orderCurrent.status}}</span>
+                                                            </div>
+                                                            <a href="/foods/{{orderCurrent.id_merchant}}">
+                                                                <button type="button" class="btn custom-button btn-sm">Đặt hàng lại</button>
+                                                            </a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    {{else}}
+                                        <div class="card">
+                                            <div class="card-footer text-muted" id="none">
+                                                Hiện tại không có đơn hàng nào.
+                                            </div>   
+                                        </div> 
+                                    {{/if}}
+                                </div>
+                                <h2 class="mb-3 mt-3">Lịch sử đơn hàng</h2>
+                                <div class="d-flex filter align-items-center justify-content-end mb-4">
                                     <div class="dropdown">
                                         <button class="btn dropdown-toggle btn-sm custom-filter" type="button" id="dropdownMenu" data-toggle="dropdown" aria-expanded="false">
                                         {{statusFilter}}
                                         </button>
                                         <ul class="dropdown-menu" aria-labelledby="dropdownMenu">
-                                        <li><a class="dropdown-item" href="?optional=history&status=all&startDate={{startDate}}&endDate={{endDate}}">Tất cả trạng thái</a></li>
-                                        <li><a class="dropdown-item" href="?optional=history&status=pending&startDate={{startDate}}&endDate={{endDate}}">Đang chờ</a></li>
-                                        <li><a class="dropdown-item" href="?optional=history&status=preparing&startDate={{startDate}}&endDate={{endDate}}">Đang chuẩn bị</a></li>
-                                        <li><a class="dropdown-item" href="?optional=history&status=delivering&startDate={{startDate}}&endDate={{endDate}}">Đang giao</a></li>
-                                        <li><a class="dropdown-item" href="?optional=history&status=delivered&startDate={{startDate}}&endDate={{endDate}}">Hoàn thành</a></li>
-                                        <li><a class="dropdown-item" href="?optional=history&status=cancelled&startDate={{startDate}}&endDate={{endDate}}">Đã hủy</a></li>
+                                            <li><a class="dropdown-item" href="?optional=history&status=all&startDate={{startDate}}&endDate={{endDate}}&page=1">Tất cả trạng thái</a></li>
+                                            <li><a class="dropdown-item" href="?optional=history&status=delivered&startDate={{startDate}}&endDate={{endDate}}&page=1">Hoàn thành</a></li>
+                                            <li><a class="dropdown-item" href="?optional=history&status=cancelled&startDate={{startDate}}&endDate={{endDate}}&page=1">Đã hủy</a></li>
                                         </ul>
                                     </div>
 
@@ -188,12 +250,9 @@
                                             </div>
                                         </div>
                                     </div>
-
-                                    {{!-- <div class="input-container">
-                                        <input type="text" id="dateRangePicker" placeholder="Chọn khoảng thời gian đặt hàng">
-                                        <div id="toggleIcon" class="fas fa-calendar"></div>
-                                    </div> --}}
-
+                                    <div>
+                                        <div id="resetIcon" class="fa fa-calendar-times-o" aria-hidden="true"></div>
+                                    </div>
                                 </div>
                             </div>
                             {{#if empty}}
@@ -242,7 +301,7 @@
                                                         {{this.total}}đ
                                                     </div>
                                                     <div class="d-flex justify-content-end">
-                                                        <a href="#" id="view-more" class="small">Xem chi tiết</a>
+                                                        <a href="/order?id={{{this.id}}}" id="view-more" class="small">Xem chi tiết</a>
                                                     </div>
                                                 </div>
 
@@ -260,8 +319,8 @@
                                         </div>
                                     </div>
                                 {{/each}}
-                                <nav aria-label="Page navigation example" class="justify-content-center">
-                                    <ul class="pagination">
+                                <nav aria-label="Page navigation example" class="justify-content-center mt-5" id="pagination">
+                                    <ul class="pagination justify-content-center">
                                         {{#if this.isFirstPage}}
                                             <li class="page-item disabled">
                                                 <a class="page-link" href="#">Trang trước</a>
@@ -279,7 +338,7 @@
                                         </li>
                                         {{else}}
                                         <li class="page-item">
-                                            <a class="page-link" href="?optional=history&status={{statusFilter}}&startDate={{startDate}}&endDate={{endDate}}&page={{value}}">{{value}}</a>
+                                            <a class="page-link" href="{{#if (equal value '..')}}#pagination{{else}}?optional=history&status={{statusFilter}}&startDate={{startDate}}&endDate={{endDate}}&page={{value}}{{/if}}">{{value}}</a>
                                         </li>
                                         {{/if}}
                                         {{/each}}

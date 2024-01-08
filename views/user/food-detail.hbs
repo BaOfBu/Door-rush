@@ -13,6 +13,8 @@
         {{{json foodPrice}}}
         var merchantId =
         {{{json merchantId}}}
+        var orderId =
+        {{{json orderId}}}
     </script>
     {{! Swiper }}
     <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
@@ -98,7 +100,7 @@
                 {{!-- <a href="/foods/{{shopName}}/{{foodId}}/add-to-cart"> --}}
                 <button type="submit" class="food-detail-btn add-food-btn" id="addItemToCart">Thêm vào giỏ</button>
                 {{! </a> }}
-                <a href="#"><button type="button" class="food-detail-btn buy-food-btn">Mua ngay</button></a>
+                <a href="#"><button type="button" class="food-detail-btn buy-food-btn" id="buy-only">Mua ngay</button></a>
             </form>
         </div>
     </div>

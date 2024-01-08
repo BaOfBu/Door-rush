@@ -70,86 +70,96 @@ const foodDetail = async function (req, res) {
     // Get the params from the route
     const shopName = req.params.shop || 0;
     const foodId = req.params.id || 0;
-    const merchantId = await MerchantService.findByName(shopName);
-    let currentMerchant;
-    let isSameMerchant = false;
-    if (req.session.order != "") {
-        const orderCurrent = await OrderService.findById(req.session.order);
-        currentMerchant = String(orderCurrent.merchantId);
-        if (currentMerchant == String(merchantId[0]._id)) {
-            isSameMerchant = true;
-        } else {
-            isSameMerchant = false;
-        }
-    } else isSameMerchant = true;
 
     if (!shopName) {
-        // console.log(orderCurrent);
-        // Handle the problem
         return res.redirect("/");
     }
     if (!foodId) {
         return res.redirect("/shop");
     }
-    // Get the data of food
-    let food = await FoodService.findById(foodId);
-    // Get food name
-    let foodName = food.name;
-    // Get food price
-    let foodPrice = food.foodType.map(type => {
-        return new Intl.NumberFormat("vi-VN").format(type.price) + " VNĐ";
-    });
-    // Get type of food
-    let typeOfFood = food.foodType.map(type => type.product);
-    let typeOfFoodId = food.foodType.map(type => type._id);
-    // Get user rating for food
-    let userRating = [];
-    for (let i = 1; i <= Math.round(food.rating); i++) {
-        userRating.push({
-            isRate: true
-        });
-    }
-    for (let i = 1; i <= 5 - Math.round(food.rating); i++) {
-        userRating.push({
-            isRate: false
-        });
-    }
 
-    // Get feedback for foods
-    let feedbacks = food.feedbacks.map(fb => {
-        let formattedDate = new Date(fb.feedbackDate).toLocaleString("en-GB", {
-            hour12: false
+    const merchantId = await MerchantService.findByName(shopName);
+    console.log(merchantId[0].menu);
+    console.log(foodId);
+    let searchString = foodId;
+    let containsString = merchantId[0].menu.some(id => id.toString() === searchString);
+    console.log(containsString);
+
+    if (containsString) {
+        let currentMerchant;
+        let isSameMerchant = false;
+        if (req.session.order != "") {
+            const orderCurrent = await OrderService.findById(req.session.order);
+            currentMerchant = String(orderCurrent.merchantId);
+            if (currentMerchant == String(merchantId[0]._id)) {
+                isSameMerchant = true;
+            } else {
+                isSameMerchant = false;
+            }
+        } else isSameMerchant = true;
+        // Get the data of food
+        let food = await FoodService.findById(foodId);
+        // Get food name
+        let foodName = food.name;
+        // Get food price
+        let foodPrice = food.foodType.map(type => {
+            return new Intl.NumberFormat("vi-VN").format(type.price) + " VNĐ";
         });
-        let stars = Array(5).fill(0);
-        stars.fill(1, 0, Math.round(fb.rating));
-        return {
-            ...fb,
-            feedbackDate: formattedDate,
-            stars
-        };
-    });
-    res.render("user/food-detail.hbs", {
-        merchantId: String(merchantId[0]._id),
-        isAccount: req.session.auth,
-        isSameMerchant: isSameMerchant,
-        // Data of page
-        foodImg: food.image,
-        foodId: foodId,
-        shopName: shopName,
-        foodName: foodName,
-        foodPrice: foodPrice,
-        description: food.description,
-        rating: food.rating,
-        userRating: userRating,
-        feedbacks: feedbacks,
-        numberOfFeedback: feedbacks.length,
-        // data of header
-        user: true,
-        typeOfFood: typeOfFood,
-        typeOfFoodId: typeOfFoodId,
-        type: "food",
-        userName: "Họ và tên"
-    });
+        // Get type of food
+        let typeOfFood = food.foodType.map(type => type.product);
+        let typeOfFoodId = food.foodType.map(type => type._id);
+        // Get user rating for food
+        let userRating = [];
+        for (let i = 1; i <= Math.round(food.rating); i++) {
+            userRating.push({
+                isRate: true
+            });
+        }
+        for (let i = 1; i <= 5 - Math.round(food.rating); i++) {
+            userRating.push({
+                isRate: false
+            });
+        }
+
+        // Get feedback for foods
+        let feedbacks = food.feedbacks.map(fb => {
+            let formattedDate = new Date(fb.feedbackDate).toLocaleString("en-GB", {
+                hour12: false
+            });
+            let stars = Array(5).fill(0);
+            stars.fill(1, 0, Math.round(fb.rating));
+            return {
+                ...fb,
+                feedbackDate: formattedDate,
+                stars
+            };
+        });
+        res.render("user/food-detail.hbs", {
+            merchantId: String(merchantId[0]._id),
+            isAccount: req.session.auth,
+            isSameMerchant: isSameMerchant,
+            // Data of page
+            foodImg: food.image,
+            foodId: foodId,
+            shopName: shopName,
+            foodName: foodName,
+            orderId: req.session.order,
+            foodPrice: foodPrice,
+            description: food.description,
+            rating: food.rating,
+            userRating: userRating,
+            feedbacks: feedbacks,
+            numberOfFeedback: feedbacks.length,
+            // data of header
+            user: true,
+            typeOfFood: typeOfFood,
+            typeOfFoodId: typeOfFoodId,
+            type: "food",
+            userName: "Họ và tên"
+        });
+    } else {
+        res.redirect("/foods");
+    }
 };
 // [POST]/foods/{{shop_name}}/{{foodId}}/addToCart
 const addToCart = async function (req, res) {

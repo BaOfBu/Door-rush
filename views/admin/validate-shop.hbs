@@ -1,4 +1,10 @@
 {{#section "js"}}
+    <script>
+        var nextPage =
+        {{{json next}}}
+        var prevPage =
+        {{{json prev}}}
+    </script>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
@@ -8,14 +14,23 @@
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
     <link rel="stylesheet" href="/static/css/admin/validate-shop.css" />
 {{/section}}
-<section class="manage-shop-admin">
+<section class="validate-shop-admin">
     <div class="section-one">
         <h1 class="title-page">Danh sách cửa hàng đang chờ xét duyệt</h1>
     </div>
     <div class="section-two">
         <div class="form-group has-search">
-            <span class="fa fa-search form-control-feedback"></span>
-            <input type="text" class="form-control" placeholder="Tìm kiếm yêu cầu xử lý theo tài khoản" />
+            <a id="search-link"><span class="fa fa-search form-control-feedback"></span></a>
+            {{#if search}}
+                {{#if date}}
+                    <input type="text" class="form-control" placeholder="Tìm kiếm yêu cầu xử lý theo tài khoản" id="search-text" />
+                {{else}}
+                    <input type="text" class="form-control" placeholder="" id="search-text" value="{{this.filter}}" />
+                {{/if}}
+            {{else}}
+                <input type="text" class="form-control" placeholder="Tìm kiếm yêu cầu xử lý theo tài khoản" id="search-text" />
+            {{/if}}
+
         </div>
         <div class="search-group">
             <i class="bi bi-calendar4"></i>
@@ -26,7 +41,7 @@
     </div>
     <div class="section-three">
         <div class="card">
-            <table class="table table-hover custom-table">
+            <table class="table {{#if isEmpty}}no-hover{{else}}table-hover{{/if}} custom-table">
                 <thead>
                     <tr style="height: 30px;line-height: 30px;">
                         <th scope="col" style="width: 10%;">STT</th>
@@ -38,18 +53,24 @@
                     </tr>
                 </thead>
                 <tbody>
-                    {{#each merchant}}
-                        <tr class="h-70">
-                            <th scope="row">{{this.pageIndex}}</th>
-                            <td>{{this.username}}</td>
-                            <td>{{this.timeRegister}}</td>
-                            <td>{{this.name}}</td>
-                            <td>{{this.categories}}</td>
-                            <td style="width: 15%;">
-                                <a href="/admin/validate-shop/{{this.id}}"><button class="detail-btn">Xem chi tiết</button></a>
-                            </td>
+                    {{#if isEmpty}}
+                        <tr>
+                            <td colspan="6" style="padding: 20px; user-select: none;">Tên đăng nhập không hợp lệ</td>
                         </tr>
-                    {{/each}}
+                    {{else}}
+                        {{#each merchant}}
+                            <tr class="h-70">
+                                <th scope="row">{{this.pageIndex}}</th>
+                                <td>{{this.username}}</td>
+                                <td>{{this.timeRegister}}</td>
+                                <td>{{this.name}}</td>
+                                <td>{{this.categories}}</td>
+                                <td style="width: 15%;">
+                                    <a href="/admin/validate-shop/{{this.id}}"><button class="detail-btn">Xem chi tiết</button></a>
+                                </td>
+                            </tr>
+                        {{/each}}
+                    {{/if}}
 
                 </tbody>
             </table>
@@ -59,12 +80,22 @@
                     <span class="sub-count">&nbsp;&nbsp;(Tổng số yêu cầu: {{this.total}})</span>
                 </span>
                 <div class="button-pagnation">
-                    {{#if prev}}
-                        <a href="?page={{this.prev}}"><button class="next-btn">Trang trước</button></a>
+                    {{#if search}}
+                        {{#if prev}}
+                            <a id="prevPageLink"><button class="next-btn" id="prevPageLink">Trang trước</button></a>
+                        {{/if}}
+                        {{#if next}}
+                            <a id="nextPageLink"><button class="prev-btn" id="nextPageLink">Trang sau</button></a>
+                        {{/if}}
+                    {{else}}
+                        {{#if prev}}
+                            <a href="?page={{this.prev}}"><button class="next-btn">Trang trước</button></a>
+                        {{/if}}
+                        {{#if next}}
+                            <a href="?page={{this.next}}"><button class="prev-btn">Trang sau</button></a>
+                        {{/if}}
                     {{/if}}
-                    {{#if next}}
-                        <a href="?page={{this.next}}"><button class="prev-btn">Trang sau</button></a>
-                    {{/if}}
+
                 </div>
             </div>
         </div>

@@ -1,0 +1,214 @@
+{{#section "js"}}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+    <script
+        src="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.full.min.js">
+    </script>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-daterangepicker/3.0.5/daterangepicker.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/js/bootstrap-datetimepicker.min.js"></script>
+
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-fileinput/5.5.2/js/fileinput.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-fileinput/5.5.2/js/locales/vi.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-fileinput/5.5.2/js/plugins/buffer.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-fileinput/5.5.2/js/plugins/filetype.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-fileinput/5.5.2/js/plugins/piexif.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-fileinput/5.5.2/js/plugins/sortable.min.js"></script>
+
+    <script src="/static/js/merchant/orderlist/datepicker.js"></script>
+    <script src="/static/js/merchant/orderlist/index.js"></script>
+{{/section}}
+
+{{#section "css"}}
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/css/bootstrap-datetimepicker.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-daterangepicker/3.0.5/daterangepicker.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-fileinput/5.5.2/css/fileinput.min.css">
+
+    <link rel="stylesheet" href="/static/css/merchant/orderlist.css" />
+{{/section}}
+
+<div class="custom-container p-3 mt-4">
+    <nav style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
+        <ol class="breadcrumb custom-breadcrumb">
+            <li class="breadcrumb-item"><a href="/merchant/orders?optional=pending&page=1">Đơn hàng</a></li>
+            <li class="breadcrumb-item">{{status}}</li>
+        </ol>
+    </nav>
+    <div class="menu-category-bar mb-3">
+        <ul class="nav nav-pills nav-fill">
+            <li class="nav-item">
+                <a class="nav-link" aria-current="page" href="/merchant/orders?optional=pending&page=1"><span class="{{#if (equal optional 'pending')}}nav-active{{/if}}">Đang chờ</span></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" aria-current="page" href="/merchant/orders?optional=preparing&page=1"><span class="{{#if (equal optional 'preparing')}}nav-active{{/if}}">Đang chuẩn bị</span></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/merchant/orders?optional=delivering&page=1"><span class="{{#if (equal optional 'delivering')}}nav-active{{/if}}">Đang giao</span></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/merchant/orders?optional=history&status=all&startDate={{startDate}}&endDate={{endDate}}&page=1"><span class="{{#if (equal optional 'history')}}nav-active{{/if}}">Lịch sử</span></a>
+            </li>
+        </ul>
+    </div>
+    <div class="status d-flex justify-content-end align-items-center">
+        <h4 class="p-2">Trạng thái cửa hàng:</h4>
+        <button class="btn dropdown-toggle btn-sm custom-filter" type="button" id="dropdownMenuStatus" value="{{statusMerchant}}" data-toggle="dropdown" aria-expanded="false">{{statusMerchant}}
+        </button>
+        <ul class="dropdown-menu" aria-labelledby="dropdownMenu">
+            <li><a class="dropdown-item {{#if (equal statusMerchant "Mở cửa")}}active{{/if}}" data-value="Mở cửa">Mở cửa</a></li>
+            <li><a class="dropdown-item {{#if (equal statusMerchant "Đóng cửa")}}active{{/if}}" data-value="Đóng cửa">Đóng cửa</a></li>
+        </ul>
+        <input type="hidden" id="merchantId" value="{{merchantId}}">
+    </div>
+    <div class="order-history">
+        <div class="d-flex justify-content-between">
+            <h2 class="mb-3">Danh sách đơn hàng</h2>
+            {{#if (equal status 'Lịch sử')}}
+                <div class="d-flex filter align-items-center mb-4">
+                    <div class="dropdown">
+                        <button class="btn dropdown-toggle btn-sm custom-filter" type="button" id="dropdownMenu" data-toggle="dropdown" aria-expanded="false">
+                        {{statusFilter}}
+                        </button>
+                        <ul class="dropdown-menu" aria-labelledby="dropdownMenu">
+                        <li><a class="dropdown-item {{#if (equal statusFilter 'Tất cả trạng thái')}}active{{/if}}" href="/merchant/orders?optional=history&status=all&startDate={{startDate}}&endDate={{endDate}}">Tất cả trạng thái</a></li>
+                        <li><a class="dropdown-item {{#if (equal statusFilter 'Hoàn thành')}}active{{/if}}" href="/merchant/orders?optional=history&status=delivered&startDate={{startDate}}&endDate={{endDate}}">Hoàn thành</a></li>
+                        <li><a class="dropdown-item {{#if (equal statusFilter 'Đã hủy')}}active{{/if}}" href="/merchant/orders?optional=history&status=cancelled&startDate={{startDate}}&endDate={{endDate}}">Đã hủy</a></li>
+                        </ul>
+                    </div>
+                    <div class="">
+                        <div class="input-container" id="periodPicker">
+                            <div class="">
+                                <input type="text" class="form-control" id="timeRange" placeholder="Chọn khoảng thời gian đặt hàng"/>
+                                <span class="input-group-addon">
+                                    <span class="glyphicon glyphicon-calendar"></span>
+                                </span>
+                                <div id="toggleIcon" class="fas fa-calendar" aria-hidden="true"></div>
+                                
+                            </div>
+                        </div>
+                        
+                    </div>
+                    <div>
+                        <div id="resetIcon" class="fa fa-calendar-times-o" aria-hidden="true"></div>
+                    </div>
+                </div>
+            {{/if}}
+        </div>
+        {{#if empty}}
+            <div class="card">
+                <div class="card-footer text-muted" id="none">
+                    Không tìm thấy đơn hàng phù hợp nào. Bạn vui lòng kiểm tra và thử lại nhé. 
+                </div>   
+            </div> 
+                
+        {{else}}
+            {{#each orders}}
+                <div class="card border mb-3">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="d-flex justify-content-between">
+                                <div class="d-flex flex-row">
+                                    <h5>Đơn hàng</h5>
+                                    <span>#{{this.orderId}}</span>
+                                </div>
+                                <span>{{this.timeOrder}}</span>
+                            </div>
+
+                            <div class="d-flex flex-column justify-content-between">
+                                <div class="d-flex justify-content-between mb-2">
+                                    <div>{{this.username}}</div>
+                                    <div style="color: var(--orange-color);">
+                                        {{this.total}}đ
+                                    </div>
+                                </div>
+                                
+                                <div class="d-flex justify-content-between">
+                                    <p class="text-truncate mb-4 mb-md-0">
+                                        {{this.quantity}} món
+                                    </p>
+                                    <a href="/merchant/orders/{{this.orderId}}" id="view-more" class="small">Xem chi tiết</a>
+                                </div>
+                            </div>
+                            
+
+                            <div class="border-top mt-3">
+                                <div class="d-flex justify-content-between align-item-center mt-3">
+                                    <div class="text-muted small my-auto text-center status">
+                                        <span>{{#if (equal status 'Lịch sử')}}{{statusFilter}}{{else}}{{status}}{{/if}}</span>
+                                    </div>
+                                    {{#if (equal status 'Đang chờ')}}
+                                        <div class="btn-function">
+                                            <button type="button" id="btnCancel" class="btn custom-button btn-sm">Hủy đơn</button>
+                                            <button type="button" id="btnConfirm" class="btn custom-button btn-sm">Xác nhận</button>
+                                        </div>
+                                    {{/if}}
+
+                                    {{#if (equal status 'Đang chuẩn bị')}}
+                                        <div class="btn-function">
+                                            <button type="button" id="btnDelivery" class="btn custom-button btn-sm">Giao đơn</button>
+                                        </div>
+                                    {{/if}}
+
+                                    {{#if (equal status 'Đang giao')}}
+                                        <div class="btn-function">
+                                            <button type="button" id="btnComplete" class="btn custom-button btn-sm">Hoàn thành</button>
+                                        </div>
+                                    {{/if}}
+
+                                    {{#if (equal status 'Lịch sử')}}
+                                        <div class="btn-function">
+                                            <a href="/merchant/chats/{{userId}}">
+                                                <button type="button" class="btn custom-button btn-sm">Liên hệ</button>
+                                            </a>
+                                        </div>
+                                    {{/if}}
+                                    <input type="hidden" id="orderId" value="{{orderId}}">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {{/each}}
+            <nav aria-label="Page navigation example" class="justify-content-center mt-5" id="pagination">
+                <ul class="pagination justify-content-center">
+                    {{#if this.isFirstPage}}
+                        <li class="page-item disabled">
+                            <a class="page-link" href="#">Trang trước</a>
+                        </li>
+                    {{else}}
+                        <li class="page-item">
+                            <a class="page-link" href="#" id="previousPage" onclick="renderPreviousPage()">Trang trước</a>
+                        </li>
+                    {{/if}}
+
+                    {{#each this.pageNumbers}}
+                        {{#if isActive}}
+                        <li class="page-item active" aria-current="page">
+                            <a class="page-link" href="#">{{value}}</a>
+                        </li>
+                        {{else}}
+                        <li class="page-item">
+                            {{#if (equal status 'Lịch sử')}}
+                                <a class="page-link" href="/merchant/orders?optional=history&status={{statusFilter}}&startDate={{startDate}}&endDate={{endDate}}&page={{value}}">{{value}}</a>
+                            {{else}}
+                                <a class="page-link" href="{{#if (equal value '..')}}#pagination{{else}}/merchant/orders?optional={{statusFilter}}&page={{value}}{{/if}}">{{value}}</a>
+                            {{/if}}
+                        </li>
+                        {{/if}}
+                    {{/each}}
+
+                    {{#if this.isLastPage}}
+                        <li class="page-item disabled">
+                            <a class="page-link" href="#">Trang sau</a>
+                        </li>
+                    {{else}}
+                        <li class="page-item">
+                            <a class="page-link" href="#" id="nextPage" onclick="renderNextPage()">Trang sau</a>
+                        </li>
+                    {{/if}}
+                </ul>
+            </nav>
+        {{/if}}
+    </div>
+</div>
