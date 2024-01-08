@@ -1,5 +1,6 @@
 import OrderService from "../../services/user/order.service.js";
 import UserService from "../../services/user/user.service.js";
+import conversationService from "../../services/merchant/chat.service.js";
 // [GET]/order?id={{orderId}}
 const index = async function (req, res) {
     if (req.session.auth === false) {
@@ -184,9 +185,16 @@ const chatOrder = async function (req, res) {
             totalPrice: Intl.NumberFormat("vi-VN").format(String(totalPrice)) + " VNĐ"
         });
     }
+    var conversationwithUser = await conversationService.findConversation(req.session.authUser._id, order.merchantId._id);
+    var messages = await conversationService.getMessageFromUser(conversationwithUser._id,req.session.authUser._id);
+    //console.log("merchantId", order.merchantId._id);
+    //console.log("messages", messages);
     res.render("user/order-chat.hbs", {
+        merchantId: order.merchantId._id,
         shopName: order.merchantId.name,
-        orderItem: eachOrderItem
+        orderItem: eachOrderItem,
+        userId: req.session.authUser._id,
+        messagesHistory: messages
     });
 }
 

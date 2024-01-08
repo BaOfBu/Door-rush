@@ -9,6 +9,10 @@ import dotenv from "dotenv";
 //import genuuid from "uuid/v4";
 import { dirname } from "path";
 import { fileURLToPath } from "url";
+import { Server } from "socket.io";
+import { createServer } from "http";
+import conversationService from "./services/merchant/chat.service.js";
+//import { createAdapter, setupPrimary } from '@socket.io/cluster-adapter';
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
 import userRoutes from "./routes/user/index.route.js";
@@ -18,6 +22,7 @@ import merchantRoutes from "./routes/merchant/index.route.js";
 import auth from "./middleware/auth.mdw.js";
 
 const port = 8888;
+const portSocket = 6666;
 const app = express();
 
 app.use(
@@ -59,6 +64,9 @@ const hbs = engine({
         },
         json: function (context) {
             return JSON.stringify(context);
+        },
+        log: function (context) {
+            console.log(context);
         }
     }
 });
@@ -120,6 +128,49 @@ app.use("/",auth.authUserforStart,userRoutes);
 //     next();
 // });
 
-app.listen(port, function serverStartedHandler() {
+const httpServer = app.listen(port, function serverStartedHandler() {
     console.log(`Door-rush server is running at http://localhost:${port}`);
+});
+
+const io = new Server(httpServer, {
+    connectionStateRecovery: {},
+    //adapter: createAdapter()
+});
+var connectedUsers = {};
+
+io.on('connection',function(socket){
+
+/*Register connected user*/
+    console.log('a user connected');
+    socket.on('register',function(username){
+        console.log('User registered: ' + username);
+        socket.username = username;
+        connectedUsers[username] = socket;
+    });
+    socket.on('disconnect',function(){
+        console.log('user disconnected');
+        delete connectedUsers[socket.username];
+    });
+    socket.on('chat message', async function(data){
+        //console.log(connectedUsers);
+        console.log('Message from: ' + socket.username + ' to ' + data.to);
+        const to = data.to;
+        const message = data.message;
+        //console.log(to);
+        const conver = await conversationService.findConversation(socket.username, to);
+        //console.log(conver);
+        if (conver) {
+            await conversationService.addMessage(conver._id, socket.username, message);
+        }
+
+        if(connectedUsers.hasOwnProperty(to)){
+            connectedUsers[to].emit('chat message',{
+                //The sender's username
+                username : socket.username,
+
+                //Message sent to receiver
+                message : message
+            });
+        }
+    });
 });
