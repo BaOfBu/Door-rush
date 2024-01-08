@@ -14,13 +14,13 @@
       class="d-flex align-items-center justify-content-start nav-bar"
       style="padding-left: 0px;"
     >
-      <div style="border: 1px solid #667085;">
+      <div style="border: 1px solid #667085; width: 60%">
         <input
           type="text"
-          style="width: 640px; height: 48px; border-style: none; margin-left: 10px;"
+          style="width: 80%; height: 48px; border-style: none; margin-left: 10px;"
           placeholder="Tìm kiếm"
         />
-        <button style="width: 48px; height: 48px;">
+        <button style="width: 10%; height: 48px;">
           <i class="bi bi-search" style="color: #667085;"></i>
         </button>
       </div>
@@ -66,7 +66,7 @@
       <div class="col-sm-9 justify-content-start">
         <div class="container">
           <div class="row" style="padding: 0px">
-            {{#each product}}
+            {{#each merchants}}
               <div class="col-sm-3 mb-3">
                 <div class="card">
                   <img
@@ -76,7 +76,7 @@
                   />
                   <div class="card-body">
                     <h5 class="card-title">{{this.name}}</h5>
-                    <p class="card-text">{{price}}</p>
+                    <p class="card-text">{{this.priceRange}}</p>
                     <div class="bonus">
                       <div class="event">
                         <i class="bi bi-star-fill"></i>

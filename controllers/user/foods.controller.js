@@ -10,22 +10,12 @@ import Order from "../../models/orderModel.js";
 
 // [GET]/foods
 const index = async function (req, res) {
-  Food.find()
-    .populate("foodType")
-    .populate("feedbacks")
-    .populate("category")
-    .then((foods) => {
-      console.log("Fetched foods:", foods);
+  const merchant = await MerchantService.findAll().lean();
 
-      res.render("user/foods", {
-        user: false,
-        product: foods
-      });
-    })
-    .catch((error) => {
-      console.error("Error fetching foods:", error);
-      res.status(500).send("Internal Server Error");
-    });
+  res.render("user/foods", {
+    user: false,
+    merchants: merchant,
+  });
 };
 // [GET]/foods/{{shop}}
 const shop = async (req, res) => {
