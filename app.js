@@ -9,7 +9,6 @@ import dotenv from "dotenv";
 //import genuuid from "uuid/v4";
 import { dirname } from "path";
 import { fileURLToPath } from "url";
-import bodyParser from "body-parser";
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
 import userRoutes from "./routes/user/index.route.js";
@@ -27,8 +26,6 @@ app.use(
     })
 );
 app.use(express.json());
-
-app.use(bodyParser.urlencoded({ extended: true }));
 
 dotenv.config();
 mongoose.set("strictQuery", false);

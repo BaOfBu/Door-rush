@@ -8,6 +8,10 @@ router.get('/register', accountController.getRegister);
 
 router.post('/register',accountController.postRegister);
 
+router.get('/forgotpassword', accountController.getForgotpassword);
+
+router.post('/forgotpassword', accountController.postForgotpassword);
+
 router.get('/login', accountController.getLogin);
 
 router.post('/login', accountController.postLogin);
@@ -22,8 +26,5 @@ router.get('/is-available-email',accountController.is_available_email);
 router.post('/register/verification',accountController.post_verification);
 
 router.get('/register/verification',accountController.get_verification);
-
-router.get("/forgotpassword", accountController.getForgotPassword);
-router.post("/forgotpassword", accountController.postForgotPassword);
 
 export default router;

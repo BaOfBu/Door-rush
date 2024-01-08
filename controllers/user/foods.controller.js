@@ -9,15 +9,10 @@ import OrderService from "../../services/user/order.service.js";
 import Order from "../../models/orderModel.js";
 
 // [GET]/foods
-
-const index = async function (req, res, next) {
-
-    let merchants = await Merchant.find().lean();
-
+const index = function (req, res) {
     res.render("user/foods", {
         user: false,
         type: "food",
-        merchants: merchants,
         userName: "Họ và tên"
     });
 };
@@ -60,11 +55,10 @@ const shop = async (req, res) => {
         recommendFood: recommendFood,
         //header date
         user: false,
-        type: "shop",
+        type: "food",
         userName: "Họ và tên"
     });
 };
-
 // [GET]/foods/{{shop_name}}/{{foodID}}
 const foodDetail = async function (req, res) {
     // Get the params from the route

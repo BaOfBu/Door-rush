@@ -1,12 +1,6 @@
-import Account from "../../models/accountModel.js";
-
-const index = async function (req, res) {
-    const CountByUser = await Account.countDocuments({role: "User"});
-    const CountByMerchant = await Account.countDocuments({role: "Merchant"});
+const index = function (req, res) {
     res.render("admin/home", {
-        type: "home",
-        countUser: CountByUser,
-        countMerchant: CountByMerchant
+        type: "home"
     });
 };
 export default { index };

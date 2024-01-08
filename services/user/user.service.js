@@ -9,8 +9,8 @@ export default {
   async add_user(user) {
     return await User.insertMany(user);
   },
-  async findByEmail(email){
-    return await User.findOne({email:email});
+  async findByEmail(email) {
+    return await User.findOne({ email: email });
   },
   async updateOne(email, password) {
     console.log(password);
@@ -22,5 +22,5 @@ export default {
   },
   findById(id) {
     return User.findOne({ _id: new mongoose.Types.ObjectId(id) });
-  }
-}
+  },
+};
