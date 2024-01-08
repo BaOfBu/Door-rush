@@ -36,6 +36,10 @@ export default {
             return res;
         }
     },
+    async findConversationWithId(id) {
+        var res = await Conversation.findById(id);
+        return res;
+    },
     addMessage(conversationId, sender, message) {
         return Message.create({ conversationId: conversationId, sender: sender, content: message });
     },

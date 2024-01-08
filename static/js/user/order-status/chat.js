@@ -29,11 +29,3 @@ socket.on('chat message', function(msg) {
         window.scrollTo(0, document.body.scrollHeight);
     }
 });
-
-$('#conversationList li').attr('id', function(i) {
-    return 'conver'+(i+1);
-});
-
-$('#conversationList>li').addEventListener('click', function(e) {
-    console.log("hello");
-});

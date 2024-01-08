@@ -10,6 +10,7 @@
 <form id="getHistory" action="/merchant/chats/chat-history" method="post">
     <input id="conversationId" name="conversationId" type="hidden" value={{conversationId}}>
 </form>
+
 <div class="container custom-container">
     <div class="row clearfix">
         <div class="col-lg-12">
@@ -60,7 +61,9 @@
                     <div class="chat-history">
                         <ul id="chatPanel" class="m-b-0">
                             {{#each this.messagesHistory}}
-                                {{#if (equal this.sender userId) }}
+                                {{log this.sender}}
+                                {{log this.userIdTemp}}
+                                {{#if (equal this.sender this.userIdTemp) }}
                                     <li class="clearfix" >
                                         <div class="message other-message float-right">
                                             {{this.message}}
