@@ -62,7 +62,11 @@ const checkValidate = async function (req, res) {
     // const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     // const isValid = emailRegex.test(req.query.email);
     if (merchant_name.length == 0 && merchant_cccd.length == 0) {
-        const updatedMerchant = await Merchant.findOneAndUpdate({ _id: req.params.id }, { $set: { status: "active" } }, { new: true });
+        const updatedMerchant = await Merchant.findOneAndUpdate(
+            { _id: req.params.id },
+            { $set: { status: "active", statusMerchant: "Đóng Cửa" } },
+            { new: true }
+        );
         res.json(true);
     } else {
         res.json(false);
