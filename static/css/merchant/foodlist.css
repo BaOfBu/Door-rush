@@ -40,13 +40,13 @@
     padding: 20px;
     border: 1px solid #888;
     width: 50%;
-    overflow-y: auto; /* Thêm thanh cuộn khi danh sách quá dài */
+    /*overflow-y: auto; /* Thêm thanh cuộn khi danh sách quá dài */
 }
 
 /* Thiết lập kiểu cho danh sách category */
 .category-list {
     max-height: 200px; /* Điều chỉnh chiều cao tối đa của danh sách trước khi hiển thị thanh cuộn */
-    overflow-y: auto; /* Thêm thanh cuộn khi danh sách quá dài */
+    overflow-y: auto; /*Thêm thanh cuộn khi danh sách quá dài */
 }
 
 /* Thiết lập kiểu cho nút đóng */
@@ -95,7 +95,38 @@
     color: var(--grey-color);
 }
 
-.items .nav .nav-item .nav-link:active{
+.items .nav .nav-item .active{
     background-color: var(--orange-color);
-    color: var(--white-color);
+    color: var(--white-color);   
+}
+
+.dropdown-toggle{
+    left: 0px;
+    margin-left: 0px;
+}
+
+#dropdownCategory{
+    margin-left: 0;
+    width: 625px;
+    padding-left: 10px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.dropdown-category {
+    max-height: 500px;
+    overflow-y: auto;
+}
+
+.custom-checkbox {
+    display: flex;
+    align-items: center;
+}
+
+.custom-checkbox input {
+    width: 10px;
+    height: 10px;
+    margin-left: 8px;
+    margin-right: 8px;
 }

@@ -7,6 +7,8 @@
 {{/section}}
 
 <div class="custom-container">
+    <input type="hidden" id="categoryId" value="{{categoryId}}">
+    <input type="hidden" id="merchantId" value="{{merchantId}}">
     <div class="top d-flex align-items-center justify-content-between mb-3">
         <h3>Danh sách sản phẩm</h3>
         <div class="btn-function">
@@ -20,11 +22,46 @@
                     </div>
                     <h2 class="d-flex justify-content-center">Quản lý danh mục</h2>
                     <ul id="categoryList" class="category-list list-group mb-3">
-                        <!-- Danh sách category sẽ được hiển thị ở đây -->
+                        {{#each categories}}
+                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                    <span>{{name}}</span>
+                                    <button type="button" class="btn-close btn-sm" data-category-id="{{id}}"></button>
+                            </li>
+                        {{/each}}
                     </ul>
                     <div class="d-flex">
-                        <input type="text" class="form-control" id="categoryInput" placeholder="Nhập category...">
-                        <button type="button" id="addCategory" class="btn custom-button">Thêm</button>
+                        {{!-- <input type="text" class="form-control" id="categoryInput" placeholder="Nhập category..."> --}}
+                        {{!-- <button type="button" id="addCategory" class="btn custom-button">Thêm</button> --}}
+                        <div class="form-group">
+                            <label for="selectType">Loại kinh doanh</label>
+                            <div class="d-flex mt-1">
+                                <div class="has-validation">
+                                    <div class="d-flex">
+                                        <div>
+                                            <button class="form-control dropdown-toggle custom-filter d-flex justify-content-start align-items-center" aria-describedby="checkValidationCategories" type="button" id="dropdownCategory" data-toggle="dropdown" aria-expanded="true">
+                                            Hãy chọn thêm những loại kinh doanh của cửa hàng bạn (nếu muốn)
+                                            </button>
+                                            <input id="selectedCategory" name="type" type="hidden">
+                                            <ul class="custom-dropdown-menu dropdown-menu dropdown-category" aria-labelledby="dropdownCategory">
+                                                {{#each list_category}}
+                                                    <li>
+                                                        <div class="custom-checkbox">
+                                                            <input type="checkbox" class="custom-control-input category-checkbox" id="{{name}}" data-value="{{name}}">
+                                                            <label class="dropdown-item category" for="{{name}}">{{name}}</label>
+                                                        </div>
+                                                    </li>
+                                                {{/each}}
+                                            </ul>
+                                        </div>
+                                        <button type="button" id="addCategory" class="btn custom-button">Thêm</button>
+                                    </div>
+                                    <div id="checkValidationCategories" class="invalid-feedback">
+                                    Vui lòng chọn ít nhất một lựa chọn.
+                                    </div>
+                                </div>
+                                
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -143,7 +180,7 @@
                 </div>
             </div>
 
-            <div id="myModal" class="modal">
+            {{!-- <div id="modalCategory" class="modal">
                 <div class="modal-content">
                     <div class="close d-flex justify-content-end align-items-center">
                         <i class="bi bi-arrow-bar-left"></i>
@@ -151,14 +188,19 @@
                     </div>
                     <h2 class="d-flex justify-content-center">Quản lý danh mục</h2>
                     <ul id="categoryList" class="category-list list-group mb-3">
-                        <!-- Danh sách category sẽ được hiển thị ở đây -->
+                        {{#each categories}}
+                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                    <span>{{category}}</span>
+                                    <button type="button" class="btn-close btn-sm"></button>
+                            </li>
+                        {{/each}}
                     </ul>
                     <div class="d-flex">
                         <input type="text" class="form-control" id="categoryInput" placeholder="Nhập category...">
                         <button type="button" id="addCategory" class="btn custom-button">Thêm</button>
                     </div>
                 </div>
-            </div>
+            </div> --}}
         </div>
     </div>
     <div class="menu-category-bar mb-3 items">
@@ -166,21 +208,12 @@
             <li class="nav-item">
                 <i class="bi bi-chevron-left"></i>
             </li>
-            <li class="nav-item">
-                <a class="nav-link" href="#"><span>Item 1</span></a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="#"><span>Item 2</span></a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="#"><span>Item 3</span></a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="#"><span>Item 4</span></a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="#"><span>Item 5</span></a>
-            </li>
+            {{#each this.categories}}
+                <li class="nav-item">
+                    <a class="nav-link" href="?categoryId={{id}}&page=1" id="{{id}}"><span>{{name}}</span></a>
+                </li>
+            {{/each}}
+
             <li class="nav-item">
                 <i class="bi bi-chevron-right"></i>
             </li>
@@ -190,68 +223,60 @@
     {{#if empty}}
         <div class="card">
             <div class="card-footer text-muted" id="none">
-                Không tìm thấy đơn hàng phù hợp nào. Bạn vui lòng kiểm tra và thử lại nhé. 
+                Không tìm thấy sản phẩm phù hợp nào. Bạn vui lòng thêm sản phẩm nhé. 
             </div>   
         </div> 
             
     {{else}}
-        {{!-- {{#each orders}} --}}
+        {{#each foods}}
             <div class="card border mb-3">
                 <div class="card-body d-flex justify-content-between">
                     <div class="col-md-2">
-                        <img src="/static/images/user/shop/alter-image.png" class="h-100" alt="">
+                        <img src="{{image}}" class="h-100" alt="">
                     </div>
                     <div class="row col-md-10">
                         <div class="d-flex justify-content-between">
                             <div class="d-flex flex-row justify-content-lg-start">
-                                <h4>Tên sản phẩm</h4>
-                                {{!-- <span>#{{this.orderId}}</span> --}}
+                                <h4>{{name}}</h4>
                             </div>
                             <div class="d-flex flex-row">
                                 <h5>Giá tiền: </h5>
-                                <h5>1.000.000đ</h5>
-                                {{!-- <span>#{{this.orderId}}</span> --}}
+                                <h5>{{price}}</h5>
                             </div>
-                            {{!-- <span>Giá tiền</span> --}}
-                            {{!-- <span>{{this.timeOrder}}</span> --}}
                         </div>
 
                         <div class="d-flex flex-column justify-content-between">
                             <div class="d-flex justify-content-between mb-2">
-                                {{!-- <div>{{this.username}}</div> --}}
                                 <div class="d-flex flex-row">
                                     <span>Danh mục: </span>
-                                    <span>Phở</span>
-                                    {{!-- <span>#{{this.orderId}}</span> --}}
+                                    <span>{{category}}</span>
                                 </div>
                                 <div class="d-flex flex-row">
                                     <span>Số lượng: </span>
-                                    <span>100</span>
+                                    <span>{{quantity}}</span>
                                 </div>
                             </div>
                             
                             <div class="d-flex justify-content-between">
-                                {{!-- <p class="text-truncate mb-4 mb-md-0"> --}}
                                 <div class="event">
                                     <i class="bi bi-star-fill"></i>
-                                    <span>4.5{{this.rating}}</span>
+                                    <span>{{rating}}</span>
                                 </div>
-                                {{!-- <a href="/merchant/orders/{{this.orderId}}" id="view-more" class="small">Xem chi tiết</a> --}}
                             </div>
 
                             <div class="border-top mt-3">
-                            <div class="d-flex justify-content-between align-item-center mt-1">
-                                <div class="text-muted small my-auto text-center">
-                                    <span>Trạng thái: </span>
-                                    <span>{{#if (equal status 'Lịch sử')}}{{statusFilter}}{{else}}Còn hàng{{status}}{{/if}}</span>
+                                <div class="d-flex justify-content-between align-item-center mt-1">
+                                    <div class="text-muted small my-auto text-center">
+                                        <span>Trạng thái: </span>
+                                        <span>{{status}}</span>
+                                    </div>
+                                    
+                                    <div class="btn-function">
+                                        <button type="button" class="btn custom-button" id="viewProductBtn">Xem chi tiết</button>
+                                    </div>
+                                    <input type="hidden" id="foodId" value="{{id}}">
                                 </div>
-                                
-                                <div class="btn-function">
-                                    <button type="button" class="btn custom-button" id="viewProductBtn">Xem chi tiết</button>
-                                </div>
-                                <input type="hidden" id="orderId" value="{{orderId}}">
                             </div>
-                        </div>
                         </div>
                         
                         <div id="modalProductDetail" class="modal">
@@ -368,8 +393,9 @@
                         
                     </div>
                 </div>
-            </div>
-        {{!-- {{/each}} --}}
+            </div> 
+        {{/each}}
+
         <nav aria-label="Page navigation example" class="justify-content-center mt-5" id="pagination">
             <ul class="pagination justify-content-center">
                 {{#if this.isFirstPage}}
@@ -389,11 +415,7 @@
                     </li>
                     {{else}}
                     <li class="page-item">
-                        {{#if (equal status 'Lịch sử')}}
-                            <a class="page-link" href="/merchant/orders?optional=history&status={{statusFilter}}&startDate={{startDate}}&endDate={{endDate}}&page={{value}}">{{value}}</a>
-                        {{else}}
-                            <a class="page-link" href="{{#if (equal value '..')}}#pagination{{else}}/merchant/orders?optional={{statusFilter}}&page={{value}}{{/if}}">{{value}}</a>
-                        {{/if}}
+                        <a class="page-link" href="/merchant/products?categoryId={{categoryId}}&page={{value}}">{{value}}</a>
                     </li>
                     {{/if}}
                 {{/each}}

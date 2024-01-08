@@ -3,4 +3,7 @@ import foodListController from "../../controllers/merchant/foodlist.controller.j
 const router = express.Router();
 
 router.get("/", foodListController.index);
+router.post("/delete-category", foodListController.deleteCategory);
+router.post("/update-category", foodListController.updateCategory);
+
 export default router;
