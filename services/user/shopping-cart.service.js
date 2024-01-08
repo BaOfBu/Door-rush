@@ -36,7 +36,7 @@ const calculateTotal = async (orderID) => {
         // }catch(error){}
     }
 
-    const distance = 3;
+    const distance = 1;
     total = distance > 2 ? total + 25000 : total + 13000;
 
     let allDiscount = 0;
@@ -82,7 +82,6 @@ const getOrderDetail = async orderID => {
             ", " +
             order.addressOrder.city;
     }
-
     const orderDetail = {
         orderItems: orderItems,
         orderFoodVoucher: orderFoodVoucher,
