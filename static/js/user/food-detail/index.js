@@ -210,9 +210,9 @@ document.getElementById("food-type").addEventListener("change", function(event){
     if(selectedFoodTypeCurrentQuantity == 0){
         document.getElementById('food-quantity').setAttribute('min', '0');
         document.getElementById('food-quantity').setAttribute('max', '0');
-        document.getElementById('food-quantity').setAttribute('value', '0');
+        document.getElementById('food-quantity').value = 0
     }else{
         document.getElementById('food-quantity').setAttribute('max', selectedFoodTypeCurrentQuantity);
-        document.getElementById('food-quantity').setAttribute('value', '1');
+        document.getElementById('food-quantity').value = 1
     }
 })
