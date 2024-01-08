@@ -4,23 +4,68 @@
 }
 .voucher-admin {
     display: flex;
+    padding: 20px;
     flex-direction: column;
-    gap: 20px;
+    justify-content: flex-start;
+    gap: 10px;
 }
 .add-btn {
     text-decoration: none;
     text-align: center;
     color: var(--orange-color);
     border: 2px solid var(--orange-color);
-    padding: 10px;
+    padding: 8px;
+    width: 80%;
     border-radius: 5px;
+}
+.has-search {
+    width: 40%;
+}
+.has-search .form-control {
+    padding-left: 2.375rem;
+}
+
+.has-search .form-control-feedback {
+    position: absolute;
+    z-index: 2;
+    display: block;
+    width: 2.375rem;
+    height: 2.375rem;
+    line-height: 2.375rem;
+    text-align: center;
+    color: var(--white-color);
+    background-color: var(--orange-color);
+}
+#search-text {
+    padding-left: 50px;
+}
+.search-filer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+.dropdown {
+    height: 100%;
+}
+.right-filter {
+    display: flex;
+    gap: 10px;
+    height: 45px;
+    width: 35%;
+    flex-direction: row;
+    justify-content: space-between;
+}
+#search-text-expired,
+#search-text-active {
+    padding-left: 50px;
 }
 .add-btn:hover {
     color: white;
     background-color: var(--orange-color);
 }
 .section-one {
-    padding: 10px;
+    padding-bottom: 10px;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
