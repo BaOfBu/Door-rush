@@ -299,6 +299,7 @@ const updateUserInformation = async function (req, res){
     const userID = req.session.authUser._id;
 
     console.log("Đã vô update: ", userID);
+    console.log("UPDATE DATA: ", req.body);
     const optional = req.query.optional || "default";
     const updatedData = req.body;
     delete updatedData.image;
@@ -330,37 +331,68 @@ const updateUserInformation = async function (req, res){
 
             let addressesID = [];
 
-            for (const address of user.addresses) {
-                let addressUserFill = updatedData.address[i];
+            console.log("Đã vô address: ", user);
+            if(user.addresses.length > 0){
+                console.log("Không empty");
+                for (const address of user.addresses) {
+                    let addressUserFill = updatedData.address[i];
+                    let parts = addressUserFill.split(", ");
+                    let split = parts[0].split(" ");
+                    let rest = "";
+                    for (let j = 1; j < split.length; j++) {
+                        rest += split[j];
+                        if (j !== split.length - 1) rest += " ";
+                    }
+                    let dataAddress = {
+                        houseNumber: split[0],
+                        street: rest,
+                        ward: parts[1],
+                        district: parts[2],
+                        city: parts[3],
+                    };
+    
+                    addressesID.push(address._id);
+                    await Profile.updateUserAddress(address._id, dataAddress);
+                    i = i + 1;
+                }
+
+                for(let j = i; j < updatedData.address.length; j++){
+                    let addressUserFill = updatedData.address[j];
+                    let parts = addressUserFill.split(", ");
+                    let split = parts[0].split(" ");
+                    let rest = "";
+                    for (let j = 1; j < split.length; j++) {
+                        rest += split[j];
+                        if (j !== split.length - 1) rest += " ";
+                    }
+                    let dataAddress = new Address ({
+                        houseNumber: split[0],
+                        street: rest,
+                        ward: parts[1],
+                        district: parts[2],
+                        city: parts[3],
+                    });
+    
+                    await dataAddress.save();
+                    addressesID.push(dataAddress._id);
+                    
+    
+                    const updatedUser = await Profile.updateUserInfo(userID, {addresses: addressesID});
+                }
+            }else{
+                console.log("Đã vô rỗng");
+                let addressUserFill = updatedData.address;
                 let parts = addressUserFill.split(", ");
+                console.log("parts: ", parts);
                 let split = parts[0].split(" ");
+                console.log("Split: ", split);
                 let rest = "";
                 for (let j = 1; j < split.length; j++) {
                     rest += split[j];
                     if (j !== split.length - 1) rest += " ";
+                    console.log("split[" + "j" + "]: ", split[j]);
                 }
-                let dataAddress = {
-                    houseNumber: split[0],
-                    street: rest,
-                    ward: parts[1],
-                    district: parts[2],
-                    city: parts[3],
-                };
-
-                addressesID.push(address._id);
-                await Profile.updateUserAddress(address._id, dataAddress);
-                i = i + 1;
-            }
-
-            for(let j = i; j < updatedData.address.length; j++){
-                let addressUserFill = updatedData.address[j];
-                let parts = addressUserFill.split(", ");
-                let split = parts[0].split(" ");
-                let rest = "";
-                for (let j = 1; j < split.length; j++) {
-                    rest += split[j];
-                    if (j !== split.length - 1) rest += " ";
-                }
+                console.log("Rest: ", rest);
                 let dataAddress = new Address ({
                     houseNumber: split[0],
                     street: rest,
@@ -368,15 +400,16 @@ const updateUserInformation = async function (req, res){
                     district: parts[2],
                     city: parts[3],
                 });
-
+                console.log("dataAddress: ", dataAddress);
                 await dataAddress.save();
                 addressesID.push(dataAddress._id);
-                
+
                 const updatedUser = await Profile.updateUserInfo(userID, {addresses: addressesID});
             }
-
+            
             const addresses = await Profile.getUserAddresses(userID);
             
+            console.log("Addresses: ", addresses);
             res.render("user/profile", {
                 user: true,
                 type: "profile",
