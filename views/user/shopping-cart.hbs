@@ -38,6 +38,11 @@
     <section class="section-three">
         <div class="container">
             <div class="section-three-content">
+                <div class="line">
+                    <a href="/shopping-cart/delete-all-item" class="order-button">Xóa tất cả</a>
+                    {{#if message}}<p class="message-font">{{message}}</p>{{/if}}
+                </div>
+                
                 {{#if orderDetail.orderItems}}
                     {{#each orderDetail.orderItems}}
                     <div class="item-card">
@@ -63,6 +68,10 @@
                             <div class="price-col">
                                 <p class="item-title-font text-align-center">THÀNH TIỀN</p>
                                 <p class="item-normal-font text-align-center">{{this.itemTotal}}Đ</p>
+                            </div>
+                            <div class="price-col">
+                                <a href="/shopping-cart/delete-item?itemID={{this.itemID}}" class="order-button">
+                                Xóa</a>
                             </div>
                         </div>
                     </div>
