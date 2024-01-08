@@ -7,12 +7,13 @@ import MerchantService from "../../services/user/Merchant.service.js";
 import FoodType from "../../models/foodTypeModel.js";
 import OrderService from "../../services/user/order.service.js";
 import Order from "../../models/orderModel.js";
+import Merchant from "../../models/merchantModel.js";
 
 // [GET]/foods
 const index = async function (req, res) {
-  Food.find()
-    .populate("foodType")
-    .populate("feedbacks")
+  Merchant.find().lean()
+    .populate("rating")
+    .populate("priceRange")
     .populate("category")
     .then((foods) => {
       console.log("Fetched foods:", foods);
@@ -272,4 +273,13 @@ const giveFeedback = async function (req, res) {
     );
   } catch {}
 };
-export default { index, foodDetail, shop, addToCart, giveFeedback };
+
+const search = async function (req, res) {
+  let searchValue = req.body.keyword;
+  let searchResult = await MerchantService.findByKeyword(searchValue);
+  res.render("user/foods.hbs", {
+    user: false,
+    product: searchResult,
+  });
+};
+export default { index, foodDetail, shop, addToCart, giveFeedback,search };

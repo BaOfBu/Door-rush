@@ -1,3 +1,14 @@
+{{#section "js"}}
+    <script src="/static/js/user/foods/index.js"></script>
+{{/section}}
+{{#section "css"}}
+{{/section}}
+
+<form id="searchForm" action="/foods/search" method="post">
+  <input type="hidden" name="keyword" id="keyword" value="">
+  <input type="hidden" name="sort" id="sort" value="">
+</form>
+
 <main class="main-content">
   <div class="container">
     <div
@@ -17,6 +28,7 @@
       <div style="border: 1px solid #667085;">
         <input
           type="text"
+          id="searchInput"
           style="width: 640px; height: 48px; border-style: none; margin-left: 10px;"
           placeholder="Tìm kiếm"
         />
@@ -47,7 +59,7 @@
           </div>
         </button>
 
-        <div style="margin-left: 15px;">
+        <div id="searchBtn" style="margin-left: 15px;">
           <div
             style="height: 50px; width: 140px; background-color: #F59359; display: flex; align-items: center; justify-content: center;"
           >
@@ -76,7 +88,7 @@
                   />
                   <div class="card-body">
                     <h5 class="card-title">{{this.name}}</h5>
-                    <p class="card-text">{{price}}</p>
+                    <p class="card-text">{{this.priceRange}}</p>
                     <div class="bonus">
                       <div class="event">
                         <i class="bi bi-star-fill"></i>

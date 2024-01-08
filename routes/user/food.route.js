@@ -7,4 +7,5 @@ router.get("/:shop", foodsController.shop);
 router.get("/:shop/:id", foodsController.foodDetail);
 router.post("/:shop/:id/getfeedback", foodsController.giveFeedback);
 router.post("/:shop/:id/addToCart", foodsController.addToCart);
+router.post("/search", foodsController.search);
 export default router;
