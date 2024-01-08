@@ -9,6 +9,9 @@ const index = async function (req, res) {
     const deliveringOrder = await Order.findTheDeliveringOrder(merchantId);
     const finishOrder = await Order.findTheFinishOrder(merchantId);
     const cancelOrder = await Order.findTheCancelOrder(merchantId);
+    const address = await Order.getUserAddress(merchantId);
+    const categories = await Order.getCategory(merchantId);
+    //console.log("address: ", address);
     // console.log("waitingOrder: ", waitingOrder);
     // console.log("preparingOrder: ", preparingOrder);
     // console.log("deliveringOrder: ", deliveringOrder);
@@ -20,7 +23,9 @@ const index = async function (req, res) {
         preparingOrder: preparingOrder,
         deliveringOrder: deliveringOrder,
         finishOrder: finishOrder,
-        cancelOrder: cancelOrder
+        cancelOrder: cancelOrder,
+        address: address,
+        categories: categories
     });
 };
 
