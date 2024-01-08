@@ -3,31 +3,37 @@ import Order from "../../models/orderModel.js";
 import OrderItem from "../../models/orderItemModel.js";
 import Voucher from "../../models/voucherModel.js";
 import Address from "../../models/addressModel.js";
+import FoodType from "../../models/foodTypeModel.js";
 
 const getOrderItems = async orderItemsID => {
     let itemList = [];
     for (const each of orderItemsID) {
-        const item = await OrderItem.findById(each._id).populate("foodId typeFoodId").exec();
-        const total = item.typeFoodId.price * item.quantity;
-        const temp = {
-            itemImage: item.foodId.image,
-            itemName: item.foodId.name,
-            itemType: item.typeFoodId.product,
-            itemPrice: item.typeFoodId.price,
-            itemQuantity: item.quantity,
-            itemTotal: total
-        };
-        itemList.push(temp);
+        // try{
+            const item = await OrderItem.findById(each._id).populate("foodId typeFoodId").exec();
+            const total = item.typeFoodId.price * item.quantity;
+            const temp = {
+                itemID: item._id,
+                itemImage: item.foodId.image,
+                itemName: item.foodId.name,
+                itemType: item.typeFoodId.product,
+                itemPrice: item.typeFoodId.price,
+                itemQuantity: item.quantity,
+                itemTotal: total
+            };
+            itemList.push(temp);
+        // }catch(error){}
     }
     return itemList;
 };
 
-const calculateTotal = async orderID => {
+const calculateTotal = async (orderID) => {
     const order = await Order.findById(orderID).populate("vouchers addressOrder").exec();
     let total = 0;
     for (const each of order.items) {
-        const item = await OrderItem.findById(each._id).populate("foodId typeFoodId").exec();
-        total = total + item.typeFoodId.price * item.quantity;
+        // try{
+            const item = await OrderItem.findById(each._id).populate("foodId typeFoodId").exec();
+            total = total + item.typeFoodId.price * item.quantity;
+        // }catch(error){}
     }
 
     const distance = 3;
@@ -208,10 +214,74 @@ const createNewAddress = async dataAddress => {
     await newAddress.save();
     return newAddress;
 };
-const updateOrderUser = async function (userId, orderId) {
+const updateOrderUser = async (userId, orderId) => {
     const add = await User.findByIdAndUpdate(userId, { $push: { orders: orderId } }, { new: true });
     return add;
 };
+const updateQuantity = async (orderID) => {
+    let result = []
+    const order = await Order.findOne({_id: orderID}).exec()
+    try{
+        for(const each of order.items){
+            const orderItems = await OrderItem.findOne({_id: each._id}).populate("typeFoodId").lean().exec()
+            let newQuantity = (orderItems.typeFoodId.quantity - orderItems.quantity)
+            console.log( each._id, orderItems.typeFoodId.quantity, orderItems.quantity)
+            if(newQuantity < 0){
+                throw new Error()
+            }
+            if(newQuantity > 0){
+                const foodType = await FoodType.findOneAndUpdate({_id: orderItems.typeFoodId._id}, {
+                    quantity: newQuantity
+                }, {new: true})
+            }else{
+                const foodType = await FoodType.findOneAndUpdate({_id: orderItems.typeFoodId._id}, {
+                    quantity: newQuantity,
+                    status: "Hết hàng"
+                }, {new: true})
+            }
+        }
+    }catch(error){
+        return false
+    }
+    return true
+}
+
+const deleteItem = async (orderID, orderItemID) => {
+    try{
+        const orderItem = await OrderItem.findOneAndDelete({_id: orderItemID}).exec();
+        const order = await Order.findOneAndUpdate(
+            { _id: orderID },
+            {
+                $pullAll: {
+                    items: [{ _id: orderItemID }]
+                }
+            },
+            { new: true }
+        );
+    }catch(error){
+        return false;
+    }
+    return true;
+}
+
+const deleteAllItems = async (orderID) => {
+    const order = await Order.findOne({_id: orderID}).lean().exec()
+    try{
+        for(const each of order.items){
+            const orderItem = await OrderItem.findOneAndDelete({_id: each}).exec();
+            const order = await Order.findOneAndUpdate(
+                { _id: orderID },
+                {
+                    $pullAll: {
+                        items: [{ _id: each }]
+                    }
+                },
+                { new: true }
+            );
+        }
+    }catch(error){ return false}
+    return true;
+}
 export default {
     getOrderItems,
     calculateTotal,
@@ -230,5 +300,8 @@ export default {
     findVoucherById,
     createNewAddress,
     getOrderVoucher,
-    updateOrderUser
+    updateOrderUser,
+    updateQuantity,
+    deleteItem,
+    deleteAllItems
 };
