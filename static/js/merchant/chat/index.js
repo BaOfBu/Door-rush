@@ -28,13 +28,13 @@ function run(){
     socket.on('chat message', function(msg) {
         console.log("socket merchant nhận",msg);
         if (msg) {
-            // console.log(msg);
-            // console.log(msg.username);
-            // console.log(receiverId);
-            // if(msg.username == receiverId){
+            console.log(msg);
+            console.log(msg.username);
+            console.log(receiverId);
+            if(msg.username == receiverId){
                 $('#chatPanel').append('<li class="clearfix">' + '<div class="message my-message float-left">'+ msg.message +'</div>' + '</li>');
                 window.scrollTo(0, document.body.scrollHeight);
-            //}
+            }
         }
     });
 
