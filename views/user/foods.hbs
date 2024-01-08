@@ -1,12 +1,11 @@
 {{#section "js"}}
-    <script src="/static/js/user/foods/index.js"></script>
+  <script src="/static/js/user/foods/index.js"></script>
 {{/section}}
-{{#section "css"}}
-{{/section}}
+{{#section "css"}}{{/section}}
 
 <form id="searchForm" action="/foods/search" method="post">
-  <input type="hidden" name="keyword" id="keyword" value="">
-  <input type="hidden" name="sort" id="sort" value="">
+  <input type="hidden" name="keyword" id="keyword" value="" />
+  <input type="hidden" name="sort" id="sort" value="" />
 </form>
 
 <main class="main-content">
@@ -19,59 +18,39 @@
       <a href="#" style="text-decoration: none; color: #667085">Tìm kiếm</a>
     </div>
   </div>
+  <form action="/foods" method="get">
+    <div class="container col-sm-8 justify-content-start" style="padding: 0px;">
+      <div
+        class="d-flex align-items-center justify-content-start nav-bar"
+        style="padding-left: 0px;"
+      >
 
-  <div class="container col-sm-8 justify-content-start" style="padding: 0px;">
-    <div
-      class="d-flex align-items-center justify-content-start nav-bar"
-      style="padding-left: 0px;"
-    >
-      <div style="border: 1px solid #667085; width: 60%">
-        <input
-          type="text"
-          id="searchInput"
-          style="width: 80%; height: 48px; border-style: none; margin-left: 10px;"
-          placeholder="Tìm kiếm"
-        />
-        <button style="width: 10%; height: 48px;">
-          <i class="bi bi-search" style="color: #667085;"></i>
-        </button>
-      </div>
-
-      <div class="d-flex nav-bar" style="padding: 15px;">
-        <button
-          style="height: 50px; width: 140px; background-color: #F59359; margin-left: 45px;"
-        >
-          <div class="row">
-            <div
-              class="col-sm-8 justify-content-center"
-              style="padding-right: 0px;"
-            >
-              <p
-                style="margin: auto; padding: 0px; font-size: 20px; color: #FFFFFF; font-weight: bold;"
-              >Lớn nhất</p>
-            </div>
-            <div
-              class="col-sm-4 justify-content-center"
-              style="padding: 0px; margin: auto 0; weight: fit-content;"
-            >
-              <i class="bi bi-chevron-down" style="color: #FFFFFF;"></i>
-            </div>
-          </div>
-        </button>
-
-        <div id="searchBtn" style="margin-left: 15px;">
-          <div
-            style="height: 50px; width: 140px; background-color: #F59359; display: flex; align-items: center; justify-content: center;"
-          >
-            <p
-              style="margin: auto; font-size: 20px; color: #FFFFFF; font-weight: bold;"
-            >Kết quả</p>
-          </div>
+        <div style="border: 1px solid #667085; width: 60%">
+          <input
+            type="text"
+            id="searchInput"
+            style="width: 80%; height: 48px; border-style: none; margin-left: 10px;"
+            placeholder="Tìm kiếm"
+            name="search"
+          />
+          <button style="width: 10%; height: 48px;">
+            <i class="bi bi-search" style="color: #667085;"></i>
+          </button>
         </div>
+
+        <div class="d-flex nav-bar" style="padding: 15px;">
+          <select
+            name="sort"
+            style="height: 50px; width: 140px; background-color: #F59359; margin-left: 45px;"
+          >
+            <option value="acs">Tăng dần</option>
+            <option value="decs">Giảm dần</option>
+          </select>
+        </div>
+
       </div>
     </div>
-  </div>
-
+  </form>
   <div class="container" style="margin-bottom: 30px;">
     <div class="row">
 
@@ -112,43 +91,68 @@
         class="col-sm-3"
         style="border: #000 solid; border-width: 0px 0px 0px 1px; padding: 0px 0px 0px 24px"
       >
-        <div
-          style="margin: 0px; padding: 0px; border: #F59359 solid; border-width: 0px 0px 1px 0px;"
-        >
-          <h4>Món ăn</h4>
-          <input type="checkbox" />
-          Cơm<br />
-          <input type="checkbox" />
-          Phở<br />
-          <input type="checkbox" />
-          Pizza<br />
-          <input type="checkbox" />
-          Hủ tiếu<br />
-        </div>
+        <form action="/foods" method="get">
+          <div
+            style="margin: 0px; padding: 0px; border: #F59359 solid; border-width: 0px 0px 1px 0px;"
+          >
 
-        <div
-          style="margin: 0px; padding: 0px; border: #F59359 solid; border-width: 0px 0px 1px 0px;"
-        >
-          <h4>Thức ăn</h4>
-          <input type="checkbox" />
-          Cà phê<br />
-          <input type="checkbox" />
-          Trà sữa<br />
-          <input type="checkbox" />
-          Sinh tố<br />
-        </div>
+            <h4>Món ăn</h4>
+            <input
+              name="category"
+              type="checkbox"
+              value="658070c464153bdfd0555006"
+            />
+            Cơm<br />
+            <input
+              name="category"
+              type="checkbox"
+              value="658070c464153bdfd055500e"
+            />
+            Phở<br />
+            <input
+              name="category"
+              type="checkbox"
+              value="658070c464153bdfd0555018"
+            />
+            Cơm tấm<br />
+            <input
+              name="category"
+              type="checkbox"
+              value="658070c464153bdfd0555012"
+            />
+            Bánh canh<br />
+          </div>
 
-        <div
-          style="margin: 0px; padding: 0px; border: #F59359 solid; border-width: 0px 0px 1px 0px;"
-        >
-          <h4>Lọc theo</h4>
-          <input type="checkbox" />
-          Rating<br />
-          <input type="checkbox" />
-          Giá<br />
-          <input type="checkbox" />
-          Khoảng cách<br />
-        </div>
+          <div
+            style="margin: 0px; padding: 0px; border: #F59359 solid; border-width: 0px 0px 1px 0px;"
+          >
+            <h4>Thức uống</h4>
+            <input
+              name="category"
+              type="checkbox"
+              value="658070c564153bdfd0555032"
+            />
+            Trà sữa<br />
+            <input
+              name="category"
+              type="checkbox"
+              value="658070c564153bdfd0555034"
+            />
+            Trà trái cây<br />
+            <input
+              name="category"
+              type="checkbox"
+              value="658070c564153bdfd0555036"
+            />
+            Nước ngọt<br />
+          </div>
+          <div
+            style="height: 30px; width: 60px; background-color: #F59359; display: flex; align-items: center; justify-content: center; margin-top: 10px;"
+          >
+            <button type="submit" class="btn btn-default">Lọc</button>
+          </div>
+        </form>
+
       </div>
 
     </div>
