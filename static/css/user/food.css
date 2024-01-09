@@ -1,3 +1,21 @@
-.main-content {
-    height: 300px;
+.card img {
+    object-fit: cover;
+    height: 150px;
+}
+.row {
+    align-items: stretch;
+    flex-wrap: wrap;
+}
+.child {
+    display: flex;
+    flex: 1 0 25%;
+    flex-direction: column;
+}
+.card {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+.card-body {
+    flex-grow: 1;
 }
