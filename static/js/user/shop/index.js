@@ -5,19 +5,10 @@ const swiperOne = new Swiper(".popular-categories-swiper", {
     sliderPerGroup: 3,
     centerSlide: "true",
     fade: "true",
-    pagination: {
-        el: ".swiper-pagination-1",
-        clickable: true,
-        dynamicBullets: true
-    },
-    grabCursor: "true",
     navigation: {
         nextEl: ".swiper-button-next-1",
         prevEl: ".swiper-button-prev-1"
     },
-    autoplay: {
-        delay: 10000,
-    }
 });
 
 const swiperTwo = new Swiper(".recommend-swiper", {
@@ -27,12 +18,6 @@ const swiperTwo = new Swiper(".recommend-swiper", {
     sliderPerGroup: 3,
     centerSlide: "true",
     fade: "true",
-    pagination: {
-        el: ".swiper-pagination-2",
-        clickable: true,
-        dynamicBullets: true
-    },
-    grabCursor: "true",
     navigation: {
         nextEl: ".swiper-button-next-2",
         prevEl: ".swiper-button-prev-2"
@@ -45,7 +30,7 @@ const swiperThree = new Swiper(".category-swiper", {
     spaceBetween: 50,
     sliderPerGroup: 7,
     fade: "true",
-    grabCursor: "true",
+    centerSlide: "true",
     navigation: {
         nextEl: ".swiper-button-next-3",
         prevEl: ".swiper-button-prev-3"
