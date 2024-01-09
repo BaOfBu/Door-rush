@@ -5,6 +5,23 @@ import FoodType from "../../models/foodTypeModel.js";
 import mongoose from "mongoose";
 
 export default {
+    async resetQuantityInDay(merchantId){
+        const merchant = await Merchant.findById(merchantId).select('menu').populate('menu').exec();
+        for(let i = 0; i<merchant.menu.length; i++){
+            let food = merchant.menu[i];
+            for(let j = 0; j<food.foodType.length; j++){
+                let foodType = await FoodType.findById(food.foodType[j]).select('quantity maxQuantity').exec();
+                foodType.quantity = foodType.maxQuantity;
+                console.log("foodType: ", foodType);
+                await foodType.save();
+            }
+            await food.save();
+        }
+        await merchant.save();
+    },
+    findInfoMerchantForRecommend(merchantId){
+        return Merchant.findById(merchantId).select('foodRecommend').populate('foodRecommend').exec();
+    },
     findInfoMerchant(merchantId){
         return Merchant.findById(merchantId).select('category menu').populate('menu category').exec();
     },
@@ -223,7 +240,7 @@ export default {
         return foodInfo;
     },
     async deleteProduct(merchantId, product){
-        const merchant = await Merchant.findById(merchantId);
+        let merchant = await Merchant.findById(merchantId);
 
         if (!merchant) {
             console.log('Merchant not found');
@@ -235,6 +252,23 @@ export default {
 
         // Lưu lại merchant sau khi xóa food
         await merchant.save();
-        console.log("Đã xóa: ", productId);
-    }
+        console.log("Đã xóa: ", product.id);
+    },
+    async deleteOption(product, optionId){
+
+        // Lọc và xóa food từ menu dựa trên foodId
+        const food = await Food.findById(product.id);
+
+        if (!food) {
+            console.log('food not found');
+            return;
+        }
+
+        // Lọc và xóa food từ menu dựa trên foodId
+        food.foodType = food.foodType.filter(element => element._id != optionId);
+
+        // Lưu lại merchant sau khi xóa food
+        await food.save();
+        console.log("Đã xóa: ", optionId);
+    },
 };

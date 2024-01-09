@@ -337,6 +337,33 @@ $('.btn-detail').click(function() {
         });
     });
 
+    $('#deleteOptionDetail').on('click', function(){
+        const product = productDetail;
+        let option = $('#dropdownItemDetail').text();
+        let split = option.split(" ");
+        let index = split[2];
+
+        const optionId = options[index - 1].id;
+
+        const apiUrl = '/merchant/products/delete-option';
+        console.log("merchantId: ", merchantId);
+        $.ajax({
+            url: apiUrl,
+            type: 'POST',
+            contentType: 'application/json', 
+            data: JSON.stringify({ merchantId: $('#merchantId').val(), product: product, optionId: optionId }),
+            success: function (data) {
+                if(data.productDelete){
+                    alert("Xóa lựa chọn thành công");
+                }
+                // location.reload();
+            },
+            error: function (error) {
+                console.error('Xảy ra lỗi khi xóa lựa chọn:', error);
+            }
+        });
+    });
+
     function checkCategoriesProductDetail(){
         let categories = $('#selectedProductCategoryDetail').val();
         console.log(categories);
@@ -549,6 +576,28 @@ $('.btn-detail').click(function() {
         
     })
     
+    $("#closeProductDetail").on('click', function() {
+        // Ẩn modal
+        modalProductDetail.style.display = 'none';
+    });
+    
+    $("#recommendDetail").on('click', function() {
+        const apiUrl = '/merchant/products/update-recommend';
+        
+        $.ajax({
+            url: apiUrl,
+            type: 'POST',
+            contentType: 'application/json',
+            data: JSON.stringify({ merchantId: $('#merchantId').val(), product: productDetail}),
+            success: async function (data) {
+                alert("Recommend sản phẩm thành công");
+                // location.reload();
+            },
+            error: function (error) {
+                console.error('Lỗi khi recommend sản phẩm:', error);
+            }
+        });
+    })
     function addOldOptional(stt){
         const newOption = document.createElement('li');
         const newOptionContent = document.createElement('div');
@@ -626,37 +675,9 @@ $("#closeCategory").on('click', function() {
 });
 
 $("#closeProduct").on('click', function() {
-    // Ẩn modal
     modalProduct.style.display = 'none';
 });
 
-$("#closeProductDetail").on('click', function() {
-    // Ẩn modal
-    modalProductDetail.style.display = 'none';
-});
-
-// Bắt sự kiện khi nhấn vào nút Thêm
-// addCategory.addEventListener('click', function() {
-//     // Lấy giá trị từ input
-//     const newCategory = categoryInput.value;
-
-//     // Kiểm tra xem category có giá trị không
-//     if (newCategory.trim() !== '') {
-//         // Thực hiện xử lý với category (ở đây là in ra console)
-//         console.log('Thêm category mới:', newCategory);
-
-//         // Ẩn modal
-//         modalCategory.style.display = 'none';
-
-//         // Reset giá trị của input
-//         categoryInput.value = '';
-
-//         // Thêm category mới vào danh sách và hiển thị lại danh sách
-//         renderCategoryList(getCategoryList().concat(newCategory));
-//     } else {
-//         alert('Vui lòng nhập category.');
-//     }
-// });
 
 function deleteCategory(merchantId, categoryId){
     console.log("Đã delete categoryId: ", categoryId.toString());
@@ -945,6 +966,24 @@ $('#saveOption').on('click', function(){
     }
 })
 
+$('#resetQuantity').on('click', function(){
+    const apiUrl = '/merchant/products/reset-quantity';
+    const merchantId = $("#merchantId").val();
+
+    $.ajax({
+        url: apiUrl,
+        type: 'POST', 
+        contentType: 'application/json',
+        data: JSON.stringify({ merchantId: merchantId }),
+        success: function (data) {
+            alert(data.message);
+            location.reload();
+        },
+        error: function (error) {
+            console.error('Lỗi khi cập nhật lại số lượng:', error);
+        }
+    });
+})
 
 function getCategoryList() {
     return ['Category 1', 'Category 2', 'Category 3', 'Category 4', 'Category 5', 'Category 6', 'Category 7', 'Category 8', 'Category 9', 'Category 10', 'Category 11', 'Category 12', 'Category 13'];

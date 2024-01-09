@@ -23,6 +23,7 @@
     <div class="top d-flex align-items-center justify-content-between mb-3">
         <h3>Danh sách sản phẩm</h3>
         <div class="btn-function">
+            <button type="button" id="resetQuantity" class="btn custom-button" style="margin-right: 10px;">Cập nhật lại số lượng trong ngày</button>
             <button type="button" id="addProductBtn" class="btn custom-button" style="margin-right: 10px;">+ Sản phẩm</button>
             <button type="button" id="addCategoryBtn" class="btn custom-button">+ Danh mục</button>
             <div id="modalCategory" class="modal">
@@ -347,37 +348,15 @@
                     </div>
 
                     <div class="d-flex mt-3 justify-content-end">
-                        <button type="button" id="closeProduct" class="btn custom-button mr-btn">Quay lại</button>
-                        <button type="button" id="recommend" class="btn custom-button mr-btn">Đề xuất</button>
-                        <button type="button" id="deleteProductDetail" class="btn custom-button mr-btn">Xóa bỏ</button>
+                        <button type="button" id="closeProductDetail" class="btn custom-button mr-btn">Quay lại</button>
+                        <button type="button" id="recommendDetail" class="btn custom-button mr-btn">Đề xuất</button>
+                        <button type="button" id="deleteProductDetail" class="btn custom-button mr-btn">Xóa sản phẩm</button>
+                        <button type="button" id="deleteOptionDetail" class="btn custom-button mr-btn">Xóa lựa chọn</button>
                         <button type="button" id="saveOptionDetail" class="btn custom-button mr-btn">Thêm lựa chọn</button>
                         <button type="button" id="updateProduct" class="btn custom-button mr-btn">Thay đổi</button>
-                        {{!-- <button type="button" id="addProduct" class="btn custom-button">Thêm sản phẩm</button> --}}
                     </div>
                 </div>
             </div>
-
-            {{!-- <div id="modalCategory" class="modal">
-                <div class="modal-content">
-                    <div class="close d-flex justify-content-end align-items-center">
-                        <i class="bi bi-arrow-bar-left"></i>
-                        <span>Quay lại</span>
-                    </div>
-                    <h2 class="d-flex justify-content-center">Quản lý danh mục</h2>
-                    <ul id="categoryList" class="category-list list-group mb-3">
-                        {{#each categories}}
-                            <li class="list-group-item d-flex justify-content-between align-items-center">
-                                    <span>{{category}}</span>
-                                    <button type="button" class="btn-close btn-sm"></button>
-                            </li>
-                        {{/each}}
-                    </ul>
-                    <div class="d-flex">
-                        <input type="text" class="form-control" id="categoryInput" placeholder="Nhập category...">
-                        <button type="button" id="addCategory" class="btn custom-button">Thêm</button>
-                    </div>
-                </div>
-            </div> --}}
         </div>
     </div>
     <div class="menu-category-bar mb-3 items">
@@ -456,119 +435,6 @@
                                 </div>
                             </div>
                         </div>
-                        
-                        <div id="modalProductDetail" class="modal">
-                            <div class="modal-content">
-                                <h2 class="d-flex justify-content-center">Quản lý sản phẩm</h2>
-
-                                <div class="d-flex">
-                                    <div class="col-md-4">
-                                        <img src="/static/images/user/shop/alter-image.png" alt="">
-                                    </div>
-                                    <div class="col-md-8 primary">
-                                        <div class="w-100">
-                                            <label for="productName" class="form-label">Tên sản phẩm</label>
-                                            <input type="text" class="form-control" id="productName" value="Cơm tấm sườn, bì chả" readonly>
-                                        </div>
-                                        <div class="w-100">
-                                            <label for="selectType">Các lựa chọn</label>
-                                            <div class="dropdown">
-                                                <div class="has-validation">
-                                                    <button class="form-control dropdown-toggle custom-filter d-flex justify-content-start align-items-center mt-1" aria-describedby="checkValidationItem" type="button" id="dropdownItem" data-toggle="dropdown" aria-expanded="false">
-                                                    Hãy thêm các lựa chọn cho sản phẩm của bạn (nếu muốn)
-                                                    </button>
-                                                    <input id="selectedItem" name="type" type="hidden">
-                                                    <ul class="custom-dropdown-menu dropdown-menu dropdown-category" aria-labelledby="dropdownItem">
-                                                        <li><a class="dropdown-item" href="#">
-                                                            <i class="bi bi-plus"></i>
-                                                            <span>Thêm lựa chọn</span>
-                                                        </a></li>
-                                                    </ul>
-                                                    <div id="checkValidationItem" class="invalid-feedback">
-                                                    Vui lòng thêm ít nhất một lựa chọn và lựa chọn không được quá 50 kí tự.
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div>
-                                    <div class="mb-1 d-flex justify-content-between">
-                                        <div class="w-100">
-                                            <label for="selectType">Danh mục</label>
-                                            <div class="dropdown">
-                                                <div class="has-validation">
-                                                    <button class="form-control dropdown-toggle custom-filter d-flex justify-content-start align-items-center mt-2" aria-describedby="checkValidationCategories" type="button" id="dropdownCategory" data-toggle="dropdown" aria-expanded="false">
-                                                    Chọn các danh mục
-                                                    </button>
-                                                    <input id="selectedCategory" name="type" type="hidden">
-                                                    <ul class="custom-dropdown-menu dropdown-menu dropdown-category" aria-labelledby="dropdownCategory">
-                                                        {{#each this.categories}}
-                                                            <li>
-                                                                <div class="custom-checkbox">
-                                                                    <input type="checkbox" class="custom-control-input category-checkbox" id="{{name}}" data-value="{{name}}">
-                                                                    <label class="dropdown-item category" for="{{name}}">{{name}}</label>
-                                                                </div>
-                                                            </li>
-                                                        {{/each}}
-                                                    </ul>
-                                                    <div id="checkValidationCategories" class="invalid-feedback">
-                                                    Vui lòng chọn ít nhất một danh mục, nhiều nhất là ba.
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="d-flex">
-                                        <div class="">
-                                            <label for="price" class="form-label">Giá sản phẩm</label>
-                                            <input type="text" class="form-control" id="price" placeholder="100" aria-describedby="checkValidationPrice">
-                                            <div class="has-validation">
-                                                <div id="checkValidationPrice" class="invalid-feedback">
-                                                    Không được để trống mục này.
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="quantity">
-                                            <label for="quantity" class="form-label">Số lượng</label>
-                                            <input type="text" class="form-control" id="quantity" placeholder="100" aria-describedby="checkValidationQuantity">
-                                            <div class="has-validation">
-                                                <div id="checkValidationQuantity" class="invalid-feedback">
-                                                    Không được để trống mục này.
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="status">
-                                            <label for="" class="form-label">Trạng thái</label>
-                                            <div class="dropdown">
-                                                <button class="form-control dropdown-toggle custom-filter d-flex justify-content-start align-items-center" aria-describedby="checkValidationCategories" type="button" id="statusItem" data-toggle="dropdown" aria-expanded="false">
-                                                Hết hàng
-                                                </button>
-
-                                                <ul class="dropdown-menu" aria-labelledby="statusItem">
-                                                    <li><a class="dropdown-item" href="#">Còn hàng</a></li>
-                                                    <li><a class="dropdown-item active" href="#">Hết hàng</a></li>
-                                                </ul>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="mt-1">
-                                        <label for="description" class="form-label">Thông tin sản phẩm</label>
-                                        <textarea textarea class="form-control" aria-label="With textarea" id="description"></textarea>
-                                    </div>
-                                </div>
-
-                                <div class="d-flex mt-3 justify-content-end">
-                                    <button type="button" id="closeProductDetail" class="btn custom-button" style="margin-right: 10px">Quay lại</button>
-                                    <button type="button" id="recommendProduct" class="btn custom-button" style="margin-right: 10px">Đề xuất</button>
-                                    <button type="button" id="deleteProduct" class="btn custom-button" style="margin-right: 10px">Xóa bỏ</button>
-                                    <button type="button" id="updateProduct" class="btn custom-button">Thay đổi</button>
-                                </div>
-                            </div>
-                        </div>
-
-                        
                     </div>
                 </div>
             </div> 

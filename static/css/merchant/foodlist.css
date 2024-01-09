@@ -138,14 +138,9 @@
 }
 
 #fixSizeImg{
-    width: 230px;
+    width: 250px;
     height: 150px;
 }
-
-/* #fuMain{
-    width: 40px;
-    height: auto;
-} */
 
 #saveOption{
     margin-left: 10px;
