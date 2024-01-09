@@ -3,6 +3,7 @@ import shoppingCartService from "../../services/user/shopping-cart.service.js";
 const displayOrder = async (req, res, next) => {
     const orderID = req.session.order;
     const userID = req.session.authUser;
+    const message = req.query.message;
 
     if (!userID) {
         res.redirect("/account/login");
@@ -18,7 +19,8 @@ const displayOrder = async (req, res, next) => {
         res.render("user/shopping-cart", {
             user: true,
             noOrder: false,
-            orderDetail: orderDetail
+            orderDetail: orderDetail,
+            message: message
         });
     }
 };
@@ -60,7 +62,7 @@ const addVoucher = async (req, res, next) => {
     const orderID = req.session.order;
     const id = req.query.id;
     const type = req.query.type;
-    const voucher = await shoppingCartService.findVoucherById(id);
+    const voucher = await shoppingCartService.findVoucherById(id, type);
     if (!voucher) {
         const url = "/shopping-cart/" + type + "-voucher";
         res.redirect(url);
@@ -81,6 +83,20 @@ const addVoucher = async (req, res, next) => {
         res.redirect("/shopping-cart");
     }
 };
+
+const removeVoucher = async (req, res, next) => {
+    const orderID = req.session.order;
+    const type = req.query.type;
+    let order = await shoppingCartService.getOrderVoucher(orderID);
+    for (const each of order.vouchers) {
+        if (each.typeVoucher == type) {
+            await shoppingCartService.deleteVoucher(each._id, orderID);
+        }
+    }
+    await shoppingCartService.updateTotal(orderID);
+    res.redirect("/shopping-cart");
+};
+
 const displayAddresss = async (req, res, next) => {
     const userID = req.session.authUser;
     if (!userID) {
@@ -119,14 +135,25 @@ const submitOrder = async (req, res, next) => {
     const orderID = req.session.order;
     const userId = req.session.authUser;
     const order = await shoppingCartService.findOrderById(orderID);
+    const checkVoucher = await shoppingCartService.checkVoucher(orderID)
     if (!order.addressOrder) {
-        res.redirect("/shopping-cart");
+        const mess = "Phải nhập địa chỉ mới có thể đặt hàng"
+        res.redirect("/shopping-cart?message=" + mess)
+    } else 
+    if(checkVoucher == false){
+        const mess = "Mã giảm giá hoặc mã shipping đã hết hạn"
+        res.redirect("/shopping-cart?message=" + mess)
     } else {
         const changeStatus = await shoppingCartService.updateStatus(orderID);
         const changeTimeStatus = await shoppingCartService.updateTimeStatus(orderID);
         const updateUserID = await shoppingCartService.updateOrderUser(userId._id, orderID);
-        if (!changeStatus || !changeTimeStatus || !updateUserID) {
-            res.redirect("/shopping-cart");
+        const updateQuantity = await shoppingCartService.updateQuantity(orderID);
+        if (updateQuantity == false) {
+            const mess = "Món ăn trong đơn hàng đã hết";
+            res.redirect("/shopping-cart?message=" + mess);
+        } else if (!changeStatus || !changeTimeStatus || !updateUserID) {
+            const mess = "Đặt đơn hàng không thành công";
+            res.redirect("/shopping-cart?message=" + mess);
         } else {
             req.session.order = "";
             req.session.numberItem = 0;
@@ -135,6 +162,35 @@ const submitOrder = async (req, res, next) => {
     }
 };
 
+const deleteItem = async (req, res, next) => {
+    const orderItemID = req.query.itemID;
+    const orderID = req.session.order;
+    const isDeleted = await shoppingCartService.deleteItem(orderID, orderItemID)
+    await shoppingCartService.calculateTotal(orderID)
+    if(isDeleted == true){
+        req.session.numberItem = req.session.numberItem - 1
+        const mess = "Đã xóa sản phẩm"
+        res.redirect("/shopping-cart?message=" + mess)
+    }else{
+        const mess = "Không xóa được sản phẩm"
+        res.redirect("/shopping-cart?message=" + mess)
+    }
+};
+
+const deleteAllItem = async (req, res, next) => {
+    const orderID = req.session.order;
+    const isDeleted = await shoppingCartService.deleteAllItems(orderID)
+    await shoppingCartService.calculateTotal(orderID)
+    if(isDeleted == true){
+        await shoppingCartService.removeItems(orderID)
+        req.session.numberItem = 0
+        const mess = "Đã xóa tất cả sản phẩm"
+        res.redirect("/shopping-cart?message=" + mess)
+    }else{
+        const mess = "Không xóa được sản phẩm"
+        res.redirect("/shopping-cart?message=" + mess)
+    }
+};
 export default {
     displayOrder,
     displayFoodVoucher,
@@ -142,5 +198,8 @@ export default {
     addVoucher,
     displayAddresss,
     addAddress,
-    submitOrder
+    submitOrder,
+    deleteItem,
+    deleteAllItem,
+    removeVoucher
 };

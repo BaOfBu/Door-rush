@@ -29,14 +29,23 @@
                         <input name="voucherId" type="text" class="search-input" placeholder="Tìm kiếm" 
                         {{#if searchID}} value="{{searchID}}"{{/if}}/>
                         <button class="search-button">Tìm kiếm</button>
+                        
+                    </form>
+                    <form action="/shopping-cart">
+                        <button class="search-button">Quay lại</button>
                     </form>
                 </div>
                 <div class="voucher-pane">
+                    <a class="add-voucher" href="/shopping-cart/remove-voucher?type={{voucherType}}">
+                        <div class="voucher-card {{voucherType}}">
+                            <p><i class="bi bi-x x-icon"></i></p>
+                        </div>
+                    </a>
                     {{#each voucher}}
                     <a class="add-voucher" href="/shopping-cart/add-voucher?id={{this._id}}&type={{../voucherType}}">
                         <div class="voucher-card {{../voucherType}}">
                             <p class="voucher-id">{{this.voucherId}}</p>
-                            <p class="voucher-detail">Giảm: {{this.valueOfDiscount}}Đ</p>
+                            <p class="voucher-detail">Giảm: {{this.valueOfDiscount}}</p>
                             <p class="voucher-detail">Từ: {{this.startDate}}</p>
                             <p class="voucher-detail">Đến: {{this.endDate}}</p>
                         </div>

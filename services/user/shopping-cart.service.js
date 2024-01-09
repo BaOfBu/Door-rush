@@ -3,18 +3,24 @@ import Order from "../../models/orderModel.js";
 import OrderItem from "../../models/orderItemModel.js";
 import Voucher from "../../models/voucherModel.js";
 import Address from "../../models/addressModel.js";
+import FoodType from "../../models/foodTypeModel.js";
+import { populate } from "dotenv";
 
-const getOrderItems = async orderItemsID => {
+const getOrderItems = async (orderItemsID, order) => {
     let itemList = [];
-    for (const each of orderItemsID) {
-        const item = await OrderItem.findById(each._id).populate("foodId typeFoodId").exec();
-        const total = item.typeFoodId.price * item.quantity;
+    for (const each of order.items){
+        let total = each.typeFoodId.price * each.quantity;
+        total = new Intl.NumberFormat("vi-VN").format(total) + " Đ";
+
+        let price = each.typeFoodId.price;
+        price = new Intl.NumberFormat("vi-VN").format(price) + " Đ";
         const temp = {
-            itemImage: item.foodId.image,
-            itemName: item.foodId.name,
-            itemType: item.typeFoodId.product,
-            itemPrice: item.typeFoodId.price,
-            itemQuantity: item.quantity,
+            itemID: each._id,
+            itemImage: each.foodId.image,
+            itemName: each.foodId.name,
+            itemType: each.typeFoodId.product,
+            itemPrice: price,
+            itemQuantity: each.quantity,
             itemTotal: total
         };
         itemList.push(temp);
@@ -22,15 +28,19 @@ const getOrderItems = async orderItemsID => {
     return itemList;
 };
 
-const calculateTotal = async orderID => {
-    const order = await Order.findById(orderID).populate("vouchers addressOrder").exec();
+const calculateTotal = async (orderID) => {
+    const order = await Order.findById(orderID)
+    .populate("vouchers addressOrder")
+    .populate({ path: "items", populate: { path: "typeFoodId" } })
+    .exec()
     let total = 0;
     for (const each of order.items) {
-        const item = await OrderItem.findById(each._id).populate("foodId typeFoodId").exec();
-        total = total + item.typeFoodId.price * item.quantity;
+        // try{
+            total = total + each.typeFoodId.price * each.quantity;
+        // }catch(error){}
     }
 
-    const distance = 3;
+    const distance = 1;
     total = distance > 2 ? total + 25000 : total + 13000;
 
     let allDiscount = 0;
@@ -43,22 +53,27 @@ const calculateTotal = async orderID => {
 };
 
 const getOrderDetail = async orderID => {
-    const order = await Order.findById(orderID).populate("vouchers addressOrder").exec();
-    const orderItems = await getOrderItems(order.items);
+    const order = await Order.findById(orderID)
+    .populate("vouchers addressOrder")
+    .populate({ path: "items", populate: { path: "typeFoodId foodId" }})
+    .exec();
+    const orderItems = await getOrderItems(order.items, order);
 
     let orderFoodVoucher;
     let orderShipVoucher;
     for (const each of order.vouchers) {
         if (each.typeVoucher == "food") {
+            const discount = new Intl.NumberFormat("vi-VN").format(each.valueOfDiscount) + " Đ";
             orderFoodVoucher = {
                 voucherId: each.voucherId,
-                valueOfDiscount: each.valueOfDiscount
+                valueOfDiscount: discount
             };
         }
         if (each.typeVoucher == "ship") {
+            const discount = new Intl.NumberFormat("vi-VN").format(each.valueOfDiscount) + " Đ";
             orderShipVoucher = {
                 voucherId: each.voucherId,
-                valueOfDiscount: each.valueOfDiscount
+                valueOfDiscount: discount
             };
         }
     }
@@ -77,18 +92,23 @@ const getOrderDetail = async orderID => {
             order.addressOrder.city;
     }
 
+    const total = new Intl.NumberFormat("vi-VN").format(order.total) + " Đ";
+
     const orderDetail = {
         orderItems: orderItems,
         orderFoodVoucher: orderFoodVoucher,
         orderShipVoucher: orderShipVoucher,
         addressOrder: addressOrder,
-        total: order.total
+        total: total
     };
     return orderDetail;
 };
 
 const formatDate = date => {
-    const result = date.getMonth() + "/" + date.getDay() + "/" + date.getYear();
+    const day = date.getDate()
+    const month = date.getMonth() + 1
+    const year = date.getFullYear();
+    const result = day + "/" + month + "/" + year;
     return result;
 };
 
@@ -106,13 +126,14 @@ const getActiveVoucher = async (type, voucherId) => {
     for (const each of voucher) {
         const startDate = formatDate(each.startDate);
         const endDate = formatDate(each.endDate);
+        const discount = new Intl.NumberFormat("vi-VN").format(each.valueOfDiscount) + " Đ";
         const temp = {
             _id: each._id,
             voucherId: each.voucherId,
             startDate: startDate,
             endDate: endDate,
             typeVoucher: each.typeVoucher,
-            valueOfDiscount: each.valueOfDiscount
+            valueOfDiscount: discount
         };
         result.push(temp);
     }
@@ -195,8 +216,15 @@ const findOrderById = async orderID => {
     return await Order.findById(orderID).exec();
 };
 
-const findVoucherById = async voucherID => {
-    return await Voucher.findById(voucherID).exec();
+const findVoucherById = async (voucherID, type) => {
+    const now = Date.now()
+    const voucher = await Voucher.findOne({
+        _id: voucherID, 
+        startDate: { $lte: now },
+        endDate: { $gte: now },
+        typeVoucher: type
+    }).exec();
+    return voucher
 };
 
 const getOrderVoucher = async orderID => {
@@ -208,10 +236,83 @@ const createNewAddress = async dataAddress => {
     await newAddress.save();
     return newAddress;
 };
-const updateOrderUser = async function (userId, orderId) {
+const checkVoucher = async (orderID) => {
+    const order = await Order.findOne({_id: orderID}).populate("vouchers").exec()
+    for(const each of order.vouchers){
+        const voucher = await findVoucherById(each._id, each.typeVoucher);
+        if(!voucher) return false
+    }
+    return true
+}
+const updateOrderUser = async (userId, orderId) => {
     const add = await User.findByIdAndUpdate(userId, { $push: { orders: orderId } }, { new: true });
     return add;
 };
+const updateQuantity = async (orderID) => {
+    const order = await Order.findOne({_id: orderID})
+    .populate({ path: "items", populate: { path: "typeFoodId" }})
+    .exec()
+    try{
+        for(const each of order.items){
+            let newQuantity = (each.typeFoodId.quantity - each.quantity)
+            if(newQuantity < 0){
+                throw new Error()
+            }
+            if(newQuantity > 0){
+                const foodType = await FoodType.findOneAndUpdate({_id: each.typeFoodId._id}, {
+                    quantity: newQuantity
+                }, {new: true})
+            }else{
+                const foodType = await FoodType.findOneAndUpdate({_id: each.typeFoodId._id}, {
+                    quantity: newQuantity,
+                    status: "Hết hàng"
+                }, {new: true})
+            }
+        }
+    }catch(error){
+        return false
+    }
+    return true
+}
+
+const deleteItem = async (orderID, orderItemID) => {
+    try{
+        const orderItem = await OrderItem.findOneAndDelete({_id: orderItemID}).exec();
+        const order = await Order.findOneAndUpdate(
+            { _id: orderID },
+            {
+                $pullAll: {
+                    items: [{ _id: orderItemID }]
+                }
+            },
+            { new: true }
+        );
+    }catch(error){
+        return false;
+    }
+    return true;
+}
+
+const deleteAllItems = async (orderID) => {
+    const order = await Order.findOne({_id: orderID}).lean().exec()
+    try{
+        for(const each of order.items){
+            const orderItem = await OrderItem.findOneAndDelete({_id: each}).exec();
+        }
+    }catch(error){ return false}
+    return true;
+}
+
+const removeItems = async orderID => {
+    const order = await Order.findOneAndUpdate(
+        { _id: orderID },
+        {
+            $set: {items: []}
+        },
+        { new: true }
+    );
+}
+
 export default {
     getOrderItems,
     calculateTotal,
@@ -230,5 +331,10 @@ export default {
     findVoucherById,
     createNewAddress,
     getOrderVoucher,
-    updateOrderUser
+    updateOrderUser,
+    updateQuantity,
+    deleteItem,
+    deleteAllItems,
+    removeItems,
+    checkVoucher
 };

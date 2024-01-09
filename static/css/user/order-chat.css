@@ -76,6 +76,11 @@
     border-bottom: 2px solid #fff
 }
 
+.chat-history {
+    height: 450px;
+    overflow-y: auto;
+}
+
 .chat .chat-history ul {
     padding: 0
 }

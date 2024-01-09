@@ -1,6 +1,8 @@
 import { ObjectId } from "mongodb";
 import Order from "../../models/orderModel.js";
 import Merchant from "../../models/merchantModel.js";
+import FoodType from "../../models/foodTypeModel.js";
+import Food from "../../models/foodModel.js";
 
 export default {
     findAll() {
@@ -31,6 +33,24 @@ export default {
     findTheCancelOrder(Id) {
         var id = new ObjectId(Id);
         return Order.find({ merchantId: id,status: "Đã hủy" }).count();
+    },
+    async findTheOutOfStock(merchantId) {
+        var res = await Merchant.findById(merchantId).lean();
+        var menu = res.menu;
+        var count = 0;
+        for (var i = 0; i < menu.length; i++) {
+            var foods = await Food.findById(menu[i]).lean();
+            if(foods.foodType != null){
+                var foodtypes = foods.foodType;
+                for(var j = 0; j < foodtypes.length; j++){
+                    var foodtype = await FoodType.findOne({_id: foodtypes[j]}).lean();
+                    if(foodtype.quantity == 0){
+                        count++;
+                    }
+                }
+            }
+        }
+        return count;
     },
     async getUserAddress(merchantID){
         const user = await Merchant.findById(merchantID)

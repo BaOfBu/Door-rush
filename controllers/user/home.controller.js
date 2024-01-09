@@ -1,7 +1,7 @@
 import MerChant from "../../services/user/search.service.js";
 
 const index = async function (req, res) {
-    const merchants = (await MerChant.getListMerchantDiscount()).slice(0, 16);
+    const merchants = (await MerChant.getListMerchantTopRating()).slice(0, 16);
 
     let infoMerchants = new Array();
 
