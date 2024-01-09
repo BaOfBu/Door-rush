@@ -3,7 +3,7 @@ import shoppingCartService from "../../services/user/shopping-cart.service.js";
 const displayOrder = async (req, res, next) => {
     const orderID = req.session.order;
     const userID = req.session.authUser;
-    const message = req.query.message
+    const message = req.query.message;
 
     if (!userID) {
         res.redirect("/account/login");
@@ -147,13 +147,13 @@ const submitOrder = async (req, res, next) => {
         const changeStatus = await shoppingCartService.updateStatus(orderID);
         const changeTimeStatus = await shoppingCartService.updateTimeStatus(orderID);
         const updateUserID = await shoppingCartService.updateOrderUser(userId._id, orderID);
-        const updateQuantity = await shoppingCartService.updateQuantity(orderID)
-        if(updateQuantity == false){
-            const mess = "Món ăn trong đơn hàng đã hết"
-            res.redirect("/shopping-cart?message=" + mess)
+        const updateQuantity = await shoppingCartService.updateQuantity(orderID);
+        if (updateQuantity == false) {
+            const mess = "Món ăn trong đơn hàng đã hết";
+            res.redirect("/shopping-cart?message=" + mess);
         } else if (!changeStatus || !changeTimeStatus || !updateUserID) {
-            const mess = "Đặt đơn hàng không thành công"
-            res.redirect("/shopping-cart?message=" + mess)
+            const mess = "Đặt đơn hàng không thành công";
+            res.redirect("/shopping-cart?message=" + mess);
         } else {
             req.session.order = "";
             req.session.numberItem = 0;
@@ -175,7 +175,7 @@ const deleteItem = async (req, res, next) => {
         const mess = "Không xóa được sản phẩm"
         res.redirect("/shopping-cart?message=" + mess)
     }
-}
+};
 
 const deleteAllItem = async (req, res, next) => {
     const orderID = req.session.order;
@@ -190,7 +190,7 @@ const deleteAllItem = async (req, res, next) => {
         const mess = "Không xóa được sản phẩm"
         res.redirect("/shopping-cart?message=" + mess)
     }
-}
+};
 export default {
     displayOrder,
     displayFoodVoucher,
