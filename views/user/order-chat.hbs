@@ -77,12 +77,18 @@
                                 {{#each this.messagesHistory}}
                                 {{#if this.flag }}
                                     <li class="clearfix" >
+                                        <div class="message-data text-end">
+                                            <span class="message-data-time">{{this.time}}</span>
+                                        </div>
                                         <div class="message other-message float-right">
                                             {{this.message}}
                                         </div>
                                     </li>
                                 {{else}}
                                     <li class="clearfix">
+                                        <div class="message-data">
+                                            <span class="message-data-time">{{this.time}}</span>
+                                        </div>
                                         <div class="message my-message float-left">
                                             {{this.message}}
                                         </div>
