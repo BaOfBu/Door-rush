@@ -6,10 +6,5 @@ export default {
     },
     findByName(merchantName) {
         return Merchant.find({ name: merchantName });
-    },
-    findByKeyword(keyword) {
-        console.log("keyword:", keyword);
-        return Merchant.find({ name: { $regex: keyword, $options: "i" } }).lean();
-    },
-
+    }
 };

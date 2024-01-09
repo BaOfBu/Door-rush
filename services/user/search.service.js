@@ -1,5 +1,4 @@
 import Merchant from "../../models/merchantModel.js";
-import Food from "../../models/foodModel.js";
 
 class SearchService{
     async getAllMerchant(){
