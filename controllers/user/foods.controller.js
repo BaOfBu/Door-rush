@@ -283,6 +283,7 @@ const foodDetail = async function (req, res) {
     } else {
         res.redirect("/foods");
     }
+  }
 };
 // [POST]/foods/{{shop_name}}/{{foodId}}/addToCart
 const addToCart = async function (req, res) {
@@ -397,4 +398,5 @@ const search = async function (req, res) {
     product: searchResult,
   });
 };
-export default { index, foodDetail, shop, addToCart, giveFeedback, search };
+
+export default { index, foodDetail, shop, addToCart, giveFeedback, search }
