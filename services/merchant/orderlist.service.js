@@ -2,6 +2,21 @@ import Order from "../../models/orderModel.js";
 import Merchant from "../../models/merchantModel.js";
 
 export default {
+    findOrderList(merchantId) {
+        return Order.find({ merchantId: merchantId })
+            .populate({
+                path: 'merchantId',
+                select: 'name image statusMerchant timeRegister',
+            })
+            .populate({
+                path: 'items',
+                populate: {
+                    path: 'productId',
+                },
+            })
+            .populate('addressOrder')
+            .populate('userId');
+    },
     findMerchantInfo(merchantId){
         return Merchant.findOne({_id: merchantId}).exec();
     },

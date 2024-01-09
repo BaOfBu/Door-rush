@@ -15,7 +15,7 @@ function setDefaultLayoutAndPartials(req, res, next) {
 
 router.use(setDefaultLayoutAndPartials);
 
-router.use("/", homeRoutes);
+router.use("/", seedRoutes);
 router.use("/manage-shop", manageShopRoutes);
 router.use("/manage-user", manageUserRoutes);
 router.use("/validate-shop", validateShopRoutes);
