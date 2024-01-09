@@ -13,12 +13,12 @@ img{
     color: var(--grey-color);
     font-weight: 400;
     line-height: 150%;
-    margin: 65px 65px 0px 65px;
+    margin: 65px 65px 0px 0px;
 }
 .section-two-content{
     display: flex;
     flex-direction: column;
-    margin: 30px 65px 0px 65px;
+    margin: 30px 0px 0px 0px;
 }
 .shopping-cart-title{
     color: var(--black-color);
@@ -36,7 +36,7 @@ img{
     display: flex;
     flex-direction: column;
     padding: 0px 0px 32px 0px;
-    margin: 30px 65px 0px 65px;
+    margin: 30px 0px 0px 0px;
     border-bottom: 1px solid var(--black-color);
 }
 .item-card{
@@ -55,13 +55,18 @@ img{
     display: flex;
     flex-direction: row;
     justify-content: end;
-    gap: 64px;
+    gap: 40px;
 }
 .price-col{
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 40px;
+    gap: 60px;
+}
+.price-col-button{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
 }
 .item-title-font{
     color: var(--black-color);
@@ -69,17 +74,23 @@ img{
     font-weight: 900;
     line-height: 100%;
 }
+.item-title-name{
+    color: var(--orange-color);
+    font-size: 32px;
+    font-weight: 600;
+    line-height: 100%;
+}
 .item-info{
     display: flex;
     flex-direction: row;
 }
 .item-img{
-    width: 110px;
-    min-width: 110px;
-    max-width: 110px;
-    height: 85px;
-    min-height: 85px;
-    max-height: 85px;
+    width: 220px;
+    min-width: 220px;
+    max-width: 220px;
+    height: 170px;
+    min-height: 170px;
+    max-height: 170px;
 }
 .item-name{
     display: flex;
@@ -96,9 +107,9 @@ img{
 .section-four-content{
     display: flex;
     flex-direction: column;
-    gap: 30px;
+    gap: 10px;
     padding: 60px 0px 0px 0px;
-    margin: 30px 65px 30px 65px;
+    margin: 30px 0px 30px 0px;
 }
 .order-option-row{
     display: flex;
@@ -107,9 +118,15 @@ img{
 }
 .order-option-title{
     color: var(--black-color);
-    font-size: 30px;
-    font-weight: 900;
-    line-height: 140%;
+    font-size: 24px;
+    font-weight: 700;
+    line-height: 100%;
+}
+.voucher-id{
+    color: var(--orange-color) !important;
+    font-size: 24px;
+    font-weight: 400;
+    line-height: 100%;
 }
 .order-total{
     color: var(--black-color);
@@ -120,7 +137,7 @@ img{
 .order-option-body{
     color: var(--black-color);
     font-size: 24px;
-    font-weight: 700;
+    font-weight: 400;
     line-height: 100%;
 }
 .order-button-row{
@@ -130,12 +147,40 @@ img{
     gap: 10px;
 }
 .order-button{
+    width: fit-content;
     text-decoration: none;
     background-color: var(--orange-color);
-    padding: 20px;
+    padding: 15px;
     color: var(--white-color);
     font-size: 24px;
     font-weight: 700;
     line-height: 100%;
     text-align: center;
+    border-radius: 5px;
+}
+.delete-button{
+    width: fit-content;
+    text-decoration: none;
+    background-color: var(--orange-color);
+    padding: 10px;
+    color: var(--white-color);
+    font-size: 24px;
+    font-weight: 700;
+    line-height: 100%;
+    text-align: center;
+    border-radius: 5px;
+}
+.line{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 30px;
+    padding: 0px 0px 10px 0px;
+}
+.message-font{
+    color: var(--orange-color);
+    font-size: 32px;
+    font-weight: 700;
+    line-height: 100%;
+    margin: 0;
 }

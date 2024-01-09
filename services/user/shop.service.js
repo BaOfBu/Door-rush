@@ -1,8 +1,10 @@
 import Merchant from "../../models/merchantModel.js"
-import Food from "../../models/foodModel.js"
+
 const findByName = (shopName) => {
     return Merchant.findOne({name: shopName})
-        .populate("address category foodRecommend menu")
+        .populate("address category")
+        .populate({path: "menu", populate: {path: "foodType category"}})
+        .populate({path: "foodRecommend", populate: {path: "foodType"}})
         .exec()
 }
 const mergeAddress = (shop) => {
@@ -13,26 +15,24 @@ const mergeAddress = (shop) => {
             + ", " + shop.address.city
     return shopAddress
 }
-const findFoodByID = (foodID) => {
-    return Food.findById({_id: foodID}).populate("foodType category")
-}
-const getAllFood = async (shop) => {
+const getAllFood = (shop) => {
     let shopFood = []
     for(let each of shop.menu){
-        let food = await findFoodByID(each._id)
-        let price = food.foodType.map(type => type.price)
-        let category = food.category.map(type => type.name)
+
+        let price = each.foodType.map(type => {
+            return new Intl.NumberFormat("vi-VN").format(type.price) + " Đ";
+        });
+        let category = each.category.map(type => type.name)
         let rating = Math.round(each.rating)
         shopFood.push({
             id: each._id,
             image: each.image,
             name: each.name,
             rating: rating,
-            price: price[0],
+            price: price[0] || (0 + " Đ"),
             category: category
         })
     }
-    console.log(shopFood)
     return shopFood
 }
 const getAllCategory = (shop, shopFood) => {
@@ -57,32 +57,29 @@ const getAllCategory = (shop, shopFood) => {
 const sliceCategory = (shopCategory, start, end) => {
     return shopCategory.slice(start, end)
 }
-const findRecommendFood = (recommendID) => {
-    return Food.findById({_id: recommendID}).populate("foodType")
-}
-const getRecommendFood = async (shop) => {
+const getRecommendFood = (shop) => {
     let recommendFood = []
     for(let each of shop.foodRecommend){
-        let food = await findRecommendFood(each._id)
-        let price = food.foodType.map(type => type.price)
+        let price = each.foodType.map(type => {
+            return new Intl.NumberFormat("vi-VN").format(type.price) + " Đ";
+        });
         let rating = Math.round(each.rating)
         recommendFood.push({
             id: each._id,
             image: each.image,
             name: each.name,
             rating: rating,
-            price: price[0]
+            price: price[0] || (0 + " Đ"),
         })
     }
     return recommendFood
 }
+
 export default {
     findByName,
     mergeAddress,
-    findFoodByID,
     getAllFood,
     getAllCategory,
     sliceCategory,
-    findRecommendFood,
     getRecommendFood
 }

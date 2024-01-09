@@ -194,7 +194,10 @@ const chatOrder = async function (req, res) {
         shopName: order.merchantId.name,
         orderItem: eachOrderItem,
         userId: req.session.authUser._id,
-        messagesHistory: messages
+        messagesHistory: messages,
+        orderId: orderId,
+        total: totalPriceOrder
+
     });
 }
 

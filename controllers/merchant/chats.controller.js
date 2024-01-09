@@ -12,7 +12,8 @@ const index = async function (req, res) {
         conversations: conversation,
         messagesHistory: "",
         receiverId: "",
-        receiverName: ""
+        receiverName: "",
+        conversationId:""
     });
 };
 
@@ -37,7 +38,8 @@ const chatHistory = async function (req, res) {
         conversations: conversation,
         messagesHistory: messages,
         userId: userId,
-        receiverName: receiverName
+        receiverName: receiverName,
+        conversationId: conversationwithUser._id
     });
 }
 export default { index, chatHistory };

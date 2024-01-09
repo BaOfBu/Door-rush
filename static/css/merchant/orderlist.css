@@ -1,19 +1,18 @@
-.menu-category-bar{
+.menu-category-bar {
     border-radius: 10px;
     border: 2px solid var(--light-color);
 }
-
-.nav-item a span{
+.nav-item a span {
     font-weight: bold;
     color: var(--grey-color);
     padding: 5px 0 5px 0;
 }
 
-.nav-item .nav-active{
+.nav-item .nav-active {
     color: var(--orange-color);
     border-bottom: 3px solid var(--orange-color);
 }
-.custom-container{
+.custom-container {
     position: relative;
     height: 100vh;
     width: calc(100% - 300px);
@@ -21,41 +20,41 @@
     padding: 60px 40px;
 }
 
-.custom-breadcrumb a{
+.custom-breadcrumb a {
     color: var(--grey-light-color);
     text-decoration: none;
 }
 
-.custom-breadcrumb a:hover{
+.custom-breadcrumb a:hover {
     color: var(--orange-color);
 }
 
-.custom-breadcrumb a:active{
+.custom-breadcrumb a:active {
     color: var(--black-color);
 }
 
-.order-history .filter{
+.order-history .filter {
     padding-right: 0px;
 }
-.order-history .custom-button{
+.order-history .custom-button {
     background-color: var(--orange-color);
     color: var(--white-color);
 }
 
-.order-history .custom-button:hover{
-    background-color: #FF8E00;
+.order-history .custom-button:hover {
+    background-color: #ff8e00;
     color: var(--white-color);
 }
 
-.order-history span{
+.order-history span {
     color: var(--grey-light-color);
 }
 
-#view-more{
+#view-more {
     color: var(--grey-color);
 }
 
-#view-more:hover{
+#view-more:hover {
     color: var(--orange-color);
 }
 
@@ -65,7 +64,7 @@
     padding-left: 10px;
 }
 
-.input-container input::placeholder{
+.input-container input::placeholder {
     color: var(--black-color);
     font-size: 14px;
 }
@@ -81,7 +80,7 @@
 #resetIcon {
     padding-left: 10px;
 }
-  
+
 #dateRangePicker {
     width: 240px;
     background-color: var(--light-color);
@@ -99,7 +98,17 @@
     color: var(--white-color);
 }
 
-.status .custom-filter:hover{
-    background-color: #FF8E00;
+.status .custom-filter:hover {
+    background-color: #ff8e00;
     color: var(--white-color);
+}
+.page-item.active .page-link {
+    border: 1px solid var(--orange-color) !important;
+    background: var(--orange-color) !important;
+}
+.page-link {
+    color: var(--black-color);
+}
+.page-link:hover {
+    color: var(--orange-color);
 }

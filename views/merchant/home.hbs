@@ -36,14 +36,14 @@
                 <div class="col-6 col-sm-6 number-title-styling">Đơn hủy</div>
             </div>
             <div class="col-sm-4 col-1 d-flex flex-column align-items-center text-center">
-                <div class="col-6 col-sm-6 number-styling">0</div>
+                <div class="col-6 col-sm-6 number-styling">{{this.outOfStock}}</div>
                 <div class="w-100 d-none d-md-block"></div>
                 <div class="col-6 col-sm-6 number-title-styling">Hết hàng</div>
             </div>
         </div>
     </div>
     <div class="seperator"></div>
-    <div class="information-container container pt-4">
+    <div class="information-container container pt-3">
         <div class="row d-flex justify-content-center align-items-center">
             <div class="col-sm-4 d-flex flex-column justify-content-center align-items-center">
                 {{#if authUser.image}}

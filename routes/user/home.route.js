@@ -6,4 +6,8 @@ const router = express.Router();
 
 router.get("/", homeController.index);
 
+router.get("/forgotpassword", function(req, res, next){
+    res.render("user/forgot-password.hbs", {layout: 'user/layouts/forgot-password.hbs'});
+});
+
 export default router;

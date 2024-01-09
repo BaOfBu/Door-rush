@@ -5,15 +5,20 @@ function capitalizeFirstLetter(str) {
 // [GET]/admin/voucher
 const index = async function (req, res) {
     let page = req.query.page || 1;
+    let text = req.query.text || "";
+    let status = req.query.status || "";
+    if (page == 0) page = 1;
+    let search;
+    if (status == "" && text == "") {
+        search = false;
+    } else {
+        search = true;
+    }
     const limit = 5;
     const offset = (page - 1) * limit;
-    const listVoucher = await VoucherService.findAll(offset, limit);
-    const totalCount = await VoucherService.countDocuments();
+    const listVoucher = await VoucherService.findAllWithStatusAndText(offset, limit, status, text);
+    const totalCount = await VoucherService.countDocumentWithStatusText(status, text);
     const nPages = Math.ceil(totalCount / limit);
-    if (page > nPages) {
-        page = String(nPages);
-        res.redirect("/admin/voucher?page=" + page);
-    }
     const currentDate = new Date();
     const extractedDataListVoucher = listVoucher.map(({ _id, voucherId, startDate, endDate, typeVoucher }) => {
         const status = new Date(endDate) < currentDate ? "Hết hạn" : "Đang hoạt động";
@@ -27,12 +32,13 @@ const index = async function (req, res) {
         };
     });
     res.render("admin/voucher", {
-        total: totalCount,
+        totalCount: totalCount,
+        search: search,
         nPages: nPages,
+        page: page,
         prev: Number(page) === 1 ? 0 : Number(page) - 1,
         next: Number(page) === Number(nPages) ? 0 : Number(page) + 1,
-        currentPage: page,
-        empty: extractedDataListVoucher.length === 0,
+        empty: extractedDataListVoucher.length == 0,
         listVoucher: extractedDataListVoucher,
         type: "voucher"
     });
@@ -81,6 +87,6 @@ function formatDate(date) {
 const editVoucherDatabase = async function (req, res) {
     const id = req.query.id === undefined ? -1 : req.query.id;
     VoucherService.findAndUpdate(id, req.body);
-    res.redirect("back");
+    res.redirect("/admin/voucher/edit-voucher?id=" + id);
 };
 export default { index, add, addTheVoucher, removeVoucher, editVoucher, editVoucherDatabase };

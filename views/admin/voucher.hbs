@@ -1,4 +1,10 @@
 {{#section "js"}}
+    <script>
+        var prev =
+        {{{json prev}}}
+        var next =
+        {{{json next}}}
+    </script>
     <script src="../../static/js/admin/voucher.js"></script>
 {{/section}}
 {{#section "css"}}
@@ -6,12 +12,25 @@
 {{/section}}
 <section class="voucher-admin">
     <div class="section-one">
-        <h1 class="title-page">Danh sách ưu đãi</h1>
-        <a href="/admin/voucher/add" class="add-btn">
-            <i class="bi bi-plus-circle"></i>
-            Thêm ưu đãi mới</a>
+        <h1 class="title-page">Danh sách ưu đãi đang hoạt động</h1>
     </div>
     <div class="section-two">
+        <div class="search-filer">
+            <div class="form-group has-search">
+                <a id="search-link"><span class="fa fa-search form-control-feedback"></span></a>
+                <input type="text" class="form-control" placeholder="Tìm kiếm voucher theo mã voucher" id="search-text" />
+            </div>
+            <div class="right-filter">
+                <select class="form-select" aria-label="Default select example" id="status" name="status">
+                    <option class="option-custom" value="None" selected>Trạng thái</option>
+                    <option class="option-custom" value="Active">Đang hoạt động</option>
+                    <option class="option-custom" value="Expired">Hết hạn</option>
+                </select>
+                <a href="/admin/voucher/add" class="add-btn">
+                    <i class="bi bi-plus-circle"></i>
+                    Thêm ưu đãi mới</a>
+            </div>
+        </div>
         <div class="card">
             <table class="table table-hover custom-table">
                 <thead>
@@ -25,41 +44,58 @@
                     </tr>
                 </thead>
                 <tbody>
-                    {{#each listVoucher}}
-                        <tr class="h-70">
-                            <th scope="row">{{this.voucherId}}</th>
-                            <td>{{this.typeVoucher}}</td>
-                            <td>{{this.startDate}}</td>
-                            <td>{{this.endDate}}</td>
-                            <td>{{this.status}}</td>
-                            <td style="width: 20%;">
-                                <a href="/admin/voucher/edit-voucher?id={{this._id}}"><button class="edit-btn">Sửa</button></a>
-                                <a href="/admin/voucher/remove-voucher?voucherId={{this._id}}"><button
-                                        type="button"
-                                        class="remove-btn"
-                                        id="remove-btn"
-                                    >Xóa</button></a>
-                            </td>
+                    {{#if empty}}
+                        <tr>
+                            <td colspan="6" style="padding: 20px; user-select: none;">Không có dữ liệu</td>
                         </tr>
-                    {{/each}}
+                    {{else}}
+                        {{#each listVoucher}}
+                            <tr class="h-70">
+                                <th scope="row">{{this.voucherId}}</th>
+                                <td>{{this.typeVoucher}}</td>
+                                <td>{{this.startDate}}</td>
+                                <td>{{this.endDate}}</td>
+                                <td>{{this.status}}</td>
+                                <td style="width: 20%;">
+                                    <a href="/admin/voucher/edit-voucher?id={{this._id}}"><button class="edit-btn">Sửa</button></a>
+                                    <a href="/admin/voucher/remove-voucher?voucherId={{this._id}}"><button
+                                            type="button"
+                                            class="remove-btn"
+                                            id="remove-btn"
+                                        >Xóa</button></a>
+                                </td>
+                            </tr>
+                        {{/each}}
+                    {{/if}}
                 </tbody>
             </table>
             <div class="card-footer">
-                <span>
-                    <b>Trang {{this.currentPage}} / {{this.nPages}}</b>
-                    <span class="sub-count"> ( Tổng số: {{this.total}} )</span>
-                </span>
-                <div class="button-pagnation">
-                    {{#if prev}}
-                        <a href="?page={{this.prev}}"><button class="next-btn">Trang trước</button></a>
-                    {{/if}}
-                    {{#if next}}
-                        <a href="?page={{this.next}}"><button class="prev-btn">Trang sau</button></a>
-                    {{/if}}
-                </div>
+                {{#if empty}}
+                    <span>Không có</span>
+                {{else}}
+                    <span>
+                        <b>Trang {{this.page}} / {{this.nPages}}</b>
+                        <span class="sub-count"> ( Tổng số: {{this.totalCount}} )</span>
+                    </span>
+                    <div class="button-pagnation">
+                        {{#if search}}
+                            {{#if prev}}
+                                <a id="prev"><button class="next-btn">Trang trước</button></a>
+                            {{/if}}
+                            {{#if next}}
+                                <a id="next"><button class="prev-btn">Trang sau</button></a>
+                            {{/if}}
+                        {{else}}
+                            {{#if prev}}
+                                <a href="?page={{this.prev}}"><button class="next-btn">Trang trước</button></a>
+                            {{/if}}
+                            {{#if next}}
+                                <a href="?page={{this.next}}"><button class="prev-btn">Trang sau</button></a>
+                            {{/if}}
+                        {{/if}}
+                    </div>
+                {{/if}}
             </div>
         </div>
-
     </div>
-
 </section>
