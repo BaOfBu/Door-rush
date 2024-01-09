@@ -1,12 +1,3 @@
-var searchInput = document.getElementById("searchInput");
-var searchBtn = document.getElementById("searchBtn");
-
-searchBtn.addEventListener("click", function () {
-    var searchValue = searchInput.value;
-    var keyword = document.getElementById("keyword");
-    keyword.value = searchValue;
-    $("#searchForm").submit();
-});
 document.addEventListener("DOMContentLoaded", function () {
     var prevPageAnchor = document.getElementById("prevPage");
     var nextPageAnchor = document.getElementById("nextPage");
