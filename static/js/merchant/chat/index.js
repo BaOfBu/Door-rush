@@ -8,6 +8,7 @@ function run(){
     var sendBtn = document.getElementById('sendBtn');
     var input = document.getElementById('input');
     var receiverId = document.getElementById('receiverId').value;
+    //var conversationId = document.getElementById('conversationId').value;
 
     console.log("receiverId từ jquery",receiverId);
 
@@ -52,6 +53,22 @@ function run(){
         $('#getHistory').find('input').val(id.val());
         $('#getHistory').trigger('submit');
     });
+
+    // $('#conversationList li').addClass('active', function() {
+    //     var id = $(this).find('input').val();
+    //     if(id == conversationId){
+    //         return true;
+    //     }
+    //     return false;
+    // });
+
+    $('#conversationList li').filter(function() {
+        var id = $(this).find('input').val();
+        if(id == receiverId){
+            return true;
+        }
+        return false;
+    }).addClass('active');
 }
 
 $(document).ready(function(){
