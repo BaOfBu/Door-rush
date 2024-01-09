@@ -216,8 +216,15 @@ const findOrderById = async orderID => {
     return await Order.findById(orderID).exec();
 };
 
-const findVoucherById = async voucherID => {
-    return await Voucher.findById(voucherID).exec();
+const findVoucherById = async (voucherID, type) => {
+    const now = Date.now()
+    const voucher = await Voucher.findOne({
+        _id: voucherID, 
+        startDate: { $lte: now },
+        endDate: { $gte: now },
+        typeVoucher: type
+    }).exec();
+    return voucher
 };
 
 const getOrderVoucher = async orderID => {
@@ -229,6 +236,14 @@ const createNewAddress = async dataAddress => {
     await newAddress.save();
     return newAddress;
 };
+const checkVoucher = async (orderID) => {
+    const order = await Order.findOne({_id: orderID}).populate("vouchers").exec()
+    for(const each of order.vouchers){
+        const voucher = await findVoucherById(each._id, each.typeVoucher);
+        if(!voucher) return false
+    }
+    return true
+}
 const updateOrderUser = async (userId, orderId) => {
     const add = await User.findByIdAndUpdate(userId, { $push: { orders: orderId } }, { new: true });
     return add;
@@ -320,5 +335,6 @@ export default {
     updateQuantity,
     deleteItem,
     deleteAllItems,
-    removeItems
+    removeItems,
+    checkVoucher
 };
