@@ -161,10 +161,9 @@ const deleteItem = async (req, res, next) => {
     const orderItemID = req.query.itemID;
     const orderID = req.session.order;
     const isDeleted = await shoppingCartService.deleteItem(orderID, orderItemID)
-    req.session.numberItem = req.session.numberItem - 1
     await shoppingCartService.calculateTotal(orderID)
     if(isDeleted == true){
-        req.session.numberItem = 0
+        req.session.numberItem = req.session.numberItem - 1
         const mess = "Đã xóa sản phẩm"
         res.redirect("/shopping-cart?message=" + mess)
     }else{
@@ -176,9 +175,9 @@ const deleteItem = async (req, res, next) => {
 const deleteAllItem = async (req, res, next) => {
     const orderID = req.session.order;
     const isDeleted = await shoppingCartService.deleteAllItems(orderID)
-    
     await shoppingCartService.calculateTotal(orderID)
     if(isDeleted == true){
+        await shoppingCartService.removeItems(orderID)
         req.session.numberItem = 0
         const mess = "Đã xóa tất cả sản phẩm"
         res.redirect("/shopping-cart?message=" + mess)
