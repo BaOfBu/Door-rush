@@ -6,7 +6,7 @@
         {{{json isAccount}}}
         var numberOfRating =
         {{{json feedbacks.length}}}
-        var typeOfFoodCurrentQuantity = 
+        var typeOfFoodCurrentQuantity =
         {{{json typeOfFoodCurrentQuantity}}}
         var typeOfFood =
         {{{json typeOfFood}}}
@@ -84,7 +84,13 @@
                 <div class="form-group-type-quantity">
                     <div class="form-group-type">
                         <label for="food-type"><b>Sản phẩm</b></label>
-                        <select class="form-select" aria-label="Default select example" id="food-type" name="food-type">
+                        <select
+                            onchange="updateQuantity()"
+                            class="form-select"
+                            aria-label="Default select example"
+                            id="food-type"
+                            name="food-type"
+                        >
                             {{#each typeOfFood}}
                                 <option value={{@index}}>{{this}}</option>
                             {{/each}}
@@ -92,9 +98,10 @@
                     </div>
                     <div class="form-group-quantity">
                         <label for="food-quantity"><b>Số lượng</b></label>
-                        <input type="number" class="form-control" id="food-quantity" value="1" min="1" onkeydown="return false"/>
+                        <input type="number" class="form-control" id="food-quantity" value="1" min="1" onkeydown="return false" />
                     </div>
                 </div>
+                <span id="max-quantity">Số lượng sản phẩm còn lại: </span>
                 <div class="form-group-note">
                     <label for="food-note"><b>Thêm chú thích</b></label>
                     <textarea class="form-control" id="food-note" rows="5"></textarea>

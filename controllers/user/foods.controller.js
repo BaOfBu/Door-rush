@@ -95,6 +95,7 @@ const foodDetail = async function (req, res) {
         } else isSameMerchant = true;
         // Get the data of food
         let food = await FoodService.findById(foodId);
+        console.log(food);
         // Get food name
         let foodName = food.name;
         // Get food price

@@ -103,6 +103,9 @@ document.getElementById("addItemToCart").addEventListener("click", function (eve
         option = window.confirm(
             "Bạn có muốn thay thế các món ăn hiện tại trong giỏ hàng của cửa hàng khác bằng món ăn của cửa hàng này không?"
         );
+    } else if (document.getElementById("food-quantity").value == 0) {
+        alert("Sản phẩm đã hết, vui lòng lựa chọn sản phẩm khác");
+        return;
     }
     const selectedFoodTypeIndex = document.getElementById("food-type").value;
     const selectedFoodType = typeOfFoodId[selectedFoodTypeIndex];
@@ -155,6 +158,9 @@ document.getElementById("buy-only").addEventListener("click", function (event) {
         option = window.confirm(
             "Bạn có muốn thay thế các món ăn hiện tại trong giỏ hàng của cửa hàng khác bằng món ăn của cửa hàng này không?"
         );
+    } else if (document.getElementById("food-quantity").value == 0) {
+        alert("Sản phẩm đã hết, vui lòng lựa chọn sản phẩm khác");
+        return;
     }
     const selectedFoodTypeIndex = document.getElementById("food-type").value;
     const selectedFoodType = typeOfFoodId[selectedFoodTypeIndex];
@@ -201,18 +207,26 @@ document.getElementById("buy-only").addEventListener("click", function (event) {
             console.error("There has been a problem with your fetch operation:", error);
         });
 });
-
-document.getElementById("food-type").addEventListener("change", function(event){
-    event.preventDefault()
+document.getElementById("food-type").addEventListener("change", function (event) {
+    event.preventDefault();
     const selectedFoodTypeIndex = document.getElementById("food-type").value;
     const selectedFoodTypeCurrentQuantity = typeOfFoodCurrentQuantity[selectedFoodTypeIndex];
     console.log(selectedFoodTypeIndex, selectedFoodTypeCurrentQuantity);
-    if(selectedFoodTypeCurrentQuantity == 0){
-        document.getElementById('food-quantity').setAttribute('min', '0');
-        document.getElementById('food-quantity').setAttribute('max', '0');
-        document.getElementById('food-quantity').value = 0
-    }else{
-        document.getElementById('food-quantity').setAttribute('max', selectedFoodTypeCurrentQuantity);
-        document.getElementById('food-quantity').value = 1
+    if (selectedFoodTypeCurrentQuantity == 0) {
+        document.getElementById("food-quantity").setAttribute("min", "0");
+        document.getElementById("food-quantity").setAttribute("max", "0");
+        document.getElementById("food-quantity").value = 0;
+    } else {
+        document.getElementById("food-quantity").setAttribute("max", selectedFoodTypeCurrentQuantity);
+        document.getElementById("food-quantity").value = 1;
     }
-})
+});
+function updateQuantity() {
+    var selectedFoodIndex = document.getElementById("food-type").value;
+    var maxQuantity = typeOfFoodCurrentQuantity[selectedFoodIndex];
+    var quantityField = document.getElementById("food-quantity");
+    quantityField.max = maxQuantity;
+    quantityField.value = maxQuantity >= 1 ? 1 : maxQuantity;
+    document.getElementById("max-quantity").innerText = "Số lượng sản phẩm còn lại: " + maxQuantity;
+}
+window.onload = updateQuantity;
