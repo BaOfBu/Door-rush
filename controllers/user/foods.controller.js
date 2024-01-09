@@ -158,7 +158,6 @@ const foodDetail = async function (req, res) {
     } else {
         res.redirect("/foods");
     }
-  }
 };
 // [POST]/foods/{{shop_name}}/{{foodId}}/addToCart
 const addToCart = async function (req, res) {
@@ -261,18 +260,4 @@ const giveFeedback = async function (req, res) {
         );
     } catch {}
 };
-<<<<<<< HEAD
-
-const search = async function (req, res) {
-  let searchValue = req.body.keyword;
-  let searchResult = await MerchantService.findByKeyword(searchValue);
-  res.render("user/foods.hbs", {
-    user: false,
-    product: searchResult,
-  });
-};
-
-export default { index, foodDetail, shop, addToCart, giveFeedback, search }
-=======
 export default { index, foodDetail, shop, addToCart, giveFeedback };
->>>>>>> parent of dfcac35 (Merge remote-tracking branch 'origin/Cá-heo' into DinhHuy)
