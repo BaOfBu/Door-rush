@@ -6,7 +6,7 @@
         {{{json isAccount}}}
         var numberOfRating =
         {{{json feedbacks.length}}}
-        var typeOfFoodCurrentQuantity = 
+        var typeOfFoodCurrentQuantity =
         {{{json typeOfFoodCurrentQuantity}}}
         var typeOfFood =
         {{{json typeOfFood}}}
@@ -33,8 +33,9 @@
         <div class="food-detail">
             <div class="food-detail-info">
                 <div class="food-detail-info-description">
-                    <span class="food-detail-info-breadcrumbs">Đồ ăn &gt;
-                        {{this.shopName}}
+                    <span class="food-detail-info-breadcrumbs"><a href="/foods" class="link-custom">Đồ ăn</a>
+                        &gt;
+                        <a href="/foods/{{this.shopName}}" class="link-custom">{{this.shopName}}</a>
                         &gt;
                         <b>{{this.foodName}}</b></span>
                     <h3 class="food-detail-info-title">{{this.foodName}}</h3>
@@ -84,7 +85,13 @@
                 <div class="form-group-type-quantity">
                     <div class="form-group-type">
                         <label for="food-type"><b>Sản phẩm</b></label>
-                        <select class="form-select" aria-label="Default select example" id="food-type" name="food-type">
+                        <select
+                            onchange="updateQuantity()"
+                            class="form-select"
+                            aria-label="Default select example"
+                            id="food-type"
+                            name="food-type"
+                        >
                             {{#each typeOfFood}}
                                 <option value={{@index}}>{{this}}</option>
                             {{/each}}
@@ -92,9 +99,10 @@
                     </div>
                     <div class="form-group-quantity">
                         <label for="food-quantity"><b>Số lượng</b></label>
-                        <input type="number" class="form-control" id="food-quantity" value="1" min="1" onkeydown="return false"/>
+                        <input type="number" class="form-control" id="food-quantity" value="1" min="1" onkeydown="return false" />
                     </div>
                 </div>
+                <span id="max-quantity">Số lượng sản phẩm còn lại: </span>
                 <div class="form-group-note">
                     <label for="food-note"><b>Thêm chú thích</b></label>
                     <textarea class="form-control" id="food-note" rows="5"></textarea>
@@ -110,46 +118,65 @@
 <section class="food-detail-section">
     <div class="container">
         <h2 class="customer-review-title">Đánh giá của khách hàng</h2>
-        <div class="swiper container-custom">
-            <div class="food-detail-card-review-content">
-                <div class="swiper-wrapper">
-                    {{#each feedbacks}}
-                        <div class="swiper-slide food-detail-card-review-item">
-                            <div class="food-detail-card-flex">
-                                <div class="food-detail-card-review-rating">
-                                    <div class="food-detail-rating-star">
-                                        {{#each this.stars}}
-                                            {{#if this}}
-                                                <i class="bi bi-star-fill"></i>
-                                            {{else}}
-                                                <i class="bi bi-star"></i>
-                                            {{/if}}
-                                        {{/each}}
+        {{#if feedbackEmpty}}
+            <div class="rating-empty-container"><div class="rating-emtpy">
+                    <div class="content-empty">
+                        <span class="empty-title">Sản phẩm này chưa có đánh giá</span>
+                        <p>Chân thành cảm ơn quý khách đã lựa chọn sản phẩm của chúng tôi! Chúng tôi luôn nỗ lực không ngừng để mang đến
+                            những sản phẩm chất lượng cao và dịch vụ tốt nhất.
+                        </p>
+                        <p>Sự phản hồi của quý khách là nguồn động viên vô giá giúp chúng tôi không ngừng cải thiện và phát triển. Nếu có
+                            một phút, xin hãy chia sẻ trải nghiệm của bạn với sản phẩm này.
+                        </p>
+                        <p>Mọi đánh giá, dù là khen ngợi hay góp ý, đều là thông tin quý báu giúp chúng tôi hoàn thiện hơn trong tương lai.
+                            Hãy để lại đánh giá của bạn ngay hôm nay và giúp cộng đồng khách hàng có cái nhìn chân thực nhất về sản phẩm.</p>
+                        <p>Cảm ơn quý khách đã đồng hành cùng chúng tôi !</p>
+                    </div>
+                    <img src="../../static/images/user/food-detail/feedback.jpg" alt="" />
+                </div>
+            </div>
+        {{else}}
+            <div class="swiper container-custom">
+                <div class="food-detail-card-review-content">
+                    <div class="swiper-wrapper">
+                        {{#each feedbacks}}
+                            <div class="swiper-slide food-detail-card-review-item">
+                                <div class="food-detail-card-flex">
+                                    <div class="food-detail-card-review-rating">
+                                        <div class="food-detail-rating-star">
+                                            {{#each this.stars}}
+                                                {{#if this}}
+                                                    <i class="bi bi-star-fill"></i>
+                                                {{else}}
+                                                    <i class="bi bi-star"></i>
+                                                {{/if}}
+                                            {{/each}}
+                                        </div>
                                     </div>
-                                </div>
-                                <p class="food-detail-card-review-feedback">
-                                    {{this.comment}}
-                                </p>
-                                <div class="food-detail-card-review-user">
-                                    <img
-                                        class="rounded-circle shadow-4-strong"
-                                        alt=""
-                                        src="/static/images/user/food-detail/main-image.png"
-                                    />
-                                    <div class="food-card-review-user-info">
-                                        <span class="food-card-review-name"><b>{{this.userId.username}}</b></span>
-                                        <span class="food-card-review-date">{{this.feedbackDate}}</span>
+                                    <p class="food-detail-card-review-feedback">
+                                        {{this.comment}}
+                                    </p>
+                                    <div class="food-detail-card-review-user">
+                                        <img
+                                            class="rounded-circle shadow-4-strong"
+                                            alt=""
+                                            src="/static/images/user/food-detail/main-image.png"
+                                        />
+                                        <div class="food-card-review-user-info">
+                                            <span class="food-card-review-name"><b>{{this.userId.username}}</b></span>
+                                            <span class="food-card-review-date">{{this.feedbackDate}}</span>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                    {{/each}}
+                        {{/each}}
+                    </div>
                 </div>
+                <div class="swiper-button-next custom-btn next"></div>
+                <div class="swiper-button-prev custom-btn prev"></div>
+                <div class="swiper-pagination"></div>
             </div>
-            <div class="swiper-button-next custom-btn next"></div>
-            <div class="swiper-button-prev custom-btn prev"></div>
-            <div class="swiper-pagination"></div>
-        </div>
+        {{/if}}
 
     </div>
     <div class="give-rating">

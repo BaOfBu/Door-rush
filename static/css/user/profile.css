@@ -227,3 +227,13 @@ form .custom-button:hover {
     width: 100%;
     height: auto;
 }
+.page-item.active .page-link {
+    border: 1px solid var(--orange-color) !important;
+    background: var(--orange-color) !important;
+}
+.page-link {
+    color: var(--black-color);
+}
+.page-link:hover {
+    color: var(--orange-color);
+}

@@ -13,36 +13,46 @@ const index = async function (req, res) {
 
         let categoryName;
         let categories = [];
-        for(let i = 0; i< merchant.category.length; i++){
-            if(merchant.category[i]._id.toString() === categoryId) categoryName = merchant.category[i].name;
-            categories.push({id: merchant.category[i]._id, name: merchant.category[i].name});
+        for (let i = 0; i < merchant.category.length; i++) {
+            if (merchant.category[i]._id.toString() === categoryId) categoryName = merchant.category[i].name;
+            categories.push({ id: merchant.category[i]._id, name: merchant.category[i].name });
         }
-
-        for(let i = 0; i<list_category.length;i++){
-            for(let j = 0; j<categories.length;j++){
-                if(list_category[i].name === categories[j].name) {
+        console.log(categories);
+        for (let i = 0; i < list_category.length; i++) {
+            for (let j = 0; j < categories.length; j++) {
+                if (list_category[i].name === categories[j].name) {
                     list_category.splice(i, 1);
                     i--;
                     break;
                 }
             }
         }
-        if(!categoryId){
+        if (!categoryId) {
             categoryId = categories[0].id;
             categoryName = categories[0].name;
         }
 
-        let foods = await Promise.all(merchant.menu.map(async (foodItem) => {
-            const food = await FoodList.findInfoFood(foodItem._id);
-            if (food.category.includes(categoryId)){
-                if(food.foodType.length > 0){
-                    return {id: food._id, image: food.image, name: food.name, rating: food.rating, category: categoryName, status:food.foodType[0].status, price: food.foodType[0].price, quantity: food.foodType[0].quantity};
+        let foods = await Promise.all(
+            merchant.menu.map(async foodItem => {
+                const food = await FoodList.findInfoFood(foodItem._id);
+                if (food.category.includes(categoryId)) {
+                    if (food.foodType.length > 0) {
+                        return {
+                            id: food._id,
+                            image: food.image,
+                            name: food.name,
+                            rating: food.rating,
+                            category: categoryName,
+                            status: food.foodType[0].status,
+                            price: food.foodType[0].price,
+                            quantity: food.foodType[0].quantity
+                        };
+                    }
+                } else {
+                    return null;
                 }
-            
-            }else{
-                return null;
-            }
-        }));
+            })
+        );
         // console.log(foods);
         foods = foods.filter(food => food !== null);
 
@@ -54,86 +64,86 @@ const index = async function (req, res) {
         const nPages = Math.ceil(total / limit);
 
         const pageNumbers = [];
-        if(nPages <= 7){
+        if (nPages <= 7) {
             for (let i = 1; i <= nPages; i++) {
                 pageNumbers.push({
-                value: i,
-                isActive: i === +page,
-                categoryId: categoryId
+                    value: i,
+                    isActive: i === +page,
+                    categoryId: categoryId
                 });
             }
-        }else{
-            if(Number(page) + 2 <= nPages){
-                if(Number(page) > 5){
+        } else {
+            if (Number(page) + 2 <= nPages) {
+                if (Number(page) > 5) {
                     for (let i = 1; i <= 2; i++) {
                         pageNumbers.push({
-                        value: i,
-                        isActive: i === +page,
-                        categoryId: categoryId
+                            value: i,
+                            isActive: i === +page,
+                            categoryId: categoryId
                         });
                     }
                     pageNumbers.push({
-                        value: '..',
+                        value: "..",
                         isActive: false,
                         categoryId: categoryId
                     });
                     for (let i = Number(page) - 2; i <= Number(page) + 2; i++) {
                         pageNumbers.push({
-                        value: i,
-                        isActive: i === +page,
-                        categoryId: categoryId
+                            value: i,
+                            isActive: i === +page,
+                            categoryId: categoryId
                         });
-                    }  
-                }else if(Number(page) > 3){
+                    }
+                } else if (Number(page) > 3) {
                     for (let i = Number(page) - 3; i <= Number(page) + 3; i++) {
                         pageNumbers.push({
-                        value: i,
-                        isActive: i === +page,
-                        categoryId: categoryId
+                            value: i,
+                            isActive: i === +page,
+                            categoryId: categoryId
                         });
-                    }    
-                }else{
+                    }
+                } else {
                     for (let i = 1; i <= 7; i++) {
                         pageNumbers.push({
+                            value: i,
+                            isActive: i === +page,
+                            categoryId: categoryId
+                        });
+                    }
+                }
+            } else if (Number(page) + 2 > nPages) {
+                for (let i = 1; i <= 2; i++) {
+                    pageNumbers.push({
                         value: i,
                         isActive: i === +page,
                         categoryId: categoryId
-                        });
-                    } 
-                }
-            }else if(Number(page) + 2 > nPages){
-                for (let i = 1; i <= 2; i++) {
-                    pageNumbers.push({
-                    value: i,
-                    isActive: i === +page,
-                    categoryId: categoryId
                     });
                 }
                 pageNumbers.push({
-                    value: '..',
+                    value: "..",
                     isActive: false,
                     categoryId: categoryId
                 });
                 for (let i = nPages - 4; i <= nPages; i++) {
                     pageNumbers.push({
-                    value: i,
-                    isActive: i === +page,
-                    categoryId: categoryId
+                        value: i,
+                        isActive: i === +page,
+                        categoryId: categoryId
                     });
                 }
-            }    
+            }
         }
 
         let list = foods;
-        if(total > offset){
-            list = foods.slice(offset, offset+limit); 
+        if (total > offset) {
+            list = foods.slice(offset, offset + limit);
         }
 
         let isFirstPage = false;
-        if(Number(page) === 1) isFirstPage = true;
+        if (Number(page) === 1) isFirstPage = true;
 
         let isLastPage = false;
-        if(Number(page) === nPages) isLastPage = true;
+        if (Number(page) === nPages) isLastPage = true;
 
         res.render("merchant/foodlist", {
             type: "products",
@@ -145,15 +155,15 @@ const index = async function (req, res) {
             empty: foods.length === 0,
             isFirstPage: isFirstPage,
             isLastPage: isLastPage,
-            pageNumbers: pageNumbers,
+            pageNumbers: pageNumbers
         });
     } catch (error) {
-        console.error('Error:', error);
-        res.status(500).send('Internal Server Error');
+        console.error("Error:", error);
+        res.status(500).send("Internal Server Error");
     }
 };
 
-const deleteCategory = async function (req, res){
+const deleteCategory = async function (req, res) {
     const merchantId = req.body.merchantId;
     const categoryId = req.body.categoryId;
 
@@ -165,53 +175,53 @@ const deleteCategory = async function (req, res){
         console.log("Merchant not found");
         return;
     }
-  
-    await Promise.all(merchant.menu.map(async (foodItem) => {
-        const food = await FoodList.findInfoFood(foodItem._id);
-        if (food.category.includes(categoryId)){
-            const categoryFoodIndex = food.category.indexOf(categoryId);
-  
-            if (categoryFoodIndex !== -1) {
-                food.category.splice(categoryFoodIndex, 1);
-          
-                await food.save();
-          
-                console.log("Category deleted from food successfully");
-            } else {
-                console.log("Category not found in food's categories");
+
+    await Promise.all(
+        merchant.menu.map(async foodItem => {
+            const food = await FoodList.findInfoFood(foodItem._id);
+            if (food.category.includes(categoryId)) {
+                const categoryFoodIndex = food.category.indexOf(categoryId);
+
+                if (categoryFoodIndex !== -1) {
+                    food.category.splice(categoryFoodIndex, 1);
+
+                    await food.save();
+
+                    console.log("Category deleted from food successfully");
+                } else {
+                    console.log("Category not found in food's categories");
+                }
             }
-        }
-    }));
-    
+        })
+    );
 
     let categoryIndex = -1;
 
-    for(let i = 0; i<merchant.category.length; i++){
-        if(merchant.category[i]._id.toString() === categoryId){
+    for (let i = 0; i < merchant.category.length; i++) {
+        if (merchant.category[i]._id.toString() === categoryId) {
             categoryIndex = i;
             // merchant.category.splice(categoryIndex, 1);
-  
+
             // await merchant.save();
             // res.json({ success: true, message: 'Đã xóa category thành công' });
             break;
         }
     }
-  
+
     if (categoryIndex !== -1) {
         merchant.category.splice(categoryIndex, 1);
-  
-        await merchant.save();
-  
-        res.json({ success: true, message: 'Đã xóa category thành công' });
-    } else {
-        res.json({success: true, message: "Không tìm thấy category này trong danh sách category của merchant"});
-    }
 
+        await merchant.save();
+
+        res.json({ success: true, message: "Đã xóa category thành công" });
+    } else {
+        res.json({ success: true, message: "Không tìm thấy category này trong danh sách category của merchant" });
+    }
 };
 
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
-        cb(null, process.cwd() + '/static/images/merchant/products/');
+        cb(null, process.cwd() + "/static/images/merchant/products/");
     },
     filename: function (req, file, cb) {
         const userID = req.session.authUser._id;
@@ -224,14 +234,14 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage: storage });
 
-const uploadProductImage = async function(req, res) {
+const uploadProductImage = async function (req, res) {
     console.log("Đã vô upload");
     const userID = req.session.authUser._id;
-    
-    upload.single('image')(req, res, async function (err) {
+
+    upload.single("image")(req, res, async function (err) {
         if (err) {
             console.error("error: ", err);
-            return res.status(500).json({ error: 'Error during upload.' });
+            return res.status(500).json({ error: "Error during upload." });
         } else {
             console.log("file name: ", req.body.image);
             const update = await FoodList.updateFoodInfo(req.body.foodId, { image: req.body.image });
@@ -241,33 +251,33 @@ const uploadProductImage = async function(req, res) {
     });
 };
 
-const updateCategory = async function(req, res){
+const updateCategory = async function (req, res) {
     const merchantId = req.body.merchantId;
     const categories = req.body.categories;
 
     // console.log("category: ", categories);
     const update = await FoodList.updateCategory(merchantId, categories);
-    if(update){
-        res.json({ success: true, message: 'Đã thêm categories thành công' });
-    }else{
-        res.json({ success: true, message: 'Đã xóa category thành công' });
+    if (update) {
+        res.json({ success: true, message: "Đã thêm categories thành công" });
+    } else {
+        res.json({ success: true, message: "Đã xóa category thành công" });
     }
 };
 
-const addProduct = async function(req, res){
+const addProduct = async function (req, res) {
     const merchantId = req.body.merchantId;
     const product = req.body.product;
 
     const foodId = await FoodList.addProduct(merchantId, product);
     console.log("foodId add new: ", foodId);
-    if(foodId){
-        res.json({ success: true, message: 'Đã thêm sản phẩm thành công', foodId: foodId});
-    }else{
-        res.json({ success: true, message: 'Đã xảy ra lỗi khi thêm sản phẩm' });
+    if (foodId) {
+        res.json({ success: true, message: "Đã thêm sản phẩm thành công", foodId: foodId });
+    } else {
+        res.json({ success: true, message: "Đã xảy ra lỗi khi thêm sản phẩm" });
     }
 };
 
-const getProduct = async function(req, res){
+const getProduct = async function (req, res) {
     const merchantId = req.body.merchantId;
     const productId = req.body.productId;
 
@@ -275,36 +285,36 @@ const getProduct = async function(req, res){
     const product = await FoodList.getProduct(merchantId, productId);
     console.log("product: ", product);
 
-    if(product){
-        res.json({success: true, product: product});
-    }else{
-        res.json({success: true, message: 'Đã xảy ra lỗi khi lấy dữ liệu sản phẩm'});
+    if (product) {
+        res.json({ success: true, product: product });
+    } else {
+        res.json({ success: true, message: "Đã xảy ra lỗi khi lấy dữ liệu sản phẩm" });
     }
 };
 
-const updateProduct = async function(req, res){
+const updateProduct = async function (req, res) {
     const merchantId = req.body.merchantId;
     const product = req.body.product;
 
     const foodId = await FoodList.updateProduct(merchantId, product);
     console.log("foodId update new: ", foodId);
-    if(foodId){
-        res.json({ success: true, message: 'Đã cập nhật sản phẩm thành công', foodId: foodId});
-    }else{
-        res.json({ success: true, message: 'Đã xảy ra lỗi khi cập nhật sản phẩm' });
+    if (foodId) {
+        res.json({ success: true, message: "Đã cập nhật sản phẩm thành công", foodId: foodId });
+    } else {
+        res.json({ success: true, message: "Đã xảy ra lỗi khi cập nhật sản phẩm" });
     }
 };
 
-const deleteProduct = async function(req, res){
+const deleteProduct = async function (req, res) {
     console.log("body: ", req.body);
     const merchantId = req.body.merchantId;
     const product = req.body.product;
 
     const productDelete = await FoodList.deleteProduct(merchantId, product);
-    res.json({success: true, productDelete: product});
+    res.json({ success: true, productDelete: product });
 };
 
-const deleteOption = async function(req, res){
+const deleteOption = async function (req, res) {
     console.log("body delete option: ", req.body);
     const merchantId = req.body.merchantId;
     const product = req.body.product;
@@ -312,14 +322,14 @@ const deleteOption = async function(req, res){
 
     let food = null;
     const merchant = await FoodList.findInfoMerchant(merchantId);
-    for(let i = 0;i<merchant.menu.length;i++){
-        if(merchant.menu[i]._id == product.id) food = merchant.menu[i];
+    for (let i = 0; i < merchant.menu.length; i++) {
+        if (merchant.menu[i]._id == product.id) food = merchant.menu[i];
     }
     await FoodList.deleteOption(food, optionId);
-    res.json({success: true, message: "Đã xóa lựa chọn này thành công"});
-}
+    res.json({ success: true, message: "Đã xóa lựa chọn này thành công" });
+};
 
-const updateRecommend = async function(req, res){
+const updateRecommend = async function (req, res) {
     console.log("body update recommend: ", req.body);
     const merchantId = req.body.merchantId;
     const product = req.body.product;
@@ -327,11 +337,11 @@ const updateRecommend = async function(req, res){
     const merchant = await FoodList.findInfoMerchantForRecommend(merchantId);
     console.log("merchant: ", merchant);
     merchant.foodRecommend.push(product.id);
-    await merchant.save(); 
-    res.json({success: true, message: "Đã recommend đồ ăn này"});
-}
+    await merchant.save();
+    res.json({ success: true, message: "Đã recommend đồ ăn này" });
+};
 
-const deleteRecommend = async function(req, res){
+const deleteRecommend = async function (req, res) {
     console.log("body delete recommend: ", req.body);
     const merchantId = req.body.merchantId;
     const product = req.body.product;
@@ -339,23 +349,35 @@ const deleteRecommend = async function(req, res){
     const merchant = await FoodList.findInfoMerchantForRecommend(merchantId);
     console.log("merchant: ", merchant);
     let foodRecommend = [];
-    for(let i = 0; i<merchant.foodRecommend.length;i++){
-        if(merchant.foodRecommend[i] == product.id){
+    for (let i = 0; i < merchant.foodRecommend.length; i++) {
+        if (merchant.foodRecommend[i] == product.id) {
             console.log("Recommend cần xóa: ", merchant.foodRecommend[i]._id);
-        }else{
+        } else {
             foodRecommend.push(merchant.foodRecommend[i]._id);
         }
     }
     merchant.foodRecommend = foodRecommend;
-    await merchant.save(); 
-    res.json({success: true, message: "Đã xóa recommend này"});
-}
+    await merchant.save();
+    res.json({ success: true, message: "Đã xóa recommend này" });
+};
 
-const resetQuantity = async function(req, res){
+const resetQuantity = async function (req, res) {
     const merchantId = req.body.merchantId;
     await FoodList.resetQuantityInDay(merchantId);
-    res.json({success: true, message: "Cập nhật lại số lượng bán trong ngày của tất cả sản phẩm"});
-}
+    res.json({ success: true, message: "Cập nhật lại số lượng bán trong ngày của tất cả sản phẩm" });
+};
 
-export default { index, deleteCategory, updateCategory, uploadProductImage, addProduct, getProduct, updateProduct, deleteProduct, deleteOption, updateRecommend, deleteRecommend, resetQuantity };
-
+export default {
+    index,
+    deleteCategory,
+    updateCategory,
+    uploadProductImage,
+    addProduct,
+    getProduct,
+    updateProduct,
+    deleteProduct,
+    deleteOption,
+    updateRecommend,
+    deleteRecommend,
+    resetQuantity
+};

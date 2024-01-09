@@ -40,8 +40,8 @@ export default {
         var res = await Conversation.findById(id);
         return res;
     },
-    addMessage(conversationId, sender, message) {
-        return Message.create({ conversationId: conversationId, sender: sender, content: message });
+    addMessage(conversationId, sender, message, timestamp) {
+        return Message.create({ conversationId: conversationId, sender: sender, content: message , timestamp: timestamp});
     },
     async getMessageFromMerchant(conversationId,merchantId) {
         console.log("get message from merchant");
@@ -49,17 +49,22 @@ export default {
         console.log("merchantId",merchantId);
         const mess = await Message.find({ conversationId: conversationId }).lean();
         var result = [];
+        const days = ["Sun", "Mon", "Tues", "Wed", "Thur", "Fri", "Sat"];
         for (let i = 0; i < mess.length; i++) {
+            var date = days[mess[i].timestamp.getDay()] + " " + mess[i].timestamp.getDate()
+            +' - ' + (mess[i].timestamp.getMonth()+1) + ' - '+mess[i].timestamp.getFullYear();
             if(mess[i].sender == merchantId){
                 result.push({
                     flag: true,
-                    message: mess[i].content
+                    message: mess[i].content,
+                    time: date
                 });
             }
             else{
                 result.push({
                     flag: false,
-                    message: mess[i].content
+                    message: mess[i].content,
+                    time: date
                 });
             }
         }
@@ -71,17 +76,22 @@ export default {
         console.log("merchantId",userId);
         const mess = await Message.find({ conversationId: conversationId }).lean();
         var result = [];
+        const days = ["Sun", "Mon", "Tues", "Wed", "Thur", "Fri", "Sat"];
         for (let i = 0; i < mess.length; i++) {
+            var date = days[mess[i].timestamp.getDay()] + " " + mess[i].timestamp.getDate()
+            +' - ' + (mess[i].timestamp.getMonth()+1) + ' - '+mess[i].timestamp.getFullYear();
             if(mess[i].sender == userId){
                 result.push({
                     flag: true,
-                    message: mess[i].content
+                    message: mess[i].content,
+                    time: date
                 });
             }
             else{
                 result.push({
                     flag: false,
-                    message: mess[i].content
+                    message: mess[i].content,
+                    time: date
                 });
             }
         }
