@@ -5,9 +5,19 @@ class SearchService{
         return await Merchant.findAll();
     }
 
-    async getListMerchantDiscount(){
-        const merchants = await Merchant.find({hasDiscount: "false"});
-        return merchants;
+    async getListMerchantTopRating(){
+        try {
+            const topRatedMerchants = await Merchant.find({
+              rating: { $gt: 4 }
+            })
+            .sort({ rating: -1 })
+            .exec();
+        
+            return topRatedMerchants;
+            console.log(topRatedMerchants);
+          } catch (error) {
+            console.error("Error fetching top-rated merchants:", error);
+        }
     }
 }
 

@@ -137,12 +137,16 @@
     margin-right: 8px;
 }
 
-#fuMain{
-    width: 40px;
-    height: auto;
+#fixSizeImg{
+    width: 250px;
+    height: 150px;
 }
 
 #saveOption{
     margin-left: 10px;
+    margin-right: 10px;
+}
+
+.mr-btn{
     margin-right: 10px;
 }

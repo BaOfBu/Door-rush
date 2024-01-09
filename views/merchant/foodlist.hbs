@@ -23,6 +23,7 @@
     <div class="top d-flex align-items-center justify-content-between mb-3">
         <h3>Danh sách sản phẩm</h3>
         <div class="btn-function">
+            <button type="button" id="resetQuantity" class="btn custom-button" style="margin-right: 10px;">Cập nhật lại số lượng trong ngày</button>
             <button type="button" id="addProductBtn" class="btn custom-button" style="margin-right: 10px;">+ Sản phẩm</button>
             <button type="button" id="addCategoryBtn" class="btn custom-button">+ Danh mục</button>
             <div id="modalCategory" class="modal">
@@ -214,27 +215,148 @@
                 </div>
             </div>
 
-            {{!-- <div id="modalCategory" class="modal">
+            <div id="modalProductDetail" class="modal">
                 <div class="modal-content">
-                    <div class="close d-flex justify-content-end align-items-center">
-                        <i class="bi bi-arrow-bar-left"></i>
-                        <span>Quay lại</span>
+                    <h2 class="d-flex justify-content-center">Quản lý sản phẩm</h2>
+                    <div class=" primary">
+                        <div class="w-100">
+                            <label for="productNameDetail" class="form-label">Tên sản phẩm</label>
+                            <input type="text" class="form-control" id="productNameDetail" placeholder="Cơm tấm sườn, bì, chả" aria-describedby="checkValidationNameDetail">
+                            <div class="has-validation">
+                                <div id="checkValidationNameDetail" class="invalid-feedback">
+                                    Vui lòng nhập tên sản phẩm không quá 50 kí tự.
+                                </div>
+                            </div>
+                        </div>
+                        <div class="w-100">
+                            <div class="col-md-5">
+                                <img src="/static/images/user/shop/alter-image.png" alt="" id="img-old" class="w-100">
+                            </div>
+                            <div class="form-group mt-1">
+                                
+                                <label for="fuMain2" aria-describedby="checkValidationImageDetail">Ảnh sản phẩm</label>
+                                <input type="file" id="fuMain2" name="image">
+                            </div>
+                            <div class="has-validation">
+                                <div id="checkValidationImageDetail" class="invalid-feedback">
+                                    Vui lòng thêm ảnh sản phẩm.
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mb-1 d-flex justify-content-between">
+                            <div class="w-100">
+                                <label for="selectType">Danh mục</label>
+                                <div class="dropdown">
+                                    <div class="has-validation">
+                                        <button class="form-control dropdown-toggle custom-filter d-flex justify-content-start align-items-center is-invalid mt-2" aria-describedby="checkValidationCategoriesProductDetail" type="button" id="dropdownCategoryProductDetail" data-toggle="dropdown" aria-expanded="false">
+                                        Chọn các danh mục cho sản phẩm của bạn.
+                                        </button>
+                                        <input id="selectedProductCategoryDetail" name="type" type="hidden">
+                                        <ul class="custom-dropdown-menu dropdown-menu dropdown-category" aria-labelledby="dropdownCategoryProductDetail">
+                                            {{#each this.categories}}
+                                                <li class="checkboxProductCategoryDetail">
+                                                    <div class="custom-checkbox">
+                                                        <input type="checkbox" class="custom-control-input category-checkbox" id="{{name}}" data-value="{{name}}">
+                                                        <label class="dropdown-item category" for="{{name}}">{{name}}</label>
+                                                    </div>
+                                                </li>
+                                            {{/each}}
+                                        </ul>
+                                        <div id="checkValidationCategoriesProductDetail" class="invalid-feedback">
+                                        Vui lòng chọn ít nhất một danh mục.
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="mt-1">
+                            <label for="descriptionDetail" class="form-label">Thông tin sản phẩm</label>
+                            <textarea textarea class="form-control" aria-label="With textarea" id="descriptionDetail" aria-describedby="checkValidationDescriptionDetail"></textarea>
+                            <div class="has-validation">
+                                <div id="checkValidationDescriptionDetail" class="invalid-feedback">
+                                    Vui lòng thêm mô tả cho sản phẩm.
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="w-100 mt-1">
+                            <label for="selectType">Các lựa chọn</label>
+                            <div class="dropdown optionDetail">
+                                <div class="has-validation">
+                                    <button class="form-control dropdown-toggle custom-filter d-flex justify-content-start align-items-center is-invalid mt-1" aria-describedby="checkValidationItemDetail" type="button" id="dropdownItemDetail" data-toggle="dropdown" aria-expanded="false">
+                                    Hãy thêm các lựa chọn cho sản phẩm của bạn
+                                    </button>
+                                    <input id="selectedItemDetail" name="type" type="hidden">
+                                    <ul class="custom-dropdown-menu dropdown-menu dropdown-category" aria-labelledby="dropdownItemDetail">
+                                        <li><div class="dropdown-item" id="addOptionBtnDetail">
+                                            <i class="bi bi-plus"></i>
+                                            <span>Thêm lựa chọn</span>
+                                        </div></li>
+                                    </ul>
+                                    <div id="checkValidationItemDetail" class="invalid-feedback">
+                                    Vui lòng thêm ít nhất một lựa chọn và lựa chọn không được quá 50 kí tự.
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="w-100">
+                            <label for="optionNameDetail" class="form-label">Tên lựa chọn</label>
+                            <input type="text" class="form-control" id="optionNameDetail" placeholder="Cơm tấm sườn, bì, chả" aria-describedby="checkValidationOptionNameDetail">
+                            <div class="has-validation">
+                                <div id="checkValidationOptionNameDetail" class="invalid-feedback">
+                                    Vui lòng nhập tên lựa chọn không quá 50 kí tự.
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="d-flex mt-1">
+                            <div class="">
+                                <label for="priceDetail" class="form-label">Giá sản phẩm</label>
+                                <input type="text" class="form-control" id="priceDetail" placeholder="100" aria-describedby="checkValidationPriceDetail">
+                                <div class="has-validation">
+                                    <div id="checkValidationPriceDetail" class="invalid-feedback">
+                                        Không được để trống mục này.
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="quantity">
+                                <label for="quantityDetail" class="form-label">Số lượng</label>
+                                <input type="text" class="form-control" id="quantityDetail" placeholder="100" aria-describedby="checkValidationQuantityDetail">
+                                <div class="has-validation">
+                                    <div id="checkValidationQuantityDetail" class="invalid-feedback">
+                                        Không được để trống mục này.
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="status">
+                                <label for="" class="form-label">Trạng thái</label>
+                                <div class="dropdown">
+                                    <button class="form-control dropdown-toggle custom-filter d-flex justify-content-start align-items-center" aria-describedby="checkValidationCategories" type="button" id="statusItemDetail" data-toggle="dropdown" aria-expanded="false">
+                                    Hết hàng
+                                    </button>
+
+                                    <ul class="dropdown-menu" aria-labelledby="statusItemDetail">
+                                        <li class="dropdown-item" id="availableDetail">Còn hàng</li>
+                                        <li class="dropdown-item active" id="unavailableDetail">Hết hàng</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    
                     </div>
-                    <h2 class="d-flex justify-content-center">Quản lý danh mục</h2>
-                    <ul id="categoryList" class="category-list list-group mb-3">
-                        {{#each categories}}
-                            <li class="list-group-item d-flex justify-content-between align-items-center">
-                                    <span>{{category}}</span>
-                                    <button type="button" class="btn-close btn-sm"></button>
-                            </li>
-                        {{/each}}
-                    </ul>
-                    <div class="d-flex">
-                        <input type="text" class="form-control" id="categoryInput" placeholder="Nhập category...">
-                        <button type="button" id="addCategory" class="btn custom-button">Thêm</button>
+
+                    <div class="d-flex mt-3 justify-content-end">
+                        <button type="button" id="closeProductDetail" class="btn custom-button mr-btn">Quay lại</button>
+                        <button type="button" id="recommendDetail" class="btn custom-button mr-btn">Đề xuất</button>
+                        <button type="button" id="deleteProductDetail" class="btn custom-button mr-btn">Xóa sản phẩm</button>
+                        <button type="button" id="deleteOptionDetail" class="btn custom-button mr-btn">Xóa lựa chọn</button>
+                        <button type="button" id="saveOptionDetail" class="btn custom-button mr-btn">Thêm lựa chọn</button>
+                        <button type="button" id="updateProduct" class="btn custom-button mr-btn">Thay đổi</button>
                     </div>
                 </div>
-            </div> --}}
+            </div>
         </div>
     </div>
     <div class="menu-category-bar mb-3 items">
@@ -266,7 +388,7 @@
             <div class="card border mb-3">
                 <div class="card-body d-flex justify-content-between">
                     <div class="col-md-2">
-                        <img src="{{image}}" class="h-100" alt="">
+                        <img src="{{image}}" id="fixSizeImg" alt="">
                     </div>
                     <div class="row col-md-10">
                         <div class="d-flex justify-content-between">
@@ -306,125 +428,13 @@
                                     </div>
                                     
                                     <div class="btn-function">
-                                        <button type="button" class="btn custom-button" id="viewProductBtn">Xem chi tiết</button>
+                                        {{!-- <button type="button" class="btn custom-button" id="viewProductBtn">Xem chi tiết</button> --}}
+                                        <button type="button" class="btn custom-button btn-detail" data-food-id="{{id}}">Xem chi tiết</button>
                                     </div>
                                     <input type="hidden" id="foodId" value="{{id}}">
                                 </div>
                             </div>
                         </div>
-                        
-                        <div id="modalProductDetail" class="modal">
-                            <div class="modal-content">
-                                <h2 class="d-flex justify-content-center">Quản lý sản phẩm</h2>
-
-                                <div class="d-flex">
-                                    <div class="col-md-4">
-                                        <img src="/static/images/user/shop/alter-image.png" alt="">
-                                    </div>
-                                    <div class="col-md-8 primary">
-                                        <div class="w-100">
-                                            <label for="productName" class="form-label">Tên sản phẩm</label>
-                                            <input type="text" class="form-control" id="productName" value="Cơm tấm sườn, bì chả" readonly>
-                                        </div>
-                                        <div class="w-100">
-                                            <label for="selectType">Các lựa chọn</label>
-                                            <div class="dropdown">
-                                                <div class="has-validation">
-                                                    <button class="form-control dropdown-toggle custom-filter d-flex justify-content-start align-items-center mt-1" aria-describedby="checkValidationItem" type="button" id="dropdownItem" data-toggle="dropdown" aria-expanded="false">
-                                                    Hãy thêm các lựa chọn cho sản phẩm của bạn (nếu muốn)
-                                                    </button>
-                                                    <input id="selectedItem" name="type" type="hidden">
-                                                    <ul class="custom-dropdown-menu dropdown-menu dropdown-category" aria-labelledby="dropdownItem">
-                                                        <li><a class="dropdown-item" href="#">
-                                                            <i class="bi bi-plus"></i>
-                                                            <span>Thêm lựa chọn</span>
-                                                        </a></li>
-                                                    </ul>
-                                                    <div id="checkValidationItem" class="invalid-feedback">
-                                                    Vui lòng thêm ít nhất một lựa chọn và lựa chọn không được quá 50 kí tự.
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div>
-                                    <div class="mb-1 d-flex justify-content-between">
-                                        <div class="w-100">
-                                            <label for="selectType">Danh mục</label>
-                                            <div class="dropdown">
-                                                <div class="has-validation">
-                                                    <button class="form-control dropdown-toggle custom-filter d-flex justify-content-start align-items-center mt-2" aria-describedby="checkValidationCategories" type="button" id="dropdownCategory" data-toggle="dropdown" aria-expanded="false">
-                                                    Chọn các danh mục
-                                                    </button>
-                                                    <input id="selectedCategory" name="type" type="hidden">
-                                                    <ul class="custom-dropdown-menu dropdown-menu dropdown-category" aria-labelledby="dropdownCategory">
-                                                        {{#each this.categories}}
-                                                            <li>
-                                                                <div class="custom-checkbox">
-                                                                    <input type="checkbox" class="custom-control-input category-checkbox" id="{{name}}" data-value="{{name}}">
-                                                                    <label class="dropdown-item category" for="{{name}}">{{name}}</label>
-                                                                </div>
-                                                            </li>
-                                                        {{/each}}
-                                                    </ul>
-                                                    <div id="checkValidationCategories" class="invalid-feedback">
-                                                    Vui lòng chọn ít nhất một danh mục, nhiều nhất là ba.
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="d-flex">
-                                        <div class="">
-                                            <label for="price" class="form-label">Giá sản phẩm</label>
-                                            <input type="text" class="form-control" id="price" placeholder="100" aria-describedby="checkValidationPrice">
-                                            <div class="has-validation">
-                                                <div id="checkValidationPrice" class="invalid-feedback">
-                                                    Không được để trống mục này.
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="quantity">
-                                            <label for="quantity" class="form-label">Số lượng</label>
-                                            <input type="text" class="form-control" id="quantity" placeholder="100" aria-describedby="checkValidationQuantity">
-                                            <div class="has-validation">
-                                                <div id="checkValidationQuantity" class="invalid-feedback">
-                                                    Không được để trống mục này.
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="status">
-                                            <label for="" class="form-label">Trạng thái</label>
-                                            <div class="dropdown">
-                                                <button class="form-control dropdown-toggle custom-filter d-flex justify-content-start align-items-center" aria-describedby="checkValidationCategories" type="button" id="statusItem" data-toggle="dropdown" aria-expanded="false">
-                                                Hết hàng
-                                                </button>
-
-                                                <ul class="dropdown-menu" aria-labelledby="statusItem">
-                                                    <li><a class="dropdown-item" href="#">Còn hàng</a></li>
-                                                    <li><a class="dropdown-item active" href="#">Hết hàng</a></li>
-                                                </ul>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="mt-1">
-                                        <label for="description" class="form-label">Thông tin sản phẩm</label>
-                                        <textarea textarea class="form-control" aria-label="With textarea" id="description"></textarea>
-                                    </div>
-                                </div>
-
-                                <div class="d-flex mt-3 justify-content-end">
-                                    <button type="button" id="closeProductDetail" class="btn custom-button" style="margin-right: 10px">Quay lại</button>
-                                    <button type="button" id="recommendProduct" class="btn custom-button" style="margin-right: 10px">Đề xuất</button>
-                                    <button type="button" id="deleteProduct" class="btn custom-button" style="margin-right: 10px">Xóa bỏ</button>
-                                    <button type="button" id="updateProduct" class="btn custom-button">Thay đổi</button>
-                                </div>
-                            </div>
-                        </div>
-
-                        
                     </div>
                 </div>
             </div> 
