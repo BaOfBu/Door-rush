@@ -156,11 +156,13 @@ io.on('connection',function(socket){
         console.log('Message from: ' + socket.username + ' to ' + data.to);
         const to = data.to;
         const message = data.message;
+        const timestamp = data.time;
+        console.log("timestamp type ",typeof timestamp);
         //console.log(to);
         const conver = await conversationService.findConversation(socket.username, to);
         //console.log(conver);
         if (conver) {
-            await conversationService.addMessage(conver._id, socket.username, message);
+            await conversationService.addMessage(conver._id, socket.username, message, timestamp);
         }
 
         if(connectedUsers.hasOwnProperty(to)){
@@ -169,7 +171,8 @@ io.on('connection',function(socket){
                 username : socket.username,
 
                 //Message sent to receiver
-                message : message
+                message : message,
+                time: timestamp
             });
         }
     });
