@@ -1,4 +1,10 @@
 {{#section "js"}}
+    <script>
+        var next =
+        {{{json next}}}
+        var prev =
+        {{{json prev}}}
+    </script>
     <script src="/static/js/user/foods/index.js"></script>
 {{/section}}
 {{#section "css"}}
@@ -31,12 +37,15 @@
                         name="search"
                     />
                     <button style="width: 10%; height: 48px;">
-                        <i class="bi bi-search" style="color: #667085;"></i>
+                        <i class="bi bi-search" style="color: #667085;" id="searchBtn"></i>
                     </button>
                 </div>
 
                 <div class="d-flex nav-bar" style="padding: 15px;">
-                    <select name="sort" style="height: 50px; width: 140px; background-color: #F59359; margin-left: 10px;">
+                    <select
+                        name="sort"
+                        style="height: 50px; width: 140px; background-color: white;margin-left: 10px; border-radius:5px; border:1px solid black;padding-left:5px"
+                    >
                         <option value="acs">Tăng dần</option>
                         <option value="decs">Giảm dần</option>
                     </select>
@@ -52,19 +61,21 @@
                     <div class="row" style="padding: 0px">
                         {{#each merchants}}
                             <div class="col-sm-3 mb-3 child">
-                                <div class="card">
-                                    <img class="card-img-top" src="{{this.image}}" alt="Card image cap" />
-                                    <div class="card-body">
-                                        <h5 class="card-title">{{this.name}}</h5>
-                                        <p class="card-text">{{this.priceRange}}</p>
-                                        <div class="bonus">
-                                            <div class="event">
-                                                <i class="bi bi-star-fill"></i>
-                                                <span>{{this.rating}}</span>
+                                <a href="/foods/{{this.name}}" class="item">
+                                    <div class="card">
+                                        <img class="card-img-top" src="{{this.image}}" alt="Card image cap" />
+                                        <div class="card-body">
+                                            <h5 class="card-title">{{this.name}}</h5>
+                                            <p class="card-text">{{this.priceRange}}</p>
+                                            <div class="bonus">
+                                                <div class="event">
+                                                    <i class="bi bi-star-fill"></i>
+                                                    <span>{{this.rating}}</span>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
+                                </a>
                             </div>
                         {{/each}}
                     </div>
@@ -104,6 +115,16 @@
             </div>
 
         </div>
+    </div>
+    <div class="button">
+        {{#if isSearch}}
+            <a id="prevPage" href="&page={{prev}}"><button>Trang trước</button></a>
+            <a id="nextPage" href="&page={{next}}"><button>Trang sau</button></a>
+        {{else}}
+            <a href="?page={{prev}}"><button>Trang trước</button></a>
+            <a href="?page={{next}}"><button>Trang sau</button></a>
+        {{/if}}
+
     </div>
 
 </main>
