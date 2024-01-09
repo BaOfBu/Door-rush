@@ -102,6 +102,7 @@ const foodDetail = async function (req, res) {
             return new Intl.NumberFormat("vi-VN").format(type.price) + " VNĐ";
         });
         // Get type of food
+        let typeOfFoodCurrentQuantity = food.foodType.map(type => type.quantity);
         let typeOfFood = food.foodType.map(type => type.product);
         let typeOfFoodId = food.foodType.map(type => type._id);
         // Get user rating for food
@@ -148,6 +149,7 @@ const foodDetail = async function (req, res) {
             numberOfFeedback: feedbacks.length,
             // data of header
             user: true,
+            typeOfFoodCurrentQuantity: typeOfFoodCurrentQuantity,
             typeOfFood: typeOfFood,
             typeOfFoodId: typeOfFoodId,
             type: "food",
