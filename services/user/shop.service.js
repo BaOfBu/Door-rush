@@ -18,9 +18,9 @@ const mergeAddress = (shop) => {
 const getAllFood = (shop) => {
     let shopFood = []
     for(let each of shop.menu){
-        
+
         let price = each.foodType.map(type => {
-            return new Intl.NumberFormat("vi-VN").format(type.price) + " VNĐ";
+            return new Intl.NumberFormat("vi-VN").format(type.price) + " Đ";
         });
         let category = each.category.map(type => type.name)
         let rating = Math.round(each.rating)
@@ -29,7 +29,7 @@ const getAllFood = (shop) => {
             image: each.image,
             name: each.name,
             rating: rating,
-            price: price[0],
+            price: price[0] || (0 + " Đ"),
             category: category
         })
     }
@@ -69,7 +69,7 @@ const getRecommendFood = (shop) => {
             image: each.image,
             name: each.name,
             rating: rating,
-            price: price[0]
+            price: price[0] || (0 + " Đ"),
         })
     }
     return recommendFood
