@@ -51,7 +51,7 @@
                             <div class="item-info">
                                 <img class="item-img" src="{{this.itemImage}}" alt="{{this.itemImage}}">
                                 <div class="item-name">
-                                    <p class="item-title-font">{{this.itemName}}</p>
+                                    <p class="item-title-name">{{this.itemName}}</p>
                                     <p class="item-normal-font">{{this.itemType}}</p>
                                 </div>
                             </div>
@@ -59,7 +59,7 @@
                         <div class="item-card-col-2">
                             <div class="price-col">
                                 <p class="item-title-font text-align-center">GIÁ</p>
-                                <p class="item-normal-font text-align-center">{{this.itemPrice}}Đ</p>
+                                <p class="item-normal-font text-align-center">{{this.itemPrice}}</p>
                             </div>
                             <div class="price-col">
                                 <p class="item-title-font text-align-center">SỐ LƯỢNG</p>
@@ -67,11 +67,11 @@
                             </div>
                             <div class="price-col">
                                 <p class="item-title-font text-align-center">THÀNH TIỀN</p>
-                                <p class="item-normal-font text-align-center">{{this.itemTotal}}Đ</p>
+                                <p class="item-normal-font text-align-center">{{this.itemTotal}}</p>
                             </div>
-                            <div class="price-col">
-                                <a href="/shopping-cart/delete-item?itemID={{this.itemID}}" class="order-button">
-                                Xóa</a>
+                            <div class="price-col-button">
+                                <a href="/shopping-cart/delete-item?itemID={{this.itemID}}" class="delete-button">
+                                <i class="bi bi-trash"></i></a>
                             </div>
                         </div>
                     </div>
@@ -84,36 +84,42 @@
         <div class="container">
             <div class="section-four-content">
                 <div class="order-option-row">
-                    <p class="order-option-title">MÃ GIẢM GIÁ</p>
+                    <p class="order-option-title">MÃ GIẢM GIÁ:
                     {{#if orderDetail.orderFoodVoucher}}
-                    <p class="order-option-body">
-                        Mã: {{orderDetail.orderFoodVoucher.voucherId}}
-                        Giảm: {{orderDetail.orderFoodVoucher.valueOfDiscount}}Đ</p>
+                        <span class="voucher-id"> {{orderDetail.orderFoodVoucher.voucherId}}</span>
+                    {{/if}}
+                    </p>
+                    
+                    {{#if orderDetail.orderFoodVoucher}}
+                        <p class="order-option-body">-{{orderDetail.orderFoodVoucher.valueOfDiscount}}</p>
                     {{else}}
-                    <p class="order-option-body">Chưa chọn mã giảm giá</p>
+                        <p class="order-option-body">Chưa chọn mã giảm giá</p>
                     {{/if}}
                 </div>
                 <div class="order-option-row">
-                    <p class="order-option-title">MÃ SHIPPING</p>
+                    <p class="order-option-title">MÃ SHIPPING:
                     {{#if orderDetail.orderShipVoucher}}
-                    <p class="order-option-body">
-                        Mã: {{orderDetail.orderShipVoucher.voucherId}}
-                        Giảm: {{orderDetail.orderShipVoucher.valueOfDiscount}}Đ</p>
+                        <span class="voucher-id"> {{orderDetail.orderShipVoucher.voucherId}}</span>
+                    {{/if}}
+                    </p>    
+
+                    {{#if orderDetail.orderShipVoucher}}
+                        <p class="order-option-body">-{{orderDetail.orderShipVoucher.valueOfDiscount}}</p>
                     {{else}}
-                    <p class="order-option-body">Chưa chọn mã shipping</p>
+                        <p class="order-option-body">Chưa chọn mã shipping</p>
                     {{/if}}
                 </div>
                 <div class="order-option-row">
                     <p class="order-option-title">ĐỊA CHỈ GIAO HÀNG</p>
                     {{#if orderDetail.addressOrder}}
-                    <p class="order-option-body">{{orderDetail.addressOrder}}</p>
+                        <p class="order-option-body">{{orderDetail.addressOrder}}</p>
                     {{else}}
-                    <p class="order-option-body">Chưa chọn địa chỉ</p>
+                        <p class="order-option-body">Chưa chọn địa chỉ</p>
                     {{/if}}
                 </div>
                 <div class="order-option-row">
                     <p class="order-option-title">TỔNG GIÁ TIỀN</p>
-                    <p class="order-total">{{orderDetail.total}}Đ</p>
+                    <p class="order-total">{{orderDetail.total}}</p>
                 </div>
                 <div class="order-button-row">
                     <a href="/shopping-cart/food-voucher" class="order-button" id="choose-fv">Chọn mã giảm giá</a>
