@@ -347,3 +347,38 @@ input[type="radio"]:checked {
 .return-food-btn:hover {
     box-shadow: 0px 0px 5px rgba(249, 168, 38, 0.4), 0px 0px 15px rgba(249, 168, 38, 0.4);
 }
+.rating-empty-container {
+    margin-top: 10px;
+}
+
+.rating-emtpy {
+    width: 95%;
+    margin: 0 auto;
+    align-items: center;
+    justify-content: space-evenly;
+    display: flex;
+    flex-direction: row;
+    padding: 10px 20px;
+}
+.empty-title {
+    font-weight: 500;
+    font-size: 24px;
+    color: var(--black-subtitle-color);
+}
+.rating-emtpy img {
+    width: 55%;
+    object-fit: cover;
+}
+.rating-empty-tittle {
+    font-size: 24px;
+    font-weight: bold;
+}
+.content-empty {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+.link-custom {
+    text-decoration: none;
+    color: var(--black-subtitle-color);
+}

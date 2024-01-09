@@ -80,7 +80,6 @@ const foodDetail = async function (req, res) {
     let searchString = foodId;
     let containsString = merchantId[0].menu.some(id => id.toString() === searchString);
     console.log(containsString);
-
     if (containsString) {
         let currentMerchant;
         let isSameMerchant = false;
@@ -147,6 +146,7 @@ const foodDetail = async function (req, res) {
             rating: food.rating,
             userRating: userRating,
             feedbacks: feedbacks,
+            feedbackEmpty: feedbacks.length == 0,
             numberOfFeedback: feedbacks.length,
             // data of header
             user: true,

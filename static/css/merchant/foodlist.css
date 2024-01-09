@@ -1,4 +1,4 @@
-.custom-container{
+.custom-container {
     position: relative;
     height: 100vh;
     width: calc(100% - 300px);
@@ -6,19 +6,19 @@
     padding: 40px;
 }
 
-.menu-category-bar{
+.menu-category-bar {
     border-radius: 10px;
     border: 2px solid var(--light-color);
     padding: 3px;
 }
 
-.custom-button{
+.custom-button {
     background-color: var(--orange-color);
     color: var(--white-color);
 }
 
-.custom-button:hover{
-    background-color: #FF8E00;
+.custom-button:hover {
+    background-color: #ff8e00;
     color: var(--white-color);
 }
 
@@ -30,7 +30,7 @@
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0,0,0,0.7);
+    background-color: rgba(0, 0, 0, 0.7);
 }
 
 /* Thiết lập kiểu cho nội dung modal */
@@ -64,7 +64,7 @@
     cursor: pointer;
 }
 
-#addCategory{
+#addCategory {
     margin-left: 10px;
 }
 /* Thêm kiểu cho nút đóng */
@@ -74,38 +74,38 @@
     border-color: #dc3545;
 }
 
-.quantity{
+.quantity {
     margin-left: 10px;
 }
 
-.status{
+.status {
     margin-left: 10px;
     width: 40%;
 }
 
-.primary{
+.primary {
     margin-left: 10px;
 }
 
-.items .nav .nav-item .nav-link:hover{
+.items .nav .nav-item .nav-link:hover {
     color: var(--black-color);
 }
 
-.items .nav .nav-item .nav-link{
+.items .nav .nav-item .nav-link {
     color: var(--grey-color);
 }
 
-.items .nav .nav-item .active{
+.items .nav .nav-item .active {
     background-color: var(--orange-color);
-    color: var(--white-color);   
+    color: var(--white-color);
 }
 
-.dropdown-toggle{
+.dropdown-toggle {
     left: 0px;
     margin-left: 0px;
 }
 
-#dropdownCategory{
+#dropdownCategory {
     margin-left: 0;
     width: 625px;
     padding-left: 10px;
@@ -114,7 +114,7 @@
     text-overflow: ellipsis;
 }
 
-#dropdownCategoryProduct{
+#dropdownCategoryProduct {
     padding-left: 10px;
     white-space: nowrap;
     overflow: hidden;
@@ -137,16 +137,26 @@
     margin-right: 8px;
 }
 
-#fixSizeImg{
+#fixSizeImg {
     width: 250px;
     height: 150px;
 }
 
-#saveOption{
+#saveOption {
     margin-left: 10px;
     margin-right: 10px;
 }
 
-.mr-btn{
+.mr-btn {
     margin-right: 10px;
+}
+.page-item.active .page-link {
+    border: 1px solid var(--orange-color) !important;
+    background: var(--orange-color) !important;
+}
+.page-link {
+    color: var(--black-color);
+}
+.page-link:hover {
+    color: var(--orange-color);
 }
