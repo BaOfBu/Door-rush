@@ -8,6 +8,10 @@ router.get('/register', accountController.getRegister);
 
 router.post('/register',accountController.postRegister);
 
+router.get('/forgotpassword', accountController.getForgotpassword);
+
+router.post('/forgotpassword', accountController.postForgotpassword);
+
 router.get('/login', accountController.getLogin);
 
 router.post('/login', accountController.postLogin);

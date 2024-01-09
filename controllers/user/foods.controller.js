@@ -7,112 +7,122 @@ import MerchantService from "../../services/user/Merchant.service.js";
 import FoodType from "../../models/foodTypeModel.js";
 import OrderService from "../../services/user/order.service.js";
 import Order from "../../models/orderModel.js";
+import Merchant from "../../models/merchantModel.js";
 
 // [GET]/foods
 const index = async function (req, res) {
-  try {
-      const page = req.query.page || 1;
-      const limit = 8;
-      const offset = (page - 1) * limit;
-      const search = req.query.search || "";
-      let sort = req.query.sort || "rating";
-      let category = req.query.category || "All";
-      let isSearch = false;
-      if (sort != "rating" && search != "") {
-          isSearch = true;
-      }
-      const categoryOptions = [
-          "658070c464153bdfd0555006",
-          "658070c464153bdfd0555008",
-          "658070c464153bdfd055500a",
-          "658070c464153bdfd055500c",
-          "658070c464153bdfd055500e",
-          "658070c464153bdfd0555010",
-          "658070c464153bdfd0555012",
-          "658070c464153bdfd0555014",
-          "658070c464153bdfd0555016",
-          "658070c464153bdfd0555018",
-          "658070c464153bdfd055501a",
-          "658070c464153bdfd055501c",
-          "658070c564153bdfd055501e",
-          "658070c564153bdfd0555020",
-          "658070c564153bdfd0555022",
-          "658070c564153bdfd0555024",
-          "658070c564153bdfd0555026",
-          "658070c564153bdfd0555028",
-          "658070c564153bdfd055502a",
-          "658070c564153bdfd055502c",
-          "658070c564153bdfd055502e",
-          "658070c564153bdfd0555030",
-          "658070c564153bdfd0555032",
-          "658070c564153bdfd0555034",
-          "658070c564153bdfd0555036"
-      ];
+    try {
+        const page = req.query.page || 1;
+        const limit = 8;
+        const offset = (page - 1) * limit;
+        const search = req.query.search || "";
+        let sort = req.query.sort || "rating";
+        let category = req.query.category || "All";
+        let isSearch = false;
+        if (sort != "rating" && search != "") {
+            isSearch = true;
+        }
+        if (category != "All") {
+            isSearch = true;
+        }
+        const categoryOptions = [
+            "658070c464153bdfd0555006",
+            "658070c464153bdfd0555008",
+            "658070c464153bdfd055500a",
+            "658070c464153bdfd055500c",
+            "658070c464153bdfd055500e",
+            "658070c464153bdfd0555010",
+            "658070c464153bdfd0555012",
+            "658070c464153bdfd0555014",
+            "658070c464153bdfd0555016",
+            "658070c464153bdfd0555018",
+            "658070c464153bdfd055501a",
+            "658070c464153bdfd055501c",
+            "658070c564153bdfd055501e",
+            "658070c564153bdfd0555020",
+            "658070c564153bdfd0555022",
+            "658070c564153bdfd0555024",
+            "658070c564153bdfd0555026",
+            "658070c564153bdfd0555028",
+            "658070c564153bdfd055502a",
+            "658070c564153bdfd055502c",
+            "658070c564153bdfd055502e",
+            "658070c564153bdfd0555030",
+            "658070c564153bdfd0555032",
+            "658070c564153bdfd0555034",
+            "658070c564153bdfd0555036"
+        ];
 
-      const categorys = Array.isArray(category) ? category : [category];
+        const categorys = Array.isArray(category) ? category : [category];
 
-      category === "All" ? (category = [...categoryOptions]) : (category = categorys);
-      req.query.sort ? (sort = req.query.sort.split(",")) : (sort = [sort]);
+        category === "All" ? (category = [...categoryOptions]) : (category = categorys);
+        req.query.sort ? (sort = req.query.sort.split(",")) : (sort = [sort]);
 
-      let sortBy = {};
-      if (sort[1]) {
-          sortBy[sort[0]] = sort[1];
-      } else {
-          sortBy[sort[0]] = "asc";
-      }
+        let sortBy = {};
+        if (sort[1]) {
+            sortBy[sort[0]] = sort[1];
+        } else {
+            sortBy[sort[0]] = "asc";
+        }
 
-      const Merchants = await Merchant.find({
-          name: { $regex: search, $options: "i" },
-          status: "active"
-      })
-          .where("category")
-          .in([...category])
-          .sort(sortBy)
-          .skip(offset)
-          .limit(limit)
-          .lean();
-      console.log(Merchants);
-      const total = await Merchant.countDocuments({
-          category: { $in: [...category] },
-          name: { $regex: search, $options: "i" },
-          status: "active"
-      });
-      const nPages = Math.ceil(total / limit);
-      let next;
-      let prev;
-      console.log(nPages);
-      if (Number(page) == nPages) {
-          prev = Number(page) - 1;
-          next = nPages;
-      } else if (Number(page) == 1) {
-          prev = 1;
-          next = Number(page) + 1;
-      } else {
-          prev = Number(page) - 1;
-          next = Number(page) + 1;
-      }
-      const response = {
-          error: false,
-          total,
-          page: page + 1,
-          limit,
-          category: categoryOptions,
-          Merchants
-      };
-
-      //res.status(200).json({ response });
-      res.render("user/foods", {
-          isSearch: isSearch,
-          user: false,
-          nPages: nPages,
-          prev: prev,
-          next: next,
-          merchants: response.Merchants
-      });
-  } catch (err) {
-      console.log(err);
-      res.status(500).json({ error: true, message: "Internal Server Error" });
-  }
+        const Merchants = await Merchant.find({
+            name: { $regex: search, $options: "i" },
+            status: "active"
+        })
+            .where("category")
+            .in([...category])
+            .sort(sortBy)
+            .skip(offset)
+            .limit(limit)
+            .lean();
+        console.log(Merchants);
+        const total = await Merchant.countDocuments({
+            category: { $in: [...category] },
+            name: { $regex: search, $options: "i" },
+            status: "active"
+        });
+        const nPages = Math.ceil(total / limit);
+        let next;
+        let prev;
+        if (Number(page) == nPages) {
+            prev = Number(page) - 1;
+            next = nPages;
+        } else if (Number(page) == 1) {
+            prev = 1;
+            next = Number(page) + 1;
+        } else {
+            prev = Number(page) - 1;
+            next = Number(page) + 1;
+        }
+        const response = {
+            error: false,
+            total,
+            page: page + 1,
+            limit,
+            category: categoryOptions,
+            Merchants
+        };
+        if (next == 0) {
+            next = 1;
+        }
+        if (Merchants.length == 0) {
+            next = 1;
+            prev = 1;
+        }
+        console.log(next);
+        //res.status(200).json({ response });
+        res.render("user/foods", {
+            isSearch: isSearch,
+            user: false,
+            nPages: nPages,
+            prev: prev == 0 ? 1 : prev,
+            next: next,
+            merchants: response.Merchants
+        });
+    } catch (err) {
+        console.log(err);
+        res.status(500).json({ error: true, message: "Internal Server Error" });
+    }
 };
 // [GET]/foods/{{shop}}
 const shop = async (req, res) => {
