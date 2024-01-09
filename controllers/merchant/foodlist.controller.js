@@ -30,8 +30,8 @@ const index = async function (req, res) {
             categoryId = categories[0].id;
             categoryName = categories[0].name;
         }
-        console.log(categoryId);
-        console.log(categoryName);
+        // console.log(categoryId);
+        // console.log(categoryName);
 
         let foods = await Promise.all(merchant.menu.map(async (foodItem) => {
             const food = await FoodList.findInfoFood(foodItem._id);
@@ -41,7 +41,7 @@ const index = async function (req, res) {
                 return null;
             }
         }));
-        console.log(foods);
+        // console.log(foods);
         foods = foods.filter(food => food !== null);
 
         const limit = 4;
@@ -121,7 +121,7 @@ const index = async function (req, res) {
                 }
             }    
         }
-        console.log("pagination: ", pageNumbers);
+        // console.log("pagination: ", pageNumbers);
 
         let list = foods;
         if(total > offset){
@@ -238,20 +238,20 @@ const uploadProductImage = async function(req, res) {
             return res.json({ success: true, image: req.body.image });
         }
     });
-}
+};
 
 const updateCategory = async function(req, res){
     const merchantId = req.body.merchantId;
     const categories = req.body.categories;
 
-    console.log("category: ", categories);
+    // console.log("category: ", categories);
     const update = await FoodList.updateCategory(merchantId, categories);
     if(update){
         res.json({ success: true, message: 'Đã thêm categories thành công' });
     }else{
         res.json({ success: true, message: 'Đã xóa category thành công' });
     }
-}
+};
 
 const addProduct = async function(req, res){
     const merchantId = req.body.merchantId;
@@ -264,7 +264,44 @@ const addProduct = async function(req, res){
     }else{
         res.json({ success: true, message: 'Đã xảy ra lỗi khi thêm sản phẩm' });
     }
-}
+};
 
-export default { index, deleteCategory, updateCategory, uploadProductImage, addProduct };
+const getProduct = async function(req, res){
+    const merchantId = req.body.merchantId;
+    const productId = req.body.productId;
+
+    console.log("Đã vô get product");
+    const product = await FoodList.getProduct(merchantId, productId);
+    console.log("product: ", product);
+
+    if(product){
+        res.json({success: true, product: product});
+    }else{
+        res.json({success: true, message: 'Đã xảy ra lỗi khi lấy dữ liệu sản phẩm'});
+    }
+};
+
+const updateProduct = async function(req, res){
+    const merchantId = req.body.merchantId;
+    const product = req.body.product;
+
+    const foodId = await FoodList.updateProduct(merchantId, product);
+    console.log("foodId update new: ", foodId);
+    if(foodId){
+        res.json({ success: true, message: 'Đã cập nhật sản phẩm thành công', foodId: foodId});
+    }else{
+        res.json({ success: true, message: 'Đã xảy ra lỗi khi cập nhật sản phẩm' });
+    }
+};
+
+const deleteProduct = async function(req, res){
+    console.log("body: ", req.body);
+    const merchantId = req.body.merchantId;
+    const product = req.body.product;
+
+    const productDelete = await deleteProduct(merchantId, product);
+    res.json({success: true, productDelete: product});
+};
+
+export default { index, deleteCategory, updateCategory, uploadProductImage, addProduct, getProduct, updateProduct, deleteProduct };
 

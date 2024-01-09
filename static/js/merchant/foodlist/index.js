@@ -7,12 +7,14 @@ const categoryInput = document.getElementById('categoryInput');
 const closeCategory = document.getElementById('closeCategory');
 
 const modalProduct = document.getElementById('modalProduct');
-const addProductBtn = document.getElementById('addProductBtn');
 const closeProduct = document.getElementById('closeProduct');
 
 const modalProductDetail = document.getElementById('modalProductDetail');
 const viewProductBtn = document.getElementById('viewProductBtn');
 const closeProductDetail = document.getElementById('closeProductDetail');
+
+let options = [];
+let productDetail = null;
 
 $('#addProductBtn').on('click', function() {
     modalProduct.style.display = 'block';
@@ -56,6 +58,14 @@ $('#addProductBtn').on('click', function() {
         });
     }
 
+    function isExistFoodTypeUnvalid(){
+        if(options.length === 0) return -2;
+        for(let i = 0; i < options.length; i++){
+            if(options[i].product === "" || options[i].maxQuantity === "" || options[i].price === "") return i;
+        }
+        return -1;
+    }
+
     $('#addProduct').on('click', function(){
         let isValid = true;
     
@@ -92,33 +102,49 @@ $('#addProductBtn').on('click', function() {
         }
     
         if(isValid){
-            const foodType = options;
-            let product = {
-                name: name,
-                image: image,
-                category: category,
-                description: description,
-                foodType: foodType,
-            };
-    
-            const merchantId = $('#merchantId').val();
-    
-            const apiUrl = '/merchant/products/add-product';
-    
-            $.ajax({
-                url: apiUrl,
-                type: 'POST',
-                contentType: 'application/json',
-                data: JSON.stringify({ merchantId: merchantId, product: product}),
-                success: async function (data) {
-                    await uploadProductImage(data.foodId);
-                    alert("Thêm thành công sản phẩm");
-                    // location.reload();
-                },
-                error: function (error) {
-                    console.error('Lỗi khi thêm sản phẩm:', error);
-                }
-            });
+            const indexUnvalid = isExistFoodTypeUnvalid();
+            if(indexUnvalid === -2){
+                alert("Phải có ít nhất một lựa chọn của sản phẩm");
+            }else if(indexUnvalid === -1){
+                const foodType = options;
+                let product = {
+                    name: name,
+                    image: image,
+                    category: category,
+                    description: description,
+                    foodType: foodType,
+                };
+        
+                const merchantId = $('#merchantId').val();
+        
+                const apiUrl = '/merchant/products/add-product';
+        
+                $.ajax({
+                    url: apiUrl,
+                    type: 'POST',
+                    contentType: 'application/json',
+                    data: JSON.stringify({ merchantId: merchantId, product: product}),
+                    success: async function (data) {
+                        await uploadProductImage(data.foodId);
+                        alert("Thêm thành công sản phẩm");
+                        // location.reload();
+                    },
+                    error: function (error) {
+                        console.error('Lỗi khi thêm sản phẩm:', error);
+                    }
+                });
+            }else{
+                const dropdownMenu = document.querySelector('.options .custom-dropdown-menu');
+
+                const existingOptionsCount = dropdownMenu.querySelectorAll('li').length;
+            
+                const choice = indexUnvalid + 1;
+                alert("Vui lòng điền đầy đủ thông tin và lưu lựa chọn " + choice);
+
+                const optionCurrent = document.querySelector(`.custom-dropdown-menu li:nth-child(${choice})`);
+                handleOptionClick(optionCurrent, indexUnvalid);
+            }
+            
         }
             // product.name = $('#productName').val();
             // product.image = $("#fuMain")[0].files[0];
@@ -132,8 +158,467 @@ $('#addCategoryBtn').on('click', function() {
     modalCategory.style.display = 'block';
 });
 
-$("#viewProductBtn").on('click', function(){
+// $("#viewProductBtn").on('click', function(){
+//     modalProductDetail.style.display = 'block';
+// });
+
+$('.btn-detail').click(function() {
     modalProductDetail.style.display = 'block';
+    // Lấy giá trị thuộc tính dữ liệu data-food-id
+    const foodId = $(this).data('food-id');
+
+    // Sử dụng giá trị foodId để xác định sản phẩm tương ứng
+    console.log('Nút "Xem chi tiết" của sản phẩm có ID:', foodId);
+    displayProductContent();
+    // $('#modalProductDetail-' + foodId).modal('show');
+    // Thực hiện các hành động khác dựa trên foodId nếu cần
+    $('#fuMain2').fileinput({
+        dropZoneEnabled: false,
+        maxFileCount: 1,
+        allowedFileExtensions: ['jpg', 'png', 'gif'],
+        language: 'vi',
+    });
+
+    // $('#productNameDetail').val(productDetail.name);
+    // $('#productName').val('123');
+    function displayProductContent(){
+        const merchantId = $('#merchantId').val();
+        const apiUrl = '/merchant/products/get-product';
+        
+        console.log("Đã vô display");
+        $.ajax({
+            url: apiUrl,
+            type: 'POST',
+            contentType: 'application/json',
+            data: JSON.stringify({ merchantId: merchantId, productId: foodId}),
+            success: function (data) {
+                console.log("Đã lấy dl success");
+                console.log("data: ", data);
+                console.log("data product: ", data.product);
+                const product = data.product;
+                productDetail = product;
+                options = product.foodType;
+
+                console.log(productDetail);
+                $('#productNameDetail').val(productDetail.name);
+                $("#img-old").attr("src", productDetail.image);
+                $('#dropdownCategoryProductDetail').text(productDetail.category);
+                $('#descriptionDetail').val(productDetail.description);
+
+                const choice = options.length - 1;
+                $('#dropdownItemDetail').text("Lựa chọn " + options.length);
+                console.log(choice);
+                $('#optionNameDetail').val(options[choice].product);
+                $('#priceDetail').val(options[choice].price);
+                $('#quantityDetail').val(options[choice].maxQuantity);
+                $('#statusItemDetail').text(options[choice].status);
+
+                $("#selectedProductCategoryDetail").val(productDetail.category);
+                console.log("THÀNH CÔNG");
+
+                for(let i = 0; i<options.length; i++){
+                    addOldOptional(i+1, options[0].product, options[0].price, options[0].maxQuantity, options[0].status);
+                }
+                
+                // if($('#statusItemDetail').text() === "Hết hàng"){
+                //     $('#unavailableDetail').addClass('active');
+                //     $('#availableDetail').removeClass('active');
+                // }else{
+                //     $('#availableDetail').addClass('active');
+                //     $('#unavailable').removeClass('active');
+                // }
+            },
+            error: function (error) {
+                console.error('Lỗi khi lấy dữ liệu sản phẩm:', error);
+            }
+        });
+        
+
+    }
+    
+    async function uploadProductImageDetail(productId) {
+        const fileInput = $("#fuMain2")[0].files[0];
+        if (!fileInput) {
+          console.log('No file selected.');
+          return;
+        }
+      
+        console.log("fileInput: ", fileInput);
+        const formData = new FormData();
+        formData.append('image', fileInput);
+        formData.append('productName', $('#productNameDetail').val());
+        formData.append('foodId', productId);
+        return new Promise((resolve, reject) => {
+            $.ajax({
+            url: '/merchant/products/upload-product-image',
+            type: 'POST',
+            data: formData,
+            processData: false,
+            contentType: false,
+            success: function(data) {
+                // console.log("body: ", req.body);
+                // delete req.body.image;
+                console.log(data);
+                resolve(data);
+            },
+            error: function(error) {
+                console.error('Error:', error);
+                reject(error);
+            }
+            });
+        });
+    }
+
+    function isExistFoodTypeUnvalid(){
+        if(options.length === 0) return -2;
+        for(let i = 0; i < options.length; i++){
+            if(options[i].product === "" || options[i].maxQuantity === "" || options[i].price === "") return i;
+        }
+        return -1;
+    }
+
+    $('#availableDetail').on('click', function(){
+        $('#statusItemDetail').text("Còn hàng");
+        $('#availableDetail').addClass('active');
+        $('#unavailable').removeClass('active');
+    });
+    
+    $('#unavailableDetail').on('click', function(){
+        $('#statusItemDetail').text("Hết hàng");
+        $('#unavailableDetail').addClass('active');
+        $('#availableDetail').removeClass('active');
+    });
+
+    $(".checkboxProductCategoryDetail .custom-checkbox").change(function() {
+        let selectedOptions = [];
+      
+        $(".category-checkbox:checked").each(function() {
+          selectedOptions.push($(this).data("value"));
+        });
+      
+        // if (selectedOptions.length > 3) {
+        //   $(this).prop('checked', false);
+        //   return;
+        // }
+      
+        $("#dropdownCategoryProductDetail").text(selectedOptions.length > 0 ? selectedOptions.join(", ") : "Chọn các danh mục cho sản phẩm của bạn.");
+      
+        $("#selectedProductCategoryDetail").val(selectedOptions.join(", "));
+    
+        if(checkCategoriesProductDetail() === false){
+            $('#dropdownCategoryProductDetail').addClass("is-invalid");
+            $("#checkValidationCategoriesProductDetail").show();
+        }else{
+            $('#dropdownCategoryProductDetail').removeClass("is-invalid");
+            $("#checkValidationCategoriesProductDetail").hide();
+        }
+    });
+
+    $('#deleteProductDetail').on('click', function(){
+        const product = productDetail;
+        const merchantId = $('#merchantId').val();
+
+        const apiUrl = '/merchant/products/delete-product';
+        console.log("merchantId: ", merchantId);
+        $.ajax({
+            url: apiUrl,
+            type: 'POST',
+            contentType: 'application/json', 
+            data: JSON.stringify({ merchantId: $('#merchantId').val(), product: product }),
+            success: function (data) {
+                if(data.productDelete){
+                    alert("Xóa sản phẩm thành công");
+                }
+                // location.reload();
+            },
+            error: function (error) {
+                console.error('Lỗi khi xóat sản phẩm:', error);
+            }
+        });
+    });
+
+    function checkCategoriesProductDetail(){
+        let categories = $('#selectedProductCategoryDetail').val();
+        console.log(categories);
+        if(categories === '' || categories === "Chọn các danh mục cho sản phẩm của bạn."){
+          return false;
+        }
+        return true;
+    }
+
+    function handleOptionClickDetail(option, index) {
+        // Access option properties or perform actions based on the click
+        // For example, you can toggle a class, update some data, etc.
+        // $(option).toggleClass('selected');
+        $('.optionDetail .custom-dropdown-menu .dropdown-item').removeClass('active');
+        $(option).addClass('active');
+        const optionName = index + 1;
+        $('#dropdownItemDetail').text('Lựa chọn ' + optionName);
+    
+        console.log('Option clicked:', option.textContent);
+    
+        console.log("options: ", options);
+        console.log("index: ", index);
+        if(options[index]){
+            const product = options[index].product;
+            const price = options[index].price;
+            const maxQuantity = options[index].maxQuantity;
+            const status = options[index].status;
+    
+            $('#optionNameDetail').val(product);
+            $('#priceDetail').val(price);
+            $('#quantityDetail').val(maxQuantity);
+            $('#statusItemDetail').text(status);
+            
+            if(status === 'Còn hàng'){
+                $('#availableDetail').addClass('active');
+                $('#unavailableDetail').removeClass('active');
+            }else{
+                $('#unavailableDetail').addClass('active');
+                $('#availableDetail').removeClass('active');   
+            }
+        }else{
+            $('#optionNameDetail').val("");
+            $('#priceDetail').val("");
+            $('#quantityDetail').val("");
+            $('#statusItemDetail').text("Hết hàng");
+            $('#unavailableDetail').addClass('active');
+            $('#availableDetail').removeClass('active'); 
+        }
+        
+    }
+
+    $('#saveOptionDetail').on('click', function(){
+        const product = $('#optionNameDetail').val();
+        let isValid = true;
+        if(product.length === 0 || product.length > 50){
+            $('#optionNameDetail').addClass("is-invalid");
+            $("#checkValidationOptionNameDetail").show();
+            $('#optionNameDetail').focus();
+            isValid = false;
+        }
+    
+        const price = $('#priceDetail').val();
+        if(price.length === 0){
+            $('#priceDetail').addClass("is-invalid");
+            $("#checkValidationPriceDetail").show();
+            if(isValid) $('#price').focus();
+            isValid = false;
+        }
+    
+        const maxQuantity = $('#quantityDetail').val();
+        if(maxQuantity.length === 0){
+    
+            $('#quantityDetail').addClass("is-invalid");
+            $("#checkValidationQuantityDetail").show();
+            if(isValid) $('#quantityDetail').focus();
+            isValid = false;
+        }
+    
+        const status = $('#statusItemDetail').text();
+    
+        if(isValid){
+            let quantity = maxQuantity;
+            if(status === "Hết hàng") quantity = 0;
+            let option = {
+                id: -1,
+                product: product,
+                price: price,
+                maxQuantity: maxQuantity,
+                quantity: quantity,
+                status: status,
+            }
+    
+            const choice = $('#dropdownItemDetail').text();
+            console.log("choice: ", choice);
+    
+            const split = choice.split(" ");
+            console.log(split);
+    
+            const index = split[2];
+    
+            options[index - 1] = option;
+            // alert("Cập nhật lựa chọn thành công");
+            // console.log("options after: ", options);
+    
+            if(index - 1 <= options.length - 1){
+                options[index - 1] = option;
+                alert("Cập nhật lựa chọn thành công");
+            }else{
+                options.push(option);
+                alert("Lưu lựa chọn thành công");
+            }
+        }
+    });
+
+    $('#updateProduct').on('click', function(){
+        let isValid = true;
+    
+        const name = $('#productNameDetail').val();
+        productDetail.name = name;
+
+        if(name.length === 0 || name.length > 50){
+            $('#productNameDetail').addClass("is-invalid");
+            $("#checkValidationNameDetail").show();
+            $('#productNameDetail').focus();
+            isValid = false;
+        }
+    
+        // const image = $("#fuMain2")[0].files[0];
+        // if(image.length === 0){
+        //     $('#fuMain2').addClass("is-invalid");
+        //     $("#checkValidationNameDetail").show();
+        //     if(isValid) $('#fuMain2').focus();
+        //     isValid = false;
+        // }
+    
+        const category = $('#selectedProductCategoryDetail').val();
+        productDetail.category = category;
+        if(category.length === 0 || category === "Chọn các danh mục cho sản phẩm của bạn."){
+            $('#dropdownCategoryProductDetail').addClass("is-invalid");
+            $("#checkValidationCategoriesProductDetail").show();
+            if(isValid) $('#dropdownCategoryProductDetail').focus();
+            isValid = false;
+        }
+    
+        const description = $("#descriptionDetail").val();
+        productDetail.description = description;
+        if(description.length === 0){
+            $('#descriptionDetail').addClass("is-invalid");
+            $("#checkValidationDescriptionDetail").show();
+            if(isValid) $('#descriptionDetail').focus();
+            isValid = false;
+        }
+    
+        productDetail.foodType = options;
+        if(isValid){
+            const indexUnvalid = isExistFoodTypeUnvalid();
+            if(indexUnvalid === -2){
+                alert("Phải có ít nhất một lựa chọn của sản phẩm");
+            }else if(indexUnvalid === -1){
+                const merchantId = $('#merchantId').val();
+                console.log("DETAIL: ", productDetail);
+                const apiUrl = '/merchant/products/update-product';
+        
+                $.ajax({
+                    url: apiUrl,
+                    type: 'POST',
+                    contentType: 'application/json',
+                    data: JSON.stringify({ merchantId: merchantId, product: productDetail}),
+                    success: async function (data) {
+                        await uploadProductImageDetail(data.foodId);
+                        alert("Cập nhật thành công sản phẩm");
+                        // location.reload();
+                    },
+                    error: function (error) {
+                        console.error('Lỗi khi cập nhật sản phẩm:', error);
+                    }
+                });
+            }else{
+                const dropdownMenu = document.querySelector('.optionDetail .custom-dropdown-menu');
+
+                const existingOptionsCount = dropdownMenu.querySelectorAll('li').length;
+            
+                const choice = indexUnvalid + 1;
+                alert("Vui lòng điền đầy đủ thông tin và lưu lựa chọn " + choice);
+
+                const optionCurrent = document.querySelector(`.optionDetail .custom-dropdown-menu li:nth-child(${choice})`);
+                handleOptionClickDetail(optionCurrent, indexUnvalid);
+            }
+            
+        }
+    });
+
+    $('#addOptionBtnDetail').on('click', function(){
+        const dropdownMenu = document.querySelector('.optionDetail .custom-dropdown-menu');
+    
+        const existingOptionsCount = dropdownMenu.querySelectorAll('li').length;
+    
+        if(existingOptionsCount - 1 === options.length || existingOptionsCount === 1){
+            console.log("vô 1");
+            addNewOptionDetail();
+        }else{
+            const choice = options.length + 1;
+            alert("Vui lòng điền đầy đủ thông tin và lưu lựa chọn " + choice);
+            if(options.length > 1){
+                const optionCurrent = $('.optionDetail .custom-dropdown-menu li:last').before();
+                // console.log(optionCurrent.textContent);
+                handleOptionClickDetail(optionCurrent, options.length);
+            }
+        }
+        
+    })
+    
+    function addOldOptional(stt){
+        const newOption = document.createElement('li');
+        const newOptionContent = document.createElement('div');
+        newOptionContent.classList.add('dropdown-item');
+
+        const dropdownMenu = document.querySelector('.optionDetail .custom-dropdown-menu');
+    
+        const existingOptionsCount = dropdownMenu.querySelectorAll('li').length;
+
+        const text = document.createElement('span');
+        text.textContent = 'Lựa chọn ' + stt;
+
+        newOptionContent.appendChild(text);
+        newOption.appendChild(newOptionContent);
+
+        existingOptionsCount
+
+        newOptionContent.addEventListener('click', function() {
+            // Handle the click event
+            handleOptionClickDetail(this, existingOptionsCount - 1);
+        });
+        
+        const existingLi = $('.optionDetail .custom-dropdown-menu li:last');
+        existingLi.before(newOption);
+
+        if(stt === options.length){
+            $(newOptionContent).addClass('active');
+        }
+    }
+    // Add a new option above the existing ones in the dropdown menu
+    function addNewOptionDetail() {
+        const dropdownMenu = document.querySelector('.optionDetail .custom-dropdown-menu');
+    
+        const existingOptionsCount = dropdownMenu.querySelectorAll('li').length;
+
+        const addOptionLi = $('#addOptionBtnDetail').closest('li');
+        const optionPrevLi = addOptionLi.prev();
+        optionPrevLi.find('.dropdown-item').removeClass('active');
+
+        const newOption = document.createElement('li');
+        const newOptionContent = document.createElement('div');
+        newOptionContent.classList.add('dropdown-item', 'active');
+        // const icon = document.createElement('i');
+        // icon.className = 'bi bi-plus';
+        const text = document.createElement('span');
+        text.textContent = 'Lựa chọn ' + existingOptionsCount;
+
+        // Append the elements to the new option
+        // newOptionContent.appendChild(icon);
+        newOptionContent.appendChild(text);
+        newOption.appendChild(newOptionContent);
+
+        newOptionContent.addEventListener('click', function() {
+            // Handle the click event
+            handleOptionClickDetail(this, existingOptionsCount - 1);
+        });
+        
+        const existingLi = $('.optionDetail .custom-dropdown-menu li:last');
+        existingLi.before(newOption);
+
+        $('#dropdownItemDetail').text(text.textContent);
+        $('#optionNameDetail').val("");
+        $('#priceDetail').val("");
+        $('#quantityDetail').val("");
+        // $('#description').val("");
+        $('#availableDetail').removeClass('active');
+        $('#unavailableDetail').addClass('active');
+        $('#statusItemDetail').text("Hết hàng");
+
+    }
 });
 
 $("#closeCategory").on('click', function() {
@@ -293,7 +778,18 @@ $('#addOptionBtn').on('click', function(){
 
     const existingOptionsCount = dropdownMenu.querySelectorAll('li').length;
 
-    addNewOption();
+    if(existingOptionsCount - 1 === options.length || existingOptionsCount === 1){
+        addNewOption();
+    }else{
+        const choice = options.length + 1;
+        alert("Vui lòng điền đầy đủ thông tin và lưu lựa chọn " + choice);
+        if(options.length > 1){
+            const optionCurrent = $('.options .custom-dropdown-menu li:last').before();
+            handleOptionClick(optionCurrent, options.length - 1);
+        }
+
+    }
+    
     // Add a new option above the existing ones in the dropdown menu
     function addNewOption() {
         const addOptionLi = $('#addOptionBtn').closest('li');
@@ -303,15 +799,20 @@ $('#addOptionBtn').on('click', function(){
         const newOption = document.createElement('li');
         const newOptionContent = document.createElement('div');
         newOptionContent.classList.add('dropdown-item', 'active');
-        const icon = document.createElement('i');
-        icon.className = 'bi bi-plus';
+        // const icon = document.createElement('i');
+        // icon.className = 'bi bi-plus';
         const text = document.createElement('span');
-        text.textContent = ' Lựa chọn ' + existingOptionsCount;
+        text.textContent = 'Lựa chọn ' + existingOptionsCount;
 
         // Append the elements to the new option
-        newOptionContent.appendChild(icon);
+        // newOptionContent.appendChild(icon);
         newOptionContent.appendChild(text);
         newOption.appendChild(newOptionContent);
+
+        newOptionContent.addEventListener('click', function() {
+            // Handle the click event
+            handleOptionClick(this, existingOptionsCount - 1);
+        });
         
         const existingLi = $('.options .custom-dropdown-menu li:last');
         existingLi.before(newOption);
@@ -328,6 +829,48 @@ $('#addOptionBtn').on('click', function(){
     }
 })
 
+function handleOptionClick(option, index) {
+    // Access option properties or perform actions based on the click
+    // For example, you can toggle a class, update some data, etc.
+    // $(option).toggleClass('selected');
+    $('.custom-dropdown-menu .dropdown-item').removeClass('active');
+    $(option).addClass('active');
+    const optionName = index + 1;
+    $('#dropdownItem').text('Lựa chọn ' + optionName);
+
+    console.log('Option clicked:', option.textContent);
+
+    console.log("options: ", options);
+    if(options[index]){
+        const product = options[index].product;
+        const price = options[index].price;
+        const maxQuantity = options[index].maxQuantity;
+        const status = options[index].status;
+
+        $('#optionName').val(product);
+        $('#price').val(price);
+        $('#quantity').val(maxQuantity);
+        $('#statusItem').text(status);
+        
+        if(status === 'Còn hàng'){
+            $('#available').addClass('active');
+            $('#unavailable').removeClass('active');
+        }else{
+            $('#unavailable').addClass('active');
+            $('#available').removeClass('active');   
+        }
+    }else{
+        $('#optionName').val("");
+        $('#price').val("");
+        $('#quantity').val("");
+        $('#statusItem').text("Hết hàng");
+        $('#unavailable').addClass('active');
+        $('#available').removeClass('active'); 
+    }
+    
+    // Add more logic as needed
+}
+
 $('#available').on('click', function(){
     $('#statusItem').text("Còn hàng");
     $('#available').addClass('active');
@@ -340,11 +883,9 @@ $('#unavailable').on('click', function(){
     $('#available').removeClass('active');
 })
 
-let options = [];
-
 $('#saveOption').on('click', function(){
     const product = $('#optionName').val();
-    const isValid = true;
+    let isValid = true;
     if(product.length === 0 || product.length > 50){
         $('#optionName').addClass("is-invalid");
         $("#checkValidationOptionName").show();
@@ -361,7 +902,8 @@ $('#saveOption').on('click', function(){
     }
 
     const maxQuantity = $('#quantity').val();
-    if(quantity.length === 0 ){
+    if(maxQuantity.length === 0){
+
         $('#quantity').addClass("is-invalid");
         $("#checkValidationQuantity").show();
         if(isValid) $('#quantity').focus();
@@ -380,8 +922,26 @@ $('#saveOption').on('click', function(){
             quantity: quantity,
             status: status,
         }
-        options.push(option);
-        alert("Lưu lựa chọn thành công");
+
+        const choice = $('#dropdownItem').text();
+        console.log("choice: ", choice);
+
+        const split = choice.split(" ");
+        console.log(split);
+
+        const index = split[2];
+
+        options[index - 1] = option;
+        // alert("Cập nhật lựa chọn thành công");
+        // console.log("options after: ", options);
+
+        if(index - 1 <= options.length - 1){
+            options[index - 1] = option;
+            alert("Cập nhật lựa chọn thành công");
+        }else{
+            options.push(option);
+            alert("Lưu lựa chọn thành công");
+        }
     }
 })
 

@@ -137,12 +137,21 @@
     margin-right: 8px;
 }
 
-#fuMain{
+#fixSizeImg{
+    width: 230px;
+    height: 150px;
+}
+
+/* #fuMain{
     width: 40px;
     height: auto;
-}
+} */
 
 #saveOption{
     margin-left: 10px;
+    margin-right: 10px;
+}
+
+.mr-btn{
     margin-right: 10px;
 }
