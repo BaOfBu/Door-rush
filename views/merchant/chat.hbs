@@ -64,16 +64,20 @@
                         <ul id="chatPanel" class="m-b-0">
                             
                             {{#each messagesHistory}}
-                                {{log this.flag}}
                                 {{#if this.flag}}
                                     <li class="clearfix" >
+                                        <div class="message-data text-end">
+                                            <span class="message-data-time">{{this.time}}</span>
+                                        </div>
                                         <div class="message other-message float-right">
                                             {{this.message}}
                                         </div>
                                     </li>
                                 {{else}}
-                                    {{log "else"}}
                                     <li class="clearfix">
+                                        <div class="message-data">
+                                        <div class="message-data-time">{{this.time}}</div>
+                                        </div>
                                         <div class="message my-message float-left">
                                             {{this.message}}
                                         </div>

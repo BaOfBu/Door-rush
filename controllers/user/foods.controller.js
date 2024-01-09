@@ -38,10 +38,10 @@ const shop = async (req, res) => {
     const shopStatus = shop.statusMerchant;
     const shopRating = Math.round(shop.rating);
     let shopAddress = ShopService.mergeAddress(shop);
-    let shopFood = await ShopService.getAllFood(shop);
+    let shopFood = ShopService.getAllFood(shop);
     let shopCategory = ShopService.getAllCategory(shop, shopFood);
     let popularCategory = ShopService.sliceCategory(shopCategory, 0, 9);
-    let recommendFood = await ShopService.getRecommendFood(shop);
+    let recommendFood = ShopService.getRecommendFood(shop);
 
     res.render("user/shop.hbs", {
         //shop data
