@@ -62,7 +62,7 @@ const addVoucher = async (req, res, next) => {
     const orderID = req.session.order;
     const id = req.query.id;
     const type = req.query.type;
-    const voucher = await shoppingCartService.findVoucherById(id, type);
+    const voucher = await shoppingCartService.findVoucherById(id);
     if (!voucher) {
         const url = "/shopping-cart/" + type + "-voucher";
         res.redirect(url);
@@ -135,13 +135,8 @@ const submitOrder = async (req, res, next) => {
     const orderID = req.session.order;
     const userId = req.session.authUser;
     const order = await shoppingCartService.findOrderById(orderID);
-    const checkVoucher = await shoppingCartService.checkVoucher(orderID)
     if (!order.addressOrder) {
-        const mess = "Phải nhập địa chỉ mới có thể đặt hàng"
-        res.redirect("/shopping-cart?message=" + mess)
-    } else 
-    if(checkVoucher == false){
-        const mess = "Mã giảm giá hoặc mã shipping đã hết hạn"
+        const mess = "Phải nhập địa chỉ"
         res.redirect("/shopping-cart?message=" + mess)
     } else {
         const changeStatus = await shoppingCartService.updateStatus(orderID);
