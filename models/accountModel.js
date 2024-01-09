@@ -52,6 +52,6 @@ accountSchema.methods.comparePassword = async function (candidatePassword) {
     }
 };
 
-const Account = mongoose.model("Account", accountSchema, "Account");
+const Account = mongoose.model("Account", accountSchema);
 
 export default Account;
