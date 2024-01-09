@@ -22,6 +22,9 @@ const index = async function (req, res) {
         if (sort != "rating" && search != "") {
             isSearch = true;
         }
+        if (category != "All") {
+            isSearch = true;
+        }
         const categoryOptions = [
             "658070c464153bdfd0555006",
             "658070c464153bdfd0555008",
@@ -81,7 +84,6 @@ const index = async function (req, res) {
         const nPages = Math.ceil(total / limit);
         let next;
         let prev;
-        console.log(nPages);
         if (Number(page) == nPages) {
             prev = Number(page) - 1;
             next = nPages;
@@ -100,13 +102,20 @@ const index = async function (req, res) {
             category: categoryOptions,
             Merchants
         };
-
+        if (next == 0) {
+            next = 1;
+        }
+        if (Merchants.length == 0) {
+            next = 1;
+            prev = 1;
+        }
+        console.log(next);
         //res.status(200).json({ response });
         res.render("user/foods", {
             isSearch: isSearch,
             user: false,
             nPages: nPages,
-            prev: prev,
+            prev: prev == 0 ? 1 : prev,
             next: next,
             merchants: response.Merchants
         });
