@@ -6,7 +6,8 @@ const orderList = async function (req, res){
     const merchantId = req.session.authUser._id;
     const optional = req.query.optional || 'pending';
 
-    const merchantInfo = await OrderList.findMerchantInfo(merchantId);
+    let orderList = await OrderList.findOrderList(merchantId);
+    // const merchantInfo = await OrderList.findMerchantInfo(merchantId);
 
     const vietnamTimeZone = 'Asia/Ho_Chi_Minh';
     const options = { timeZone: vietnamTimeZone, hour12: false, day: '2-digit', month: '2-digit', year: 'numeric', hour: 'numeric', minute: 'numeric', second: 'numeric' };
@@ -23,27 +24,26 @@ const orderList = async function (req, res){
         let tmpStatus = req.query.status || 'all';
         let startDate = req.query.startDate || null;
         let endDate = req.query.endDate || null;
-        let orderList = [];
 
         let statusFilter = tmpStatus;
         if(statusFilter === "all") statusFilter = "Tất cả trạng thái";
         if(statusFilter === "delivered") statusFilter = "Hoàn thành";
         if(statusFilter === "cancelled") statusFilter = "Đã hủy";
 
-        if(tmpStatus === 'all'){
-            orderList = await OrderList.findByHistory(merchantId);
-            orderList.sort((a, b) => b.timeStatus[0] - a.timeStatus[0]);
-        }else{
-            orderList = await OrderList.findByStatus(merchantId, statusFilter);
-            orderList.sort((a, b) => b.timeStatus[0] - a.timeStatus[0]);
+        let filteredOrders = orderList.filter(order => (order.status === 'Đã hủy' || order.status === 'Hoàn thành'));
+
+        if (tmpStatus !== 'all') {
+            filteredOrders = filteredOrders.filter(order => order.status === tmpStatus);
         }
 
-        const orderInfoPromises = orderList.map(async (order) => {
+        filteredOrders.sort((a, b) => b.timeStatus[0] - a.timeStatus[0]);
+
+        const orderInfoPromises = filteredOrders.map(async (order) => {
             try {
-                let user = await User.getUserInfo(order.userId);
+                let user = order.userId;
                 let orderId = order._id;
-                let userId = user._id;
-                let username = user.username;
+                let userId = order.userId._id;
+                let username = order.userId.username;
                 let timeOrder = order.timeStatus[0].toLocaleDateString('en-GB', options);
                 let quantity = await User.countQuantityItemsOfOrder(order._id);
                 let total = order.total;
@@ -93,16 +93,103 @@ const orderList = async function (req, res){
         const nPages = Math.ceil(total / limit);
 
         const pageNumbers = [];
-        for (let i = 1; i <= nPages; i++) {
-            pageNumbers.push({
-            value: i,
-            isActive: i === +page,
-            status: status,
-            statusFilter: tmpStatus,
-            startDate: startDate,
-            endDate: endDate
-            });
+        if(nPages <= 7){
+            for (let i = 1; i <= nPages; i++) {
+                pageNumbers.push({
+                    value: i,
+                    isActive: i === +page,
+                    status: status,
+                    statusFilter: tmpStatus,
+                    startDate: startDate,
+                    endDate: endDate
+                });
+            }
+        }else{
+            if(Number(page) + 2 <= nPages){
+                if(Number(page) > 5){
+                    for (let i = 1; i <= 2; i++) {
+                        pageNumbers.push({
+                            value: i,
+                            isActive: i === +page,
+                            status: status,
+                            statusFilter: tmpStatus,
+                            startDate: startDate,
+                            endDate: endDate
+                        });
+                    }
+                    pageNumbers.push({
+                        value: '..',
+                        isActive: false,
+                        status: status,
+                        statusFilter: tmpStatus,
+                        startDate: startDate,
+                        endDate: endDate
+                    });
+                    for (let i = Number(page) - 2; i <= Number(page) + 2; i++) {
+                        pageNumbers.push({
+                            value: i,
+                            isActive: i === +page,
+                            status: status,
+                            statusFilter: tmpStatus,
+                            startDate: startDate,
+                            endDate: endDate
+                        });
+                    }  
+                }else if(Number(page) > 3){
+                    for (let i = Number(page) - 3; i <= Number(page) + 3; i++) {
+                        pageNumbers.push({
+                            value: i,
+                            isActive: i === +page,
+                            status: status,
+                            statusFilter: tmpStatus,
+                            startDate: startDate,
+                            endDate: endDate
+                        });
+                    }    
+                }else{
+                    for (let i = 1; i <= 7; i++) {
+                        pageNumbers.push({
+                            value: i,
+                            isActive: i === +page,
+                            status: status,
+                            statusFilter: tmpStatus,
+                            startDate: startDate,
+                            endDate: endDate
+                        });
+                    } 
+                }
+            }else if(Number(page) + 2 > nPages){
+                for (let i = 1; i <= 2; i++) {
+                    pageNumbers.push({
+                        value: i,
+                        isActive: i === +page,
+                        status: status,
+                        statusFilter: tmpStatus,
+                        startDate: startDate,
+                        endDate: endDate
+                    });
+                }
+                pageNumbers.push({
+                    value: '..',
+                    isActive: false,
+                    status: status,
+                    statusFilter: tmpStatus,
+                    startDate: startDate,
+                    endDate: endDate
+                });
+                for (let i = nPages - 4; i <= nPages; i++) {
+                    pageNumbers.push({
+                        value: i,
+                        isActive: i === +page,
+                        status: status,
+                        statusFilter: tmpStatus,
+                        startDate: startDate,
+                        endDate: endDate
+                    });
+                }
+            }    
         }
+        console.log("pagination: ", pageNumbers);
 
         let list = orders;
         if(total > offset){
@@ -118,9 +205,9 @@ const orderList = async function (req, res){
         res.render("merchant/orderlist", {
             type: "orders",
             merchantId: merchantId,
-            name: merchantInfo.name,
-            image: merchantInfo.image,
-            statusMerchant: merchantInfo.statusMerchant,
+            name: orderList[0].merchantId.name,
+            image: orderList[0].merchantId.image,
+            statusMerchant: orderList[0].merchantId.statusMerchant,
             optional: optional,
             status: status,
             orders: list,
@@ -133,13 +220,13 @@ const orderList = async function (req, res){
             endDate: endDate,
         });
     }else{
-        let orderList = await OrderList.findByStatus(merchantId, status);
-        orderList.sort((a, b) => b.timeStatus[0] - a.timeStatus[0]);
-        const orderInfoPromises = orderList.map(async (order) => {
+        let filteredOrders = orderList.filter(order => order.status === status);
+        filteredOrders.sort((a, b) => b.timeStatus[0] - a.timeStatus[0]);
+        const orderInfoPromises = filteredOrders.map(async (order) => {
             try {
-                let user = await User.getUserInfo(order.userId);
+                let user = order.userId;
                 let orderId = order._id;
-                let username = user.username;
+                let username = order.userId.username;
                 let timeOrder = order.timeStatus[0].toLocaleDateString('en-GB', options);
                 let quantity = await User.countQuantityItemsOfOrder(order._id);
                 let total = order.total;
@@ -244,9 +331,9 @@ const orderList = async function (req, res){
         res.render("merchant/orderlist", {
             type: "orders",
             merchantId: merchantId,
-            name: merchantInfo.name,
-            image: merchantInfo.image,
-            statusMerchant: merchantInfo.statusMerchant,
+            name: orderList[0].merchantId.name,
+            image: orderList[0].merchantId.image,
+            statusMerchant: orderList[0].merchantId.statusMerchant,
             optional: optional,
             status: status,
             orders: list,

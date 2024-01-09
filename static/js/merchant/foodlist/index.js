@@ -144,13 +144,7 @@ $('#addProductBtn').on('click', function() {
                 const optionCurrent = document.querySelector(`.custom-dropdown-menu li:nth-child(${choice})`);
                 handleOptionClick(optionCurrent, indexUnvalid);
             }
-            
         }
-            // product.name = $('#productName').val();
-            // product.image = $("#fuMain")[0].files[0];
-            // product.description = $("#description").val();
-            // product.category = $('#selectedProductCategory').val();
-            // product.foodType = options;
     })
 });
 
@@ -318,7 +312,23 @@ $('.btn-detail').click(function() {
         const product = productDetail;
         const merchantId = $('#merchantId').val();
 
+        const recommendUr = '/merchant/products/delete-recommend';
+
+        $.ajax({
+            url: apiUrl,
+            type: 'POST',
+            contentType: 'application/json', 
+            data: JSON.stringify({ merchantId: $('#merchantId').val(), product: product }),
+            success: function (data) {
+                // location.reload();
+            },
+            error: function (error) {
+                console.error('Lỗi khi xóat sản phẩm:', error);
+            }
+        });
+
         const apiUrl = '/merchant/products/delete-product';
+
         console.log("merchantId: ", merchantId);
         $.ajax({
             url: apiUrl,
@@ -326,9 +336,7 @@ $('.btn-detail').click(function() {
             contentType: 'application/json', 
             data: JSON.stringify({ merchantId: $('#merchantId').val(), product: product }),
             success: function (data) {
-                if(data.productDelete){
-                    alert("Xóa sản phẩm thành công");
-                }
+                alert("Xóa sản phẩm thành công");
                 // location.reload();
             },
             error: function (error) {
@@ -353,9 +361,7 @@ $('.btn-detail').click(function() {
             contentType: 'application/json', 
             data: JSON.stringify({ merchantId: $('#merchantId').val(), product: product, optionId: optionId }),
             success: function (data) {
-                if(data.productDelete){
-                    alert("Xóa lựa chọn thành công");
-                }
+                alert("Xóa lựa chọn thành công");
                 // location.reload();
             },
             error: function (error) {
@@ -999,7 +1005,6 @@ function renderPreviousPage(){
     nextPage.setAttribute('href', "?" + urlParams);
 }
   
-  
 function renderNextPage(){
     let nextPage = document.getElementById("nextPage");
     let urlParams = new URLSearchParams(window.location.search);
@@ -1026,33 +1031,3 @@ $(document).ready(function () {
       });
     });
 });
-
-// Hàm hiển thị danh sách category
-// function renderCategoryList(categories) {
-//     const categoryList = document.getElementById('categoryList');
-//     categoryList.innerHTML = '';
-
-//     categories.forEach(function(category) {
-//         const listItem = document.createElement('li');
-//         listItem.classList.add('list-group-item', 'd-flex', 'justify-content-between', 'align-items-center');
-        
-//         const categoryText = document.createElement('span');
-//         categoryText.textContent = category;
-        
-//         const closeButton = document.createElement('button');
-//         closeButton.classList.add('btn-close', 'btn-sm');
-//         // closeButton.innerHTML = '&times;';
-//         closeButton.addEventListener('click', function() {
-//             // Xử lý sự kiện khi nút đóng được nhấn
-//             // Ở đây có thể là xóa category khỏi danh sách, hoặc thực hiện các tác vụ khác
-//             console.log('Đã đóng category:', category);
-//         });
-        
-//         listItem.appendChild(categoryText);
-//         listItem.appendChild(closeButton);
-        
-//         categoryList.appendChild(listItem);
-//     });
-// }
-
-// Hàm giả định: Lấy danh sách category từ nguồn dữ liệu nào đó

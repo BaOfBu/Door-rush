@@ -299,10 +299,10 @@ $(".category-checkbox").change(function() {
     selectedOptions.push($(this).data("value"));
   });
 
-  if (selectedOptions.length > 3) {
-    $(this).prop('checked', false);
-    return;
-  }
+  // if (selectedOptions.length > 3) {
+  //   $(this).prop('checked', false);
+  //   return;
+  // }
 
   $("#dropdownCategory").text(selectedOptions.length > 0 ? selectedOptions.join(", ") : "Hãy chọn những loại kinh doanh của cửa hàng bạn");
 
@@ -441,12 +441,8 @@ function checkCategories(){
   if(categories === ''){
     return false;
   }
-  let split = categories.split(", ");
-  if(split.length > 3){
-    return false;
-  }else{
-    return true;
-  }
+
+  return true;
 }
 
 $("#submitRegisterButton").on("click", function (event) {

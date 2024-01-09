@@ -6,7 +6,8 @@ const orderSchema = new mongoose.Schema(
     {
         merchantId: {
             type: mongoose.Schema.Types.ObjectId,
-            ref: "Merchant"
+            ref: "Merchant",
+            index: true,
         },
         items: [
             {

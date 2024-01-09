@@ -53,7 +53,7 @@ function generateFoodTypeData(){
 async function generateFoodData(){
   let foodType = [];
   let feedBack = [];
-  const numGenFoodType = 2;
+  const numGenFoodType = 1;
 
   for(let i = 0; i < numGenFoodType; i++){
     const foodTypeData = await generateFoodTypeData().save();
@@ -61,7 +61,7 @@ async function generateFoodData(){
 
     const feedbackData = new Feedback ({
       itemId: foodTypeData._id,
-      userId: ["658bc732b2e15b47b4ab3653"],
+      userId: ["659d17c12ef1dbbdb3b9e5a7"],
       rating: faker.number.float({ min: 1, max: 5, precision: 0.1 }),
       comment: faker.lorem.sentence(),
       feedbackDate: faker.date.past(),
@@ -87,12 +87,12 @@ async function generateFoodData(){
 
 router.get("/generate-merchant", async function () {
   try {
-      const numGenMerchant = 2;
+      const numGenMerchant = 10;
 
       for(let i = 0; i < numGenMerchant; i++){
         const address = await generateAddressData().save();
   
-        const numGenFood = 2;
+        const numGenFood = 1;
         let foodData = [];
 
         for(let i = 0; i < numGenFood; i++){
@@ -109,7 +109,7 @@ router.get("/generate-merchant", async function () {
           representative: "Tên người đại diện",
           cccd: faker.number.int({min: 1000000000, max: 1100000000}),
           email: faker.helpers.fromRegExp("[a-z0-9]{10}@gmail\.com"),
-          phone: faker.helpers.fromRegExp("0346 [0-9]{3} [0-9]{3}"),
+          phone: faker.helpers.fromRegExp("0346[0-9]{3}[0-9]{3}"),
           address: address._id,
           category: ["658070c464153bdfd0555006"],
           menu: foodData,
@@ -244,7 +244,7 @@ router.get("/generate-user", async function(){
       });
 
 
-      let numGenOrder = 20;
+      let numGenOrder = 10;
       let orders = [];
 
       for(let i = 0; i < numGenOrder; i++){

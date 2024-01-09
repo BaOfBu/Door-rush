@@ -28,12 +28,10 @@ function setActiveLink(page) {
         let linkUrl = link.getAttribute('href');
         let spanElement = link.querySelector('span');
 
-        // Remove "active" class from all spans
         spanElement.classList.remove('active');
 
         // Check if the link matches the current URL
         if (page.includes(linkUrl)) {
-            // Add the "active" class to the corresponding span
             spanElement.classList.add('active');
         }
     });
@@ -80,7 +78,6 @@ $('#btnConfirm').click(function () {
     const orderId = $('#orderId').val();
     const newStatus = 'Đang chuẩn bị';
 
-    // Gọi hàm để thực hiện yêu cầu
     changeOrderStatus(orderId, newStatus);
 });
 
@@ -88,7 +85,6 @@ $('#btnComplete').click(function () {
     const orderId = $('#orderId').val();
     const newStatus = 'Hoàn thành';
 
-    // Gọi hàm để thực hiện yêu cầu
     changeOrderStatus(orderId, newStatus);
 });
 
@@ -106,25 +102,20 @@ $('#btnDelivery').click(function () {
     const orderId = $('#orderId').val();
     const newStatus = 'Đang giao';
 
-    // Gọi hàm để thực hiện yêu cầu
     changeOrderStatus(orderId, newStatus);
 });
 
 function changeOrderStatus(orderId, newStatus) {
-    // Địa chỉ API hoặc endpoint xử lý thay đổi trạng thái
     const apiUrl = '/merchant/orders/change-order-status';
 
-    // Sử dụng jQuery.ajax để thực hiện yêu cầu
     $.ajax({
         url: apiUrl,
-        type: 'POST', // Hoặc 'PUT' tùy thuộc vào loại yêu cầu bạn muốn thực hiện
+        type: 'POST', 
         contentType: 'application/json',
         data: JSON.stringify({ orderId, newStatus }),
         success: function (data) {
-            // Xử lý phản hồi từ máy chủ
             console.log('Trạng thái đơn hàng đã được thay đổi:', data);
             location.reload();
-            // Cập nhật giao diện người dùng nếu cần
         },
         error: function (error) {
             console.error('Lỗi khi thay đổi trạng thái đơn hàng:', error);
@@ -133,17 +124,14 @@ function changeOrderStatus(orderId, newStatus) {
 }
 
 function changeMerchantStatus(merchantId, newStatus) {
-    // Địa chỉ API hoặc endpoint xử lý thay đổi trạng thái
     const apiUrl = '/merchant/orders/change-merchant-status';
 
-    // Sử dụng jQuery.ajax để thực hiện yêu cầu
     $.ajax({
         url: apiUrl,
-        type: 'POST', // Hoặc 'PUT' tùy thuộc vào loại yêu cầu bạn muốn thực hiện
+        type: 'POST', 
         contentType: 'application/json',
         data: JSON.stringify({ merchantId, newStatus }),
         success: function (data) {
-            // Xử lý phản hồi từ máy chủ
             console.log('Trạng thái cửa hàng đã được thay đổi:', data);
             alert(data.message);
         },
